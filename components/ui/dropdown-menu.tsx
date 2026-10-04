@@ -57,6 +57,7 @@ function DropdownMenuLabel({
   inset,
   ...props
 }: MenuPrimitive.GroupLabel.Props & {
+  /** Indent the row so it lines up with items that have a leading icon or check. */
   inset?: boolean
 }) {
   return (
@@ -78,7 +79,9 @@ function DropdownMenuItem({
   variant = "default",
   ...props
 }: MenuPrimitive.Item.Props & {
+  /** Indent the row so it lines up with items that have a leading icon or check. */
   inset?: boolean
+  /** Use destructive for an action that cannot be undone, and place it last in the menu. */
   variant?: "default" | "destructive"
 }) {
   return (
@@ -105,6 +108,7 @@ function DropdownMenuSubTrigger({
   children,
   ...props
 }: MenuPrimitive.SubmenuTrigger.Props & {
+  /** Indent the row so it lines up with items that have a leading icon or check. */
   inset?: boolean
 }) {
   return (
@@ -151,6 +155,7 @@ function DropdownMenuCheckboxItem({
   inset,
   ...props
 }: MenuPrimitive.CheckboxItem.Props & {
+  /** Indent the row so it lines up with items that have a leading icon or check. */
   inset?: boolean
 }) {
   return (
@@ -192,6 +197,7 @@ function DropdownMenuRadioItem({
   inset,
   ...props
 }: MenuPrimitive.RadioItem.Props & {
+  /** Indent the row so it lines up with items that have a leading icon or check. */
   inset?: boolean
 }) {
   return (

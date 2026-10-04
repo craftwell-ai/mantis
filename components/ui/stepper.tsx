@@ -17,11 +17,17 @@ function Stepper({
   className,
   ...props
 }: Omit<React.ComponentProps<"div">, "onChange" | "defaultValue"> & {
+  /** Current number, when the parent controls it. */
   value?: number
+  /** Starting number, when the stepper keeps its own state. */
   defaultValue?: number
+  /** Lowest allowed value; the minus button disables there. */
   min?: number
+  /** Highest allowed value, shown after the slash (1/4). */
   max?: number
+  /** Called with the new number after each step. */
   onValueChange?: (value: number) => void
+  /** Accessible name for the control, such as "Images per run". */
   label: string
 }) {
   const [inner, setInner] = React.useState(defaultValue)

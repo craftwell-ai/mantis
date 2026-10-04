@@ -9,6 +9,7 @@ const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-none select-none transition-[filter,background-color,color,box-shadow] duration-(--duration-normal) ease-in-out hover:brightness-80 active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
+      /** Visual weight: default (white) for everyday actions, brand (lime) for the one main call to action, destructive for irreversible ones; the rest are quieter secondary styles. */
       variant: {
         // White: the everyday action (save, continue, invite).
         default: "bg-primary text-primary-foreground",
@@ -26,6 +27,7 @@ const buttonVariants = cva(
         "commerce-blue": "bg-commerce-blue text-commerce-blue-foreground",
         link: "text-foreground underline-offset-4 hover:underline",
       },
+      /** Elevation: flat for most buttons, raised for a chunky page-level call to action, glossy for the lime Generate button. */
       depth: {
         flat: "",
         // The chunky CTA: 1px top highlight, 3px darker bottom edge, soft drop.
@@ -33,6 +35,7 @@ const buttonVariants = cva(
         // The generate button's lime glow with a dark bottom edge.
         glossy: "",
       },
+      /** Height and padding from 2xs (16px) to 3xl (64px). The icon-* sizes are square, for icon-only buttons, which also need an aria-label. */
       size: {
         "2xs": "h-4 gap-1 rounded-xs px-1 text-2xs font-semibold [&_svg:not([class*='size-'])]:size-3",
         xs: "h-6 gap-1 rounded-lg px-2.5 text-sm [&_svg:not([class*='size-'])]:size-3.5",

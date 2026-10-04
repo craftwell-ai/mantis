@@ -24,7 +24,10 @@ function FieldLegend({
   className,
   variant = "legend",
   ...props
-}: React.ComponentProps<"legend"> & { variant?: "legend" | "label" }) {
+}: React.ComponentProps<"legend"> & {
+  /** Text size: legend for a fieldset heading, label to match the field labels around it. */
+  variant?: "legend" | "label"
+}) {
   return (
     <legend
       data-slot="field-legend"
@@ -55,6 +58,7 @@ const fieldVariants = cva(
   "group/field flex w-full gap-2 data-[invalid=true]:text-destructive",
   {
     variants: {
+      /** Label and control layout: vertical (label above), horizontal (side by side, for switches and checkboxes) or responsive (stacks in narrow containers). */
       orientation: {
         vertical: "flex-col *:w-full [&>.sr-only]:w-auto",
         horizontal:
@@ -148,6 +152,7 @@ function FieldSeparator({
   className,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Optional text centered on the line, such as "or". */
   children?: React.ReactNode
 }) {
   return (
@@ -179,7 +184,14 @@ function FieldError({
   errors,
   ...props
 }: React.ComponentProps<"div"> & {
-  errors?: Array<{ message?: string } | undefined>
+  /** Validation errors to show: one renders as a sentence, several as a list. Ignored when children are given. */
+  errors?: Array<
+    | {
+        /** The sentence shown to the person: what is wrong and how to fix it. */
+        message?: string
+      }
+    | undefined
+  >
 }) {
   const content = useMemo(() => {
     if (children) {

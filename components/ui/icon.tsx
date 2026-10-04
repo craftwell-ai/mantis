@@ -13,7 +13,9 @@ import { icons, type IconName } from './icons.generated'
 export type { IconName }
 
 export interface IconProps extends Omit<SVGAttributes<SVGSVGElement>, 'children'> {
+  /** Material Symbols name; it must be listed in scripts/icons.manifest.mjs. */
   name: IconName
+  /** Accessible name. Set it only when the icon is a control's sole content; without it the icon is hidden from screen readers. */
   label?: string
 }
 

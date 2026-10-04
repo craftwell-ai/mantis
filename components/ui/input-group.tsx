@@ -26,6 +26,7 @@ const inputGroupAddonVariants = cva(
   "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
   {
     variants: {
+      /** Where the addon sits: inline-start or inline-end beside the text, block-start or block-end as a row above or below it. */
       align: {
         "inline-start":
           "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
@@ -69,6 +70,7 @@ const inputGroupButtonVariants = cva(
   "flex items-center gap-2 text-sm shadow-none",
   {
     variants: {
+      /** Button size inside the group: xs or sm for a text button, icon-xs or icon-sm for a lone icon. */
       size: {
         xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
         sm: "",
@@ -91,6 +93,7 @@ function InputGroupButton({
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "size" | "type"> &
   VariantProps<typeof inputGroupButtonVariants> & {
+    /** Native button type. It defaults to button so it never submits a form by accident. */
     type?: "button" | "submit" | "reset"
   }) {
   return (

@@ -33,6 +33,7 @@ function SelectTrigger({
   children,
   ...props
 }: SelectPrimitive.Trigger.Props & {
+  /** Trigger height: default in composers and forms, sm in dense toolbars and the pager under a table. */
   size?: "sm" | "default"
 }) {
   return (

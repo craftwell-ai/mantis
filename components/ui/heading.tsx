@@ -8,6 +8,7 @@ import { cn } from "@/lib/mantis-cn"
 // 768px and 1280px breakpoints. Titles are plain Inter for dialogs and panels.
 const headingVariants = cva("text-balance text-foreground", {
   variants: {
+    /** Type style: hero, section, sub and label are the uppercase display levels for pages; title and title-sm are plain titles for dialogs and panels. */
     level: {
       hero: "font-grotesk uppercase text-display-md md:text-display-lg xl:text-display-xl",
       section: "font-grotesk uppercase text-display-md md:text-display-lg",

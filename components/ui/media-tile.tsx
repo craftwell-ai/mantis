@@ -34,6 +34,7 @@ type MediaTileProps = Omit<React.ComponentProps<"div">, "title" | "onClick"> & {
   loading?: "lazy" | "eager"
   /** Frame shape: square, video (16:9), portrait (4:5), landscape (4:3), a width-over-height number (a picture's own ratio), or auto (a height you set). */
   aspect?: "square" | "video" | "portrait" | "landscape" | "auto" | number
+  /** Corner radius of the frame; none for edge-to-edge grids. */
   radius?: "none" | "lg" | "xl" | "2xl"
   /** Distance of corner content from the edge; grows with the tile. */
   inset?: "xs" | "sm" | "md" | "lg"

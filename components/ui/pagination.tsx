@@ -11,6 +11,7 @@ type PaginationProps = Omit<React.ComponentProps<"nav">, "onChange"> & {
   page: number
   /** How many pages there are; at least 1. */
   pageCount: number
+  /** Called with the new page number when previous or next is pressed. */
   onPageChange: (page: number) => void
   /** Rows per page. The Rows picker shows when this and `onPageSizeChange` are set. */
   pageSize?: number

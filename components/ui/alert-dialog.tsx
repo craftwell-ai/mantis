@@ -43,6 +43,7 @@ function AlertDialogContent({
   size = "default",
   ...props
 }: AlertDialogPrimitive.Popup.Props & {
+  /** Dialog width: default for a title, description and two actions; sm for a short yes-or-no question. */
   size?: "default" | "sm"
 }) {
   return (

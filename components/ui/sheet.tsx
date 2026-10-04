@@ -43,7 +43,9 @@ function SheetContent({
   showCloseButton = true,
   ...props
 }: SheetPrimitive.Popup.Props & {
+  /** Edge the panel slides in from: right for details, left for navigation, bottom for actions on phones. */
   side?: "top" | "right" | "bottom" | "left"
+  /** Show the x in the top corner. Turn it off only when the sheet has its own Close or Done action. */
   showCloseButton?: boolean
 }) {
   return (

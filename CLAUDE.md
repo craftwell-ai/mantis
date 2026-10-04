@@ -103,7 +103,7 @@ The Paper file "Mantis Design System" has one page per item: `❖` components, `
 
 ## Maintained copies of shadcn components
 
-`dialog`, `dropdown-menu` and `sonner` are this registry's own copies of shadcn's `base-nova` versions, with Material Symbols in place of Lucide. When shadcn updates one upstream, take the new file and re-apply only the icon swap.
+`dialog`, `dropdown-menu` and `sonner` are this registry's own copies of shadcn's `base-nova` versions, with Material Symbols in place of Lucide. When shadcn updates one upstream, take the new file and re-apply only the icon swap and the one-line prop descriptions.
 
 ## Stories and usage guides
 

@@ -10,7 +10,9 @@ import { toggleVariants } from "@/components/ui/toggle"
 
 const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants> & {
+    /** Gap between items, in spacing units; 0 joins them into one bar. */
     spacing?: number
+    /** Lay the items out in a row or a column. */
     orientation?: "horizontal" | "vertical"
   }
 >({
@@ -30,7 +32,9 @@ function ToggleGroup({
   ...props
 }: ToggleGroupPrimitive.Props &
   VariantProps<typeof toggleVariants> & {
+    /** Gap between items, in spacing units; 0 joins them into one bar. */
     spacing?: number
+    /** Lay the items out in a row or a column. */
     orientation?: "horizontal" | "vertical"
   }) {
   return (

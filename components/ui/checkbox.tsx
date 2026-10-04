@@ -13,10 +13,12 @@ const checkboxVariants = cva(
   "peer relative flex shrink-0 items-center justify-center rounded-md border-2 border-input transition-[border-color,background-color,color] duration-(--duration-normal) outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:border-transparent data-disabled:bg-separator aria-invalid:border-destructive data-checked:border-transparent data-checked:text-primary-foreground data-indeterminate:border-transparent",
   {
     variants: {
+      /** Checked color: brand (lime) when picking items, primary (white) where lime already marks the main action. */
       variant: {
         brand: "data-checked:bg-brand data-indeterminate:bg-brand-tint data-indeterminate:text-brand",
         primary: "data-checked:bg-primary data-indeterminate:bg-secondary data-indeterminate:text-primary",
       },
+      /** Box size: xs 16px, sm 18px, md 20px, lg 24px. Match the text beside it. */
       size: {
         xs: "size-4 [&_svg]:size-2.5",
         sm: "size-4.5 [&_svg]:size-3",

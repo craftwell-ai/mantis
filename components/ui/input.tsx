@@ -9,7 +9,10 @@ function Input({
   type,
   inputSize = "default",
   ...props
-}: React.ComponentProps<"input"> & { inputSize?: "default" | "lg" }) {
+}: React.ComponentProps<"input"> & {
+  /** Field height: default in forms, lg for a prominent single field such as a page search. */
+  inputSize?: "default" | "lg"
+}) {
   return (
     <InputPrimitive
       type={type}

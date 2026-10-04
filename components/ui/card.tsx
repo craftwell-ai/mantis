@@ -16,7 +16,12 @@ function Card({
   size = "default",
   variant = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm"; variant?: keyof typeof cardVariants }) {
+}: React.ComponentProps<"div"> & {
+  /** Padding scale: default for standalone cards, sm for dense lists and sidebars. */
+  size?: "default" | "sm"
+  /** Surface: default (solid), glass (translucent, over other surfaces), outlined (border on the dialog color) or media (no fill; the image is the card). */
+  variant?: keyof typeof cardVariants
+}) {
   return (
     <div
       data-slot="card"

@@ -9,6 +9,7 @@ function Avatar({
   size = "default",
   ...props
 }: AvatarPrimitive.Root.Props & {
+  /** Diameter: xs 20px, sm 24px, default 32px, lg 40px. Use xs and sm inside rows and chips, lg in headers. */
   size?: "xs" | "sm" | "default" | "lg"
 }) {
   return (
@@ -28,8 +29,7 @@ function AvatarImage({
   className,
   ...props
 }: AvatarPrimitive.Image.Props & {
-  // Required so a photo is never shipped unnamed: describe the person, or
-  // pass "" when their name is already written beside the avatar.
+  /** Required so a photo is never shipped unnamed: describe the person, or pass "" when their name is written beside the avatar. */
   alt: string
 }) {
   return (

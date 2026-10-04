@@ -29,6 +29,7 @@ const tabsListVariants = cva(
   "group/tabs-list inline-flex w-fit items-center justify-center text-muted-foreground group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col",
   {
     variants: {
+      /** List style: default (glass bar), line (underline, for page-level sections) or pill (rounded, for two or three filters). */
       variant: {
         default: "gap-1 rounded-xl border border-glass-border bg-glass p-1 backdrop-blur-glass",
         line: "gap-6 rounded-none bg-transparent group-data-horizontal/tabs:h-13",

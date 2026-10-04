@@ -58,7 +58,9 @@ function ComboboxInput({
   showClear = false,
   ...props
 }: ComboboxPrimitive.Input.Props & {
+  /** Show the chevron button that opens the list. Turn it off for a plain search field. */
   showTrigger?: boolean
+  /** Show a clear button once something is typed or picked. */
   showClear?: boolean
 }) {
   return (
@@ -239,6 +241,7 @@ function ComboboxChip({
   showRemove = true,
   ...props
 }: ComboboxPrimitive.Chip.Props & {
+  /** Show the x that removes this chip. Turn it off for chips that must stay. */
   showRemove?: boolean
 }) {
   return (

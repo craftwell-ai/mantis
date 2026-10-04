@@ -10,6 +10,7 @@ function Switch({
   size = "default",
   ...props
 }: SwitchPrimitive.Root.Props & {
+  /** Track size: default in settings rows, lg for a prominent toggle such as monthly or yearly billing. */
   size?: "default" | "lg"
 }) {
   return (

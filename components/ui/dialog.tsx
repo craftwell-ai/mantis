@@ -45,6 +45,7 @@ function DialogContent({
   showCloseButton = true,
   ...props
 }: DialogPrimitive.Popup.Props & {
+  /** Show the x in the top corner. Turn it off only when the footer already offers a way out. */
   showCloseButton?: boolean
 }) {
   return (
@@ -95,6 +96,7 @@ function DialogFooter({
   children,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Add a Close button to the footer, for dialogs that have nothing to confirm. */
   showCloseButton?: boolean
 }) {
   return (

@@ -9,6 +9,7 @@ const badgeVariants = cva(
   "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border border-transparent leading-none whitespace-nowrap focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
+      /** What the label means: new and tag for features, neutral for counts, sale, hot and value for offers, gold for premium, outline for quiet states, destructive for failures. */
       variant: {
         // Lime on lime 20%: "new" and feature labels.
         new: "h-4 rounded-md bg-badge-new px-1.5 text-2xs font-bold tracking-[0.1px] text-badge-new-foreground",

@@ -7,7 +7,10 @@ function Spinner({
   className,
   label = "Loading",
   ...props
-}: React.ComponentProps<"span"> & { label?: string }) {
+}: React.ComponentProps<"span"> & {
+  /** Accessible name announced while waiting, such as "Upscaling". */
+  label?: string
+}) {
   return (
     <span data-slot="spinner" role="status" className={cn("inline-flex items-center", className)} {...props}>
       <Icon name="progress_activity" className="animate-spin motion-reduce:animate-none" />
