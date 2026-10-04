@@ -30,7 +30,7 @@ AGENTS.md (already loaded through CLAUDE.md) is the index: components, their rea
 ## 4. Register and regenerate
 
 ```bash
-node scripts/register-block.mjs <name> "<Title>" "<what it is>" <intent,intent> "<when to reach for it>"
+node scripts/register-block.mjs <name> "<title>" "<what it is>" <intent,intent> "<when to reach for it>"
 node scripts/build-tokens.mjs && node scripts/build-llms.mjs && node scripts/build-usage.mjs && node scripts/build-agents.mjs
 npm run registry:build
 ```

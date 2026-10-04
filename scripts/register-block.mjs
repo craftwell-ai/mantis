@@ -2,7 +2,7 @@
 // adds or updates its registry item with the intent tags and use_when agents
 // choose by, and lists its usage guide in usage/index.mjs. Blocks are not
 // added to base; consumers install them one by one.
-// Usage: node scripts/register-block.mjs <name> "<Title>" "<description>" <intent,intent> "<use_when>"
+// Usage: node scripts/register-block.mjs <name> "<title>" "<description>" <intent,intent> "<use_when>"
 import { readFileSync, writeFileSync } from 'node:fs'
 import { INTENT_TAG_NAMES } from './registry-intent-tags.mjs'
 import { writeUsageIndex } from './usage-index.mjs'

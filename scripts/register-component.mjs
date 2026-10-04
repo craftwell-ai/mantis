@@ -1,6 +1,6 @@
 // Registers an owned primitive: adds its registry item (or updates it), adds it
 // to base's registryDependencies and lists its usage guide in usage/index.mjs.
-// Usage: node scripts/register-component.mjs <name> "<Title>" "<description>" [dep,dep]
+// Usage: node scripts/register-component.mjs <name> "<title>" "<description>" [dep,dep]
 import { readFileSync, writeFileSync } from 'node:fs'
 import { writeUsageIndex } from './usage-index.mjs'
 
