@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "title": "Empty State",
+  "description": "A dashed placeholder for a library, gallery or list that holds nothing yet: an icon, a heading, one sentence on what belongs there and one button to add the first item.",
+  "registryDependencies": [
+    "@mantis/heading",
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/empty-state.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { Heading } from \"@/components/ui/heading\"\nimport { Icon, type IconName } from \"@/components/ui/icon\"\n\nexport interface EmptyStateProps {\n  /** Material Symbols name drawn in the round badge above the title. */\n  icon?: IconName\n  /** Says what this space is for, such as \"Your asset library is empty\". */\n  title: ReactNode\n  /** One sentence on what goes here and why it is worth adding. */\n  description: ReactNode\n  /** The single button that starts the first item, such as Upload image. */\n  action?: ReactNode\n  /** Small print under the action, such as the accepted file types. */\n  hint?: ReactNode\n  /** Heading element for the title; match the page outline (h2 under a page h1). */\n  headingTag?: \"h2\" | \"h3\" | \"h4\"\n  className?: string\n}\n\n// DESIGN.md's empty-state recipe: a dashed placeholder, one sentence saying\n// what goes here, and one button to start. The dashed edge outlines the area\n// the content will fill, so the page reads as \"waiting\", not \"broken\".\nexport function EmptyState({\n  icon = \"image\",\n  title,\n  description,\n  action,\n  hint,\n  headingTag: HeadingTag = \"h2\",\n  className,\n}: EmptyStateProps) {\n  return (\n    <section\n      data-slot=\"empty-state\"\n      className={cn(\n        \"flex w-full flex-col items-center justify-center gap-5 rounded-2xl border border-dashed border-glass-border px-6 py-12 text-center\",\n        className,\n      )}\n    >\n      <div className=\"flex size-12 items-center justify-center rounded-full bg-glass text-2xl text-muted-foreground\">\n        <Icon name={icon} />\n      </div>\n      <div className=\"flex max-w-sm flex-col gap-1.5\">\n        <Heading level=\"title-sm\" render={<HeadingTag />}>\n          {title}\n        </Heading>\n        <p className=\"text-sm text-pretty text-muted-foreground\">{description}</p>\n      </div>\n      {action}\n      {hint ? <p className=\"text-xs text-muted-foreground\">{hint}</p> : null}\n    </section>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "feedback"
+    ],
+    "use_when": "A library, gallery or list has finished loading and is empty, such as an asset library before the first upload, or a search returned no results."
+  },
+  "type": "registry:block"
+}

@@ -1,0 +1,33 @@
+export const usage = {
+  name: 'toggle-group',
+  kind: 'component',
+  summary: 'A compact row of options where the chosen one is highlighted: a white segment (`segment`) or a lime-outlined tile (`outline`).',
+  useWhen: [
+    'One short option out of a few must be picked inline, such as upscale factor or Visuals versus Sound (`segment`).',
+    'Visual options such as aspect ratios are shown as tiles (`outline`).',
+  ],
+  alternatives: [
+    { name: 'tabs', when: 'the choice switches which panel of content is shown' },
+    { name: 'radio-group', when: 'each option needs a sentence of explanation' },
+    { name: 'select', when: 'there are more than five options' },
+  ],
+  rules: [
+    {
+      id: 'few-short-options',
+      do: 'Keep a toggle group to two to five short options, such as 1x, 2x and 4x.',
+      dont: 'Squeeze long labels or many options into one row; they wrap and become hard to compare.',
+      visual: true,
+    },
+    {
+      id: 'single-for-exclusive',
+      do: 'Use single selection when options exclude each other, such as one aspect ratio at a time.',
+      dont: 'Allow several pressed segments for options that cannot combine.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'Each item is a toggle button that announces whether it is pressed; arrow keys move between items.',
+    'Label the group (`aria-label`) with what is being chosen.',
+  ],
+  tokens: ['--soft', '--soft-foreground', '--primary', '--primary-foreground', '--brand', '--glass'],
+}

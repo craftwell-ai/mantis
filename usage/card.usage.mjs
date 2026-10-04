@@ -1,0 +1,40 @@
+export const usage = {
+  name: 'card',
+  kind: 'component',
+  summary: 'Holds the content and actions for one subject, such as a generation, a project or a credit balance, on a single bordered surface.',
+  useWhen: [
+    'Several items of the same kind sit side by side in a grid, such as projects or saved presets, and each needs its own title and actions.',
+    'A home screen needs a self-contained panel, such as a credit balance or a feed of recent renders.',
+    'One subject needs a header, a body and a footer with actions, kept together.',
+  ],
+  alternatives: [
+    { name: 'table', when: 'people compare many generations or render jobs on the same fields, row by row' },
+    { name: 'dialog', when: 'the content interrupts the current task and needs an answer before the user continues' },
+  ],
+  rules: [
+    {
+      id: 'no-nested-cards',
+      do: 'Separate the parts inside a card with spacing or a divider, and keep one card per subject.',
+      dont: 'Put a card inside another card. The stacked borders and padding blur which surface an action belongs to.',
+      visual: true,
+    },
+    {
+      id: 'actions-in-footer',
+      do: 'Put the card\'s actions in the footer, below the preview and details they act on, with at most one filled button.',
+      dont: 'Crowd buttons into the header, where they fight the title for attention.',
+      visual: true,
+    },
+    {
+      id: 'describe-images',
+      do: 'Give a generated image `alt` text that describes what it shows, or an empty `alt` when the title already says everything.',
+      dont: 'Leave `alt` off, fill it with the file name, or paste the whole prompt into it.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    '`CardTitle` renders a `<div>`. When cards are the main content of a page, such as a grid of projects, put the title text in a heading element so screen-reader users can jump from card to card.',
+    'When the whole card should open something, make the title the link and keep any other buttons as separate controls. Never put a button inside a link.',
+    'Keep the source order the same as the visual order: title, description, content, actions.',
+  ],
+  tokens: ['--card', '--card-foreground', '--muted-foreground', '--border', '--radius'],
+}

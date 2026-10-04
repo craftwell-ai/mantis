@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "how-it-works",
+  "title": "How It Works",
+  "description": "A three-step explainer strip: an uppercase headline over a row of steps, each with a picture, a number, a short title and one sentence.",
+  "registryDependencies": [
+    "@mantis/heading",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/how-it-works.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { Heading } from \"@/components/ui/heading\"\n\nexport interface HowItWorksStep {\n  /** A short uppercase title, two or three words: \"Pick a still\". */\n  title: string\n  /** One sentence on what the person does in this step. */\n  description: string\n  /** A still or poster that shows the step. */\n  media: { src: string; alt: string }\n}\n\nexport interface HowItWorksProps {\n  /** The section headline. Wrap one word in `HeadingAccent` to set it in lime. */\n  title: ReactNode\n  /** One line under the headline. */\n  description?: ReactNode\n  /** Three steps reads best; the row wraps on narrow screens. */\n  steps: HowItWorksStep[]\n  className?: string\n}\n\n// The reference's tool-page explainer: an uppercase grotesk headline over a\n// row of equal steps. Each step leads with its picture on a card surface, then\n// a numbered uppercase title and one muted sentence.\nfunction HowItWorks({ title, description, steps, className }: HowItWorksProps) {\n  return (\n    <section data-slot=\"how-it-works\" className={cn(\"flex w-full flex-col gap-6\", className)}>\n      <div className=\"flex flex-col gap-2\">\n        <Heading level=\"sub\" render={<h2 />}>\n          {title}\n        </Heading>\n        {description ? <p className=\"max-w-2xl text-sm text-pretty text-muted-foreground\">{description}</p> : null}\n      </div>\n      <ol className=\"grid gap-4 sm:grid-cols-2 md:grid-cols-3\">\n        {steps.map((step, index) => (\n          <li key={step.title} className=\"flex flex-col gap-3\">\n            <div className=\"aspect-video overflow-hidden rounded-2xl bg-card\">\n              {/* A plain <img> keeps the block framework-agnostic; swap in next/image in your app if you like. */}\n              {/* eslint-disable-next-line @next/next/no-img-element */}\n              <img src={step.media.src} alt={step.media.alt} className=\"size-full object-cover\" />\n            </div>\n            <div className=\"flex flex-col gap-1.5\">\n              <Heading level=\"label\" render={<h3 />} className=\"flex items-center gap-2\">\n                {/* The list already numbers the steps for screen readers. */}\n                <span\n                  aria-hidden=\"true\"\n                  className=\"flex size-5 shrink-0 items-center justify-center rounded-full bg-glass font-sans text-xs font-semibold\"\n                >\n                  {index + 1}\n                </span>\n                {step.title}\n              </Heading>\n              <p className=\"text-sm text-pretty text-muted-foreground\">{step.description}</p>\n            </div>\n          </li>\n        ))}\n      </ol>\n    </section>\n  )\n}\n\nexport { HowItWorks }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "marketing",
+      "content"
+    ],
+    "use_when": "You are explaining a tool or workflow to first-time visitors in three ordered steps on a landing or tool page"
+  },
+  "type": "registry:block"
+}

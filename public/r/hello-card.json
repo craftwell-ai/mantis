@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hello-card",
+  "title": "Hello Card",
+  "description": "Smoke-test card proving install, tokens, and typography wire up.",
+  "files": [
+    {
+      "path": "registry/hello-card.tsx",
+      "content": "export function HelloCard() {\n  return (\n    <div className=\"rounded-lg border bg-card p-6 text-card-foreground shadow-sm\">\n      <h3 className=\"text-lg font-semibold\">Hello from the design system</h3>\n      {/* Says only what is true in a CONSUMER, which is where this card is looked at:\n          the registry:base theme ships the color variables AND `--radius` (its `lg`\n          step, at html:root, which outranks the consumer's own retained `--radius`),\n          so `rounded-lg` is the design system's too. `shadow-sm` is Tailwind's default. */}\n      <p className=\"text-sm text-muted-foreground\">\n        Card fill, border, corner radius and this muted text all come from the design\n        system&apos;s tokens. The shadow is the app&apos;s own.\n      </p>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "content"
+    ],
+    "use_when": "You are verifying a fresh install of this design system renders correctly."
+  },
+  "type": "registry:block"
+}

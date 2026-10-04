@@ -1,0 +1,48 @@
+export const usage = {
+  name: 'app-shell-sidebar',
+  kind: 'block',
+  summary: 'The signed-in frame for a section with many destinations: the top navigation bar, a left sidebar of icon links grouped into labelled sections, and a content area that scrolls on its own. When the shell is at least 1024px wide (it measures its own width, not the window) the sidebar sits beside the page and collapses to icons with tooltips; below that it moves into a sheet opened from a slim bar that names the current page.',
+  useWhen: [
+    'A studio, workspace or settings area has more pages than fit in the top bar, such as projects, tools and recent work.',
+    'People switch between sibling pages often and need them visible all the time on a wide screen.',
+  ],
+  alternatives: [
+    { name: 'app-shell', when: 'the page has one column of content and the top bar alone is enough navigation' },
+    { name: 'settings-page', when: 'the sidebar is the account settings list; it already pairs the nav with its section cards' },
+    { name: 'tabs', when: 'there are two to five views of one subject on one page, not separate pages' },
+  ],
+  rules: [
+    {
+      id: 'icon-on-every-row',
+      do: 'Give every sidebar row its own icon, so the collapsed sidebar still tells the rows apart.',
+      dont: 'Leave rows without icons or repeat one icon; collapsed, they become identical squares.',
+      visual: true,
+    },
+    {
+      id: 'sidebar-not-lime',
+      do: 'Show the current row with the soft glass highlight and keep lime for the top bar\'s current section.',
+      dont: 'Turn the current sidebar row lime; two lime "you are here" marks compete.',
+      visual: true,
+    },
+    {
+      id: 'short-sections',
+      do: 'Group rows into a few labelled sections of up to about eight rows each.',
+      dont: 'Put every destination into one long unlabelled list.',
+      visual: false,
+    },
+    {
+      id: 'replace-sample-content',
+      do: 'Pass your own data for every prop before shipping. Left out, a prop falls back to the invented sample product, Lumen, from sample-content, which is only there so the template previews with nothing filled in.',
+      dont: 'Ship the sample product, people and numbers to real users, such as Maya Okafor\'s account menu or a credit balance nobody has.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'The sidebar is a `nav` named by `sidebarLabel`; the current row has `aria-current="page"`.',
+    'Collapsed rows keep their names for screen readers and show them as tooltips on hover and focus.',
+    'The collapse button is named "Collapse sidebar" or "Expand sidebar" for what it will do.',
+    'The content area is focusable, so keyboard users can scroll it with the arrow keys even when the page holds no links or buttons.',
+    'On small screens the sidebar opens in a sheet that traps focus and closes when a row is chosen.',
+  ],
+  tokens: ['--background', '--foreground', '--muted-foreground', '--glass', '--divider', '--badge-new', '--tooltip', '--ring'],
+}

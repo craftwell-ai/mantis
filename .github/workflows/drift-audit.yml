@@ -1,0 +1,74 @@
+name: Drift audit
+on:
+  schedule: [{ cron: '0 9 * * 1' }]
+  workflow_dispatch:
+# The auditor is read-only — it prints a report and fails the run on an
+# actionable advisory; it never opens issues or PRs. Declared explicitly so a
+# scheduled run cannot carry a write token.
+permissions: { contents: read }
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      # `fetch-depth: 0` IS LOAD-BEARING for the housekeeping half, and the
+      # cheaper-looking `fetch-tags: true` at the default depth DOES NOT WORK —
+      # it shipped here for one round and was wrong the whole time.
+      #
+      # drift-audit.mjs runs `git tag -l v<version>` and only falls back to
+      # `— (tags not available)` when that THROWS. On a tagless checkout it
+      # exits 0 with empty output instead, so `hasTag` is false and the report
+      # prints `git tag v<version>: ✗ missing` about a tag that exists and is
+      # correct — every Monday, for the whole life of the repo. That is the
+      # cry-wolf shape this workflow exists to avoid, on the report whose other
+      # half is the security advisories nobody can afford to start ignoring.
+      #
+      # Why `fetch-tags` is not the fix: actions/checkout implements it by
+      # OMITTING `--no-tags` from its fetch. It does not add
+      # `+refs/tags/*:refs/tags/*`. At `fetch-depth: 1` the pack contains only
+      # the tip commit, so git's tag auto-follow brings down ONLY tags that
+      # point AT the tip. A release tag on any earlier commit — the normal
+      # state of a repo a week after release, and this is a weekly cron — is
+      # still never fetched. Reproduced against checkout@v4's exact refspecs
+      # with the tag on an older commit:
+      #
+      #   depth 1, fetch-tags false (the default) -> tags []         ✗ missing
+      #   depth 1, fetch-tags true  (was shipped) -> tags []         ✗ missing
+      #   depth 0                   (this line)   -> tags [v0.1.0]   ✓
+      #   CONTROL depth 1, fetch-tags true, tag ON THE TIP           ✓
+      #
+      # The control is the case a local check accidentally measures in a repo
+      # that already has full history — which is exactly how `fetch-tags` came
+      # to look verified. `fetch-depth: 0` works because checkout takes a
+      # different code path for it and fetches `+refs/tags/*:refs/tags/*`
+      # explicitly, so it does not depend on tag auto-follow at all. The cost
+      # is a full clone of a small design-system repo once a week.
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      # Node 24: matches ci.yml's pin. drift-audit.mjs itself has no glob-CLI
+      # dependency, but keeping every template workflow on one verified major
+      # avoids a second, easy-to-miss version drift between them.
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      # `npm ci` IS LOAD-BEARING — do not delete it to "save a minute on a
+      # read-only job". `npm outdated --json` reports each package's `current`
+      # from the INSTALLED tree, not from package.json, so with no
+      # node_modules every entry comes back `current: undefined` and
+      # drift-audit.mjs:64 classifies `undefined !== <latest major>` as a major
+      # bump. Measured in a client-shaped repo, same commit, both ways:
+      #
+      #   without node_modules:  "3 package(s) behind latest (3 major)"
+      #                          `react` undefined → 19.2.8 **(major)**  [x3]
+      #   with node_modules:     "All dependencies current."
+      #
+      # A dependency report that invents three major bumps is not a
+      # conservative report — it is the shape that gets the whole weekly audit
+      # ignored, at which point the security half nobody reads is the half
+      # that fails the run. Unguarded (not the lockfile-conditional form
+      # ../../../../.github/workflows/templates-ci.yml uses for its Skill 1
+      # leg) on purpose: this workflow only ever runs in a GENERATED CLIENT
+      # repo, where a committed package-lock.json is a documented
+      # precondition and ci.yml already runs a bare `npm ci` on every PR. If
+      # the lockfile is missing, failing here loudly is the correct outcome —
+      # every dependency line in this report would otherwise be wrong.
+      - run: npm ci
+      - run: node scripts/drift-audit.mjs

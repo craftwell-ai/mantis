@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "feature-grid",
+  "title": "Feature Grid",
+  "description": "A landing-page section of image-first feature cards, each with an uppercase title, one line and an optional New badge, under an uppercase section title.",
+  "registryDependencies": [
+    "@mantis/badge",
+    "@mantis/card",
+    "@mantis/heading",
+    "@mantis/media-tile",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/feature-grid.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { Badge } from \"@/components/ui/badge\"\nimport { Card } from \"@/components/ui/card\"\nimport { Heading, HeadingAccent } from \"@/components/ui/heading\"\nimport { MediaTile } from \"@/components/ui/media-tile\"\n\nexport type Feature = {\n  title: string\n  /** One line on what it does for the person. */\n  description: string\n  image: { src: string; alt: string }\n  /** Makes the whole card a link to the feature. */\n  href?: string\n  /** A short \"New\" style marker, at most one per card. */\n  badge?: string\n}\n\nexport interface FeatureGridProps {\n  title: string\n  /** One word of the title to set in lime. Must appear in `title`. */\n  accent?: string\n  description?: string\n  features: Feature[]\n  /** Columns on wide screens. */\n  columns?: 2 | 3 | 4\n  className?: string\n}\n\nconst COLUMN_CLASS = { 2: \"md:grid-cols-2\", 3: \"md:grid-cols-2 lg:grid-cols-3\", 4: \"md:grid-cols-2 lg:grid-cols-4\" } as const\n\nfunction FeatureGrid({ title, accent, description, features, columns = 3, className }: FeatureGridProps) {\n  const headingId = React.useId()\n  const accentAt = accent ? title.indexOf(accent) : -1\n\n  return (\n    <section data-slot=\"feature-grid\" aria-labelledby={headingId} className={cn(\"flex w-full flex-col gap-6\", className)}>\n      <div className=\"flex flex-col gap-2\">\n        <Heading id={headingId} level=\"sub\" render={<h2 />}>\n          {accent && accentAt >= 0 ? (\n            <>\n              {title.slice(0, accentAt)}\n              <HeadingAccent>{accent}</HeadingAccent>\n              {title.slice(accentAt + accent.length)}\n            </>\n          ) : (\n            title\n          )}\n        </Heading>\n        {description ? <p className=\"max-w-2xl text-sm text-muted-foreground\">{description}</p> : null}\n      </div>\n\n      <ul className={cn(\"grid grid-cols-1 gap-4\", COLUMN_CLASS[columns])}>\n        {features.map((feature) => (\n          <li key={feature.title}>\n            {/* group/media-card: the picture dims with the card when its stretched link is hovered. */}\n            <Card variant=\"media\" className={cn(\"relative h-full gap-3 py-0\", feature.href && \"group/media-card\")}>\n              <MediaTile\n                aspect=\"landscape\"\n                radius=\"2xl\"\n                inset=\"lg\"\n                src={feature.image.src}\n                alt={feature.image.alt}\n                badge={feature.badge ? <Badge variant=\"tag\">{feature.badge}</Badge> : null}\n              />\n              <div className=\"flex flex-col gap-1 px-1\">\n                <Heading level=\"label\" render={<h3 />}>\n                  {feature.href ? (\n                    // The link's ::after covers the card, so the image opens the feature too.\n                    <a\n                      href={feature.href}\n                      className=\"outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-3 focus-visible:after:ring-ring/50\"\n                    >\n                      {feature.title}\n                    </a>\n                  ) : (\n                    feature.title\n                  )}\n                </Heading>\n                <p className=\"text-sm text-muted-foreground\">{feature.description}</p>\n              </div>\n            </Card>\n          </li>\n        ))}\n      </ul>\n    </section>\n  )\n}\n\nexport { FeatureGrid }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "marketing",
+      "content"
+    ],
+    "use_when": "You are listing several tools or capabilities on a landing page, each with an example image, a title and one line."
+  },
+  "type": "registry:block"
+}

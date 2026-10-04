@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stepper",
+  "title": "Stepper",
+  "description": "The composer's '− 1/4 +' control for small whole-number settings such as batch size, in a 40px composer chip.",
+  "dependencies": [
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/button",
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/stepper.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\nimport { Button } from \"@/components/ui/button\"\nimport { Icon } from \"@/components/ui/icon\"\n\n// The composer's batch-count control (\"− 1/4 +\"): two quiet icon buttons around\n// a tabular value, in a 40px composer chip.\nfunction Stepper({\n  value,\n  defaultValue = 1,\n  min = 1,\n  max = 4,\n  onValueChange,\n  label,\n  className,\n  ...props\n}: Omit<React.ComponentProps<\"div\">, \"onChange\" | \"defaultValue\"> & {\n  value?: number\n  defaultValue?: number\n  min?: number\n  max?: number\n  onValueChange?: (value: number) => void\n  label: string\n}) {\n  const [inner, setInner] = React.useState(defaultValue)\n  const current = value ?? inner\n  const set = (next: number) => {\n    const clamped = Math.min(max, Math.max(min, next))\n    if (value === undefined) setInner(clamped)\n    onValueChange?.(clamped)\n  }\n  return (\n    <div\n      data-slot=\"stepper\"\n      role=\"group\"\n      aria-label={label}\n      className={cn(\"inline-flex h-10 items-center gap-1 rounded-xl border border-chip-border bg-chip px-1 text-sm text-foreground\", className)}\n      {...props}\n    >\n      <Button variant=\"ghost\" size=\"icon-sm\" aria-label={`Decrease ${label}`} disabled={current <= min} onClick={() => set(current - 1)}>\n        <Icon name=\"remove\" />\n      </Button>\n      <output aria-live=\"polite\" className=\"min-w-8 text-center font-medium tabular-nums\">\n        {current}\n        <span className=\"text-chip-foreground\">/{max}</span>\n      </output>\n      <Button variant=\"ghost\" size=\"icon-sm\" aria-label={`Increase ${label}`} disabled={current >= max} onClick={() => set(current + 1)}>\n        <Icon name=\"add\" />\n      </Button>\n    </div>\n  )\n}\n\nexport { Stepper }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

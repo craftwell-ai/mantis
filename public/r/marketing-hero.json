@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marketing-hero",
+  "title": "Marketing Hero",
+  "description": "The top of a landing page: uppercase display headline with one lime word, a supporting line, a lime primary and a glass secondary call to action, and a media showcase.",
+  "registryDependencies": [
+    "@mantis/button",
+    "@mantis/heading",
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/marketing-hero.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { Button, buttonVariants } from \"@/components/ui/button\"\nimport { Heading, HeadingAccent } from \"@/components/ui/heading\"\nimport { Icon } from \"@/components/ui/icon\"\n\nexport type HeroMedia = { src: string; alt: string }\nexport type HeroAction = { label: string; href?: string; onClick?: () => void }\n\nexport interface MarketingHeroProps {\n  /** Small caps line above the headline, such as the product area. */\n  eyebrow?: string\n  /** The headline, written in sentence case; it renders uppercase. */\n  headline: string\n  /** One word (or short phrase) of the headline to set in lime. Must appear in `headline`. */\n  accent?: string\n  /** One or two sentences under the headline. */\n  description: string\n  primaryAction: HeroAction\n  secondaryAction?: HeroAction\n  /** One to three images. The first is the large frame; the rest stack beside it on wide screens. */\n  media?: HeroMedia[]\n  className?: string\n}\n\n// The primary action is the section's one lime call to action; the secondary is glass.\nfunction HeroButton({ action, variant }: { action: HeroAction; variant: \"brand\" | \"glass\" }) {\n  const style = { variant, size: \"xl\", className: \"min-w-40\" } as const\n  if (action.href) {\n    return (\n      // A real link styled as a button: Button with render={<a>} would announce it as a button.\n      <a href={action.href} className={buttonVariants({ ...style, depth: variant === \"brand\" ? \"raised\" : \"flat\" })}>\n        {action.label}\n        {variant === \"brand\" ? <Icon name=\"arrow_forward\" /> : null}\n      </a>\n    )\n  }\n  return (\n    <Button {...style} depth={variant === \"brand\" ? \"raised\" : \"flat\"} onClick={action.onClick}>\n      {action.label}\n      {variant === \"brand\" ? <Icon name=\"arrow_forward\" /> : null}\n    </Button>\n  )\n}\n\nfunction MarketingHero({\n  eyebrow,\n  headline,\n  accent,\n  description,\n  primaryAction,\n  secondaryAction,\n  media = [],\n  className,\n}: MarketingHeroProps) {\n  // Split around the accent so the lime word stays inside one heading element.\n  const accentAt = accent ? headline.indexOf(accent) : -1\n  const title =\n    accent && accentAt >= 0 ? (\n      <>\n        {headline.slice(0, accentAt)}\n        <HeadingAccent>{accent}</HeadingAccent>\n        {headline.slice(accentAt + accent.length)}\n      </>\n    ) : (\n      headline\n    )\n  const [main, ...side] = media.slice(0, 3)\n\n  return (\n    <section data-slot=\"marketing-hero\" className={cn(\"flex w-full flex-col items-center gap-12 px-4 pt-16 pb-8\", className)}>\n      <div className=\"flex max-w-4xl flex-col items-center gap-5 text-center\">\n        {eyebrow ? <p className=\"font-grotesk text-label-caps text-muted-foreground uppercase\">{eyebrow}</p> : null}\n        <Heading level=\"hero\">{title}</Heading>\n        <p className=\"max-w-xl text-base text-muted-foreground md:text-lg\">{description}</p>\n        <div className=\"mt-3 flex flex-wrap justify-center gap-3\">\n          <HeroButton action={primaryAction} variant=\"brand\" />\n          {secondaryAction ? <HeroButton action={secondaryAction} variant=\"glass\" /> : null}\n        </div>\n      </div>\n\n      {main ? (\n        <div className={cn(\"grid w-full max-w-6xl gap-3\", side.length > 0 && \"md:grid-cols-3 md:grid-rows-2\")}>\n          <figure className={cn(\"overflow-hidden rounded-3xl bg-field\", side.length > 0 && \"md:col-span-2 md:row-span-2\")}>\n            {/* A plain <img> keeps the block framework-agnostic; swap in next/image in your app if you like. */}\n            {/* eslint-disable-next-line @next/next/no-img-element */}\n            <img src={main.src} alt={main.alt} className=\"aspect-video size-full object-cover\" />\n          </figure>\n          {side.map((item) => (\n            <figure key={item.src} className=\"hidden overflow-hidden rounded-3xl bg-field md:block\">\n              {/* eslint-disable-next-line @next/next/no-img-element */}\n              <img src={item.src} alt={item.alt} className=\"size-full object-cover\" />\n            </figure>\n          ))}\n        </div>\n      ) : null}\n    </section>\n  )\n}\n\nexport { MarketingHero }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "marketing"
+    ],
+    "use_when": "You are opening a landing or product page with one bold headline, two calls to action and examples of the work."
+  },
+  "type": "registry:block"
+}

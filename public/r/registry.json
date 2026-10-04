@@ -1,0 +1,2112 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "mantis",
+  "homepage": "https://mantis-gold.vercel.app",
+  "items": [
+    {
+      "name": "base",
+      "type": "registry:base",
+      "title": "Mantis Base",
+      "description": "The Mantis token layer (one dark, cinematic theme: the reference's source tokens plus semantic roles) and the core component set. Install this first; it is the one-install entry point for the design system.",
+      "registryDependencies": [
+        "@mantis/mantis-cn",
+        "@mantis/agents",
+        "@mantis/button",
+        "@mantis/dialog",
+        "@mantis/dropdown-menu",
+        "@mantis/sonner",
+        "@mantis/icon",
+        "@mantis/badge",
+        "@mantis/tooltip",
+        "@mantis/popover",
+        "@mantis/switch",
+        "@mantis/textarea",
+        "@mantis/input",
+        "@mantis/checkbox",
+        "@mantis/radio-group",
+        "@mantis/toggle",
+        "@mantis/toggle-group",
+        "@mantis/slider",
+        "@mantis/select",
+        "@mantis/skeleton",
+        "@mantis/kbd",
+        "@mantis/separator",
+        "@mantis/avatar",
+        "@mantis/progress",
+        "@mantis/heading",
+        "@mantis/alert-dialog",
+        "@mantis/sheet",
+        "@mantis/accordion",
+        "@mantis/field",
+        "@mantis/tabs",
+        "@mantis/card",
+        "@mantis/table",
+        "@mantis/input-group",
+        "@mantis/combobox",
+        "@mantis/icon-tile",
+        "@mantis/spinner",
+        "@mantis/stepper",
+        "@mantis/media-tile",
+        "@mantis/pagination"
+      ],
+      "meta": {
+        "usage": "Install this item first, then blocks. Mantis ships ONE theme, and it is dark. FIVE MANUAL STEPS the CLI does not do for you. KEEP the `@import \"shadcn/tailwind.css\";` that `shadcn init` adds: the components' horizontal/vertical layouts depend on its variants.\n\n1) IMPORT THE THEME. `shadcn add` copies `app/mantis-theme.css` into your app but never adds the import. Add `@import \"./mantis-theme.css\";` to `app/globals.css`, next to its other `@import` rules at the very top (CSS requires `@import` to precede all other rules).\n\n2) REMOVE `shadcn init`'s COMPETING BLOCK. It writes its own `:root { … }` / `.dark { … }` into the same `globals.css` with the same variable names. From `:root`, delete every property this theme also defines (`--background`, `--foreground`, `--card`, `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring` and their `-foreground` pairs). Delete the `.dark { … }` block ENTIRELY: nothing in Mantis applies a `.dark` class. KEEP `--chart-*`, `--sidebar-*` and `--radius` (a fallback if the import ever fails). Change `@custom-variant dark (&:is(.dark *));` to `@custom-variant dark (&:where([data-theme=\"dark\"], [data-theme=\"dark\"] *));`. In the `@theme inline` block, delete the `--radius-*` lines, `--font-sans` and `--font-mono`: this theme defines them exactly, and yours would win because it comes later.\n\n3) SET `data-theme=\"dark\"` ON `<html>`, and add `:root { color-scheme: dark; }` so native scrollbars and form controls render dark. Every `dark:` utility inside the installed primitives keys off `data-theme`. With `next-themes`, use `attribute=\"data-theme\"` and `forcedTheme=\"dark\"`.\n\n4) LOAD THE FONTS WITH A STYLESHEET, NOT next/font. The theme names the families literally: Inter (body, `font-sans`), Inter Display (headings, `font-display`; Inter's optical-size axis provides it), Space Grotesk (`font-grotesk`) and IBM Plex Mono (`font-mono`). next/font renames families internally, so `font-grotesk` and friends would silently fall back to system-ui. Put this in your root layout's `<head>`: `<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&family=Space+Grotesk:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap\" />` (plus preconnects to fonts.googleapis.com and fonts.gstatic.com), and remove the Geist fonts `shadcn init` added.\n\n5) BUTTON ROLES. `bg-primary` is WHITE, the everyday action (Save, Invite, Continue). The lime brand color is reserved for the generate/create action and for focus and selection; never use lime for ordinary buttons.\n\nAGENT GUIDE. This item also installs `MANTIS.md`, the index AI coding agents should read before writing UI with Mantis: components, props, tokens and rules. Add `Read MANTIS.md before building UI.` to your AGENTS.md, and `@MANTIS.md` to CLAUDE.md if you use Claude Code.\n\nICONS. This item also installs `icon`: Google Material Symbols as `<Icon name=\"close\" />`. Only the names this system ships are available; pass `label` when an icon is a control's only content.\n\nTABS CONTRAST. If your installed `components/ui/tabs.tsx` still has `text-foreground/60`, replace it with `text-muted-foreground`; a 60%-opacity label cannot reach 4.5:1.\n\nNO LIGHT MODE, SO NO LIGHT ISLAND. The theme emits its only mode at `html:root`. A `<div data-theme=\"light\">` does NOT switch back to anything: there are no light values to switch to.\n\nOVERRIDING A VARIABLE. Write `html:root { --primary: … }`, NOT `:root { … }`. The theme ships at `html:root` (specificity 0,1,1), so a bare `:root` override (0,1,0) silently loses regardless of source order.\n\nRADIUS, TYPE AND SHADOW ARE EXACT. This theme's `@theme inline` block maps `rounded-*`, `text-*` and `shadow-*` to Mantis's exact values. Spacing is Tailwind's default scale, which Mantis matches exactly (space-400 = p-4 = 16px)."
+      },
+      "files": [
+        {
+          "path": "registry/mantis-theme.css",
+          "type": "registry:base",
+          "target": "app/mantis-theme.css"
+        }
+      ]
+    },
+    {
+      "name": "mantis-cn",
+      "type": "registry:lib",
+      "title": "Mantis cn",
+      "description": "The class-name helper every Mantis component imports: shadcn's cn, taught Mantis's text styles (text-display-lg, text-title-sm…) so a color class never silently drops them. Installed by the base item.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "lib/mantis-cn.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "agents",
+      "type": "registry:file",
+      "title": "Mantis agent guide",
+      "description": "MANTIS.md: the index AI coding agents read before building UI with Mantis (components and their real props, token utilities, rules, links to every usage guide). Installed by the base item at the project root.",
+      "files": [
+        {
+          "path": "registry/MANTIS.md",
+          "type": "registry:file",
+          "target": "MANTIS.md"
+        }
+      ]
+    },
+    {
+      "name": "hello-card",
+      "type": "registry:block",
+      "title": "Hello Card",
+      "description": "Smoke-test card proving install, tokens, and typography wire up.",
+      "meta": {
+        "intent": [
+          "content"
+        ],
+        "use_when": "You are verifying a fresh install of this design system renders correctly."
+      },
+      "files": [
+        {
+          "path": "registry/hello-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "Google Material Symbols (Rounded, weight 300) as an inline SVG component: `<Icon name=\"close\" />`. Sizes to the surrounding text and paints in its color. Installed by the base item.",
+      "files": [
+        {
+          "path": "components/ui/icon.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/ui/icons.generated.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "The Mantis button, measured from the reference product: white default (everyday confirm/save), lime brand (the one main call to action: generate, sign up, buy a plan), lime tint, secondary, glass, soft, outline, ghost, destructive, commerce pink and commerce blue looks; flat, raised (chunky CTA edge) and glossy (generate) depths; 24–52px sizes. Hover dims to 80% and press to 60% brightness.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal window in the reference's .dialog style: #131517, white-4% border, 16px radius, 24px padding, 20px title, 16px description, right-aligned actions, black-80% overlay. Material Symbols close icon.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A menu of actions opened from a trigger, in the reference's menu style (#1c1e20, white-4% border, 12px radius, 32px items, #23262a hover, gray icons, white-8% dividers), with Material Symbols icons.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Toaster",
+      "description": "Short, temporary status messages (toasts) — shadcn's sonner, with Material Symbols status icons. This registry maintains the copy.",
+      "dependencies": [
+        "sonner",
+        "next-themes"
+      ],
+      "registryDependencies": [
+        "@mantis/icon"
+      ],
+      "files": [
+        {
+          "path": "components/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A short label beside the thing it describes: new (lime on lime 20%), neutral (white on white 20%), tag (solid lime caps), sale (pink caps), hot (pink gradient), value (blue gradient caps) and gold gradient text, measured from the reference. Commerce fills use WCAG-approved shades.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A small dark label (#171717, 1px #222 border, 12px medium, 8px radius, no arrow) that names an icon-only control on hover or focus. Measured from the reference.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A small floating panel anchored to a control: page-colored, 16px radius, white-4% border, soft shadow, 8px padding. For one short task such as picking a clip length.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Turns one setting on or off immediately. Default 28×16 track with a 12px thumb, large 36×24 for billing period; lime on, slate off. Measured from the reference.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text: filled field for forms, borderless prompt (14px) and prompt-lg (18px) for composers; grows with content.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Single-line text field measured from the reference: 40px (or 44px lg), white-5% fill, no border, 14px text, lime focus ring.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Pick any number of options. From the reference's own .checkbox definition: 16/18/20/24px, 6px radius, 2px control-border (3:1), lime (brand) or white (primary) when checked.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Choose exactly one option: 20px radios matching the checkbox, or whole RadioGroupCard cards with a lime outline and corner check when chosen.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A single pressable button styled like one segment of a toggle group.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A compact row of options measured from the reference: segment (selected turns white with dark 12px semibold text) or outline tiles (selected gets a 2px lime outline).",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/toggle",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Drag a 12px white thumb along a 4px separator-colored line with no filled range, from the reference's .slider definition.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Composer-style chip (40px, #222, lime-5% border, 60%-white text) that opens the reference menu (#1c1e20, white-4% border, 32px items, #23262a hover) to pick one value.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Dark #202227 placeholder with the reference's 2s vertical shimmer (stops under reduced motion), shaped like the content it stands in for.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A keyboard key such as ⌘K: 18px, 4px radius, white-5% fill, white-50% semibold text, measured from the reference's search pill.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "A 1px white-8% divider between groups inside one surface, from the reference's menu separator.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Round photo or initials for a person: 20/24/32/40px, white initials on the inset grey.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "A thin lime bar on a white-5% track for amounts used or done, such as credits left.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "heading",
+      "type": "registry:ui",
+      "title": "Heading",
+      "description": "Page and section headings: uppercase Space Grotesk display levels hero/section/sub/label with measured responsive steps (768px, 1280px), HeadingAccent for one lime word, and Inter title levels for dialogs and panels.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/heading.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Blocking confirmation for irreversible actions, in the reference's .dialog style: #131517, white-4% border, 16px radius, 24px padding, 20px title, black-80% overlay.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Panel that slides in from an edge for details or settings, using the dialog surface, separator border and overlay.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Stacked sections that open one at a time, separated by white-8% dividers, with grey chevrons.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Label, hint and error wrapper for form controls: 12px grey labels above fields, as in the reference's profile and settings forms.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "label",
+        "@mantis/separator",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Switch panels in place, in three measured looks: glass bar (default), underline (line) and pill.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Groups one subject on a surface, in four measured looks: default solid #1c1e20, glass (white 5%), outlined (#131517 with a faint inner highlight) and media.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Rows of comparable records such as usage and billing history: white-8% row dividers, 12px grey headers, white-5% hover.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "An input with icons or one action inside its frame (search magnifier, Copy link), borderless like Input with a lime focus ring.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/input",
+        "@mantis/textarea",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Searchable picker: borderless field that filters a list in the reference menu style, for long lists such as presets or models.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/input-group",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon-tile",
+      "type": "registry:ui",
+      "title": "Icon Tile",
+      "description": "Small colored rounded square behind an icon for nav, menu and settings entries, colored from the reference's own palette pairs; decorative.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/icon-tile.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Spinning progress ring with an announced label, for busy buttons and queued items.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Stepper",
+      "description": "The composer's '− 1/4 +' control for small whole-number settings such as batch size, in a 40px composer chip.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/stepper.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pricing-card",
+      "type": "registry:block",
+      "title": "Pricing Card",
+      "description": "One subscription plan on a card: plan name with an optional commerce badge (such as Best value), a monthly/yearly billing toggle that swaps the price and states the yearly total and saving, a short list of what is included, and a lime subscribe button. Controlled or uncontrolled billing; onSubscribe receives the chosen period.",
+      "meta": {
+        "intent": [
+          "commerce",
+          "marketing"
+        ],
+        "use_when": "You are showing a paid plan (such as Creator) on a pricing page or upgrade panel, with monthly and yearly prices, what it includes, and a button to subscribe; use one card per plan and badge only the best-value plan."
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/card",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/toggle-group",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/pricing-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "prompt-composer",
+      "type": "registry:block",
+      "title": "Prompt Composer",
+      "description": "The image generator's composer: a borderless prompt box, a model chip, an aspect-ratio chip, a 1-4 image stepper and the lime glossy Generate button with a live credit cost (model price x image count). Takes the model list, an optional credit balance and an onGenerate callback.",
+      "meta": {
+        "intent": [
+          "form"
+        ],
+        "use_when": "You need the place where someone writes a prompt, picks a model, aspect ratio and number of images, and starts an image generation that spends credits."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/select",
+        "@mantis/spinner",
+        "@mantis/stepper",
+        "@mantis/textarea",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/prompt-composer.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "notification-settings",
+      "type": "registry:block",
+      "title": "Notification Settings",
+      "description": "The Notifications section of an account settings page: checkboxes for which emails to receive, a digest frequency (never, daily, weekly) and a Save button that reports success or failure in place.",
+      "meta": {
+        "intent": [
+          "settings",
+          "form"
+        ],
+        "use_when": "You are building account settings and people need to choose which emails they receive and how often a digest arrives, saved together with one button."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/card",
+        "@mantis/checkbox",
+        "@mantis/field",
+        "@mantis/radio-group",
+        "@mantis/separator",
+        "@mantis/spinner",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/notification-settings.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "project-card",
+      "type": "registry:block",
+      "title": "Project Card",
+      "description": "One project in a library grid: a 16:9 thumbnail, the project name and when it was last edited, with a more menu to rename (in a dialog), duplicate, or delete after a confirmation.",
+      "meta": {
+        "intent": [
+          "data-display",
+          "productivity"
+        ],
+        "use_when": "You are showing someone's projects as a grid they can open, rename, duplicate and delete, such as a studio home or project library."
+      },
+      "registryDependencies": [
+        "@mantis/alert-dialog",
+        "@mantis/button",
+        "@mantis/card",
+        "@mantis/dialog",
+        "@mantis/dropdown-menu",
+        "@mantis/field",
+        "@mantis/icon",
+        "@mantis/input",
+        "@mantis/media-tile",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/project-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:block",
+      "title": "Empty State",
+      "description": "A dashed placeholder for a library, gallery or list that holds nothing yet: an icon, a heading, one sentence on what belongs there and one button to add the first item.",
+      "meta": {
+        "intent": [
+          "feedback"
+        ],
+        "use_when": "A library, gallery or list has finished loading and is empty, such as an asset library before the first upload, or a search returned no results."
+      },
+      "registryDependencies": [
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/empty-state.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "model-picker",
+      "type": "registry:block",
+      "title": "Model Picker",
+      "description": "A searchable list of AI models that opens from a composer chip or a settings-rail row: Featured and All groups, each row an icon tile, name, one-line description and optional New or Hot badge, with a check on the model in use.",
+      "meta": {
+        "intent": [
+          "form",
+          "navigation"
+        ],
+        "use_when": "You let people choose which AI model runs a generation and each model needs a one-line description to choose by, such as the model chip in a composer or the model row in a studio rail"
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/combobox",
+        "@mantis/icon",
+        "@mantis/icon-tile",
+        "@mantis/input-group",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/model-picker.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "studio-settings-panel",
+      "type": "registry:block",
+      "title": "Studio Settings Panel",
+      "description": "The left rail of a video studio: preset card, up to N reference images, prompt, model row, duration, aspect and quality chips, a bitrate slider and the lime Generate button with its live credit cost.",
+      "meta": {
+        "intent": [
+          "form",
+          "settings"
+        ],
+        "use_when": "You are building a studio page where a column beside the canvas sets up a video generation with a preset, reference images, a prompt, a model and quality settings before Generate"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "label",
+        "@mantis/media-tile",
+        "@mantis/select",
+        "@mantis/slider",
+        "@mantis/spinner",
+        "@mantis/textarea",
+        "@mantis/model-picker",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/studio-settings-panel.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "preset-gallery",
+      "type": "registry:block",
+      "title": "Preset Gallery",
+      "description": "Model tabs and a search field above a grid of media tiles, each an image with its uppercase title over it; selecting a tile marks it with a lime outline and a check.",
+      "meta": {
+        "intent": [
+          "data-display",
+          "navigation"
+        ],
+        "use_when": "People pick a ready-made style, effect or camera move by looking at a preview frame, such as after pressing Change on a studio's preset card"
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/input-group",
+        "@mantis/media-tile",
+        "@mantis/skeleton",
+        "@mantis/tabs",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/preset-gallery.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "add-media-panel",
+      "type": "registry:block",
+      "title": "Add Media Panel",
+      "description": "A panel for pulling media into a project: Uploads, Elements, Generations and Liked tabs over an image grid, skeleton tiles while loading, an empty state per tab, an upload action and a count of picked items.",
+      "meta": {
+        "intent": [
+          "form",
+          "data-display"
+        ],
+        "use_when": "People add reference images or starting frames from their uploads, saved elements, past generations or liked work without leaving the screen they are on"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/media-tile",
+        "@mantis/skeleton",
+        "@mantis/tabs",
+        "@mantis/empty-state",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/add-media-panel.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "plan-matrix",
+      "type": "registry:block",
+      "title": "Plan Matrix",
+      "description": "The body of a pricing page: one monthly/yearly switch driving a row of plan cards with one plan framed as most popular, then a sectioned feature comparison table with check, dash or limit per plan.",
+      "meta": {
+        "intent": [
+          "commerce",
+          "marketing"
+        ],
+        "use_when": "You are building a pricing page where people compare two to four subscription plans, with a billing switch and a full feature comparison table."
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/table",
+        "@mantis/toggle-group",
+        "@mantis/pricing-card",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/plan-matrix.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "usage-summary",
+      "type": "registry:block",
+      "title": "Usage Summary",
+      "description": "Credit usage for a period: total tiles, a stacked bar of credits by tool with a legend, and a filterable, paginated usage history table.",
+      "meta": {
+        "intent": [
+          "data-display",
+          "data-viz",
+          "commerce"
+        ],
+        "use_when": "You are showing someone how many credits they spent in a period, on which tools, with a history they can filter and page through."
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/pagination",
+        "@mantis/select",
+        "@mantis/skeleton",
+        "@mantis/table",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/usage-summary.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "session-list",
+      "type": "registry:block",
+      "title": "Session List",
+      "description": "Signed-in devices: rows with device icon, browser and system, location, last active and a This device marker, a Sign out button per row and a confirmed Sign out everywhere else.",
+      "meta": {
+        "intent": [
+          "settings",
+          "auth"
+        ],
+        "use_when": "You are building security settings where people review the devices signed in to their account and sign out the ones they do not recognise."
+      },
+      "registryDependencies": [
+        "@mantis/alert-dialog",
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/spinner",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/session-list.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "onboarding-steps",
+      "type": "registry:block",
+      "title": "Onboarding Steps",
+      "description": "A multi-step welcome flow: progress bar and step count, single-choice cards or a multi-select grid per step, and Back and Continue.",
+      "meta": {
+        "intent": [
+          "form",
+          "auth"
+        ],
+        "use_when": "You are welcoming a new account with two to five quick questions, each answered from a fixed list, before they reach the app."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/checkbox",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/progress",
+        "@mantis/radio-group",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/onboarding-steps.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "settings-section",
+      "type": "registry:block",
+      "title": "Settings Section",
+      "description": "One stacked settings card: title, description, rows of label, explanation and a control, and an optional confirmed danger zone.",
+      "meta": {
+        "intent": [
+          "settings",
+          "form"
+        ],
+        "use_when": "You are building a settings page and need a card that groups related settings, each a label with one control, optionally ending in a destructive action."
+      },
+      "registryDependencies": [
+        "@mantis/alert-dialog",
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/settings-section.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "settings-nav",
+      "type": "registry:block",
+      "title": "Settings Nav",
+      "description": "The left navigation of a settings page: a workspace label and rows led by colored icon tiles, with the current page tinted.",
+      "meta": {
+        "intent": [
+          "navigation",
+          "settings"
+        ],
+        "use_when": "You are building a settings page with several sub-pages and need the left nav that moves between them."
+      },
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/icon-tile",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/settings-nav.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "marketing-hero",
+      "type": "registry:block",
+      "title": "Marketing Hero",
+      "description": "The top of a landing page: uppercase display headline with one lime word, a supporting line, a lime primary and a glass secondary call to action, and a media showcase.",
+      "meta": {
+        "intent": [
+          "marketing"
+        ],
+        "use_when": "You are opening a landing or product page with one bold headline, two calls to action and examples of the work."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/marketing-hero.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "feature-grid",
+      "type": "registry:block",
+      "title": "Feature Grid",
+      "description": "A landing-page section of image-first feature cards, each with an uppercase title, one line and an optional New badge, under an uppercase section title.",
+      "meta": {
+        "intent": [
+          "marketing",
+          "content"
+        ],
+        "use_when": "You are listing several tools or capabilities on a landing page, each with an example image, a title and one line."
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/card",
+        "@mantis/heading",
+        "@mantis/media-tile",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/feature-grid.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "command-palette",
+      "type": "registry:block",
+      "title": "Command Palette",
+      "description": "The ⌘K search dialog: a search field, filter chips, recent searches, featured cards and a two-column trending list, with results grouped by category and full keyboard navigation.",
+      "meta": {
+        "intent": [
+          "navigation"
+        ],
+        "use_when": "You need one place where people jump to any tool, model, preset or project by name, opened with ⌘K or a search pill"
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/dialog",
+        "@mantis/icon",
+        "@mantis/icon-tile",
+        "@mantis/input-group",
+        "@mantis/toggle-group",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/command-palette.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "notifications-panel",
+      "type": "registry:block",
+      "title": "Notifications Panel",
+      "description": "The bell menu: All, Requests and Unread tabs, rows with avatar or icon, message, time and unread dot, inline Accept and Decline for requests, Mark all as read and an empty state per tab.",
+      "meta": {
+        "intent": [
+          "feedback",
+          "messaging"
+        ],
+        "use_when": "You need a top-bar bell that shows comments, finished renders and invites, and lets people answer invites in place"
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/icon-tile",
+        "@mantis/popover",
+        "@mantis/tabs",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/notifications-panel.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "share-dialog",
+      "type": "registry:block",
+      "title": "Share Dialog",
+      "description": "Share a project: emails become chips with a role each, visibility as private / link / public radio cards, a copy-link field and the Share action.",
+      "meta": {
+        "intent": [
+          "form",
+          "productivity"
+        ],
+        "use_when": "You need people to invite collaborators to a project with a role each and choose who can open it"
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/dialog",
+        "@mantis/field",
+        "@mantis/icon",
+        "@mantis/input-group",
+        "label",
+        "@mantis/radio-group",
+        "@mantis/select",
+        "@mantis/separator",
+        "@mantis/spinner",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/share-dialog.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "agent-approval-card",
+      "type": "registry:block",
+      "title": "Agent Approval Card",
+      "description": "Human-in-the-loop card where an AI agent lists the steps it wants to run and their credit cost, then waits for Approve, Stop or Always allow.",
+      "meta": {
+        "intent": [
+          "feedback",
+          "productivity"
+        ],
+        "use_when": "An AI agent is about to spend credits or change data and the person must see each step and agree first"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/kbd",
+        "@mantis/spinner",
+        "@mantis/toggle",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/agent-approval-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "promo-modal",
+      "type": "registry:block",
+      "title": "Promo Modal",
+      "description": "An upsell dialog with a media header, headline, short benefit list, a price tile beside a countdown to the deadline, the lime claim button and a dismiss.",
+      "meta": {
+        "intent": [
+          "commerce",
+          "marketing"
+        ],
+        "use_when": "You are offering a time-limited discount on a paid plan once, at a natural pause, and need the price and deadline on screen"
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/dialog",
+        "@mantis/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/promo-modal.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "top-navigation",
+      "type": "registry:block",
+      "title": "Top Navigation",
+      "description": "The app's top bar: an empty logo slot, section links with the current one in lime and optional New badges, a search pill with a ⌘K hint, a pricing link with a sale tag, an Assets button, the credit balance and the account control. Folds into a menu sheet when narrower than 1024px.",
+      "meta": {
+        "intent": [
+          "navigation",
+          "app-shell"
+        ],
+        "use_when": "You need the bar across the top of every page of a signed-in creative app, for moving between sections, searching, reaching pricing and assets, seeing credits and opening the account menu"
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/kbd",
+        "@mantis/separator",
+        "@mantis/sheet",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/top-navigation.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "announcement-bar",
+      "type": "registry:block",
+      "title": "Announcement Bar",
+      "description": "A full-width lime bar above the top navigation with one short message, a call-to-action link and a close button; an optional slot holds a compact countdown.",
+      "meta": {
+        "intent": [
+          "marketing",
+          "feedback"
+        ],
+        "use_when": "Something new or time-limited affects most visitors, such as a launch, a discount or planned downtime, and deserves one dismissible line above the whole site with a link to act on it"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/announcement-bar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "countdown",
+      "type": "registry:block",
+      "title": "Countdown",
+      "description": "An offer timer: a label above hours, minutes and seconds as glass tiles, counting down to a fixed time and switching to an ended message at zero. A compact size fits in bars and cards.",
+      "meta": {
+        "intent": [
+          "commerce",
+          "marketing"
+        ],
+        "use_when": "A discount, launch price or limited plan ends at a real, known time and showing the time left beside the offer helps people decide"
+      },
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/countdown.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "account-menu",
+      "type": "registry:block",
+      "title": "Account Menu",
+      "description": "The menu opened from the avatar: name, email and plan, a dotted credit meter with credits left and used, up to two upsell rows for more credits, then settings, help and sign out.",
+      "meta": {
+        "intent": [
+          "navigation",
+          "settings",
+          "commerce"
+        ],
+        "use_when": "You need the avatar menu of a signed-in app where people check who they are signed in as, how many credits they have left, buy more, and reach settings, help or sign out"
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/dropdown-menu",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/account-menu.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "site-footer",
+      "type": "registry:block",
+      "title": "Site Footer",
+      "description": "A marketing footer: an empty logo slot and uppercase statement, titled link columns, then the copyright line, legal links and social buttons. Lime tone for marketing pages, plain dark tone for in-app pages.",
+      "meta": {
+        "intent": [
+          "marketing",
+          "navigation"
+        ],
+        "use_when": "You are closing a landing, pricing or tool page and need links to the rest of the site, legal pages and social accounts; use the plain tone for a small footer on app pages"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/site-footer.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "generation-feed",
+      "type": "registry:block",
+      "title": "Generation Feed",
+      "description": "A person's generation history as a zoomable grid or a list with each result's prompt, model, settings and time, with loading, generating and empty states.",
+      "meta": {
+        "intent": [
+          "data-display",
+          "productivity"
+        ],
+        "use_when": "You are showing someone everything they have generated, newest first, and they need to switch between scanning pictures and reading prompts to reuse or download a result"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/media-tile",
+        "@mantis/skeleton",
+        "@mantis/slider",
+        "@mantis/spinner",
+        "@mantis/toggle-group",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/generation-feed.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "media-grid",
+      "type": "registry:block",
+      "title": "Media Grid",
+      "description": "A masonry gallery of community images in mixed aspect ratios; hover reveals the author, Like and Recreate, and Load more or load-on-scroll adds pages.",
+      "meta": {
+        "intent": [
+          "data-display",
+          "content"
+        ],
+        "use_when": "You are building an explore or community page that shows many people's images at their natural shapes and keeps loading as someone scrolls"
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/media-tile",
+        "@mantis/skeleton",
+        "@mantis/spinner",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/media-grid.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "lightbox-inspector",
+      "type": "registry:block",
+      "title": "Lightbox Inspector",
+      "description": "A full-screen media viewer with previous and next, and an inspector panel holding the copyable prompt, a details list, a lime Recreate and Download, Share, Upscale and Delete.",
+      "meta": {
+        "intent": [
+          "data-display",
+          "productivity"
+        ],
+        "use_when": "Someone opens one generation from a feed or gallery to see it large, read its prompt and settings, step to the next one, and recreate, download, share, upscale or delete it"
+      },
+      "registryDependencies": [
+        "@mantis/alert-dialog",
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/dialog",
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/lightbox-inspector.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "how-it-works",
+      "type": "registry:block",
+      "title": "How It Works",
+      "description": "A three-step explainer strip: an uppercase headline over a row of steps, each with a picture, a number, a short title and one sentence.",
+      "meta": {
+        "intent": [
+          "marketing",
+          "content"
+        ],
+        "use_when": "You are explaining a tool or workflow to first-time visitors in three ordered steps on a landing or tool page"
+      },
+      "registryDependencies": [
+        "@mantis/heading",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/how-it-works.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "feed-post",
+      "type": "registry:block",
+      "title": "Feed Post",
+      "description": "One community post: author row with Follow, title and text, up to four pictures with a tool label, and like, dislike, comment, share, views and a more menu.",
+      "meta": {
+        "intent": [
+          "content",
+          "messaging"
+        ],
+        "use_when": "You are listing what people have shared in a community feed or on a profile, with reactions, comments and follow"
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/dropdown-menu",
+        "@mantis/icon",
+        "@mantis/toggle",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/feed-post.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sample-content",
+      "type": "registry:component",
+      "title": "Sample content",
+      "description": "Invented placeholder data for the page templates: the sample product Lumen, its signed-in account, top bar and footer, image and video models, generations, projects, clips, assets, signed-in devices, credit usage, sidebar sections and canvas layers. Every template falls back to it when you leave its content props out, so it renders with no props at all, like a component with placeholder text. Replace all of it with real data before shipping.",
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/account-menu",
+        "@mantis/generation-feed",
+        "@mantis/project-card",
+        "@mantis/prompt-composer",
+        "@mantis/session-list",
+        "@mantis/site-footer",
+        "@mantis/studio-settings-panel",
+        "@mantis/top-navigation",
+        "@mantis/usage-summary",
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/media-tile"
+      ],
+      "files": [
+        {
+          "path": "registry/sample-content.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "explore-page",
+      "type": "registry:block",
+      "title": "Explore Page",
+      "description": "A full community gallery page: the app top bar, an uppercase headline, category filter pills, the masonry media grid, and the lightbox inspector that opens on the picture you click.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "data-display",
+          "navigation"
+        ],
+        "use_when": "You need the whole explore or community page of a signed-in creative app, where people browse everyone's work by category and open one piece to read its prompt and recreate it"
+      },
+      "registryDependencies": [
+        "@mantis/heading",
+        "@mantis/tabs",
+        "@mantis/empty-state",
+        "@mantis/lightbox-inspector",
+        "@mantis/media-grid",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/explore-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "profile-page",
+      "type": "registry:block",
+      "title": "Profile Page",
+      "description": "A person's page: a sidebar with avatar, name, handle, bio, stats and Follow or Edit profile, beside tabs for their generations, likes and posts, each with its own empty state for owner or visitor.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "data-display",
+          "content"
+        ],
+        "use_when": "You are building a creator's public profile or the viewer's own profile, with their identity on the side and their work, likes and posts in tabs"
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/tabs",
+        "@mantis/empty-state",
+        "@mantis/feed-post",
+        "@mantis/lightbox-inspector",
+        "@mantis/media-grid",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/profile-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pricing-page",
+      "type": "registry:block",
+      "title": "Pricing Page",
+      "description": "A complete plans page: a lime offer bar with a live countdown, the top bar, a headline, the plan matrix with one billing switch and a comparison table, an FAQ accordion and the site footer.",
+      "meta": {
+        "intent": [
+          "marketing",
+          "commerce",
+          "app-shell"
+        ],
+        "use_when": "You need the whole pricing page for a subscription product, from a time-limited offer bar through plan comparison and pre-purchase questions to the footer"
+      },
+      "registryDependencies": [
+        "@mantis/accordion",
+        "@mantis/heading",
+        "@mantis/announcement-bar",
+        "@mantis/countdown",
+        "@mantis/plan-matrix",
+        "@mantis/pricing-card",
+        "@mantis/sample-content",
+        "@mantis/site-footer",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/pricing-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "landing-page",
+      "type": "registry:block",
+      "title": "Landing Page",
+      "description": "A public marketing page: the signed-out top bar, the marketing hero, a feature grid, a three-step how-it-works, a closing call-to-action band and the lime site footer.",
+      "meta": {
+        "intent": [
+          "marketing",
+          "content"
+        ],
+        "use_when": "You are building a home page or a single tool's landing page for signed-out visitors, walking them from a promise to what it does, how it works and signing up"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/feature-grid",
+        "@mantis/how-it-works",
+        "@mantis/marketing-hero",
+        "@mantis/sample-content",
+        "@mantis/site-footer",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/landing-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "image-studio-page",
+      "type": "registry:block",
+      "title": "Image Studio Page",
+      "description": "A full image-studio page: top navigation, a centered uppercase hero with one lime word that gives way to the generation feed once there are results, and the prompt composer docked at the bottom. Results open in the lightbox inspector.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "productivity"
+        ],
+        "use_when": "You need the whole page where people write a prompt and get images back: a hero on first visit, their generation history after, and the composer always in reach."
+      },
+      "registryDependencies": [
+        "@mantis/heading",
+        "@mantis/generation-feed",
+        "@mantis/lightbox-inspector",
+        "@mantis/prompt-composer",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/image-studio-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "video-studio-page",
+      "type": "registry:block",
+      "title": "Video Studio Page",
+      "description": "A full video-studio page: top navigation, the studio settings panel as a left rail with Generate pinned to its foot, and a canvas showing the latest clip (or an empty state) above a strip of recent clips.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "productivity"
+        ],
+        "use_when": "You need the whole page where people set up a video clip (preset, references, duration, quality), generate it, and compare the latest takes on a large canvas."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/media-tile",
+        "@mantis/skeleton",
+        "@mantis/spinner",
+        "@mantis/empty-state",
+        "@mantis/sample-content",
+        "@mantis/studio-settings-panel",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/video-studio-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "studio-home-page",
+      "type": "registry:block",
+      "title": "Studio Home Page",
+      "description": "A studio home page: top navigation, an uppercase hero with one lime word, the prompt composer, then Recent projects as a grid of project cards opening with a New project tile, with loading skeletons and an empty state.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "productivity"
+        ],
+        "use_when": "You need the signed-in home page where people can start a generation straight away or return to one of their recent projects."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/skeleton",
+        "@mantis/empty-state",
+        "@mantis/project-card",
+        "@mantis/prompt-composer",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/studio-home-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "asset-library-page",
+      "type": "registry:block",
+      "title": "Asset Library Page",
+      "description": "An asset library page: top navigation, a header with Upload, filter tabs and a name search, a grid of selectable asset tiles with a floating bar to download or delete in bulk, and the empty state when there are none.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "data-display"
+        ],
+        "use_when": "You need the page where people find, filter and manage everything they have generated or uploaded, including selecting several files to download or delete."
+      },
+      "registryDependencies": [
+        "@mantis/alert-dialog",
+        "@mantis/button",
+        "@mantis/checkbox",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/input-group",
+        "@mantis/media-tile",
+        "@mantis/skeleton",
+        "@mantis/tabs",
+        "@mantis/empty-state",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/asset-library-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "app-shell",
+      "type": "registry:block",
+      "title": "App shell",
+      "description": "The signed-in page frame: the top navigation bar with the account menu wired in, and one content area under it that scrolls on its own.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "navigation"
+        ],
+        "use_when": "You are building any signed-in page that needs the app's top bar and one column of content, such as a library, gallery or studio home."
+      },
+      "registryDependencies": [
+        "@mantis/account-menu",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/app-shell.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "app-shell-sidebar",
+      "type": "registry:block",
+      "title": "App shell with sidebar",
+      "description": "The signed-in frame for sections with many destinations: the top bar, a collapsible left sidebar of icon links in labelled sections (a sheet on small screens), and a scrolling content area.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "navigation"
+        ],
+        "use_when": "A studio or workspace has more pages than fit in the top bar, such as projects, tools and recent work, and people switch between them often."
+      },
+      "registryDependencies": [
+        "@mantis/badge",
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/separator",
+        "@mantis/sheet",
+        "@mantis/tooltip",
+        "@mantis/account-menu",
+        "@mantis/app-shell",
+        "@mantis/sample-content",
+        "@mantis/top-navigation",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/app-shell-sidebar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "settings-page",
+      "type": "registry:block",
+      "title": "Settings page",
+      "description": "The full account settings page: app shell, settings nav and stacked section cards for profile, notifications, security (with signed-in devices) and credit usage, switched by the nav.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "settings"
+        ],
+        "use_when": "You need a complete account settings page with profile, notifications, security and usage pages built from the system's settings blocks."
+      },
+      "registryDependencies": [
+        "@mantis/avatar",
+        "@mantis/button",
+        "@mantis/field",
+        "@mantis/heading",
+        "@mantis/icon",
+        "@mantis/input",
+        "@mantis/spinner",
+        "@mantis/switch",
+        "@mantis/account-menu",
+        "@mantis/app-shell",
+        "@mantis/notification-settings",
+        "@mantis/sample-content",
+        "@mantis/session-list",
+        "@mantis/settings-nav",
+        "@mantis/settings-section",
+        "@mantis/top-navigation",
+        "@mantis/usage-summary",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/settings-page.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "canvas-shell",
+      "type": "registry:block",
+      "title": "Canvas shell",
+      "description": "The chrome of a board page without a canvas engine: a full-bleed dotted board, a minimal floating top bar, a bottom tool bar with tools, add and zoom, and a layers and properties panel.",
+      "meta": {
+        "intent": [
+          "app-shell",
+          "productivity"
+        ],
+        "use_when": "You are building a free-form board where people arrange generations, notes and shapes, and need its toolbar, zoom and layers panel around your own canvas."
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/dropdown-menu",
+        "@mantis/field",
+        "@mantis/icon",
+        "@mantis/input",
+        "@mantis/kbd",
+        "@mantis/separator",
+        "@mantis/sheet",
+        "@mantis/tabs",
+        "@mantis/toggle-group",
+        "@mantis/tooltip",
+        "@mantis/sample-content",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "registry/canvas-shell.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "media-tile",
+      "type": "registry:ui",
+      "title": "Media Tile",
+      "description": "Image or video in a rounded frame with an optional uppercase title, corner badges, lime selection ring and hover actions; renders as a button, a real link or a plain frame. For pickers, galleries, feeds and libraries.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/media-tile.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Compact pager for tables: optional rows-per-page picker, a live 'Page X of Y' and named previous and next buttons, in a labelled nav landmark.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/select",
+        "@mantis/mantis-cn"
+      ],
+      "files": [
+        {
+          "path": "components/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "settings-nav",
+  "title": "Settings Nav",
+  "description": "The left navigation of a settings page: a workspace label and rows led by colored icon tiles, with the current page tinted.",
+  "registryDependencies": [
+    "@mantis/icon",
+    "@mantis/icon-tile",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/settings-nav.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { type IconName } from \"@/components/ui/icon\"\nimport { IconTile } from \"@/components/ui/icon-tile\"\n\ntype TileColor = \"blue\" | \"purple\" | \"pink\" | \"orange\" | \"mint\" | \"brown\" | \"neutral\"\n\nexport type SettingsNavItem = {\n  id: string\n  label: string\n  icon: IconName\n  /** Keep each page's color the same everywhere it appears. */\n  color: TileColor\n  /** Renders a link. Without it the row is a button that calls `onValueChange`. */\n  href?: string\n}\n\nexport interface SettingsNavProps {\n  items: SettingsNavItem[]\n  /** Small heading above the rows, such as the workspace name. */\n  label?: string\n  value?: string\n  defaultValue?: string\n  onValueChange?: (id: string) => void\n  /** Pinned under the rows, such as a sign-out button. */\n  footer?: React.ReactNode\n  className?: string\n}\n\nfunction SettingsNav({ items, label = \"Settings\", value: valueProp, defaultValue, onValueChange, footer, className }: SettingsNavProps) {\n  const [valueState, setValueState] = React.useState(defaultValue ?? items[0]?.id)\n  const value = valueProp ?? valueState\n  const labelId = React.useId()\n\n  const rowClass =\n    \"flex h-9 w-full items-center gap-2.5 rounded-lg px-2 text-sm font-medium text-foreground outline-none transition-[background-color,filter] duration-(--duration-normal) hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass\"\n\n  return (\n    <nav data-slot=\"settings-nav\" aria-labelledby={labelId} className={cn(\"flex w-full max-w-60 flex-col gap-2\", className)}>\n      <p id={labelId} className=\"truncate px-2 text-xs text-muted-foreground\">\n        {label}\n      </p>\n      <ul className=\"flex flex-col gap-0.5\">\n        {items.map((item) => {\n          const current = item.id === value\n          const content = (\n            <>\n              <IconTile name={item.icon} color={item.color} size=\"md\" />\n              <span className=\"truncate\">{item.label}</span>\n            </>\n          )\n          const select = () => {\n            if (valueProp === undefined) setValueState(item.id)\n            onValueChange?.(item.id)\n          }\n          return (\n            <li key={item.id}>\n              {item.href ? (\n                <a href={item.href} aria-current={current ? \"page\" : undefined} className={rowClass} onClick={select}>\n                  {content}\n                </a>\n              ) : (\n                <button type=\"button\" aria-current={current ? \"page\" : undefined} className={rowClass} onClick={select}>\n                  {content}\n                </button>\n              )}\n            </li>\n          )\n        })}\n      </ul>\n      {footer ? <div className=\"mt-auto pt-4\">{footer}</div> : null}\n    </nav>\n  )\n}\n\nexport { SettingsNav }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "navigation",
+      "settings"
+    ],
+    "use_when": "You are building a settings page with several sub-pages and need the left nav that moves between them."
+  },
+  "type": "registry:block"
+}

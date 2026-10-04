@@ -1,0 +1,46 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { tokens } from '../../tokens/mantis.tokens.mjs'
+
+<Meta title="Foundations / Typography" />
+
+export const px = (rem) => `${parseFloat(rem) * 16}px`
+
+# Typography
+
+## Font
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Family</th>
+    </tr>
+  </thead>
+  <tbody>
+    {Object.entries(tokens.font).map(([name, family]) => (
+      <tr key={name}>
+        <td><code>{`--font-${name}`}</code></td>
+        <td><code>{family}</code></td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+The theme names the family but neither ships nor loads it. Load the font in your app, for example with `next/font`. If it is missing, nothing errors: the browser quietly falls back to the next family in the list.
+
+## Sizes
+
+Each step of the `text` scale, set in the font above. In this registry's own app the `text-*` utilities use these values; installing the theme does not change another app's type scale.
+
+<div className="sb-unstyled flex flex-col" style={{ fontFamily: tokens.font.sans }}>
+  {Object.entries(tokens.text).map(([step, size]) => (
+    <div key={step} className="grid grid-cols-1 items-baseline gap-2 border-b py-4 sm:grid-cols-[9rem_1fr]">
+      <div className="flex flex-col font-mono text-xs">
+        <span className="font-semibold">text-{step}</span>
+        <span>{size} · {px(size)}</span>
+      </div>
+      <p style={{ fontSize: size, lineHeight: 1.4, margin: 0 }}>Invoices go out on the first of every month.</p>
+    </div>
+  ))}
+</div>

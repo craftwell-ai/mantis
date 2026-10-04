@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mantis-cn",
+  "title": "Mantis cn",
+  "description": "The class-name helper every Mantis component imports: shadcn's cn, taught Mantis's text styles (text-display-lg, text-title-sm…) so a color class never silently drops them. Installed by the base item.",
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "lib/mantis-cn.ts",
+      "content": "import { createCn } from \"cn/config\"\n\n// Mantis's composite text styles (text-display-lg, text-title-sm…) are not\n// Tailwind sizes, so stock cn reads them as text colors and silently drops\n// one when a color follows: cn(\"text-display-lg text-muted-foreground\") loses\n// the size. Registering them as font sizes keeps both. The list must match\n// tokens.textStyles; scripts/mantis-cn.test.mjs checks that it does.\nexport const TEXT_STYLES = [\"display-sm\", \"display-md\", \"display-lg\", \"display-xl\", \"label-caps\", \"title-sm\", \"title-md\"]\n\nexport const cn = createCn({\n  extend: { classGroups: { \"font-size\": [{ text: TEXT_STYLES }] } },\n})\n",
+      "type": "registry:lib"
+    }
+  ],
+  "type": "registry:lib"
+}

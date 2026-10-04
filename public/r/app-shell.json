@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "app-shell",
+  "title": "App shell",
+  "description": "The signed-in page frame: the top navigation bar with the account menu wired in, and one content area under it that scrolls on its own.",
+  "registryDependencies": [
+    "@mantis/account-menu",
+    "@mantis/sample-content",
+    "@mantis/top-navigation",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/app-shell.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { AccountMenu, type AccountMenuProps } from \"./account-menu\"\nimport { SampleLibraryPage, sampleNavigation } from \"./sample-content\"\nimport { TopNavigation, type TopNavigationProps } from \"./top-navigation\"\n\nexport interface AppShellProps extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  /** Everything the top bar shows: brand, section links, search, pricing, credits. Leave out to show the sample product's bar. */\n  navigation?: TopNavigationProps\n  /**\n   * The signed-in person. Renders an `AccountMenu` in the bar's account slot.\n   * Leave out when signed out and pass a sign-in button as `navigation.account`.\n   */\n  account?: AccountMenuProps\n  /** The page. It scrolls inside the shell, so the bar stays put. */\n  children?: React.ReactNode\n  /** Classes for the scrolling content area, such as padding or a max width. */\n  contentClassName?: string\n  /** Text of the skip link that jumps past the bar to the page. */\n  skipLinkLabel?: string\n}\n\n// Moves focus into the page content, past the bar, for keyboard users.\n// Shared with the other shells so every template skips the same way.\nfunction AppShellSkipLink({ targetId, label }: { targetId: string; label: string }) {\n  return (\n    <a\n      href={`#${targetId}`}\n      className=\"sr-only rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground outline-none focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus-visible:ring-3 focus-visible:ring-ring/50\"\n    >\n      {label}\n    </a>\n  )\n}\n\n// Shown when no navigation is passed, so the shell previews with nothing filled in.\nconst SAMPLE_NAVIGATION = sampleNavigation()\n\n// The signed-in page frame: the top bar across the top and one scrolling\n// content area under it. Fills the viewport, so only the content scrolls.\nfunction AppShell({\n  navigation = SAMPLE_NAVIGATION,\n  account,\n  children,\n  contentClassName,\n  skipLinkLabel = \"Skip to content\",\n  className,\n  ...props\n}: AppShellProps) {\n  // React's ids hold punctuation that is awkward in a #fragment, so keep only the safe part.\n  const contentId = `app-content-${React.useId().replace(/[^\\w-]/g, \"\")}`\n\n  return (\n    <div\n      data-slot=\"app-shell\"\n      className={cn(\"relative flex h-dvh w-full flex-col overflow-hidden bg-background text-foreground\", className)}\n      {...props}\n    >\n      <AppShellSkipLink targetId={contentId} label={skipLinkLabel} />\n      <TopNavigation\n        {...navigation}\n        account={account ? <AccountMenu {...account} /> : navigation.account}\n        className={cn(\"shrink-0\", navigation.className)}\n      />\n      {/* Focusable so keyboard users can scroll it even when the page has no\n          links or buttons, and so the skip link has somewhere to land. */}\n      <main\n        id={contentId}\n        tabIndex={0}\n        className={cn(\n          \"min-h-0 flex-1 overflow-y-auto outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset\",\n          contentClassName\n        )}\n      >\n        {/* Left out entirely, the content area shows a sample page; pass null for an empty one. */}\n        {children === undefined ? <SampleLibraryPage /> : children}\n      </main>\n    </div>\n  )\n}\n\nexport { AppShell, AppShellSkipLink }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "app-shell",
+      "navigation"
+    ],
+    "use_when": "You are building any signed-in page that needs the app's top bar and one column of content, such as a library, gallery or studio home."
+  },
+  "type": "registry:block"
+}

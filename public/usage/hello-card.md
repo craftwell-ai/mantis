@@ -1,0 +1,22 @@
+# hello-card (block)
+
+A one-card smoke test showing the theme is installed: its fill, border and muted text come from the design system's color tokens.
+
+### When to use
+- You have just installed the base item in an app and want to see the dark theme applied.
+- You changed the theme import or the `data-theme` attribute and want a quick check that the tokens still resolve.
+
+### Reach for instead
+- **card** — when you are building real product content, such as a project or credits panel; compose the card components instead
+
+### Rules
+- **Do:** Render it on its own, on a blank page, right after install, then remove it. **Don't:** Leave it on a product screen next to real content like a credit balance. It describes the design system, not your product.
+- **Do:** Render it exactly as installed, so it shows what the theme alone produces. **Don't:** Add classes that change its colors; a check you have restyled no longer checks anything.
+
+### Accessibility
+- Its title is an `h3`; on a scratch page with no other headings, that skipped level is expected.
+- Mantis ships one dark theme; confirm the muted text stays readable on the card against the page background.
+
+### Design tokens
+`--card` · `--card-foreground` · `--muted-foreground` · `--border` · `--radius`
+

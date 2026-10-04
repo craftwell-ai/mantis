@@ -1,0 +1,25 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks'
+
+import { IconGallery } from '../IconGallery'
+
+<Meta title="Foundations / Icons" />
+
+# Icons
+
+Icons are Google Material Symbols (Rounded, weight 300, the closest licensable match to the reference's thin line icons), drawn inline by the `Icon` component. Each one is 1em square and painted in `currentColor`, so it takes its size and color from the text around it. Only the names this system ships exist; an unknown name fails the typecheck.
+
+<IconGallery />
+
+## Using an icon
+
+<Source language="tsx" dark code={"import { Icon } from '@/components/ui/icon'\n\n<Icon name=\"close\" />"} />
+
+An icon is decorative by default and hidden from screen readers. Pass `label` when the icon alone carries the meaning; an icon-only button can take `aria-label` on the button instead.
+
+## Adding an icon
+
+1. Find the name on [Google Fonts](https://fonts.google.com/icons). Names use underscores, like `arrow_forward`.
+2. Add it to `ICON_NAMES` in `scripts/icons.manifest.mjs`.
+3. Run `node scripts/build-icons.mjs`. It regenerates `components/ui/icons.generated.ts` from `@material-symbols/svg-300/rounded`.
+4. Run `npm run registry:build` so the registry serves the updated `icon` item.
+5. Commit the manifest and the generated file together.

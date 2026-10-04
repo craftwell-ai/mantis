@@ -1,0 +1,26 @@
+export const usage = {
+  name: 'combobox',
+  kind: 'component',
+  summary: 'A searchable picker: type to filter a long list, then choose one item, such as a model, a preset or a collaborator.',
+  useWhen: [
+    'The list is long enough that scrolling is slow, such as dozens of presets or models.',
+    'People know roughly what they want and can type part of its name.',
+  ],
+  alternatives: [
+    { name: 'select', when: 'there are fewer than about ten options' },
+    { name: 'dropdown-menu', when: 'the list holds actions, not a value' },
+  ],
+  rules: [
+    {
+      id: 'helpful-empty-result',
+      do: 'Say what was searched and offer a next step when nothing matches, such as "No presets match \'neon\'".',
+      dont: 'Show an empty panel with no message.',
+      visual: true,
+    },
+  ],
+  a11y: [
+    'The input has the combobox role; arrow keys move through results and Enter selects.',
+    'Give the input a label (`aria-label`) naming what is being picked.',
+  ],
+  tokens: ['--field', '--popover', '--separator', '--accent', '--shadow-popover'],
+}

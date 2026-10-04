@@ -1,0 +1,26 @@
+export const usage = {
+  name: 'spinner',
+  kind: 'component',
+  summary: 'A small spinning ring that shows something is working, such as a button while it upscales or a tile while it queues.',
+  useWhen: [
+    'An action is in progress and its duration is unknown, such as "Upscaling" on a button.',
+    'An item waits in a queue, beside a short status such as "In queue".',
+  ],
+  alternatives: [
+    { name: 'progress', when: 'the amount done is known' },
+    { name: 'skeleton', when: 'a whole area is loading and its layout is known' },
+  ],
+  rules: [
+    {
+      id: 'spinner-with-words',
+      do: 'Pair the spinner with a word that says what is happening, such as "Upscaling".',
+      dont: 'Show a lone spinner for a long task with no status.',
+      visual: true,
+    },
+  ],
+  a11y: [
+    'Has the status role and announces its label (default "Loading"); pass a specific label.',
+    'Stops spinning for people who prefer reduced motion.',
+  ],
+  tokens: ['--muted-foreground'],
+}

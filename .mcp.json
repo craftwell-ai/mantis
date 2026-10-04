@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn", "mcp"]
+    },
+    "storybook": {
+      "type": "http",
+      "url": "http://localhost:6006/mcp"
+    }
+  }
+}

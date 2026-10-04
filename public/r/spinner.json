@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "Spinning progress ring with an announced label, for busy buttons and queued items.",
+  "dependencies": [
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/spinner.tsx",
+      "content": "import { cn } from \"@/lib/mantis-cn\"\nimport { Icon } from \"@/components/ui/icon\"\n\n// The reference's busy indicator: a spinning progress ring in the current\n// text color. The label is announced; the ring itself is decorative.\nfunction Spinner({\n  className,\n  label = \"Loading\",\n  ...props\n}: React.ComponentProps<\"span\"> & { label?: string }) {\n  return (\n    <span data-slot=\"spinner\" role=\"status\" className={cn(\"inline-flex items-center\", className)} {...props}>\n      <Icon name=\"progress_activity\" className=\"animate-spin motion-reduce:animate-none\" />\n      <span className=\"sr-only\">{label}</span>\n    </span>\n  )\n}\n\nexport { Spinner }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

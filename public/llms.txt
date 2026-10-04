@@ -1,0 +1,193 @@
+# Mantis Design System
+
+> The Mantis token layer (one dark, cinematic theme: the reference's source tokens plus semantic roles) and the core component set. Install this first; it is the one-install entry point for the design system. Version 0.1.0.
+
+Install any item with the shadcn CLI: `npx shadcn@latest add https://mantis-gold.vercel.app/r/base.json` for the base theme first, then components and blocks the same way. With the `@mantis` registry in your components.json, `npx shadcn@latest add @mantis/<name>` works too.
+
+## Theming
+
+- **One theme: `dark`.** It ships at `html:root` and applies everywhere. There is no other mode: never add a theme toggle, alternate-mode styles or `data-theme` islands.
+- **Accent** — one: it lives under `color.accent` as ordinary values, not a runtime-switchable variant.
+- **Overriding a variable in your app** — write `html:root { --primary: … }`, **not** `:root { … }`. The theme ships at `html:root` (specificity 0,1,1), so a bare `:root` override (0,1,0) silently loses no matter where it appears in the cascade.
+- **Radius, type, spacing and shadow are exact.** The theme ships its own `@theme inline` block, so `rounded-*`, `text-*`, spacing utilities and `shadow-*` compile to this system's values — once you delete the `--radius-*` and `--font-sans` lines from your own `@theme inline` block (Tailwind resolves duplicate `@theme` keys last-wins, and yours comes after the `@import`).
+- **Accessibility** — text ≥ 4.5:1, interactive/non-text ≥ 3:1 (WCAG 2.1 AA). Every token pair the components use is tested.
+
+## Docs
+
+- [Components](https://mantis-gold.vercel.app/llms-components.txt) — every component and block: what it is for, its intent tags, and its usage guide
+- [Tokens](https://mantis-gold.vercel.app/llms-tokens.txt) — the semantic color contract, type, radius, shadow and motion, and the source layer
+
+## Components
+
+- [Icon](https://mantis-gold.vercel.app/r/icon.json)
+- [Button](https://mantis-gold.vercel.app/r/button.json)
+- [Dialog](https://mantis-gold.vercel.app/r/dialog.json)
+- [Dropdown Menu](https://mantis-gold.vercel.app/r/dropdown-menu.json)
+- [Toaster](https://mantis-gold.vercel.app/r/sonner.json)
+- [Badge](https://mantis-gold.vercel.app/r/badge.json)
+- [Tooltip](https://mantis-gold.vercel.app/r/tooltip.json)
+- [Popover](https://mantis-gold.vercel.app/r/popover.json)
+- [Switch](https://mantis-gold.vercel.app/r/switch.json)
+- [Textarea](https://mantis-gold.vercel.app/r/textarea.json)
+- [Input](https://mantis-gold.vercel.app/r/input.json)
+- [Checkbox](https://mantis-gold.vercel.app/r/checkbox.json)
+- [Radio Group](https://mantis-gold.vercel.app/r/radio-group.json)
+- [Toggle](https://mantis-gold.vercel.app/r/toggle.json)
+- [Toggle Group](https://mantis-gold.vercel.app/r/toggle-group.json)
+- [Slider](https://mantis-gold.vercel.app/r/slider.json)
+- [Select](https://mantis-gold.vercel.app/r/select.json)
+- [Skeleton](https://mantis-gold.vercel.app/r/skeleton.json)
+- [Kbd](https://mantis-gold.vercel.app/r/kbd.json)
+- [Separator](https://mantis-gold.vercel.app/r/separator.json)
+- [Avatar](https://mantis-gold.vercel.app/r/avatar.json)
+- [Progress](https://mantis-gold.vercel.app/r/progress.json)
+- [Heading](https://mantis-gold.vercel.app/r/heading.json)
+- [Alert Dialog](https://mantis-gold.vercel.app/r/alert-dialog.json)
+- [Sheet](https://mantis-gold.vercel.app/r/sheet.json)
+- [Accordion](https://mantis-gold.vercel.app/r/accordion.json)
+- [Field](https://mantis-gold.vercel.app/r/field.json)
+- [Tabs](https://mantis-gold.vercel.app/r/tabs.json)
+- [Card](https://mantis-gold.vercel.app/r/card.json)
+- [Table](https://mantis-gold.vercel.app/r/table.json)
+- [Input Group](https://mantis-gold.vercel.app/r/input-group.json)
+- [Combobox](https://mantis-gold.vercel.app/r/combobox.json)
+- [Icon Tile](https://mantis-gold.vercel.app/r/icon-tile.json)
+- [Spinner](https://mantis-gold.vercel.app/r/spinner.json)
+- [Stepper](https://mantis-gold.vercel.app/r/stepper.json)
+- [Media Tile](https://mantis-gold.vercel.app/r/media-tile.json)
+- [Pagination](https://mantis-gold.vercel.app/r/pagination.json)
+- [Hello Card](https://mantis-gold.vercel.app/r/hello-card.json) — block
+- [Pricing Card](https://mantis-gold.vercel.app/r/pricing-card.json) — block
+- [Prompt Composer](https://mantis-gold.vercel.app/r/prompt-composer.json) — block
+- [Notification Settings](https://mantis-gold.vercel.app/r/notification-settings.json) — block
+- [Project Card](https://mantis-gold.vercel.app/r/project-card.json) — block
+- [Empty State](https://mantis-gold.vercel.app/r/empty-state.json) — block
+- [Model Picker](https://mantis-gold.vercel.app/r/model-picker.json) — block
+- [Studio Settings Panel](https://mantis-gold.vercel.app/r/studio-settings-panel.json) — block
+- [Preset Gallery](https://mantis-gold.vercel.app/r/preset-gallery.json) — block
+- [Add Media Panel](https://mantis-gold.vercel.app/r/add-media-panel.json) — block
+- [Plan Matrix](https://mantis-gold.vercel.app/r/plan-matrix.json) — block
+- [Usage Summary](https://mantis-gold.vercel.app/r/usage-summary.json) — block
+- [Session List](https://mantis-gold.vercel.app/r/session-list.json) — block
+- [Onboarding Steps](https://mantis-gold.vercel.app/r/onboarding-steps.json) — block
+- [Settings Section](https://mantis-gold.vercel.app/r/settings-section.json) — block
+- [Settings Nav](https://mantis-gold.vercel.app/r/settings-nav.json) — block
+- [Marketing Hero](https://mantis-gold.vercel.app/r/marketing-hero.json) — block
+- [Feature Grid](https://mantis-gold.vercel.app/r/feature-grid.json) — block
+- [Command Palette](https://mantis-gold.vercel.app/r/command-palette.json) — block
+- [Notifications Panel](https://mantis-gold.vercel.app/r/notifications-panel.json) — block
+- [Share Dialog](https://mantis-gold.vercel.app/r/share-dialog.json) — block
+- [Agent Approval Card](https://mantis-gold.vercel.app/r/agent-approval-card.json) — block
+- [Promo Modal](https://mantis-gold.vercel.app/r/promo-modal.json) — block
+- [Top Navigation](https://mantis-gold.vercel.app/r/top-navigation.json) — block
+- [Announcement Bar](https://mantis-gold.vercel.app/r/announcement-bar.json) — block
+- [Countdown](https://mantis-gold.vercel.app/r/countdown.json) — block
+- [Account Menu](https://mantis-gold.vercel.app/r/account-menu.json) — block
+- [Site Footer](https://mantis-gold.vercel.app/r/site-footer.json) — block
+- [Generation Feed](https://mantis-gold.vercel.app/r/generation-feed.json) — block
+- [Media Grid](https://mantis-gold.vercel.app/r/media-grid.json) — block
+- [Lightbox Inspector](https://mantis-gold.vercel.app/r/lightbox-inspector.json) — block
+- [How It Works](https://mantis-gold.vercel.app/r/how-it-works.json) — block
+- [Feed Post](https://mantis-gold.vercel.app/r/feed-post.json) — block
+- [Explore Page](https://mantis-gold.vercel.app/r/explore-page.json) — block
+- [Profile Page](https://mantis-gold.vercel.app/r/profile-page.json) — block
+- [Pricing Page](https://mantis-gold.vercel.app/r/pricing-page.json) — block
+- [Landing Page](https://mantis-gold.vercel.app/r/landing-page.json) — block
+- [Image Studio Page](https://mantis-gold.vercel.app/r/image-studio-page.json) — block
+- [Video Studio Page](https://mantis-gold.vercel.app/r/video-studio-page.json) — block
+- [Studio Home Page](https://mantis-gold.vercel.app/r/studio-home-page.json) — block
+- [Asset Library Page](https://mantis-gold.vercel.app/r/asset-library-page.json) — block
+- [App shell](https://mantis-gold.vercel.app/r/app-shell.json) — block
+- [App shell with sidebar](https://mantis-gold.vercel.app/r/app-shell-sidebar.json) — block
+- [Settings page](https://mantis-gold.vercel.app/r/settings-page.json) — block
+- [Canvas shell](https://mantis-gold.vercel.app/r/canvas-shell.json) — block
+
+## Usage guides
+
+- [accordion](https://mantis-gold.vercel.app/usage/accordion.md)
+- [account-menu](https://mantis-gold.vercel.app/usage/account-menu.md)
+- [add-media-panel](https://mantis-gold.vercel.app/usage/add-media-panel.md)
+- [agent-approval-card](https://mantis-gold.vercel.app/usage/agent-approval-card.md)
+- [alert-dialog](https://mantis-gold.vercel.app/usage/alert-dialog.md)
+- [announcement-bar](https://mantis-gold.vercel.app/usage/announcement-bar.md)
+- [app-shell](https://mantis-gold.vercel.app/usage/app-shell.md)
+- [app-shell-sidebar](https://mantis-gold.vercel.app/usage/app-shell-sidebar.md)
+- [asset-library-page](https://mantis-gold.vercel.app/usage/asset-library-page.md)
+- [avatar](https://mantis-gold.vercel.app/usage/avatar.md)
+- [badge](https://mantis-gold.vercel.app/usage/badge.md)
+- [button](https://mantis-gold.vercel.app/usage/button.md)
+- [canvas-shell](https://mantis-gold.vercel.app/usage/canvas-shell.md)
+- [card](https://mantis-gold.vercel.app/usage/card.md)
+- [checkbox](https://mantis-gold.vercel.app/usage/checkbox.md)
+- [combobox](https://mantis-gold.vercel.app/usage/combobox.md)
+- [command-palette](https://mantis-gold.vercel.app/usage/command-palette.md)
+- [countdown](https://mantis-gold.vercel.app/usage/countdown.md)
+- [dialog](https://mantis-gold.vercel.app/usage/dialog.md)
+- [dropdown-menu](https://mantis-gold.vercel.app/usage/dropdown-menu.md)
+- [empty-state](https://mantis-gold.vercel.app/usage/empty-state.md)
+- [explore-page](https://mantis-gold.vercel.app/usage/explore-page.md)
+- [feature-grid](https://mantis-gold.vercel.app/usage/feature-grid.md)
+- [feed-post](https://mantis-gold.vercel.app/usage/feed-post.md)
+- [field](https://mantis-gold.vercel.app/usage/field.md)
+- [generation-feed](https://mantis-gold.vercel.app/usage/generation-feed.md)
+- [heading](https://mantis-gold.vercel.app/usage/heading.md)
+- [hello-card](https://mantis-gold.vercel.app/usage/hello-card.md)
+- [how-it-works](https://mantis-gold.vercel.app/usage/how-it-works.md)
+- [icon](https://mantis-gold.vercel.app/usage/icon.md)
+- [icon-tile](https://mantis-gold.vercel.app/usage/icon-tile.md)
+- [image-studio-page](https://mantis-gold.vercel.app/usage/image-studio-page.md)
+- [input](https://mantis-gold.vercel.app/usage/input.md)
+- [input-group](https://mantis-gold.vercel.app/usage/input-group.md)
+- [kbd](https://mantis-gold.vercel.app/usage/kbd.md)
+- [landing-page](https://mantis-gold.vercel.app/usage/landing-page.md)
+- [lightbox-inspector](https://mantis-gold.vercel.app/usage/lightbox-inspector.md)
+- [marketing-hero](https://mantis-gold.vercel.app/usage/marketing-hero.md)
+- [media-grid](https://mantis-gold.vercel.app/usage/media-grid.md)
+- [media-tile](https://mantis-gold.vercel.app/usage/media-tile.md)
+- [model-picker](https://mantis-gold.vercel.app/usage/model-picker.md)
+- [notification-settings](https://mantis-gold.vercel.app/usage/notification-settings.md)
+- [notifications-panel](https://mantis-gold.vercel.app/usage/notifications-panel.md)
+- [onboarding-steps](https://mantis-gold.vercel.app/usage/onboarding-steps.md)
+- [pagination](https://mantis-gold.vercel.app/usage/pagination.md)
+- [plan-matrix](https://mantis-gold.vercel.app/usage/plan-matrix.md)
+- [popover](https://mantis-gold.vercel.app/usage/popover.md)
+- [preset-gallery](https://mantis-gold.vercel.app/usage/preset-gallery.md)
+- [pricing-card](https://mantis-gold.vercel.app/usage/pricing-card.md)
+- [pricing-page](https://mantis-gold.vercel.app/usage/pricing-page.md)
+- [profile-page](https://mantis-gold.vercel.app/usage/profile-page.md)
+- [progress](https://mantis-gold.vercel.app/usage/progress.md)
+- [project-card](https://mantis-gold.vercel.app/usage/project-card.md)
+- [promo-modal](https://mantis-gold.vercel.app/usage/promo-modal.md)
+- [prompt-composer](https://mantis-gold.vercel.app/usage/prompt-composer.md)
+- [radio-group](https://mantis-gold.vercel.app/usage/radio-group.md)
+- [select](https://mantis-gold.vercel.app/usage/select.md)
+- [separator](https://mantis-gold.vercel.app/usage/separator.md)
+- [session-list](https://mantis-gold.vercel.app/usage/session-list.md)
+- [settings-nav](https://mantis-gold.vercel.app/usage/settings-nav.md)
+- [settings-page](https://mantis-gold.vercel.app/usage/settings-page.md)
+- [settings-section](https://mantis-gold.vercel.app/usage/settings-section.md)
+- [share-dialog](https://mantis-gold.vercel.app/usage/share-dialog.md)
+- [sheet](https://mantis-gold.vercel.app/usage/sheet.md)
+- [site-footer](https://mantis-gold.vercel.app/usage/site-footer.md)
+- [skeleton](https://mantis-gold.vercel.app/usage/skeleton.md)
+- [slider](https://mantis-gold.vercel.app/usage/slider.md)
+- [sonner](https://mantis-gold.vercel.app/usage/sonner.md)
+- [spinner](https://mantis-gold.vercel.app/usage/spinner.md)
+- [stepper](https://mantis-gold.vercel.app/usage/stepper.md)
+- [studio-home-page](https://mantis-gold.vercel.app/usage/studio-home-page.md)
+- [studio-settings-panel](https://mantis-gold.vercel.app/usage/studio-settings-panel.md)
+- [switch](https://mantis-gold.vercel.app/usage/switch.md)
+- [table](https://mantis-gold.vercel.app/usage/table.md)
+- [tabs](https://mantis-gold.vercel.app/usage/tabs.md)
+- [textarea](https://mantis-gold.vercel.app/usage/textarea.md)
+- [toggle](https://mantis-gold.vercel.app/usage/toggle.md)
+- [toggle-group](https://mantis-gold.vercel.app/usage/toggle-group.md)
+- [tooltip](https://mantis-gold.vercel.app/usage/tooltip.md)
+- [top-navigation](https://mantis-gold.vercel.app/usage/top-navigation.md)
+- [usage-summary](https://mantis-gold.vercel.app/usage/usage-summary.md)
+- [video-studio-page](https://mantis-gold.vercel.app/usage/video-studio-page.md)
+
+## Links
+
+- [Theme item](https://mantis-gold.vercel.app/r/base.json) — the token layer (install first)
+- [Full registry index](https://mantis-gold.vercel.app/r/registry.json)

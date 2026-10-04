@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "heading",
+  "title": "Heading",
+  "description": "Page and section headings: uppercase Space Grotesk display levels hero/section/sub/label with measured responsive steps (768px, 1280px), HeadingAccent for one lime word, and Inter title levels for dialogs and panels.",
+  "dependencies": [
+    "@base-ui/react",
+    "class-variance-authority",
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/heading.tsx",
+      "content": "import { mergeProps } from \"@base-ui/react/merge-props\"\nimport { useRender } from \"@base-ui/react/use-render\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"@/lib/mantis-cn\"\n\n// Measured live at 390 / 800 / 1440px widths. Display levels are the\n// reference's signature uppercase Space Grotesk headings; md and xl match its\n// 768px and 1280px breakpoints. Titles are plain Inter for dialogs and panels.\nconst headingVariants = cva(\"text-balance text-foreground\", {\n  variants: {\n    level: {\n      hero: \"font-grotesk uppercase text-display-md md:text-display-lg xl:text-display-xl\",\n      section: \"font-grotesk uppercase text-display-md md:text-display-lg\",\n      sub: \"font-grotesk uppercase text-display-sm md:text-display-md\",\n      label: \"font-grotesk uppercase text-label-caps\",\n      title: \"text-title-md\",\n      \"title-sm\": \"text-title-sm\",\n    },\n  },\n  defaultVariants: { level: \"section\" },\n})\n\nconst defaultTag = { hero: \"h1\", section: \"h2\", sub: \"h3\", label: \"h4\", title: \"h2\", \"title-sm\": \"h3\" } as const\n\nfunction Heading({\n  className,\n  level = \"section\",\n  render,\n  ...props\n}: useRender.ComponentProps<\"h2\"> & VariantProps<typeof headingVariants>) {\n  return useRender({\n    defaultTagName: defaultTag[level ?? \"section\"],\n    props: mergeProps<\"h2\">({ className: cn(headingVariants({ level }), className) }, props),\n    render,\n    state: { slot: \"heading\", level },\n  })\n}\n\n// One word set in lime, as the reference does in its display headings.\nfunction HeadingAccent({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"heading-accent\" className={cn(\"text-brand-text\", className)} {...props} />\n}\n\nexport { Heading, HeadingAccent, headingVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

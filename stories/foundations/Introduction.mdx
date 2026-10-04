@@ -1,0 +1,45 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks'
+
+import registry from '../../registry.json'
+import { tokens } from '../../tokens/mantis.tokens.mjs'
+
+<Meta title="Foundations / Introduction" />
+
+# The {tokens.meta.name} design system
+
+This Storybook documents a shadcn registry: a small site that serves this design system's theme, components and blocks, so any app can install them with the shadcn CLI. Nothing is published to npm. An app copies the code in and owns it from then on.
+
+## Install
+
+Install the base item first. It brings the theme, the core components and the `Icon` component in one step:
+
+<Source language="bash" dark code={`npx shadcn@latest add ${registry.homepage}/r/base.json`} />
+
+Then add blocks by name, for example:
+
+<Source language="bash" dark code={`npx shadcn@latest add ${registry.homepage}/r/hello-card.json`} />
+
+The CLI leaves four steps to you: importing the theme file, removing the competing variables `shadcn init` wrote, setting `data-theme` on `<html>`, and loading the font. The base item's `meta.usage` in `registry.json` walks through each one.
+
+## One theme: dark
+
+Mantis ships a single theme, and it is dark. Set `data-theme="dark"` on `<html>`: the colors apply without it, but every `dark:` utility inside the installed components keys off that attribute. There is no light mode, so `<div data-theme="light">` switches nothing.
+
+## Content rule
+
+Everything in these examples is placeholder content made for this system:
+
+- Text is written fresh for a generic product; nothing is copied from another product or site.
+- Images are Picsum placeholders, `https://picsum.photos/seed/<name>/<width>/<height>`, with real alt text.
+- Icons are Material Symbols drawn by the `Icon` component; see Foundations / Icons.
+- Logo slots stay empty until you add your own mark.
+
+## Usage guides
+
+Every component and block has a usage guide: when to use it, what to use instead, do and don't rules, accessibility notes, and the tokens it reads. Each guide is written once, in `usage/<name>.usage.mjs`, and appears in three places:
+
+- at the top of the component's Docs page in this Storybook, with its examples in the DoDont story;
+- as markdown at `/usage/<name>.md` on the registry site, for example <code>{`${registry.homepage}/usage/button.md`}</code>;
+- linked from `/llms.txt`, so AI agents can read it too.
+
+After editing a guide, run `node scripts/build-usage.mjs` to regenerate the markdown pages.

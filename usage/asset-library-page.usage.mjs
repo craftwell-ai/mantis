@@ -1,0 +1,47 @@
+export const usage = {
+  name: 'asset-library-page',
+  kind: 'block',
+  summary: 'An asset library page template: the top navigation, a page header with the Upload action, filter tabs (All, Images, Videos, Uploads) and a name search, a grid of asset tiles selected with a corner checkbox, and a floating selection bar to download or delete in bulk (delete is confirmed). Shows skeletons while loading, a no-match state with Clear search, and the empty state with its one upload button when the library is empty. Composes top-navigation and empty-state.',
+  useWhen: [
+    'People need one place to find, filter and reuse everything they have generated or uploaded.',
+    'People act on several files at once, such as downloading a set or clearing out old uploads.',
+  ],
+  alternatives: [
+    { name: 'generation-feed', when: 'the page shows only generations, newest first, with their prompts' },
+    { name: 'add-media-panel', when: 'people pick a file to attach to a prompt rather than manage the library' },
+    { name: 'media-grid', when: 'the grid shows other people\'s public work with authors and likes' },
+  ],
+  rules: [
+    {
+      id: 'selection-is-lime-and-checked',
+      do: 'Mark a selected tile with the lime ring and a checked box, so selection is shown two ways.',
+      dont: 'Show selection by dimming the tile, which reads as disabled.',
+      visual: true,
+    },
+    {
+      id: 'one-upload-button',
+      do: 'Let the header carry Upload while there are assets, and the empty state carry it when there are none; the template swaps them for you.',
+      dont: 'Add a second Upload button to the toolbar or the selection bar.',
+      visual: false,
+    },
+    {
+      id: 'confirm-bulk-delete',
+      do: 'Pass `onDelete` and let the confirmation name how many assets go and where they are removed from.',
+      dont: 'Delete straight from the selection bar without a confirmation.',
+      visual: false,
+    },
+    {
+      id: 'replace-sample-content',
+      do: 'Pass your own data for every prop before shipping. Left out, a prop falls back to the invented sample product, Lumen, from sample-content, which is only there so the template previews with nothing filled in.',
+      dont: 'Ship the sample product, people and numbers to real users, such as Maya Okafor\'s account menu or a credit balance nobody has.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'The page title is the h1; filters are a tab list labelled "Asset type", and each tab\'s grid is its tab panel.',
+    'Each tile\'s checkbox is named "Select <name>" and stays in the tab order; it becomes visible on focus, on hover, once anything is selected, and always on touch screens.',
+    'The selection bar is a region labelled "Selection" whose count is announced politely as it changes; Clear selection is a named icon button.',
+    'The search field is a labelled search box with a Clear search button once something is typed.',
+  ],
+  tokens: ['--background', '--field', '--popover', '--glass-border', '--overlay', '--ring', '--muted-foreground', '--skeleton', '--destructive'],
+}

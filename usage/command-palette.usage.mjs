@@ -1,0 +1,46 @@
+export const usage = {
+  name: 'command-palette',
+  kind: 'block',
+  summary: 'The ⌘K search dialog: a search field, filter chips, recent searches, a row of featured cards and a two-column trending list. Typing switches to results grouped by category, and the arrow keys move through every row and card.',
+  useWhen: [
+    'People need one place to jump to any tool, model, preset or project from anywhere in the app, usually opened with ⌘K or a search pill in the top bar.',
+    'The app has more destinations than the navigation can show, and people already know the name of what they want.',
+  ],
+  alternatives: [
+    { name: 'combobox', when: 'the search picks one value for a field, such as a model in the composer, rather than taking people somewhere' },
+    { name: 'dropdown-menu', when: 'there are only a handful of actions and no need to type' },
+  ],
+  rules: [
+    {
+      id: 'browse-before-typing',
+      do: 'Fill the empty state with recents, a few featured cards and a trending list, so the palette is useful before anyone types.',
+      dont: 'Open on a bare search field with nothing under it; people who do not know the exact name are left guessing.',
+      visual: true,
+    },
+    {
+      id: 'describe-every-row',
+      do: 'Give every row an icon and a one-line description of what it does, such as "Extend a clip by up to ten seconds".',
+      dont: 'List bare names; a palette full of product names reads like a riddle to new people.',
+      visual: false,
+    },
+    {
+      id: 'chips-filter-not-navigate',
+      do: 'Use the chips to narrow the list to one kind of thing (tools, models, presets).',
+      dont: 'Turn chips into links to other pages. A chip that leaves the palette breaks the search people started.',
+      visual: false,
+    },
+    {
+      id: 'badges-sparingly',
+      do: 'Mark at most a few rows as new or hot.',
+      dont: 'Badge every row; when everything is new, nothing is.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'The search field is a combobox that owns the result listbox; the highlighted row is announced through aria-activedescendant while focus stays in the field.',
+    'Arrow Up and Down move through recents, featured cards and trending rows in reading order; Enter opens the highlighted one; Esc closes the dialog and returns focus to the trigger.',
+    'Each group (Recent, Featured, Trending, or a result category) is a labelled group inside the listbox.',
+    'Featured cards keep a dark scrim under their text so it stays readable over any photo; give every image real alt text.',
+  ],
+  tokens: ['--glass-panel', '--glass-border', '--field', '--glass', '--muted-foreground', '--foreground', '--background', '--badge-new', '--ring'],
+}

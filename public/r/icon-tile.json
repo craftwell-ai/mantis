@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-tile",
+  "title": "Icon Tile",
+  "description": "Small colored rounded square behind an icon for nav, menu and settings entries, colored from the reference's own palette pairs; decorative.",
+  "dependencies": [
+    "class-variance-authority",
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/icon-tile.tsx",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"@/lib/mantis-cn\"\nimport { Icon, type IconName } from \"@/components/ui/icon\"\n\n// The colored rounded square behind an icon that the reference uses in nav,\n// menus and settings, colored from its own palette pairs. Always decorative:\n// the label beside it carries the meaning.\nconst iconTileVariants = cva(\"inline-flex shrink-0 items-center justify-center\", {\n  variants: {\n    color: {\n      blue: \"bg-tile-blue text-tile-blue-foreground\",\n      purple: \"bg-tile-purple text-tile-purple-foreground\",\n      pink: \"bg-tile-pink text-tile-pink-foreground\",\n      orange: \"bg-tile-orange text-tile-orange-foreground\",\n      mint: \"bg-tile-mint text-tile-mint-foreground\",\n      brown: \"bg-tile-brown text-tile-brown-foreground\",\n      neutral: \"bg-secondary text-foreground\",\n    },\n    size: {\n      sm: \"size-5 rounded-md [&_svg]:size-3\",\n      md: \"size-6 rounded-md [&_svg]:size-3.5\",\n      lg: \"size-8 rounded-lg [&_svg]:size-4.5\",\n    },\n  },\n  defaultVariants: { color: \"neutral\", size: \"md\" },\n})\n\nfunction IconTile({\n  name,\n  color,\n  size,\n  className,\n  ...props\n}: Omit<React.ComponentProps<\"span\">, \"color\"> & VariantProps<typeof iconTileVariants> & { name: IconName }) {\n  return (\n    <span data-slot=\"icon-tile\" aria-hidden=\"true\" className={cn(iconTileVariants({ color, size }), className)} {...props}>\n      <Icon name={name} />\n    </span>\n  )\n}\n\nexport { IconTile, iconTileVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

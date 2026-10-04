@@ -1,0 +1,39 @@
+export const usage = {
+  name: 'how-it-works',
+  kind: 'block',
+  summary: 'A three-step explainer strip for a tool or landing page: an uppercase headline, then a row of steps, each with a picture, a number, a short uppercase title and one sentence.',
+  useWhen: [
+    'A tool page shows first-time visitors the path from input to result before they start.',
+    'A landing page explains a workflow in three plain steps.',
+  ],
+  alternatives: [
+    { name: 'empty-state', when: 'the space is an empty library waiting for its first item, with one button to start' },
+    { name: 'card', when: 'the items are features or products, not ordered steps' },
+  ],
+  rules: [
+    {
+      id: 'one-sentence-per-step',
+      do: 'Give each step a two- or three-word title and one sentence a person can act on.',
+      dont: 'Write a paragraph per step, or titles that are full sentences.',
+      visual: true,
+    },
+    {
+      id: 'show-the-step',
+      do: 'Use a picture that shows that step happening: the upload, the chosen style, the result.',
+      dont: 'Use the same decorative picture three times, or icons in place of media.',
+      visual: false,
+    },
+    {
+      id: 'three-steps',
+      do: 'Keep it to three steps; merge or drop the rest.',
+      dont: 'List six steps, which turns an explainer into a manual.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'Steps are an ordered list, so screen readers announce "1 of 3"; the visible number is hidden from them to avoid saying it twice.',
+    'The headline is an `h2` and each step title an `h3`.',
+    'Each picture needs `alt` describing what the step shows.',
+  ],
+  tokens: ['--card', '--glass', '--foreground', '--muted-foreground', '--brand-text'],
+}

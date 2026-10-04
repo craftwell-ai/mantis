@@ -1,0 +1,70 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { tokens } from '../../tokens/mantis.tokens.mjs'
+
+<Meta title="Foundations / Elevation" />
+
+export const modes = tokens.modes ?? ['light', 'dark']
+
+export const REF = /^\{([^{}]+)\}$/
+// A shadow value may alias a source token ('{group.token}') instead of
+// holding a literal value. The panel renders the CSS variable so the browser
+// resolves it in the current mode; the label below keeps showing the alias
+// text. Same naming rule as engine-core/token-model.mjs sourceVarName,
+// re-implemented locally — see SourceTokenTable.tsx for why.
+//
+// The DEFAULT mode is the one exception: there is deliberately no
+// `[data-theme="<default>"]` rule (the base block is `html:root`), while
+// Storybook's preview sets `data-theme` on `<html>` for whatever mode the
+// toolbar is on. So a `data-theme={defaultMode}` card nested under a `<html
+// data-theme="dark">` toolbar state inherits DARK's re-declared var(), not
+// the default mode's own value — every OTHER mode is fine because its own
+// `[data-theme="<mode>"]` rule matches the card directly, regardless of what
+// the toolbar or an ancestor is doing. So for the default mode only, resolve
+// the alias to a literal ourselves rather than handing the browser a var()
+// it would resolve in the wrong context.
+export const resolveDefault = (value, seen = []) => {
+  const path = typeof value === 'string' ? value.match(REF)?.[1] : undefined
+  if (path === undefined) return value
+  if (seen.includes(path)) throw new Error(`token alias cycle: {${[...seen, path].join('} -> {')}}`)
+  const leaf = path.split('.').reduce((node, key) => (node && typeof node === 'object' ? node[key] : undefined), tokens.source)
+  if (!leaf || typeof leaf !== 'object' || !('$value' in leaf)) throw new Error(`token alias {${path}} names nothing in tokens.source`)
+  return resolveDefault(leaf.$value, [...seen, path])
+}
+export const cssValue = (value, mode) => {
+  if (mode === modes[0]) return resolveDefault(value)
+  const match = typeof value === 'string' ? value.match(REF) : null
+  return match ? `var(--${[tokens.meta.name, ...match[1].split('.')].map((s) => String(s).replace(/[^A-Za-z0-9_-]/g, '-')).join('-')})` : value
+}
+
+# Elevation
+
+Each shadow step has a value per mode this system ships, because a shadow that reads on a light ground disappears on a dark one. The theme defines each step as a `--shadow-<step>` custom property and swaps the value with `data-theme`. Below, each is shown on a card over its own ground.
+
+{/* Column count is data-driven (one card per mode), so it can't be a static
+    Tailwind class. auto-fit restores what the old sm: breakpoint gave — many
+    columns on a wide screen, one on a phone — for any number of modes; the
+    minimum is wider than the color swatches' since each card holds every
+    shadow step. */}
+<div className="sb-unstyled grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(20rem, 1fr))' }}>
+  {modes.map((mode) => (
+    <div
+      key={mode}
+      data-theme={mode}
+      className="flex flex-col gap-6 rounded-xl p-6"
+      style={{ background: cssValue(tokens.color.ground.base[mode], mode), color: cssValue(tokens.color.text.primary[mode], mode) }}
+    >
+      <span className="text-sm font-semibold">{mode.charAt(0).toUpperCase() + mode.slice(1)}</span>
+      {Object.entries(tokens.shadow).map(([step, value]) => (
+        <div
+          key={step}
+          className="flex flex-col gap-1 rounded-lg p-4"
+          style={{ background: cssValue(tokens.color.surface.card[mode], mode), boxShadow: cssValue(value[mode], mode) }}
+        >
+          <code className="text-sm font-semibold">--shadow-{step}</code>
+          <code className="text-xs" style={{ color: cssValue(tokens.color.text.secondary[mode], mode) }}>{value[mode]}</code>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>

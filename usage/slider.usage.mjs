@@ -1,0 +1,31 @@
+export const usage = {
+  name: 'slider',
+  kind: 'component',
+  summary: 'Adjusts a value along a range by dragging a small white thumb, such as the zoom level of a generation grid.',
+  useWhen: [
+    'The exact number matters less than the feel, such as zooming a grid or setting motion strength.',
+  ],
+  alternatives: [
+    { name: 'toggle-group', when: 'only a few fixed values make sense, such as 1x, 2x and 4x' },
+    { name: 'input', when: 'people need to type an exact number, such as a seed' },
+  ],
+  rules: [
+    {
+      id: 'show-the-ends',
+      do: 'Put icons or labels at the ends that say what low and high mean, such as small and large tiles.',
+      dont: 'Show a bare slider with no hint of what moving it does.',
+      visual: true,
+    },
+    {
+      id: 'live-preview',
+      do: 'Update the result while the thumb moves.',
+      dont: 'Wait for release before showing anything, so people guess.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'Arrow keys change the value; Home and End jump to the ends.',
+    'Give it an `aria-label` such as "Grid zoom"; the value is announced as it changes.',
+  ],
+  tokens: ['--separator', '--primary', '--ring'],
+}

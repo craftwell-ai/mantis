@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "title": "Badge",
+  "description": "A short label beside the thing it describes: new (lime on lime 20%), neutral (white on white 20%), tag (solid lime caps), sale (pink caps), hot (pink gradient), value (blue gradient caps) and gold gradient text, measured from the reference. Commerce fills use WCAG-approved shades.",
+  "dependencies": [
+    "@base-ui/react",
+    "class-variance-authority",
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/badge.tsx",
+      "content": "import { mergeProps } from \"@base-ui/react/merge-props\"\nimport { useRender } from \"@base-ui/react/use-render\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"@/lib/mantis-cn\"\n\n// Sizes, type and colors measured on the reference product (docs/inventory.md).\n// Fills that failed WCAG use the owner-approved nearest passing shades.\nconst badgeVariants = cva(\n  \"group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border border-transparent leading-none whitespace-nowrap focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none [&>svg]:size-3!\",\n  {\n    variants: {\n      variant: {\n        // Lime on lime 20%: \"new\" and feature labels.\n        new: \"h-4 rounded-md bg-badge-new px-1.5 text-2xs font-bold tracking-[0.1px] text-badge-new-foreground\",\n        // White on white 20%: neutral counts and tiers.\n        neutral: \"h-3.5 rounded-sm bg-badge-neutral px-1 text-2xs font-semibold tracking-[0.2px] text-badge-neutral-foreground\",\n        // Solid lime uppercase tag.\n        tag: \"h-4.5 rounded-sm bg-brand px-1 text-2xs font-semibold tracking-[-0.3px] text-primary-foreground uppercase\",\n        // Pink uppercase sale tag in the grotesk face.\n        sale: \"h-4.5 rounded-sm bg-sale px-1.5 font-grotesk text-xs font-bold text-sale-foreground uppercase\",\n        // Pink gradient \"hot\" pill.\n        hot: \"h-3.5 rounded-[5px] bg-[image:var(--badge-hot)] px-[5px] text-2xs font-bold tracking-[0.1px] text-sale-foreground\",\n        // Blue gradient uppercase value tag.\n        value: \"h-4.5 rounded-sm bg-[image:var(--badge-value)] px-1.5 font-grotesk text-xs font-bold text-sale-foreground uppercase\",\n        // Gold gradient text with no fill.\n        gold: \"h-5 bg-[image:var(--text-gold)] bg-clip-text text-sm font-medium tracking-[0.1px] text-transparent\",\n        outline: \"h-5 rounded-md border-border px-1.5 text-xs font-medium text-foreground\",\n        destructive: \"h-5 rounded-md bg-destructive/10 px-1.5 text-xs font-medium text-destructive dark:bg-destructive/20\",\n      },\n    },\n    defaultVariants: {\n      variant: \"neutral\",\n    },\n  }\n)\n\nfunction Badge({\n  className,\n  variant = \"neutral\",\n  render,\n  ...props\n}: useRender.ComponentProps<\"span\"> & VariantProps<typeof badgeVariants>) {\n  return useRender({\n    defaultTagName: \"span\",\n    props: mergeProps<\"span\">(\n      {\n        className: cn(badgeVariants({ variant }), className),\n      },\n      props\n    ),\n    render,\n    state: {\n      slot: \"badge\",\n      variant,\n    },\n  })\n}\n\nexport { Badge, badgeVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

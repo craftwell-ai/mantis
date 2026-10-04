@@ -1,0 +1,123 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+# This workflow only reads the repo — no commits, comments, releases or uploads.
+# Declared explicitly so it keeps the read-only token even in an org whose
+# default is read/write.
+permissions: { contents: read }
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Node 24: quoted-glob positional args to `node --test` (below) need
+      # this. That CLI glob support landed in Node 21.0.0 (test_runner:
+      # support passing globs, nodejs/node#47653) and was never backported to
+      # the v20.x LTS line — on Node 20 these patterns are treated as literal
+      # paths and `node --test` exits non-zero with "Could not find ...".
+      # Pinned to 24, the LTS line this template is verified against.
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - run: npm ci
+      # `git add -A` before diffing, not plain `git diff --exit-code`: an
+      # unstaged diff cannot see an untracked file, so a generated file that was
+      # DELETED from the repo (or never committed) is regenerated above and then
+      # passes the gate by being invisible rather than by being in sync. Staging
+      # first is what makes it visible — same form SKILL.md Step 7 teaches.
+      - name: Generated files in sync
+        run: |
+          node scripts/build-tokens.mjs
+          node scripts/build-llms.mjs
+          node scripts/build-usage.mjs
+          node scripts/build-agents.mjs
+          git add -A && git diff --cached --exit-code
+      # build-tokens.mjs silently skips globals.css injection (and exits 0)
+      # when app/globals.css is absent — a deliberate guard so the same script
+      # runs in the template package (no Next.js app) as well as a generated
+      # repo. In a generated repo, though, app/globals.css always exists, and
+      # a skip here means tokens never made it into the app — from a wrong
+      # working directory or a half-finished scaffold. Nothing above would
+      # catch that, so assert the injection positively.
+      - name: Verify tokens wired into app/globals.css
+        run: |
+          test -f app/globals.css || { echo "::error::app/globals.css is missing — tokens were never wired into the app (wrong working directory, or an incomplete scaffold)"; exit 1; }
+          grep -qF -- '/* @tokens:start */' app/globals.css || { echo "::error::app/globals.css has no '/* @tokens:start */' marker — token injection never ran"; exit 1; }
+          grep -qF -- '/* @tokens:end */' app/globals.css || { echo "::error::app/globals.css has no '/* @tokens:end */' marker — token injection never ran"; exit 1; }
+          grep -qF -- '--background:' app/globals.css || { echo "::error::app/globals.css has no generated --background custom property — token injection produced no output"; exit 1; }
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      # THREE things are read out of the run summary, because `node --test`
+      # exits 0 in all three failure shapes below:
+      #
+      # 1. A glob that matches nothing still exits 0 with "tests 0" — a silent
+      #    pass indistinguishable from a real one in the job's green checkmark.
+      # 2. A run that merely LOSES tests also exits 0. The previous guard fired
+      #    only at exactly zero, so deleting one test file dropped the count and
+      #    stayed green (measured: removing scripts/derive-dark.test.mjs took
+      #    the count 56 -> 46, run green). A floor is the smallest mechanism
+      #    that fails on a single deleted file while still letting the suite
+      #    grow — raise MIN_TESTS as you add tests; lowering it must be a
+      #    deliberate, reviewable edit.
+      # 3. A SKIPPED test also exits 0, and one specific skip here is the whole
+      #    ballgame. `tokens/<name>.tokens.wcag.test.mjs`'s placeholder-survivor
+      #    guard is the only gate that can see "token derivation silently
+      #    no-opped and this repo shipped the template's brand" — the failure
+      #    that once got past a green suite. It is IDENTITY-gated: inert while
+      #    `tokens.meta.name` is still 'ds', live once SKILL.md's rename step
+      #    sets it to this client's name. If that rename never took, the guard
+      #    is skipped forever and CI reports green forever. Exactly one skip is
+      #    correct in the upstream TEMPLATE package (the guard correctly inert
+      #    while the template is still the template); zero is the only correct
+      #    number here, in a generated client repo.
+      #
+      # `shell: bash` IS LOAD-BEARING — do not delete it. A `run:` step with no
+      # `shell:` key runs under the runner's default `bash -e {0}`, which has NO
+      # `pipefail`: the pipeline below would then exit with `tee`'s status (0)
+      # and the zero-test guard would read a FAILING run's summary as a pass.
+      # Only an explicit `shell: bash` gets `bash --noprofile --norc -eo
+      # pipefail {0}`. Verified both directions: under `bash -e` a failing
+      # `node --test` through this exact body printed "Ran N test(s)." and
+      # exited 0; under `-eo pipefail` it exits 1 at the pipeline. The zero-test
+      # guard is unaffected — `node --test` genuinely exits 0 on an empty glob,
+      # so pipefail never short-circuits it.
+      - name: Engine tests (WCAG, meta, invariants, llms freshness)
+        shell: bash
+        env:
+          # Measured on the template package itself (113 tests, 2026-09-11). A
+          # generated repo runs the SAME test files, not a subset: SKILL.md
+          # Step 4 copies the whole engine core in unconditionally
+          # (`cp "$ENGINE"/*.mjs scripts/`), so every engine-core .mjs and
+          # .test.mjs — however many there are — lands in the client repo
+          # alongside this skill's own scripts/tokens tests. The init
+          # end-to-end generation task confirms this number against a real
+          # generated repo and raises it here if the measured count differs.
+          # Raise it whenever you add a test. The floor is >= 1, so it
+          # subsumes the zero-test guard.
+          MIN_TESTS: 113
+        run: |
+          summary=/tmp/engine-test-output.txt
+          node --test 'scripts/**/*.test.mjs' 'tokens/**/*.test.mjs' | tee "$summary"
+          test_count=$(grep -oE '(ℹ|#) tests [0-9]+' "$summary" | grep -oE '[0-9]+' | tail -1)
+          skipped_count=$(grep -oE '(ℹ|#) skipped [0-9]+' "$summary" | grep -oE '[0-9]+' | tail -1)
+          if [ -z "$test_count" ] || [ -z "$skipped_count" ]; then
+            echo "::error::could not read tests/skipped out of the run summary — the globs found nothing to run, or the reporter output changed shape. Failing explicitly rather than reading an absent number as a pass."
+            exit 1
+          fi
+          if [ "$test_count" -lt "$MIN_TESTS" ]; then
+            echo "::error::ran $test_count test(s), floor is $MIN_TESTS. A test file was deleted, or a glob stopped matching it. If tests were removed on purpose, lower MIN_TESTS in this workflow in the SAME commit so the drop is reviewable — a run that loses tests still exits 0 on its own."
+            exit 1
+          fi
+          if [ "$skipped_count" -ne 0 ]; then
+            echo "::error::$skipped_count test(s) skipped — expected 0 in a generated client repo. The usual cause is tokens/<name>.tokens.mjs still carrying meta.name: 'ds', which leaves the placeholder-survivor guard inert forever while CI reports green. Rename it to this system's name and re-run. A skip is correct ONLY in the upstream template package."
+            exit 1
+          fi
+          echo "Ran $test_count test(s) (floor $MIN_TESTS), 0 skipped."
+      - run: npm run registry:build
+      # Every story renders in headless Chromium and axe checks each one
+      # (.storybook/preview.tsx sets a11y.test to 'error'), so an accessibility
+      # regression in any component fails CI.
+      - run: npx playwright install --with-deps chromium
+      - name: Storybook — every story renders and passes axe
+        run: npm run test-storybook
+      - run: npm run build-storybook

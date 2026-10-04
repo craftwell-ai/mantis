@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "Dark #202227 placeholder with the reference's 2s vertical shimmer (stops under reduced motion), shaped like the content it stands in for.",
+  "dependencies": [
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/skeleton.tsx",
+      "content": "import { cn } from \"@/lib/mantis-cn\"\n\n// From the reference's .skeleton rule: #202227 with a soft dark band sweeping\n// upward every 2s. Motion stops for people who prefer reduced motion.\nfunction Skeleton({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      aria-hidden=\"true\"\n      className={cn(\n        \"relative overflow-hidden rounded-lg bg-skeleton after:absolute after:inset-0 after:translate-y-full after:bg-[image:var(--skeleton-shimmer)] after:content-[''] after:animate-shimmer motion-reduce:after:hidden\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Skeleton }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

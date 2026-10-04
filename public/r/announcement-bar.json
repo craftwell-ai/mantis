@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "announcement-bar",
+  "title": "Announcement Bar",
+  "description": "A full-width lime bar above the top navigation with one short message, a call-to-action link and a close button; an optional slot holds a compact countdown.",
+  "registryDependencies": [
+    "@mantis/button",
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/announcement-bar.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/mantis-cn\"\n\nimport { Button, buttonVariants } from \"@/components/ui/button\"\nimport { Icon } from \"@/components/ui/icon\"\n\nexport interface AnnouncementBarProps extends Omit<React.ComponentProps<\"section\">, \"children\"> {\n  /** One short sentence. Keep it to a single line on a laptop screen. */\n  message: React.ReactNode\n  /** Call-to-action label. Start with a verb. */\n  actionLabel?: string\n  /** Where the call to action goes. With an href it renders a link; without one, a button. */\n  actionHref?: string\n  /** Called when the call to action is pressed. */\n  onAction?: () => void\n  /** Optional element after the message, such as a small `Countdown`. */\n  aside?: React.ReactNode\n  /** Show the close button. Turn off only for notices people must keep seeing. */\n  dismissible?: boolean\n  /** Called after the bar is dismissed. Persist this if it should stay closed on the next visit. */\n  onDismiss?: () => void\n  /** Names the region for screen readers. */\n  label?: string\n}\n\n// Focus on lime: the system ring is lime too, so on this bar it would vanish.\n// The bar's own dark label color stands in for it.\nconst onLime = \"text-brand-foreground focus-visible:ring-brand-foreground/60\"\n\n// With an href the action is a real link (Base UI's Button would announce it as a button).\nconst actionClass = cn(buttonVariants({ variant: \"link\", size: \"xs\" }), \"h-auto px-0 font-semibold underline underline-offset-4\", onLime)\n\n// The reference's full-width lime bar: one message, one call to action, a close button.\nfunction AnnouncementBar({\n  message,\n  actionLabel,\n  actionHref,\n  onAction,\n  aside,\n  dismissible = true,\n  onDismiss,\n  label = \"Announcement\",\n  className,\n  ...props\n}: AnnouncementBarProps) {\n  const [open, setOpen] = React.useState(true)\n  if (!open) return null\n\n  return (\n    <section\n      aria-label={label}\n      data-slot=\"announcement-bar\"\n      className={cn(\n        \"relative flex min-h-10 w-full items-center justify-center bg-brand px-12 py-2 text-brand-foreground\",\n        className\n      )}\n      {...props}\n    >\n      <div className=\"flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-sm font-medium\">\n        <p>{message}</p>\n        {aside}\n        {actionLabel && actionHref ? (\n          <a href={actionHref} onClick={onAction} className={actionClass}>\n            {actionLabel}\n            <Icon name=\"arrow_forward\" />\n          </a>\n        ) : actionLabel ? (\n          <Button variant=\"link\" size=\"xs\" className={actionClass} onClick={onAction}>\n            {actionLabel}\n            <Icon name=\"arrow_forward\" />\n          </Button>\n        ) : null}\n      </div>\n      {dismissible ? (\n        <Button\n          variant=\"ghost\"\n          size=\"icon-xs\"\n          aria-label=\"Dismiss announcement\"\n          className={cn(\"absolute top-1/2 right-3 -translate-y-1/2 hover:bg-brand-foreground/10\", onLime)}\n          onClick={() => {\n            setOpen(false)\n            onDismiss?.()\n          }}\n        >\n          <Icon name=\"close\" />\n        </Button>\n      ) : null}\n    </section>\n  )\n}\n\nexport { AnnouncementBar }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "marketing",
+      "feedback"
+    ],
+    "use_when": "Something new or time-limited affects most visitors, such as a launch, a discount or planned downtime, and deserves one dismissible line above the whole site with a link to act on it"
+  },
+  "type": "registry:block"
+}

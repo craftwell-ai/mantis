@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "title": "Kbd",
+  "description": "A keyboard key such as ⌘K: 18px, 4px radius, white-5% fill, white-50% semibold text, measured from the reference's search pill.",
+  "dependencies": [
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/kbd.tsx",
+      "content": "import { cn } from \"@/lib/mantis-cn\"\n\n// Measured on the reference's search pill: 18px, 4px radius, white 5% fill,\n// white 50% semibold text.\nfunction Kbd({ className, ...props }: React.ComponentProps<\"kbd\">) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        \"pointer-events-none inline-flex h-4.5 w-fit min-w-4.5 items-center justify-center gap-1 rounded-sm bg-kbd px-1 font-sans text-xs font-semibold text-kbd-foreground select-none [&_svg:not([class*='size-'])]:size-3\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <kbd\n      data-slot=\"kbd-group\"\n      className={cn(\"inline-flex items-center gap-0.5\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Kbd, KbdGroup }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

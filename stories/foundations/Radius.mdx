@@ -1,0 +1,33 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { tokens } from '../../tokens/mantis.tokens.mjs'
+import { resolveValue } from '../../scripts/token-model.mjs'
+
+<Meta title="Foundations / Radius" />
+
+# Radius
+
+Each step of the radius scale. In this registry's own app, `rounded-xs` through `rounded-lg` use these values exactly.
+
+<div className="sb-unstyled flex flex-wrap gap-8">
+  {Object.entries(tokens.radius).map(([step, value]) => (
+    <div key={step} className="flex flex-col items-center gap-2 text-sm">
+      <div
+        aria-hidden="true"
+        style={{
+          width: 96,
+          height: 96,
+          borderRadius: resolveValue(tokens, value, tokens.modes[0]),
+          background: resolveValue(tokens, tokens.color.surface.inset[tokens.modes[0]], tokens.modes[0]),
+          boxShadow: `inset 0 0 0 1px ${resolveValue(tokens, tokens.color.line.control[tokens.modes[0]], tokens.modes[0])}`,
+        }}
+      />
+      <code>radius-{step}</code>
+      <span>{value}</span>
+    </div>
+  ))}
+</div>
+
+## In an app that installs this registry
+
+Every step is exact. The theme's own `@theme inline` block maps each `rounded-*` utility to its step, once the app deletes the stock `--radius-*` lines `shadcn init` wrote (the base item's `meta.usage` step 2). `--radius` itself holds the `lg` step (<code>{tokens.radius.lg}</code>), so any leftover stock formula still lands close.

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "title": "Toggle",
+  "description": "A single pressable button styled like one segment of a toggle group.",
+  "dependencies": [
+    "@base-ui/react",
+    "class-variance-authority",
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/toggle.tsx",
+      "content": "\"use client\"\n\nimport { Toggle as TogglePrimitive } from \"@base-ui/react/toggle\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"@/lib/mantis-cn\"\n\n// Measured on the reference product. segment: the selected option turns white\n// with dark 12px semibold text, others stay gray (32px, 10px radius). outline:\n// tiles such as aspect ratios, where the chosen one gets a 2px lime outline.\nconst toggleVariants = cva(\n  \"group/toggle inline-flex items-center justify-center gap-1 whitespace-nowrap transition-[background-color,color,border-color] duration-(--duration-normal) outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n  {\n    variants: {\n      variant: {\n        segment: \"bg-transparent text-soft-foreground hover:text-foreground data-pressed:bg-primary data-pressed:text-primary-foreground\",\n        outline: \"border-2 border-transparent bg-glass text-foreground hover:bg-glass-hover data-pressed:border-brand\",\n        ghost: \"bg-transparent text-foreground hover:bg-glass data-pressed:bg-secondary\",\n      },\n      size: {\n        sm: \"h-7 min-w-7 rounded-full px-3 text-xs font-medium\",\n        default: \"h-8 min-w-8 rounded-control px-3.5 text-xs font-semibold\",\n        lg: \"h-10 min-w-10 rounded-control px-2.5 text-sm font-semibold\",\n      },\n    },\n    defaultVariants: {\n      variant: \"segment\",\n      size: \"default\",\n    },\n  }\n)\n\nfunction Toggle({\n  className,\n  variant = \"segment\",\n  size = \"default\",\n  ...props\n}: TogglePrimitive.Props & VariantProps<typeof toggleVariants>) {\n  return (\n    <TogglePrimitive\n      data-slot=\"toggle\"\n      className={cn(toggleVariants({ variant, size, className }))}\n      {...props}\n    />\n  )\n}\n\nexport { Toggle, toggleVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

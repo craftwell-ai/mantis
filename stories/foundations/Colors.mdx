@@ -1,0 +1,105 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { tokens } from '../../tokens/mantis.tokens.mjs'
+
+<Meta title="Foundations / Colors" />
+
+export const groups = Object.entries(tokens.color)
+
+export const roleCount = groups.reduce((count, [, roles]) => count + Object.keys(roles).length, 0)
+
+export const modes = tokens.modes ?? ['light', 'dark']
+
+export const REF = /^\{([^{}]+)\}$/
+// A color role may alias a source token ('{group.token}') instead of holding
+// a literal value. The swatch renders the CSS variable so the browser
+// resolves it in the current mode; the label below keeps showing the alias
+// text. Same naming rule as engine-core/token-model.mjs sourceVarName,
+// re-implemented locally — see SourceTokenTable.tsx for why.
+//
+// The DEFAULT mode is the one exception: there is deliberately no
+// `[data-theme="<default>"]` rule (the base block is `html:root`), while
+// Storybook's preview sets `data-theme` on `<html>` for whatever mode the
+// toolbar is on. So a `data-theme={defaultMode}` cell nested under a `<html
+// data-theme="dark">` toolbar state inherits DARK's re-declared var(), not
+// the default mode's own value — every OTHER mode is fine because its own
+// `[data-theme="<mode>"]` rule matches the cell directly, regardless of what
+// the toolbar or an ancestor is doing. So for the default mode only, resolve
+// the alias to a literal ourselves rather than handing the browser a var()
+// it would resolve in the wrong context.
+export const resolveDefault = (value, seen = []) => {
+  const path = typeof value === 'string' ? value.match(REF)?.[1] : undefined
+  if (path === undefined) return value
+  if (seen.includes(path)) throw new Error(`token alias cycle: {${[...seen, path].join('} -> {')}}`)
+  const leaf = path.split('.').reduce((node, key) => (node && typeof node === 'object' ? node[key] : undefined), tokens.source)
+  if (!leaf || typeof leaf !== 'object' || !('$value' in leaf)) throw new Error(`token alias {${path}} names nothing in tokens.source`)
+  return resolveDefault(leaf.$value, [...seen, path])
+}
+export const cssValue = (value, mode) => {
+  if (mode === modes[0]) return resolveDefault(value)
+  const match = typeof value === 'string' ? value.match(REF) : null
+  return match ? `var(--${[tokens.meta.name, ...match[1].split('.')].map((s) => String(s).replace(/[^A-Za-z0-9_-]/g, '-')).join('-')})` : value
+}
+
+export const Swatch = ({ value, ground, mode }) => (
+  <div data-theme={mode} className="flex items-center gap-3">
+    <div
+      aria-hidden="true"
+      style={{
+        width: 56,
+        height: 40,
+        flexShrink: 0,
+        borderRadius: 6,
+        boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 0.12)',
+        background: `linear-gradient(${cssValue(value, mode)}, ${cssValue(value, mode)}), ${cssValue(ground, mode)}`,
+      }}
+    />
+    <div className="flex flex-col text-xs">
+      <span className="font-semibold">{mode.charAt(0).toUpperCase() + mode.slice(1)}</span>
+      <code>{value}</code>
+    </div>
+  </div>
+)
+
+# Colors
+
+{roleCount} color roles in {groups.length} groups: {groups.map(([group]) => group).join(', ')}. Each role has a value per mode this system ships. The theme defines every role as a CSS custom property named after its group and role, and swaps the value when `data-theme` changes. Translucent roles are shown over their own ground. A value in braces (`{group.token}`) aliases a source token — the swatch shows its resolved color, and the label keeps the alias text.
+
+<div className="sb-unstyled flex flex-col gap-8">
+  {groups.map(([group, roles]) => (
+    <section key={group} className="flex flex-col">
+      <h2 className="mb-2 text-base font-semibold capitalize">{group}</h2>
+      {Object.entries(roles).map(([role, value]) => (
+        // Column count is data-driven (one per mode, plus the token-name cell), so
+        // it can't be a static Tailwind class. auto-fit restores what the old
+        // sm: breakpoint gave — many columns on a wide screen, one on a phone —
+        // for any number of modes.
+        <div key={role} className="grid items-center gap-3 border-b py-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))' }}>
+          <code className="text-sm">{`--${group}-${role}`}</code>
+          {modes.map((mode) => <Swatch key={mode} value={value[mode]} ground={tokens.color.ground.base[mode]} mode={mode} />)}
+        </div>
+      ))}
+    </section>
+  ))}
+</div>
+
+## shadcn aliases
+
+The stock shadcn components read shadcn's own variable names. The theme points each of them at a design-system role, so changing a role restyles every component that uses it.
+
+<table>
+  <thead>
+    <tr>
+      <th>shadcn variable</th>
+      <th>Design-system variable</th>
+    </tr>
+  </thead>
+  <tbody>
+    {Object.entries(tokens.shadcn).map(([name, target]) => (
+      <tr key={name}>
+        <td><code>{`--${name}`}</code></td>
+        <td><code>{target.replace(/^var\((.+)\)$/, '$1')}</code></td>
+      </tr>
+    ))}
+  </tbody>
+</table>

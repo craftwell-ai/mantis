@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio-group",
+  "title": "Radio Group",
+  "description": "Choose exactly one option: 20px radios matching the checkbox, or whole RadioGroupCard cards with a lime outline and corner check when chosen.",
+  "dependencies": [
+    "@base-ui/react",
+    "cn"
+  ],
+  "registryDependencies": [
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/radio-group.tsx",
+      "content": "\"use client\"\n\nimport { Radio as RadioPrimitive } from \"@base-ui/react/radio\"\nimport { RadioGroup as RadioGroupPrimitive } from \"@base-ui/react/radio-group\"\nimport { cn } from \"@/lib/mantis-cn\"\nimport { Icon } from \"@/components/ui/icon\"\n\nfunction RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {\n  return (\n    <RadioGroupPrimitive\n      data-slot=\"radio-group\"\n      className={cn(\"grid w-full gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\n// Matches the checkbox: 20px, 2px control-border ring, lime when chosen.\nfunction RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {\n  return (\n    <RadioPrimitive.Root\n      data-slot=\"radio-group-item\"\n      className={cn(\n        \"group/radio-group-item peer relative flex aspect-square size-5 shrink-0 rounded-full border-2 border-input outline-none transition-[border-color,background-color] duration-(--duration-normal) after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-50 aria-invalid:border-destructive data-checked:border-transparent data-checked:bg-brand\",\n        className\n      )}\n      {...props}\n    >\n      <RadioPrimitive.Indicator\n        data-slot=\"radio-group-indicator\"\n        className=\"flex size-full items-center justify-center\"\n      >\n        <span className=\"size-2 rounded-full bg-primary-foreground\" />\n      </RadioPrimitive.Indicator>\n    </RadioPrimitive.Root>\n  )\n}\n\n// A whole card is the choice: lime outline and a lime corner check when\n// chosen, as in the reference's onboarding and visibility pickers.\nfunction RadioGroupCard({ className, children, ...props }: RadioPrimitive.Root.Props) {\n  return (\n    <RadioPrimitive.Root\n      data-slot=\"radio-group-card\"\n      className={cn(\n        \"group/radio-card relative flex flex-col items-start gap-1 rounded-xl border-2 border-transparent bg-glass p-4 text-left text-sm text-foreground outline-none transition-[border-color,filter] duration-(--duration-normal) hover:brightness-110 focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-checked:border-brand\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n      <span\n        aria-hidden=\"true\"\n        className=\"absolute top-3 right-3 flex size-4.5 items-center justify-center rounded-full border-2 border-input group-data-checked/radio-card:border-transparent group-data-checked/radio-card:bg-brand group-data-checked/radio-card:text-primary-foreground [&_svg]:size-3\"\n      >\n        <RadioPrimitive.Indicator render={<Icon name=\"check\" />} />\n      </span>\n    </RadioPrimitive.Root>\n  )\n}\n\nexport { RadioGroup, RadioGroupItem, RadioGroupCard }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
