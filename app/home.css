@@ -1,0 +1,33 @@
+/* Home page only. The values here are the documented exceptions from the home
+   page design: sizes and colors that have no Mantis token and are used nowhere
+   else. Everything else on the page comes from token utilities. */
+
+.home {
+  --home-body: #a3a4a5; /* hero paragraph */
+  --home-pill: #cfd0d1; /* hero pill text */
+  --home-void: #0b0c0e; /* canvas backdrop, a step darker than the page */
+  --home-ink: #08090a; /* the mantis body once the eyes are lit */
+  --home-spark: #9ce6f3; /* one in five particles */
+  --home-eye-core: #f0ff8c;
+  --home-eye-edge: #a0c80a;
+}
+
+.home-hero-title {
+  font-size: clamp(44px, 6.2vw, 88px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Darkens the middle of the canvas so the headline stays readable. */
+.home-hero-vignette {
+  background: radial-gradient(
+    60% 55% at 50% 50%,
+    color-mix(in srgb, var(--background) 82%, transparent),
+    color-mix(in srgb, var(--background) 45%, transparent) 60%,
+    color-mix(in srgb, var(--background) 15%, transparent)
+  );
+}
+
+.home-hero-fade {
+  background: linear-gradient(to bottom, transparent, var(--background));
+}

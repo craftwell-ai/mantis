@@ -117,7 +117,7 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 
 ## Icons
 
-112 icons are bundled; their names are in `scripts/icons.manifest.mjs` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). Any other Material Symbols Rounded name works after adding it to that file and running `node scripts/build-icons.mjs`.
+115 icons are bundled; their names are in `scripts/icons.manifest.mjs` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). Any other Material Symbols Rounded name works after adding it to that file and running `node scripts/build-icons.mjs`.
 
 ## Look things up
 

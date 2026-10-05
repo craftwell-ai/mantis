@@ -13,8 +13,9 @@ AGENTS.md (imported above) is how to *use* Mantis: components, props, tokens, ru
 
 ## Where it lives
 
-- **Live:** https://mantis-gold.vercel.app (Vercel project `mantis`, team `craftwell-ais-projects`, public). Registry at `/r/<name>.json`, Storybook at `/storybook/`, guides at `/usage/<name>.md`, `llms.txt`, `design.md`.
+- **Live:** https://mantisdesignsystem.com (domain registered at GoDaddy, DNS pointed at Vercel on 2026-10-04) and https://mantis-gold.vercel.app, the same deployment (Vercel project `mantis`, team `craftwell-ais-projects`, public). Registry at `/r/<name>.json`, Storybook at `/storybook/`, guides at `/usage/<name>.md`, `llms.txt`, `design.md`.
 - **Deploy:** `vercel deploy --prod --scope craftwell-ais-projects` after the gates below pass. `npm run build` builds Storybook into `public/storybook` first. Deploying is outward-facing: only with the owner's OK.
+- **Home page:** `app/page.tsx` with its parts in `components/home/`. The site address and fixed links are in `lib/site.ts`; the counts it shows are read from the repo by `lib/site-stats.ts`. `app/home.css` holds the few values the home page design uses that have no token; nothing else should read them.
 - `components.json` keeps `@mantis` pointed at `http://localhost:3000` on purpose, so work in this repo installs unpublished changes from `npm run dev`.
 
 ## Workflow rules

@@ -15,4 +15,7 @@ export const theme = create({
   base: isDarkGround ? 'dark' : 'light',
   ...managerTheme,
   brandImage: './brand/mantis-logo.svg',
+  // Storybook is served at /storybook/ beside the home page, so the logo is the way back to it.
+  brandUrl: '/',
+  brandTarget: '_self',
 })
