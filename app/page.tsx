@@ -24,7 +24,7 @@ const NAV = [
   { label: "For agents", href: "#agents" },
 ]
 
-const BUILT_FOR = ["Claude Code", "Cursor", "shadcn CLI"]
+const BUILT_FOR = ["Claude Code", "Cursor"]
 
 const SWATCHES = [
   { label: "page", className: "bg-background" },
@@ -148,7 +148,7 @@ export default function Home() {
             </Heading>
             <p className="max-w-150 text-lg leading-relaxed text-(color:--home-body)">
               Mantis is a futuristic design system for AI-powered creative tools and studios. Install components and whole
-              studio pages from one shadcn registry, by hand or by prompting your coding agent.
+              studio pages with one command, by hand or by prompting your coding agent.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a href="#foundations" className={buttonVariants({ variant: "brand", depth: "raised", size: "xl" })}>

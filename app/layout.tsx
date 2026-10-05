@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 const title = "Mantis Design System"
 const description =
-  "A futuristic design system for AI-powered creative tools and studios: tokens, components, blocks and page templates in one shadcn registry, for people and coding agents."
+  "A futuristic design system for AI-powered creative tools and studios: tokens, components, blocks and page templates you install with one command, for people and coding agents."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
