@@ -17,7 +17,11 @@ const config: StorybookConfig = {
   ],
   framework: '@storybook/nextjs-vite',
   // The sidebar logo; theme.ts points brandImage at /brand/mantis-logo.svg.
-  staticDirs: [{ from: './brand', to: '/brand' }],
+  // root/ holds Storybook's own favicon, the same mantis tile as the site's app/icon.svg.
+  staticDirs: [
+    { from: './brand', to: '/brand' },
+    { from: './root', to: '/' },
+  ],
 }
 
 export default config
