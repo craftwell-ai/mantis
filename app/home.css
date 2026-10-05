@@ -31,3 +31,16 @@
 .home-hero-fade {
   background: linear-gradient(to bottom, transparent, var(--background));
 }
+
+/* The Canvas card's drawing: a dotted board and a blurred reference thumbnail. */
+.home-canvas-dots {
+  background-color: var(--background);
+  background-image: radial-gradient(color-mix(in srgb, var(--foreground) 9%, transparent) 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+.home-canvas-thumb {
+  background:
+    radial-gradient(120% 90% at 30% 30%, color-mix(in srgb, var(--chart-3) 45%, transparent), transparent 60%),
+    var(--secondary);
+}
