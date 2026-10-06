@@ -4,8 +4,8 @@
   "title": "Workflow Canvas",
   "description": "A node-and-wire editor for chaining generation steps: draggable step cards with an icon tile, title, detail and setting chips, wires drawn by dragging between connection points, pan and zoom, an Add step menu, Tidy up (automatic left-to-right layout), Remove, and the lime Run button with its live credit cost. Dragging and wiring come from React Flow (@xyflow/react) and the layout from dagre. Takes the step types, optional starting steps and connections, and onChange and onRun callbacks.",
   "dependencies": [
-    "@dagrejs/dagre",
-    "@xyflow/react"
+    "@dagrejs/dagre@^3.1.1",
+    "@xyflow/react@^12.12.0"
   ],
   "registryDependencies": [
     "@mantis/button",

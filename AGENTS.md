@@ -100,6 +100,7 @@ Ready-made patterns in `registry/<name>.tsx`. Reuse or extend one before composi
 - `how-it-works` (marketing, content) — You are explaining a tool or workflow to first-time visitors in three ordered steps on a…
 - `feed-post` (content, messaging) — You are listing what people have shared in a community feed or on a profile, with reactions,…
 - `workflow-canvas` (productivity, form) — People chain several generation steps (such as prompt and reference into a model, then upscale)…
+- `event-map` (productivity, data-display, form) — People mark where something happened or will happen (a point, a radius or a drawn part of a…
 
 **Page templates** (whole pages composed from the patterns above; start a new screen from the closest one): `explore-page`, `profile-page`, `pricing-page`, `landing-page`, `image-studio-page`, `video-studio-page`, `studio-home-page`, `asset-library-page`, `app-shell`, `app-shell-sidebar`, `settings-page`, `canvas-shell`.
 
@@ -118,7 +119,7 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 
 ## Icons
 
-117 icons are bundled; their names are in `scripts/icons.manifest.mjs` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). Any other Material Symbols Rounded name works after adding it to that file and running `node scripts/build-icons.mjs`.
+119 icons are bundled; their names are in `scripts/icons.manifest.mjs` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). Any other Material Symbols Rounded name works after adding it to that file and running `node scripts/build-icons.mjs`.
 
 ## Look things up
 

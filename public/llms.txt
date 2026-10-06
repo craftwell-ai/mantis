@@ -102,6 +102,7 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [Settings page](https://mantisdesignsystem.com/r/settings-page.json) — block
 - [Canvas shell](https://mantisdesignsystem.com/r/canvas-shell.json) — block
 - [Workflow Canvas](https://mantisdesignsystem.com/r/workflow-canvas.json) — block
+- [Event Map](https://mantisdesignsystem.com/r/event-map.json) — block
 
 ## Usage guides
 
@@ -126,6 +127,7 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [dialog](https://mantisdesignsystem.com/usage/dialog.md)
 - [dropdown-menu](https://mantisdesignsystem.com/usage/dropdown-menu.md)
 - [empty-state](https://mantisdesignsystem.com/usage/empty-state.md)
+- [event-map](https://mantisdesignsystem.com/usage/event-map.md)
 - [explore-page](https://mantisdesignsystem.com/usage/explore-page.md)
 - [feature-grid](https://mantisdesignsystem.com/usage/feature-grid.md)
 - [feed-post](https://mantisdesignsystem.com/usage/feed-post.md)

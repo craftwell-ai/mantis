@@ -2130,12 +2130,48 @@
         "@mantis/mantis-cn"
       ],
       "dependencies": [
-        "@dagrejs/dagre",
-        "@xyflow/react"
+        "@dagrejs/dagre@^3.1.1",
+        "@xyflow/react@^12.12.0"
       ],
       "files": [
         {
           "path": "registry/workflow-canvas.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "event-map",
+      "type": "registry:block",
+      "title": "Event Map",
+      "description": "A map for logging events at places: tools to drop a pin or draw a circle or an area, a form for the event's title, type and notes, a list of saved events and a marker for each one, with details and Remove. Built on MapLibre with Terra Draw for drawing; the default dark street map is OpenFreeMap (free, no key), and a blank map or any MapLibre style can be passed instead. Takes the event types, optional starting events, and onEventsChange and onCreate callbacks.",
+      "meta": {
+        "intent": [
+          "productivity",
+          "data-display",
+          "form"
+        ],
+        "use_when": "People mark where something happened or will happen (a point, a radius or a drawn part of a town or village) and attach details to it"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/field",
+        "@mantis/icon",
+        "@mantis/icon-tile",
+        "@mantis/input",
+        "@mantis/select",
+        "@mantis/textarea",
+        "@mantis/toggle-group",
+        "@mantis/mantis-cn"
+      ],
+      "dependencies": [
+        "maplibre-gl@^5.24.0",
+        "terra-draw@^1.36.0",
+        "terra-draw-maplibre-gl-adapter@^1.4.1"
+      ],
+      "files": [
+        {
+          "path": "registry/event-map.tsx",
           "type": "registry:component"
         }
       ]

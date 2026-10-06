@@ -31,8 +31,13 @@ const ours = new Set(registry.items.map((entry) => entry.name))
 const registryDependencies = [...new Set(imported.filter((dep) => dep !== 'icons.generated').map((dep) => (ours.has(dep) ? `${ns}/${dep}` : dep)))]
 if (source.includes('@/lib/mantis-cn')) registryDependencies.push(`${ns}/mantis-cn`)
 // Third-party packages imported directly by the block; the CLI installs them with it.
+const installed = JSON.parse(readFileSync('package.json', 'utf8')).dependencies
 const provided = new Set(['react', 'react-dom', 'next'])
-const npmDependencies = [...new Set([...source.matchAll(/from ["']((?:@[\w-]+\/)?[\w-]+)(?:\/[^"']*)?["']/g)].map((m) => m[1]).filter((dep) => !dep.startsWith('@/') && !provided.has(dep)))]
+// Covers `from "x"`, a bare `import "x/file.css"` and a lazy `import("x")`.
+const npmDependencies = [...new Set([...source.matchAll(/(?:from\s+|import\s*\(?\s*)["']((?:@[\w-]+\/)?[\w-]+)(?:\/[^"']*)?["']/g)].map((m) => m[1]).filter((dep) => !dep.startsWith('@/') && !provided.has(dep)))]
+  .sort()
+  // Pin each package to the range this repo is tested with, so an app does not get a newer major.
+  .map((dep) => (installed[dep] ? `${dep}@${installed[dep]}` : dep))
 const item = {
   name,
   type: 'registry:block',
