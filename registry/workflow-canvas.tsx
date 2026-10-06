@@ -266,6 +266,9 @@ function Board({
         maxZoom={2}
         fitView
         fitViewOptions={{ padding: 0.2 }}
+        // Owner decision (2026-10-05): no React Flow badge on the board. The MIT license allows it; the
+        // makers ask teams who hide it to support them at https://reactflow.dev/remove-attribution.
+        proOptions={{ hideAttribution: true }}
       >
         <Background variant={BackgroundVariant.Dots} gap={20} size={1.5} color="var(--divider)" />
 
