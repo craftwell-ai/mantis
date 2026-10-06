@@ -99,6 +99,7 @@ Ready-made patterns: `npx shadcn@latest add @mantis/<name>` installs one into `c
 - `lightbox-inspector` (data-display, productivity) — Someone opens one generation from a feed or gallery to see it large, read its prompt and…
 - `how-it-works` (marketing, content) — You are explaining a tool or workflow to first-time visitors in three ordered steps on a…
 - `feed-post` (content, messaging) — You are listing what people have shared in a community feed or on a profile, with reactions,…
+- `workflow-canvas` (productivity, form) — People chain several generation steps (such as prompt and reference into a model, then upscale)…
 
 **Page templates** (whole pages composed from the patterns above; start a new screen from the closest one): `explore-page`, `profile-page`, `pricing-page`, `landing-page`, `image-studio-page`, `video-studio-page`, `studio-home-page`, `asset-library-page`, `app-shell`, `app-shell-sidebar`, `settings-page`, `canvas-shell`.
 
@@ -117,7 +118,7 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 
 ## Icons
 
-115 icons are bundled; their names are the keys of `components/ui/icons.generated.ts` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). `IconName` is a typed union, so an unknown name fails the typecheck. A missing icon needs a new Mantis release; ask the owner.
+116 icons are bundled; their names are the keys of `components/ui/icons.generated.ts` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). `IconName` is a typed union, so an unknown name fails the typecheck. A missing icon needs a new Mantis release; ask the owner.
 
 ## Look things up
 

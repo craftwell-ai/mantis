@@ -101,6 +101,7 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [App shell with sidebar](https://mantisdesignsystem.com/r/app-shell-sidebar.json) — block
 - [Settings page](https://mantisdesignsystem.com/r/settings-page.json) — block
 - [Canvas shell](https://mantisdesignsystem.com/r/canvas-shell.json) — block
+- [Workflow Canvas](https://mantisdesignsystem.com/r/workflow-canvas.json) — block
 
 ## Usage guides
 
@@ -186,6 +187,7 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [top-navigation](https://mantisdesignsystem.com/usage/top-navigation.md)
 - [usage-summary](https://mantisdesignsystem.com/usage/usage-summary.md)
 - [video-studio-page](https://mantisdesignsystem.com/usage/video-studio-page.md)
+- [workflow-canvas](https://mantisdesignsystem.com/usage/workflow-canvas.md)
 
 ## Links
 

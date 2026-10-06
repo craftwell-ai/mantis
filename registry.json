@@ -2107,6 +2107,37 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "workflow-canvas",
+      "type": "registry:block",
+      "title": "Workflow Canvas",
+      "description": "A node-and-wire editor for chaining generation steps: draggable step cards with an icon tile, title, detail and setting chips, wires drawn by dragging between connection points, pan and zoom, an Add step menu, Remove, and the lime Run button with its live credit cost. Dragging and wiring come from React Flow (@xyflow/react). Takes the step types, optional starting steps and connections, and onChange and onRun callbacks.",
+      "meta": {
+        "intent": [
+          "productivity",
+          "form"
+        ],
+        "use_when": "People chain several generation steps (such as prompt and reference into a model, then upscale) and need to see, rewire and run the pipeline on a board"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/dropdown-menu",
+        "@mantis/icon",
+        "@mantis/icon-tile",
+        "@mantis/separator",
+        "@mantis/spinner",
+        "@mantis/mantis-cn"
+      ],
+      "dependencies": [
+        "@xyflow/react"
+      ],
+      "files": [
+        {
+          "path": "registry/workflow-canvas.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

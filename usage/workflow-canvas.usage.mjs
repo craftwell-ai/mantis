@@ -1,0 +1,49 @@
+export const usage = {
+  name: 'workflow-canvas',
+  kind: 'block',
+  summary: 'A node-and-wire editor for chaining generation steps: step cards people drag around a dotted board, wires drawn by dragging from one card to another, pan and zoom, an Add step menu and one lime Run button with the live credit cost.',
+  useWhen: [
+    'People build a pipeline out of steps, such as prompt and reference into a model, then upscale, and need to see and change how the steps connect.',
+    'A generation needs more than one stage, and the order or the branching is the person\'s choice.',
+  ],
+  alternatives: [
+    { name: 'prompt-composer', when: 'one prompt goes to one model; a single composer is faster than a board' },
+    { name: 'studio-settings-panel', when: 'the stages are fixed and only their settings change' },
+    { name: 'canvas-shell', when: 'people arrange pictures, notes and shapes freely and nothing connects to anything' },
+    { name: 'how-it-works', when: 'you are explaining three fixed steps on a marketing page, not letting anyone edit them' },
+  ],
+  rules: [
+    {
+      id: 'left-to-right',
+      do: 'Lay a workflow out left to right: what feeds a step sits on its left, what it produces on its right.',
+      dont: 'Place steps so wires run backwards or cross; the board should read in the order it runs.',
+      visual: false,
+    },
+    {
+      id: 'one-run-button',
+      do: 'Keep Run as the only lime button, and let it carry the total credit cost of the steps on the board.',
+      dont: 'Add a lime button to each step card, or hide the cost until after the run.',
+      visual: false,
+    },
+    {
+      id: 'name-step-types-plainly',
+      do: 'Name step types by what they do (Prompt, Model, Upscale) and give each a stable icon-tile color.',
+      dont: 'Use internal names or give two step types the same color; the color is how people find a step at a glance.',
+      visual: false,
+    },
+    {
+      id: 'save-on-change',
+      do: 'Save the workflow from `onChange`, which fires after every move, addition, removal and new wire.',
+      dont: 'Rely on Run to save; people expect a board to remember where they left things.',
+      visual: false,
+    },
+  ],
+  a11y: [
+    'The board has an accessible name (`label`, "Workflow" by default). Step cards can be reached with Tab and moved with the arrow keys; Backspace removes the selected step or wire.',
+    'Every toolbar control has a name: Add step, "Remove the selected steps and wires", Run, Zoom in, Zoom out and "Fit the workflow to the screen".',
+    'Run reads its cost aloud ("Run 12 credits"). When the balance is too low it is disabled and described by a status message that says how many credits are needed.',
+    'Selection is shown by a lime border on the card and lime wires, and the selected step is also the one the Remove button acts on, so color is not the only signal.',
+    'Wiring by dragging needs a pointer. Offer another way to connect steps (such as a "Connect to" menu) where keyboard-only editing is required.',
+  ],
+  tokens: ['--card', '--divider', '--brand', '--muted-foreground', '--chip', '--chip-foreground', '--glass-panel', '--glass-border', '--background', '--destructive'],
+}

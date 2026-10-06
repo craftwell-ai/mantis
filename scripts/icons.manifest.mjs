@@ -45,6 +45,7 @@ export const ICON_NAMES = [
   'edit',
   'error',
   'favorite',
+  'fit_screen',
   'folder',
   'forum',
   'grid_view',

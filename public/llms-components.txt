@@ -99,6 +99,7 @@ Compositions of primitives. `intent` lists the jobs a block does; `use_when` say
 - [App shell with sidebar](https://mantisdesignsystem.com/r/app-shell-sidebar.json) — _[app-shell, navigation]_ A studio or workspace has more pages than fit in the top bar, such as projects, tools and recent work, and people switch between them often.
 - [Settings page](https://mantisdesignsystem.com/r/settings-page.json) — _[app-shell, settings]_ You need a complete account settings page with profile, notifications, security and usage pages built from the system's settings blocks.
 - [Canvas shell](https://mantisdesignsystem.com/r/canvas-shell.json) — _[app-shell, productivity]_ You are building a free-form board where people arrange generations, notes and shapes, and need its toolbar, zoom and layers panel around your own canvas.
+- [Workflow Canvas](https://mantisdesignsystem.com/r/workflow-canvas.json) — _[productivity, form]_ People chain several generation steps (such as prompt and reference into a model, then upscale) and need to see, rewire and run the pipeline on a board
 
 ## Intent vocabulary
 

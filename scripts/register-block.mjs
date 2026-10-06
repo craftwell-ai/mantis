@@ -30,6 +30,9 @@ const imported = [
 const ours = new Set(registry.items.map((entry) => entry.name))
 const registryDependencies = [...new Set(imported.filter((dep) => dep !== 'icons.generated').map((dep) => (ours.has(dep) ? `${ns}/${dep}` : dep)))]
 if (source.includes('@/lib/mantis-cn')) registryDependencies.push(`${ns}/mantis-cn`)
+// Third-party packages imported directly by the block; the CLI installs them with it.
+const provided = new Set(['react', 'react-dom', 'next'])
+const npmDependencies = [...new Set([...source.matchAll(/from ["']((?:@[\w-]+\/)?[\w-]+)(?:\/[^"']*)?["']/g)].map((m) => m[1]).filter((dep) => !dep.startsWith('@/') && !provided.has(dep)))]
 const item = {
   name,
   type: 'registry:block',
@@ -37,6 +40,8 @@ const item = {
   description,
   meta: { intent, use_when: useWhen },
   registryDependencies: registryDependencies.length ? registryDependencies : undefined,
+  // npm packages the block imports beyond the primitives' own (such as @xyflow/react).
+  dependencies: npmDependencies.length ? npmDependencies : undefined,
   files: [{ path: file, type: 'registry:component' }],
 }
 const existing = registry.items.findIndex((entry) => entry.name === name)
