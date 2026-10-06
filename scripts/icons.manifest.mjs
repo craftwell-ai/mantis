@@ -10,6 +10,7 @@
  */
 export const ICON_NAMES = [
   'star_shine-fill',
+  'account_tree',
   'add',
   'add_circle',
   'animation',

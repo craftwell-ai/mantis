@@ -118,7 +118,7 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 
 ## Icons
 
-116 icons are bundled; their names are the keys of `components/ui/icons.generated.ts` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). `IconName` is a typed union, so an unknown name fails the typecheck. A missing icon needs a new Mantis release; ask the owner.
+117 icons are bundled; their names are the keys of `components/ui/icons.generated.ts` (common: `add`, `close`, `check`, `search`, `more_vert`, `download`, `share`, `settings`). `IconName` is a typed union, so an unknown name fails the typecheck. A missing icon needs a new Mantis release; ask the owner.
 
 ## Look things up
 

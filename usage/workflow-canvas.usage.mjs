@@ -1,7 +1,7 @@
 export const usage = {
   name: 'workflow-canvas',
   kind: 'block',
-  summary: 'A node-and-wire editor for chaining generation steps: step cards people drag around a dotted board, wires drawn by dragging from one card to another, pan and zoom, an Add step menu and one lime Run button with the live credit cost.',
+  summary: 'A node-and-wire editor for chaining generation steps: step cards people drag around a dotted board, wires drawn by dragging from one card to another, pan and zoom, an Add step menu, a Tidy up button that lines the steps up left to right, and one lime Run button with the live credit cost.',
   useWhen: [
     'People build a pipeline out of steps, such as prompt and reference into a model, then upscale, and need to see and change how the steps connect.',
     'A generation needs more than one stage, and the order or the branching is the person\'s choice.',
@@ -40,7 +40,7 @@ export const usage = {
   ],
   a11y: [
     'The board has an accessible name (`label`, "Workflow" by default). Step cards can be reached with Tab and moved with the arrow keys; Backspace removes the selected step or wire.',
-    'Every toolbar control has a name: Add step, "Remove the selected steps and wires", Run, Zoom in, Zoom out and "Fit the workflow to the screen".',
+    'Every toolbar control has a name: Add step, Tidy up, "Remove the selected steps and wires", Run, Zoom in, Zoom out and "Fit the workflow to the screen".',
     'Run reads its cost aloud ("Run 12 credits"). When the balance is too low it is disabled and described by a status message that says how many credits are needed.',
     'Selection is shown by a lime border on the card and lime wires, and the selected step is also the one the Remove button acts on, so color is not the only signal.',
     'Wiring by dragging needs a pointer. Offer another way to connect steps (such as a "Connect to" menu) where keyboard-only editing is required.',

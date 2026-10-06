@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { Graph, layout } from "@dagrejs/dagre"
 import {
   addEdge,
   applyEdgeChanges,
@@ -142,6 +143,27 @@ function Wire({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPositi
   return <BaseEdge path={path} style={{ stroke: lit ? "var(--brand)" : "var(--muted-foreground)", strokeWidth: lit ? 2 : 1.5 }} />
 }
 
+// Where each step should sit so the workflow reads left to right with no overlaps: steps that feed
+// others go in columns to the left of what they feed. The arranging itself is dagre's.
+function tidyPositions(nodes: StepNode[], edges: Edge[]) {
+  const graph = new Graph()
+  graph.setGraph({ rankdir: "LR", nodesep: 40, ranksep: 96 })
+  graph.setDefaultEdgeLabel(() => ({}))
+  for (const node of nodes) {
+    // Cards are 224px wide; the height is whatever React Flow measured, or a typical card before it has.
+    graph.setNode(node.id, { width: node.measured?.width ?? 224, height: node.measured?.height ?? 96 })
+  }
+  for (const edge of edges) graph.setEdge(edge.source, edge.target)
+  layout(graph)
+  return new Map(
+    nodes.map((node) => {
+      const placed = graph.node(node.id)
+      // dagre reports a card's centre; React Flow positions by the top-left corner.
+      return [node.id, { x: placed.x - placed.width / 2, y: placed.y - placed.height / 2 }]
+    }),
+  )
+}
+
 const nodeTypes = { step: StepCard }
 const edgeTypes = { wire: Wire }
 
@@ -186,6 +208,7 @@ function Board({
     defaultConnections.map((connection) => ({ id: connection.id, source: connection.from, target: connection.to, type: "wire" })),
   )
   const nextId = React.useRef(defaultSteps.length + 1)
+  const { fitView } = useReactFlow()
 
   const workflow = React.useMemo<Workflow>(
     () => ({
@@ -226,6 +249,13 @@ function Board({
         { id, type: "step" as const, position, selected: true, data: { step: { id, type: stepType.type, position }, stepType } },
       ]
     })
+  }
+
+  function tidyUp() {
+    const positions = tidyPositions(nodes, edges)
+    setNodes((current) => current.map((node) => ({ ...node, position: positions.get(node.id) ?? node.position })))
+    // Bring the tidied workflow back into view once the cards have moved.
+    requestAnimationFrame(() => fitView({ padding: 0.2, duration: 200 }))
   }
 
   function removeSelected() {
@@ -293,6 +323,10 @@ function Board({
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button variant="ghost" size="sm" disabled={nodes.length < 2} onClick={tidyUp}>
+            <Icon name="account_tree" />
+            Tidy up
+          </Button>
           <Button variant="ghost" size="icon-sm" aria-label="Remove the selected steps and wires" disabled={!hasSelection} onClick={removeSelected}>
             <Icon name="delete" />
           </Button>
@@ -336,8 +370,9 @@ function Board({
 }
 
 // A node-and-wire editor for chaining generation steps: draggable step cards, wires drawn by dragging
-// between connection points, pan and zoom, an Add step menu and one lime Run button with the live cost.
-// Dragging, wiring, panning and zooming come from React Flow (@xyflow/react); the look is Mantis's.
+// between connection points, pan and zoom, an Add step menu, Tidy up and one lime Run button with the
+// live cost. Dragging, wiring, panning and zooming come from React Flow (@xyflow/react) and the
+// automatic layout from dagre (@dagrejs/dagre); the look is Mantis's.
 function WorkflowCanvas(props: WorkflowCanvasProps) {
   return (
     <ReactFlowProvider>

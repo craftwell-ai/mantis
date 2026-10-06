@@ -91,6 +91,32 @@ export const RemoveAStep: Story = {
   },
 }
 
+// Steps dropped in a pile: Tidy up lays them out left to right in the order they feed each other.
+const SCATTERED: WorkflowStep[] = [
+  { ...STEPS[0], position: { x: 420, y: 260 } },
+  { ...STEPS[1], position: { x: 380, y: 20 } },
+  { ...STEPS[2], position: { x: 60, y: 200 } },
+  { ...STEPS[3], position: { x: 120, y: 40 } },
+]
+
+export const TidyUp: Story = {
+  name: 'Tidying up',
+  args: { defaultSteps: SCATTERED },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement)
+    await waitFor(() => expect(canvasElement.querySelectorAll('[data-slot="workflow-step"]')).toHaveLength(4))
+    await userEvent.click(canvas.getByRole('button', { name: 'Tidy up' }))
+    await waitFor(() => expect(args.onChange).toHaveBeenCalled())
+    const calls = (args.onChange as ReturnType<typeof fn>).mock.calls
+    const steps: WorkflowStep[] = calls[calls.length - 1][0].steps
+    const x = (id: string) => steps.find((step) => step.id === id)!.position.x
+    // Inputs on the left, then the model, then the upscale.
+    await expect(x('prompt-1')).toBe(x('reference-1'))
+    await expect(x('model-1')).toBeGreaterThan(x('prompt-1'))
+    await expect(x('upscale-1')).toBeGreaterThan(x('model-1'))
+  },
+}
+
 export const Running: Story = { args: { running: true } }
 
 export const NotEnoughCredits: Story = {
