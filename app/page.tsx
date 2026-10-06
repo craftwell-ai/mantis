@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Heading, HeadingAccent } from "@/components/ui/heading"
 import { Icon } from "@/components/ui/icon"
 import { siteStats } from "@/lib/site-stats"
-import { links } from "@/lib/site"
+import { links, REGISTRY_ENTRY } from "@/lib/site"
 import { AnnouncementBar } from "@/registry/announcement-bar"
 
 // The public home page of the design system: what it is, how to install it, and what is in it.
@@ -87,6 +87,9 @@ export default function Home() {
     { value: stats.icons, label: "Material Symbols icons" },
   ]
   const terminal = [
+    { kind: "comment", text: "# Once: add Mantis to components.json, under \"registries\"" },
+    { kind: "config", text: REGISTRY_ENTRY },
+    { kind: "gap", text: "" },
     { kind: "comment", text: "# Theme and core components" },
     { kind: "command", text: "npx shadcn@latest add @mantis/base" },
     { kind: "gap", text: "" },
@@ -322,7 +325,7 @@ export default function Home() {
                   line.kind === "gap" ? (
                     <div key={index} aria-hidden="true" className="h-4" />
                   ) : (
-                    <div key={index} className={`whitespace-nowrap ${line.kind === "command" ? "text-foreground" : "text-muted-foreground"}`}>
+                    <div key={index} className={`whitespace-nowrap ${line.kind === "command" || line.kind === "config" ? "text-foreground" : "text-muted-foreground"}`}>
                       {line.kind === "command" ? <span className="text-brand-text">$ </span> : null}
                       {line.text}
                     </div>

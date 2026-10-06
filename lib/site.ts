@@ -1,6 +1,9 @@
 // The one place the site's address and its fixed links live.
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mantisdesignsystem.com"
 
+// The one line an app adds to its components.json so `@mantis/<name>` resolves to this registry.
+export const REGISTRY_ENTRY = `"@mantis": "${SITE_URL}/r/{name}.json"`
+
 export const links = {
   storybook: "/storybook/",
   llms: "/llms.txt",

@@ -55,7 +55,7 @@ export function renderLlms(t = tokens) {
   p()
   p(`> ${base.description} Version ${pkg.version}.`)
   p()
-  p(`Install any item with the shadcn CLI: \`npx shadcn@latest add ${link(base.name)}\` for the base theme first, then components and blocks the same way. With the \`@${registry.name}\` registry in your components.json, \`npx shadcn@latest add @${registry.name}/<name>\` works too.`)
+  p(`Install any item with the shadcn CLI: \`npx shadcn@latest add ${link(base.name)}\` for the base theme first, then components and blocks the same way. Add \`"registries": { "@${registry.name}": "${HOME}/r/{name}.json" }\` to your components.json and \`npx shadcn@latest add @${registry.name}/<name>\` works too; \`npx shadcn@latest mcp init\` then lets a coding agent search and install from it.`)
   p()
 
   const modes = modesOf(t)

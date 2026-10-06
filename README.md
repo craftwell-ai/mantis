@@ -4,12 +4,12 @@ A dark, cinematic design system for AI-native creative tools: prompt composers, 
 
 ## Install
 
-Live at **https://mantis-gold.vercel.app**: the registry, [Storybook](https://mantis-gold.vercel.app/storybook/), [llms.txt](https://mantis-gold.vercel.app/llms.txt) and every usage guide.
+Live at **https://mantisdesignsystem.com**: the registry, [Storybook](https://mantisdesignsystem.com/storybook/), [llms.txt](https://mantisdesignsystem.com/llms.txt) and every usage guide.
 
 In a Next.js app set up with `npx shadcn@latest init` (style `base-nova`), register the namespace in `components.json`:
 
 ```json
-"registries": { "@mantis": "https://mantis-gold.vercel.app/r/{name}.json" }
+"registries": { "@mantis": "https://mantisdesignsystem.com/r/{name}.json" }
 ```
 
 Then install the base first, and patterns or page templates by name:
@@ -18,6 +18,16 @@ Then install the base first, and patterns or page templates by name:
 npx shadcn@latest add @mantis/base
 npx shadcn@latest add @mantis/prompt-composer @mantis/pricing-page
 ```
+
+## Let your coding agent search and install (MCP)
+
+Mantis works with the shadcn MCP server, which runs on your own machine and reads this registry. With the `registries` line above in `components.json`, run once in your app:
+
+```bash
+npx shadcn@latest mcp init
+```
+
+Pick your agent (Claude Code, Cursor, VS Code or Codex) when asked and restart it. The agent can then search `@mantis`, read any item and install it, for example "find a Mantis block for a pricing page and add it". Without the `registries` line every `@mantis/<name>` command fails with `Unknown registry "@mantis"`.
 
 ## How consumption works
 

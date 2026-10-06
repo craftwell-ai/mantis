@@ -21,7 +21,7 @@ The Mantis repo fails its build on the ones marked ⛔; hold your code to the sa
 
 ## Components
 
-Import from `@/components/ui/<name>`. Each entry: **name** exports · Mantis-specific props (`=` lists the allowed values) · what it is for · alternatives to weigh · rule ids. Full guide with do/don't: `https://mantis-gold.vercel.app/usage/<name>.md`.
+Import from `@/components/ui/<name>`. Each entry: **name** exports · Mantis-specific props (`=` lists the allowed values) · what it is for · alternatives to weigh · rule ids. Full guide with do/don't: `https://mantisdesignsystem.com/usage/<name>.md`.
 
 - **accordion** Accordion, AccordionContent, AccordionItem, AccordionTrigger · Stacked sections that open one at a time, such as the steps of a character builder or a list of advanced settings. · instead: tabs · rules: scannable-triggers
 - **alert-dialog** AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger · AlertDialogAction: same props as Button · AlertDialogCancel: same props as Button · AlertDialogContent(size=sm|default) · A blocking confirmation for an action that cannot be undone, such as deleting a generation or cancelling a plan. · instead: dialog, sonner · rules: name-the-consequence, safe-choice-first
@@ -64,7 +64,7 @@ Import from `@/components/ui/<name>`. Each entry: **name** exports · Mantis-spe
 
 ## Blocks
 
-Ready-made patterns: `npx shadcn@latest add @mantis/<name>` installs one into `components/<name>.tsx`. Reuse or extend one before composing from scratch; full guide at `https://mantis-gold.vercel.app/usage/<name>.md`.
+Ready-made patterns: `npx shadcn@latest add @mantis/<name>` installs one into `components/<name>.tsx`. Reuse or extend one before composing from scratch; full guide at `https://mantisdesignsystem.com/usage/<name>.md`.
 
 - `hello-card` (content) — You are verifying a fresh install of this design system renders correctly.
 - `pricing-card` (commerce, marketing) — You are showing a paid plan (such as Creator) on a pricing page or upgrade panel, with monthly…
@@ -121,7 +121,7 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 
 ## Look things up
 
-- Per-component do/don't, accessibility and tokens: `https://mantis-gold.vercel.app/usage/<name>.md`.
-- Live examples of every component, pattern and page: <https://mantis-gold.vercel.app/storybook/>
-- Registry search and install: the shadcn MCP server (`npx shadcn@latest mcp init`), namespace `@mantis`.
-- Visual intent and composition recipes: <https://mantis-gold.vercel.app/design.md>. Full catalog: <https://mantis-gold.vercel.app/llms.txt>
+- Per-component do/don't, accessibility and tokens: `https://mantisdesignsystem.com/usage/<name>.md`.
+- Live examples of every component, pattern and page: <https://mantisdesignsystem.com/storybook/>
+- Registry search and install: the shadcn MCP server. `components.json` needs `"registries": { "@mantis": "https://mantisdesignsystem.com/r/{name}.json" }`; then run `npx shadcn@latest mcp init` once and search the `@mantis` namespace.
+- Visual intent and composition recipes: <https://mantisdesignsystem.com/design.md>. Full catalog: <https://mantisdesignsystem.com/llms.txt>

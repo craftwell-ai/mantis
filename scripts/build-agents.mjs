@@ -177,7 +177,7 @@ export function renderAgents({ t = tokens, api = readComponentApi(), usage = ALL
   if (consumer) {
     p(`- Per-component do/don't, accessibility and tokens: ${guide}.`)
     p(`- Live examples of every component, pattern and page: <${HOME}/storybook/>`)
-    p("- Registry search and install: the shadcn MCP server (`npx shadcn@latest mcp init`), namespace `@mantis`.")
+    p(`- Registry search and install: the shadcn MCP server. \`components.json\` needs \`"registries": { "@mantis": "${HOME}/r/{name}.json" }\`; then run \`npx shadcn@latest mcp init\` once and search the \`@mantis\` namespace.`)
     p(`- Visual intent and composition recipes: <${HOME}/design.md>. Full catalog: <${HOME}/llms.txt>`)
   } else {
     p('- Per-component do/don\'t, accessibility and tokens: `public/usage/<name>.md`.')

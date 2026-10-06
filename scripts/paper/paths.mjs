@@ -9,4 +9,4 @@ export const CAPTURE_DIR = join(WORK_DIR, 'captures')
 export const SHOT_DIR = join(WORK_DIR, 'boards')
 // Icons are committed: the boards in Paper were built from these files.
 export const SVG_DIR = join(REPO, 'design/svg')
-export const STORYBOOK_URL = process.env.STORYBOOK_URL || 'https://mantis-gold.vercel.app/storybook'
+export const STORYBOOK_URL = process.env.STORYBOOK_URL || 'https://mantisdesignsystem.com/storybook'
