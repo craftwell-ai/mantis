@@ -1,0 +1,46 @@
+{
+  "name": "checkbox",
+  "kind": "component",
+  "summary": "Lets someone pick any number of independent options, such as which sessions to sign out or which formats to export.",
+  "useWhen": [
+    "Several options can be on at once, such as selecting generations to delete or formats to export.",
+    "A single yes/no choice is part of a form that is submitted later, such as agreeing to terms."
+  ],
+  "alternatives": [
+    {
+      "name": "switch",
+      "when": "one setting takes effect immediately without a save step"
+    },
+    {
+      "name": "radio-group",
+      "when": "exactly one option can be chosen"
+    }
+  ],
+  "rules": [
+    {
+      "id": "label-every-box",
+      "do": "Put a clickable label beside every checkbox that says what checking it means.",
+      "dont": "Show a bare checkbox with the meaning only in a heading above a list.",
+      "visual": true
+    },
+    {
+      "id": "brand-for-selection",
+      "do": "Use the default lime `brand` checkbox for selecting items, and `primary` (white) on light-on-dark lists where lime would compete with a lime action.",
+      "dont": "Mix lime and white checkboxes in the same list.",
+      "visual": false
+    }
+  ],
+  "a11y": [
+    "Has the checkbox role, toggles with Space, and announces checked, unchecked or mixed.",
+    "The unchecked border uses the control-border color, which meets the 3:1 non-text contrast minimum.",
+    "The hit area extends beyond the 20px box, so it is easy to tap."
+  ],
+  "tokens": [
+    "--input",
+    "--brand",
+    "--primary",
+    "--primary-foreground",
+    "--ring",
+    "--separator"
+  ]
+}

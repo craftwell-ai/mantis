@@ -1,0 +1,37 @@
+{
+  "name": "avatar",
+  "kind": "component",
+  "summary": "A round picture or initials that stands for a person, such as the account button, a post author or a collaborator.",
+  "useWhen": [
+    "A person is shown beside their content, such as a post author or a project owner.",
+    "Several collaborators share a project (`AvatarGroup`)."
+  ],
+  "alternatives": [
+    {
+      "name": "badge",
+      "when": "the item is a label, not a person"
+    }
+  ],
+  "rules": [
+    {
+      "id": "always-a-fallback",
+      "do": "Give every avatar initials as a fallback, so a missing photo still identifies the person.",
+      "dont": "Leave an empty grey circle when the photo fails to load.",
+      "visual": true
+    },
+    {
+      "id": "name-nearby",
+      "do": "Show the person's name next to the avatar the first time they appear.",
+      "dont": "Rely on a face alone to identify someone.",
+      "visual": false
+    }
+  ],
+  "a11y": [
+    "Give the image `alt` text with the person's name; leave it empty when the name is printed beside it.",
+    "Initials are white on the inset grey, which meets 4.5:1."
+  ],
+  "tokens": [
+    "--secondary",
+    "--foreground"
+  ]
+}

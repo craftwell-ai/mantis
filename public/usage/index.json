@@ -1,0 +1,445 @@
+{
+  "schemaVersion": 1,
+  "guides": [
+    {
+      "name": "accordion",
+      "kind": "component",
+      "summary": "Stacked sections that open one at a time, such as the steps of a character builder or a list of advanced settings."
+    },
+    {
+      "name": "account-menu",
+      "kind": "block",
+      "summary": "The menu that opens from the avatar: who is signed in (name, email, plan), a credit meter showing what is left this month, a couple of ways to get more credits, then settings, help and sign out."
+    },
+    {
+      "name": "add-media-panel",
+      "kind": "block",
+      "summary": "A panel for pulling existing media into a project: Uploads, Elements, Generations and Liked tabs over a grid of images, skeleton tiles while a tab loads, an empty state for each tab, an upload action and a count of what is picked."
+    },
+    {
+      "name": "agent-approval-card",
+      "kind": "block",
+      "summary": "A human-in-the-loop card: before an AI agent spends credits or changes data it lists exactly what it will do and what it costs, then waits for Approve, Stop, or Approve with \"Always allow\" switched on."
+    },
+    {
+      "name": "alert-dialog",
+      "kind": "component",
+      "summary": "A blocking confirmation for an action that cannot be undone, such as deleting a generation or cancelling a plan."
+    },
+    {
+      "name": "announcement-bar",
+      "kind": "block",
+      "summary": "A full-width lime bar above the top navigation that carries one short message, one call-to-action link and a close button."
+    },
+    {
+      "name": "app-shell",
+      "kind": "block",
+      "summary": "The signed-in page frame: the top navigation bar across the top with the account menu wired into it, and one content area under it that scrolls on its own so the bar never moves. It fills the viewport, has a skip link to the content, and takes the page as `children`."
+    },
+    {
+      "name": "app-shell-sidebar",
+      "kind": "block",
+      "summary": "The signed-in frame for a section with many destinations: the top navigation bar, a left sidebar of icon links grouped into labelled sections, and a content area that scrolls on its own. When the shell is at least 1024px wide (it measures its own width, not the window) the sidebar sits beside the page and collapses to icons with tooltips; below that it moves into a sheet opened from a slim bar that names the current page."
+    },
+    {
+      "name": "asset-library-page",
+      "kind": "block",
+      "summary": "An asset library page template: the top navigation, a page header with the Upload action, filter tabs (All, Images, Videos, Uploads) and a name search, a grid of asset tiles selected with a corner checkbox, and a floating selection bar to download or delete in bulk (delete is confirmed). Shows skeletons while loading, a no-match state with Clear search, and the empty state with its one upload button when the library is empty. Composes top-navigation and empty-state."
+    },
+    {
+      "name": "avatar",
+      "kind": "component",
+      "summary": "A round picture or initials that stands for a person, such as the account button, a post author or a collaborator."
+    },
+    {
+      "name": "badge",
+      "kind": "component",
+      "summary": "A short label that marks something as new, discounted, featured or counted, set beside the thing it describes."
+    },
+    {
+      "name": "button",
+      "kind": "component",
+      "summary": "Runs an action in place: saving a project, inviting a collaborator, confirming a delete, or opening a dialog."
+    },
+    {
+      "name": "canvas-shell",
+      "kind": "block",
+      "summary": "The chrome of a board page, with no canvas engine: a full-bleed dotted (or blank) board, a minimal floating top bar with the logo slot, board name, undo, redo and Share, a floating tool bar at the bottom (select, hand, text, shapes, an Add menu, and zoom out, zoom percent and zoom in), and a Layers and Properties panel on the right that becomes a sheet when the shell is narrower than 1024px (it measures its own width, not the window). Board content goes in as children and scales with the zoom."
+    },
+    {
+      "name": "card",
+      "kind": "component",
+      "summary": "Holds the content and actions for one subject, such as a generation, a project or a credit balance, on a single bordered surface."
+    },
+    {
+      "name": "checkbox",
+      "kind": "component",
+      "summary": "Lets someone pick any number of independent options, such as which sessions to sign out or which formats to export."
+    },
+    {
+      "name": "combobox",
+      "kind": "component",
+      "summary": "A searchable picker: type to filter a long list, then choose one item, such as a model, a preset or a collaborator."
+    },
+    {
+      "name": "command-palette",
+      "kind": "block",
+      "summary": "The ⌘K search dialog: a search field, filter chips, recent searches, a row of featured cards and a two-column trending list. Typing switches to results grouped by category, and the arrow keys move through every row and card."
+    },
+    {
+      "name": "compare-slider",
+      "kind": "block",
+      "summary": "A before and after comparison: two pictures in one frame with a divider people drag, or move with the arrow keys, to reveal more of either."
+    },
+    {
+      "name": "countdown",
+      "kind": "block",
+      "summary": "An offer timer: a label such as \"Launch pricing ends in\" above hours, minutes and seconds shown as glass tiles, counting down to a fixed time and switching to an ended message at zero."
+    },
+    {
+      "name": "dialog",
+      "kind": "component",
+      "summary": "A modal window that pauses the page for one short task or decision, such as deleting a generation or renaming a project."
+    },
+    {
+      "name": "dropdown-menu",
+      "kind": "component",
+      "summary": "A list of actions or options that opens from a button, keeping secondary choices tucked away until someone asks for them."
+    },
+    {
+      "name": "empty-state",
+      "kind": "block",
+      "summary": "A dashed placeholder that fills the space where content will appear, says what belongs there in one sentence, and offers one button to add the first item, such as an empty asset library asking for a first upload."
+    },
+    {
+      "name": "event-map",
+      "kind": "block",
+      "summary": "A map for logging events at places: drop a pin, or draw a circle or an area, fill in a title, a type and notes, and the event joins a list and stays marked on the map."
+    },
+    {
+      "name": "explore-page",
+      "kind": "block",
+      "summary": "A full community page: the app top bar, an uppercase headline with one lime word, a row of category pills, and the masonry media grid of everyone's work. Clicking a picture opens the lightbox inspector on it, and its arrows step through the selected category. Likes update in place."
+    },
+    {
+      "name": "feature-grid",
+      "kind": "block",
+      "summary": "A landing-page section of feature cards: an uppercase section title with an optional lime word, then a grid of image-first cards, each with an uppercase title, one line and an optional lime \"New\" tag."
+    },
+    {
+      "name": "feed-post",
+      "kind": "block",
+      "summary": "One post in a community feed: the author with avatar, time and a Follow button, an optional title and text, up to four pictures with a small tool label, and a footer of like, dislike and comment counts that double as actions, plus share, views and a more menu."
+    },
+    {
+      "name": "field",
+      "kind": "component",
+      "summary": "Wraps a form control with its label, hint and error message, laid out the way the reference's profile and settings forms are."
+    },
+    {
+      "name": "generation-feed",
+      "kind": "block",
+      "summary": "A person's generation history: an edge-to-edge grid of results with a zoom slider that changes tile size, or a list that puts each result beside its prompt, model, settings and time, with Reuse prompt and Download. Shows skeletons while loading, a shimmering tile for work still generating, and a dashed placeholder when empty."
+    },
+    {
+      "name": "heading",
+      "kind": "component",
+      "summary": "Page and section headings: the signature uppercase grotesk display levels (hero, section, sub, label) and plain Inter titles for dialogs and panels."
+    },
+    {
+      "name": "hello-card",
+      "kind": "block",
+      "summary": "A one-card smoke test showing the theme is installed: its fill, border and muted text come from the design system's color tokens."
+    },
+    {
+      "name": "how-it-works",
+      "kind": "block",
+      "summary": "A three-step explainer strip for a tool or landing page: an uppercase headline, then a row of steps, each with a picture, a number, a short uppercase title and one sentence."
+    },
+    {
+      "name": "icon",
+      "kind": "component",
+      "summary": "Draws a Material Symbols icon by name, sized to the text around it and painted in its color."
+    },
+    {
+      "name": "icon-tile",
+      "kind": "component",
+      "summary": "A small colored rounded square behind an icon that gives each nav, menu or settings entry a recognizable color, from the reference's palette pairs."
+    },
+    {
+      "name": "image-studio-page",
+      "kind": "block",
+      "summary": "A full image-studio page template: the top navigation, a centered uppercase hero with one lime word that gives way to the generation feed once there are results, and the prompt composer docked to the bottom of the window. Results open in the lightbox inspector. Composes top-navigation, prompt-composer, generation-feed and lightbox-inspector."
+    },
+    {
+      "name": "input",
+      "kind": "component",
+      "summary": "A single-line text field for short typed answers: project names, seeds, collaborator emails, search terms."
+    },
+    {
+      "name": "input-group",
+      "kind": "component",
+      "summary": "An input with icons or buttons inside its frame, such as a search field with a leading magnifier or a link field with a Copy button."
+    },
+    {
+      "name": "kbd",
+      "kind": "component",
+      "summary": "Shows a keyboard key or shortcut, such as ⌘K beside the search pill or Esc in a dialog footer."
+    },
+    {
+      "name": "landing-page",
+      "kind": "block",
+      "summary": "A public marketing page for a product or tool: the signed-out top bar, the marketing hero, a feature grid, a three-step how-it-works, one closing call-to-action band and the lime site footer. Every section takes the props of the block it wraps, so the page is filled by content alone."
+    },
+    {
+      "name": "lightbox-inspector",
+      "kind": "block",
+      "summary": "A full-screen viewer for one generation: the picture centered on a blurred copy of itself with previous and next buttons, and an inspector card on the right holding the creator, the copyable prompt, a details list (model, size, seed, date), a lime Recreate button and a grid of Download, Share, Upscale and Delete."
+    },
+    {
+      "name": "marketing-hero",
+      "kind": "block",
+      "summary": "The top of a landing page: an optional small eyebrow, a huge uppercase headline with one word in lime, one supporting line, a lime primary and a glass secondary call to action, and a showcase of one to three images."
+    },
+    {
+      "name": "media-grid",
+      "kind": "block",
+      "summary": "A masonry gallery of community work in mixed aspect ratios with 4px gutters. Hovering or focusing a picture reveals its author and Recreate and Like actions over a dark scrim; a Load more button (and optional load-on-scroll) adds pages, with skeleton tiles while they arrive."
+    },
+    {
+      "name": "media-tile",
+      "kind": "component",
+      "summary": "An image or video filling a rounded frame, for pickers, galleries, feeds and libraries."
+    },
+    {
+      "name": "model-picker",
+      "kind": "block",
+      "summary": "A searchable list of AI models that opens from a composer chip: Featured and All groups, each row an icon tile, the model name, a one-line description and an optional New or Hot badge, with a check on the model in use."
+    },
+    {
+      "name": "notification-settings",
+      "kind": "block",
+      "summary": "The Notifications section of account settings: checkboxes for which emails to receive, a digest frequency (never, daily, weekly) and a Save button that confirms in place."
+    },
+    {
+      "name": "notifications-panel",
+      "kind": "block",
+      "summary": "The bell menu in the top bar: tabs for All, Requests and Unread, rows with an avatar or icon, the message, a time and an unread dot, Accept and Decline right in request rows, Mark all as read, and an empty state for each tab."
+    },
+    {
+      "name": "onboarding-steps",
+      "kind": "block",
+      "summary": "A short welcome flow: a lime progress bar with \"Step 1 of 3\", one question per step answered either with large single-choice cards or a grid of multi-select rows, and Back and Continue buttons."
+    },
+    {
+      "name": "pagination",
+      "kind": "component",
+      "summary": "The compact pager under a table: an optional rows-per-page picker, \"Page X of Y\" and previous and next buttons."
+    },
+    {
+      "name": "plan-matrix",
+      "kind": "block",
+      "summary": "The body of a pricing page: one monthly/yearly switch that sets the price on a row of plan cards, one plan framed as most popular, and a comparison table that lists every feature by section with a check, a dash or a limit per plan."
+    },
+    {
+      "name": "popover",
+      "kind": "component",
+      "summary": "A small floating panel anchored to a control, for a few related choices or a short form without leaving the page."
+    },
+    {
+      "name": "preset-gallery",
+      "kind": "block",
+      "summary": "A browser of looks and camera moves: model tabs and a search field above a grid of media tiles, each an image with its uppercase title over it; the chosen preset gets a lime outline and a check."
+    },
+    {
+      "name": "pricing-card",
+      "kind": "block",
+      "summary": "One subscription plan on a card: its name, a monthly/yearly billing switch, the price for the chosen period, what the plan includes, and a button to subscribe."
+    },
+    {
+      "name": "pricing-page",
+      "kind": "block",
+      "summary": "A complete plans page: a lime announcement bar with a live countdown for a time-limited offer, the app top bar, an uppercase headline, the plan matrix (one billing switch, plan cards and the comparison table), a frequently-asked-questions accordion and the lime site footer."
+    },
+    {
+      "name": "profile-page",
+      "kind": "block",
+      "summary": "A person's page in a signed-in creative app: a sidebar card with avatar, name, handle, bio, location, stats and Follow (or Edit profile on your own page), beside tabs for their generations, the work they liked and their posts. Each tab has its own empty state, worded for the owner with a way to start, or for a visitor with no action. Pictures open in the lightbox inspector."
+    },
+    {
+      "name": "progress",
+      "kind": "component",
+      "summary": "A thin lime bar on a faint track that shows how much of something is used or done, such as credits left this month."
+    },
+    {
+      "name": "project-card",
+      "kind": "block",
+      "summary": "One project in a library grid: a 16:9 thumbnail, the project name and when it was last edited, with a \"more\" menu to rename, duplicate or delete it. Delete asks for confirmation first."
+    },
+    {
+      "name": "promo-modal",
+      "kind": "block",
+      "summary": "An upsell dialog: a media header with a sale tag, an uppercase headline, a short benefit list, a price tile beside a countdown to the deadline, the lime claim button and a quiet \"Maybe later\"."
+    },
+    {
+      "name": "prompt-composer",
+      "kind": "block",
+      "summary": "The image generator's composer: a prompt box, a model chip, an aspect-ratio chip, a 1 to 4 image stepper and the lime Generate button showing what the request will cost in credits."
+    },
+    {
+      "name": "radio-group",
+      "kind": "component",
+      "summary": "Lets someone choose exactly one option from a short list, either as small radios or as whole selectable cards."
+    },
+    {
+      "name": "select",
+      "kind": "component",
+      "summary": "A composer-style chip that opens a menu to pick one value, such as the aspect ratio or quality of a generation."
+    },
+    {
+      "name": "separator",
+      "kind": "component",
+      "summary": "A 1px white 8% line that divides groups inside one surface, such as sections of a menu or a settings card."
+    },
+    {
+      "name": "session-list",
+      "kind": "block",
+      "summary": "The devices signed in to an account: one row per session with a device icon, browser and system, location and last activity, a \"This device\" marker on the current one, a Sign out button on the others and a confirmed \"Sign out everywhere else\"."
+    },
+    {
+      "name": "settings-nav",
+      "kind": "block",
+      "summary": "The left navigation of a settings page: a small workspace label, then one row per page led by a colored icon tile, with the current page tinted, and an optional footer such as Sign out."
+    },
+    {
+      "name": "settings-page",
+      "kind": "block",
+      "summary": "The full account settings page: the app shell, the settings nav on the left and, on the right, stacked section cards for the chosen page. It ships four pages, switched by the nav: Profile (photo, name, username, email, sharing), Notifications, Security (sign-in, signed-in devices, delete account) and Usage (credit summary and history). When the page is narrower than 768px (its own width) the nav sits above the cards."
+    },
+    {
+      "name": "settings-section",
+      "kind": "block",
+      "summary": "One stacked card of a settings page: a title and a short description, rows of label + one-line explanation + a control at the end, and an optional red danger zone that confirms before it acts."
+    },
+    {
+      "name": "share-dialog",
+      "kind": "block",
+      "summary": "A dialog for sharing a project: type emails that turn into chips, pick a role for each invitee, choose who can open it (private, anyone with the link, public) as radio cards, copy the link, then Share."
+    },
+    {
+      "name": "sheet",
+      "kind": "component",
+      "summary": "A panel that slides in from an edge to show details or settings next to the page, such as a generation inspector or project settings."
+    },
+    {
+      "name": "site-footer",
+      "kind": "block",
+      "summary": "The footer of a marketing site: an empty logo slot and an uppercase statement, columns of links, then a bottom row with the copyright line, legal links and social buttons. Lime for marketing pages, or a quiet dark tone for in-app pages."
+    },
+    {
+      "name": "skeleton",
+      "kind": "component",
+      "summary": "A dark placeholder block with a slow shimmer that holds the shape of content while it loads, such as thumbnails in the asset picker."
+    },
+    {
+      "name": "slider",
+      "kind": "component",
+      "summary": "Adjusts a value along a range by dragging a small white thumb, such as the zoom level of a generation grid."
+    },
+    {
+      "name": "sonner",
+      "kind": "component",
+      "summary": "Brief toast notifications that confirm an action finished, or report a problem, without pulling the user away from the canvas."
+    },
+    {
+      "name": "spinner",
+      "kind": "component",
+      "summary": "A small spinning ring that shows something is working, such as a button while it upscales or a tile while it queues."
+    },
+    {
+      "name": "stepper",
+      "kind": "component",
+      "summary": "The composer's \"− 1/4 +\" control for small whole-number settings, such as how many images to generate at once."
+    },
+    {
+      "name": "studio-home-page",
+      "kind": "block",
+      "summary": "A studio home page template: the top navigation, an uppercase hero with one lime word and a short line, the prompt composer right under it, then \"Recent projects\" as a grid of project cards that opens with a dashed New project tile, with skeletons while loading and an empty state before there are any projects. Composes top-navigation, prompt-composer, project-card and empty-state."
+    },
+    {
+      "name": "studio-settings-panel",
+      "kind": "block",
+      "summary": "The left rail of a video studio: the chosen preset on top, up to N reference images, the prompt, the model row, duration, aspect and quality chips, a bitrate slider and the lime Generate button with its credit cost pinned at the bottom."
+    },
+    {
+      "name": "switch",
+      "kind": "component",
+      "summary": "Turns one setting on or off immediately, such as sound on a clip or making a project public."
+    },
+    {
+      "name": "table",
+      "kind": "component",
+      "summary": "Lays records out in rows and columns so people can scan, compare and act on many items that share the same fields."
+    },
+    {
+      "name": "tabs",
+      "kind": "component",
+      "summary": "Switches between a few related views of one subject without leaving the page, such as a project's overview, activity and settings."
+    },
+    {
+      "name": "textarea",
+      "kind": "component",
+      "summary": "A multi-line text field: a filled `field` for forms, and borderless `prompt` and `prompt-lg` for writing generation prompts."
+    },
+    {
+      "name": "toggle",
+      "kind": "component",
+      "summary": "A single pressable button that stays pressed until pressed again, styled like one segment of a toggle group."
+    },
+    {
+      "name": "toggle-group",
+      "kind": "component",
+      "summary": "A compact row of options where the chosen one is highlighted: a white segment (`segment`) or a lime-outlined tile (`outline`)."
+    },
+    {
+      "name": "tooltip",
+      "kind": "component",
+      "summary": "A small dark label that names an icon-only control when someone hovers or focuses it."
+    },
+    {
+      "name": "top-navigation",
+      "kind": "block",
+      "summary": "The app's top bar: an empty logo slot, section links with the current one in lime and an optional New badge, a search pill with a ⌘K hint, a pricing link carrying a sale tag, an Assets button, the credit balance and the account control. When the bar is narrower than 1024px the links, pricing and assets fold into a menu sheet (it measures its own width, not the window)."
+    },
+    {
+      "name": "upload-dropzone",
+      "kind": "block",
+      "summary": "A drop area for adding files: drag them in, paste them or browse, with a list of what was added and a plain reason when a file is turned away."
+    },
+    {
+      "name": "usage-chart",
+      "kind": "block",
+      "summary": "A chart of numbers over time for up to five series, as stacked bars, lines or stacked areas, with a legend, hover details and the same numbers as a table for screen readers."
+    },
+    {
+      "name": "usage-summary",
+      "kind": "block",
+      "summary": "Where credits went: a period picker, total tiles, a stacked bar of credits by tool with a legend, and a usage history table with tool and action filters and pagination."
+    },
+    {
+      "name": "video-player",
+      "kind": "block",
+      "summary": "A video player in Mantis's look: play and pause, a lime scrub bar, time, sound, captions and fullscreen over a clip in a rounded frame."
+    },
+    {
+      "name": "video-studio-page",
+      "kind": "block",
+      "summary": "A full video-studio page template: the top navigation, the studio settings panel as a left rail with Generate pinned to its foot, and a canvas that shows the latest clip large with its prompt and settings, a strip of recent clips to switch between, a rendering state and an empty state. Composes top-navigation, studio-settings-panel and empty-state."
+    },
+    {
+      "name": "workflow-canvas",
+      "kind": "block",
+      "summary": "A node-and-wire editor for chaining generation steps: step cards people drag around a dotted board, wires drawn by dragging from one card to another, pan and zoom, an Add step menu, a Tidy up button that lines the steps up left to right, and one lime Run button with the live credit cost."
+    }
+  ]
+}

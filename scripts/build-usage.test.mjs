@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { ALL_USAGE } from '../usage/index.mjs'
-import { USAGE_DIR, renderUsagePage } from './build-usage.mjs'
+import { USAGE_DIR, renderUsagePage, renderUsageJson, renderUsageIndex } from './build-usage.mjs'
 
 test('every usage page exists and is in sync (byte equality)', () => {
   assert.ok(ALL_USAGE.length > 0, 'usage/index.mjs lists no usage guides')
@@ -17,4 +17,16 @@ test('every usage page exists and is in sync (byte equality)', () => {
       `public/usage/${u.name}.md is stale — run node scripts/build-usage.mjs`,
     )
   }
+})
+
+test('every usage guide is also published as data, with an index, in sync (byte equality)', () => {
+  for (const u of ALL_USAGE) {
+    const file = join(USAGE_DIR, `${u.name}.json`)
+    assert.ok(existsSync(file), `public/usage/${u.name}.json does not exist — run node scripts/build-usage.mjs`)
+    assert.equal(readFileSync(file, 'utf8'), renderUsageJson(u), `public/usage/${u.name}.json is stale — run node scripts/build-usage.mjs`)
+  }
+  const index = join(USAGE_DIR, 'index.json')
+  assert.ok(existsSync(index), 'public/usage/index.json does not exist — run node scripts/build-usage.mjs')
+  assert.equal(readFileSync(index, 'utf8'), renderUsageIndex(), 'public/usage/index.json is stale — run node scripts/build-usage.mjs')
+  assert.ok(!ALL_USAGE.some((u) => u.name === 'index'), 'a guide named "index" would overwrite public/usage/index.json')
 })

@@ -1,0 +1,56 @@
+{
+  "name": "preset-gallery",
+  "kind": "block",
+  "summary": "A browser of looks and camera moves: model tabs and a search field above a grid of media tiles, each an image with its uppercase title over it; the chosen preset gets a lime outline and a check.",
+  "useWhen": [
+    "People pick a ready-made style, effect or camera move for a generation, such as the Change action on a studio's preset card.",
+    "Presets are easier to judge by a frame than by a name, so each needs a picture."
+  ],
+  "alternatives": [
+    {
+      "name": "model-picker",
+      "when": "people choose an engine by what it does, where a sentence beats a picture"
+    },
+    {
+      "name": "radio-group",
+      "when": "there are only two to four options and they need explaining, not previewing"
+    }
+  ],
+  "rules": [
+    {
+      "id": "title-on-the-image",
+      "do": "Set the short uppercase title on the image over the dark fade at the bottom, so the frame stays the biggest thing on the tile.",
+      "dont": "Put the title and a description in a text block under a small thumbnail; the gallery turns into a list.",
+      "visual": true
+    },
+    {
+      "id": "mark-selection-twice",
+      "do": "Mark the chosen preset with the lime outline and the check together.",
+      "dont": "Show the choice by the outline alone, or by dimming every other tile.",
+      "visual": true
+    },
+    {
+      "id": "search-says-what-works",
+      "do": "When nothing matches, say what people can search for and offer to clear the search.",
+      "dont": "Show an empty grid with no words.",
+      "visual": false
+    }
+  ],
+  "a11y": [
+    "Tiles are buttons named by the preset title, with `aria-pressed` on the chosen one.",
+    "The model tabs are a real tab list (\"Filter presets by model\"); arrow keys move between them.",
+    "While presets load, a status region says \"Loading presets\" and the skeleton tiles are hidden from screen readers."
+  ],
+  "tokens": [
+    "--glass",
+    "--glass-border",
+    "--secondary",
+    "--field",
+    "--overlay",
+    "--brand",
+    "--brand-foreground",
+    "--badge-new",
+    "--skeleton",
+    "--ring"
+  ]
+}

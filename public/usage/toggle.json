@@ -1,0 +1,35 @@
+{
+  "name": "toggle",
+  "kind": "component",
+  "summary": "A single pressable button that stays pressed until pressed again, styled like one segment of a toggle group.",
+  "useWhen": [
+    "One on/off formatting option sits in a toolbar, such as showing the grid overlay on a canvas."
+  ],
+  "alternatives": [
+    {
+      "name": "toggle-group",
+      "when": "several related options sit together"
+    },
+    {
+      "name": "switch",
+      "when": "the setting is labeled text in a list or form"
+    }
+  ],
+  "rules": [
+    {
+      "id": "icon-needs-a-name",
+      "do": "Give an icon-only toggle an `aria-label`, such as \"Show grid\".",
+      "dont": "Ship an icon toggle that a screen reader announces only as \"toggle button\".",
+      "visual": false
+    }
+  ],
+  "a11y": [
+    "Announces pressed or not pressed; Space and Enter toggle it."
+  ],
+  "tokens": [
+    "--primary",
+    "--primary-foreground",
+    "--soft-foreground",
+    "--glass"
+  ]
+}

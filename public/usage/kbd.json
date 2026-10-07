@@ -1,0 +1,31 @@
+{
+  "name": "kbd",
+  "kind": "component",
+  "summary": "Shows a keyboard key or shortcut, such as ⌘K beside the search pill or Esc in a dialog footer.",
+  "useWhen": [
+    "A control has a keyboard shortcut worth teaching, such as ⌘K to open search.",
+    "A hint tells people which key closes or confirms something."
+  ],
+  "alternatives": [
+    {
+      "name": "badge",
+      "when": "the label is a status or tag, not a key"
+    }
+  ],
+  "rules": [
+    {
+      "id": "one-key-per-kbd",
+      "do": "Put each key in its own Kbd inside a KbdGroup, such as ⌘ and K.",
+      "dont": "Write a whole sentence of shortcuts inside one key.",
+      "visual": true
+    }
+  ],
+  "a11y": [
+    "Uses the semantic <kbd> element; screen readers read the key names in place.",
+    "Shortcut hints are decorative to pointer users, so never make one the only way to find a feature."
+  ],
+  "tokens": [
+    "--kbd",
+    "--kbd-foreground"
+  ]
+}

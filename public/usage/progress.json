@@ -1,0 +1,30 @@
+{
+  "name": "progress",
+  "kind": "component",
+  "summary": "A thin lime bar on a faint track that shows how much of something is used or done, such as credits left this month.",
+  "useWhen": [
+    "A known amount is partly used, such as 230 of 600 credits.",
+    "A task reports how far along it is, such as an upload."
+  ],
+  "alternatives": [
+    {
+      "name": "skeleton",
+      "when": "content is loading and there is no amount to show"
+    }
+  ],
+  "rules": [
+    {
+      "id": "state-the-numbers",
+      "do": "Show the numbers beside the bar, such as \"230 of 600 credits\".",
+      "dont": "Show a bar with no figures and make people estimate.",
+      "visual": true
+    }
+  ],
+  "a11y": [
+    "Has the progressbar role with its value; give it a label (`ProgressLabel` or `aria-label`)."
+  ],
+  "tokens": [
+    "--glass",
+    "--brand"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "icon-tile",
+  "kind": "component",
+  "summary": "A small colored rounded square behind an icon that gives each nav, menu or settings entry a recognizable color, from the reference's palette pairs.",
+  "useWhen": [
+    "Entries in a sidebar, settings nav or menu benefit from a quick color cue, such as Profile, Subscription and Usage."
+  ],
+  "alternatives": [
+    {
+      "name": "icon",
+      "when": "a plain icon is enough and color would add noise"
+    },
+    {
+      "name": "avatar",
+      "when": "the item is a person"
+    }
+  ],
+  "rules": [
+    {
+      "id": "tile-beside-label",
+      "do": "Always pair a tile with a visible text label; the tile is decoration.",
+      "dont": "Use a tile on its own as a button or as the only way to tell items apart.",
+      "visual": true
+    },
+    {
+      "id": "stable-colors",
+      "do": "Give each destination one color and keep it everywhere it appears.",
+      "dont": "Color tiles randomly or change an item's color between screens.",
+      "visual": false
+    }
+  ],
+  "a11y": [
+    "Tiles are hidden from screen readers; the label beside them carries the meaning.",
+    "Some palette pairs (brown) have low icon contrast, which is acceptable only because tiles are decorative."
+  ],
+  "tokens": [
+    "--tile-blue",
+    "--tile-purple",
+    "--tile-pink",
+    "--tile-orange",
+    "--tile-mint",
+    "--tile-brown"
+  ]
+}
