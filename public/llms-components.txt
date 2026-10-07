@@ -102,6 +102,9 @@ Compositions of primitives. `intent` lists the jobs a block does; `use_when` say
 - [Workflow Canvas](https://mantisdesignsystem.com/r/workflow-canvas.json) — _[productivity, form]_ People chain several generation steps (such as prompt and reference into a model, then upscale) and need to see, rewire and run the pipeline on a board
 - [Event Map](https://mantisdesignsystem.com/r/event-map.json) — _[productivity, data-display, form]_ People mark where something happened or will happen (a point, a radius or a drawn part of a town or village) and attach details to it
 - [Video Player](https://mantisdesignsystem.com/r/video-player.json) — _[content, data-display]_ People watch a generated or uploaded clip and need to scrub, mute, read captions or go fullscreen
+- [Usage Chart](https://mantisdesignsystem.com/r/usage-chart.json) — _[data-viz, data-display]_ People need to see how credits, generations or another number changed over days or weeks, split by tool or plan
+- [Compare Slider](https://mantisdesignsystem.com/r/compare-slider.json) — _[content, data-display]_ People judge a change to the same picture, such as an upscale, a relight or a retouch
+- [Upload Dropzone](https://mantisdesignsystem.com/r/upload-dropzone.json) — _[form]_ People bring their own files into the product, such as reference images or source clips, with limits on type, size or count
 
 ## Intent vocabulary
 

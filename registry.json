@@ -2202,6 +2202,84 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "usage-chart",
+      "type": "registry:block",
+      "title": "Usage Chart",
+      "description": "A chart of numbers over time for up to five series, as stacked bars, lines or stacked areas, in the chart colors, with a title, a legend, hover details with a total, and the same numbers as a table for screen readers. Drawn with Recharts. Takes a title, the series, the data points and an optional unit.",
+      "meta": {
+        "intent": [
+          "data-viz",
+          "data-display"
+        ],
+        "use_when": "People need to see how credits, generations or another number changed over days or weeks, split by tool or plan"
+      },
+      "registryDependencies": [
+        "@mantis/mantis-cn"
+      ],
+      "dependencies": [
+        "recharts@^3.10.1"
+      ],
+      "files": [
+        {
+          "path": "registry/usage-chart.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "compare-slider",
+      "type": "registry:block",
+      "title": "Compare Slider",
+      "description": "A before and after comparison: two pictures in one rounded frame with a white divider and handle that people drag, or move with the arrow keys, to reveal more of either, and a corner label on each side. Built on react-compare-slider. Takes the before and after pictures, an optional starting position and a frame shape.",
+      "meta": {
+        "intent": [
+          "content",
+          "data-display"
+        ],
+        "use_when": "People judge a change to the same picture, such as an upscale, a relight or a retouch"
+      },
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "dependencies": [
+        "react-compare-slider@^4.0.0"
+      ],
+      "files": [
+        {
+          "path": "registry/compare-slider.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "upload-dropzone",
+      "type": "registry:block",
+      "title": "Upload Dropzone",
+      "description": "A drop area for adding files by dragging, pasting or browsing, with type and size checks, a list of added files with previews, progress and remove buttons, and a plain reason for each file turned away.",
+      "meta": {
+        "intent": [
+          "form"
+        ],
+        "use_when": "People bring their own files into the product, such as reference images or source clips, with limits on type, size or count"
+      },
+      "registryDependencies": [
+        "@mantis/button",
+        "@mantis/icon",
+        "@mantis/progress",
+        "@mantis/mantis-cn"
+      ],
+      "dependencies": [
+        "react-dropzone@^20.1.2"
+      ],
+      "files": [
+        {
+          "path": "registry/upload-dropzone.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

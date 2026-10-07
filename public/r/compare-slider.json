@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "compare-slider",
+  "title": "Compare Slider",
+  "description": "A before and after comparison: two pictures in one rounded frame with a white divider and handle that people drag, or move with the arrow keys, to reveal more of either, and a corner label on each side. Built on react-compare-slider. Takes the before and after pictures, an optional starting position and a frame shape.",
+  "dependencies": [
+    "react-compare-slider@^4.0.0"
+  ],
+  "registryDependencies": [
+    "@mantis/icon",
+    "@mantis/mantis-cn"
+  ],
+  "files": [
+    {
+      "path": "registry/compare-slider.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { HandleRoot, Item, Provider, Root } from \"react-compare-slider/components\"\nimport { useReactCompareSlider } from \"react-compare-slider/hooks\"\n\nimport { cn } from \"@/lib/mantis-cn\"\nimport { Icon } from \"@/components/ui/icon\"\n\n/** One side of the comparison. */\nexport type CompareSliderImage = {\n  src: string\n  /** Describes the picture. Leave it empty when the label beside it already says what it is. */\n  alt: string\n  /** A short tag shown in the corner, such as \"Before\" or \"4K upscale\". */\n  label?: string\n}\n\nexport interface CompareSliderProps extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  /** The picture revealed on the left: the original. */\n  before: CompareSliderImage\n  /** The picture revealed on the right: the result. */\n  after: CompareSliderImage\n  /** Where the divider starts, as a percentage from the left. */\n  defaultPosition?: number\n  /** Frame shape: video (16:9), square, portrait (4:5) or landscape (4:3). */\n  aspect?: \"video\" | \"square\" | \"portrait\" | \"landscape\"\n  /** Names the comparison for screen readers, such as \"Original and 4K upscale\". */\n  label?: string\n}\n\nconst ASPECT = { video: \"aspect-video\", square: \"aspect-square\", portrait: \"aspect-4/5\", landscape: \"aspect-4/3\" }\n\nfunction Side({ image, align }: { image: CompareSliderImage; align: \"start\" | \"end\" }) {\n  return (\n    <div className=\"relative size-full\">\n      {/* A plain <img> keeps the block framework-agnostic; swap in next/image in your app if you like. */}\n      {/* eslint-disable-next-line @next/next/no-img-element */}\n      <img src={image.src} alt={image.alt} draggable={false} className=\"size-full object-cover\" />\n      {image.label ? (\n        <span className={cn(\"absolute top-3 rounded-lg bg-overlay px-2 py-1 text-xs font-medium text-foreground\", align === \"start\" ? \"left-3\" : \"right-3\")}>\n          {image.label}\n        </span>\n      ) : null}\n    </div>\n  )\n}\n\n// A before and after comparison: two pictures stacked in one frame with a divider people drag, or move\n// with the arrow keys, to reveal more of either. The dragging is react-compare-slider; the look is Mantis's.\nfunction CompareSlider({ before, after, defaultPosition = 50, aspect = \"video\", label = \"Before and after\", className, ...props }: CompareSliderProps) {\n  // One press of an arrow key moves the divider a twentieth of the way.\n  const slider = useReactCompareSlider({ defaultPosition, keyboardIncrement: \"5%\" })\n  return (\n    <div data-slot=\"compare-slider\" className={cn(\"overflow-hidden rounded-2xl bg-card\", ASPECT[aspect], className)} {...props}>\n      {/* Assembled from the library's parts, not its ready-made slider, so the divider can carry this\n          comparison's name; the ready-made one is always called by a fixed instruction sentence. */}\n      <Provider {...slider}>\n        <Root className=\"size-full\">\n          <Item item=\"itemOne\">\n            <Side image={before} align=\"start\" />\n          </Item>\n          <Item item=\"itemTwo\">\n            <Side image={after} align=\"end\" />\n          </Item>\n          <HandleRoot aria-label={label} className=\"group/handle\">\n            <div className=\"flex h-full w-0.5 items-center justify-center bg-primary\">\n              <span className=\"flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-popover group-focus-visible/handle:ring-3 group-focus-visible/handle:ring-ring/50\">\n                <Icon name=\"chevron_left\" className=\"-mr-1.5 size-5\" />\n                <Icon name=\"chevron_right\" className=\"-ml-1.5 size-5\" />\n              </span>\n            </div>\n          </HandleRoot>\n        </Root>\n      </Provider>\n    </div>\n  )\n}\n\nexport { CompareSlider }\n",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "intent": [
+      "content",
+      "data-display"
+    ],
+    "use_when": "People judge a change to the same picture, such as an upscale, a relight or a retouch"
+  },
+  "type": "registry:block"
+}

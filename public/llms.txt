@@ -104,6 +104,9 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [Workflow Canvas](https://mantisdesignsystem.com/r/workflow-canvas.json) — block
 - [Event Map](https://mantisdesignsystem.com/r/event-map.json) — block
 - [Video Player](https://mantisdesignsystem.com/r/video-player.json) — block
+- [Usage Chart](https://mantisdesignsystem.com/r/usage-chart.json) — block
+- [Compare Slider](https://mantisdesignsystem.com/r/compare-slider.json) — block
+- [Upload Dropzone](https://mantisdesignsystem.com/r/upload-dropzone.json) — block
 
 ## Usage guides
 
@@ -124,6 +127,7 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [checkbox](https://mantisdesignsystem.com/usage/checkbox.md)
 - [combobox](https://mantisdesignsystem.com/usage/combobox.md)
 - [command-palette](https://mantisdesignsystem.com/usage/command-palette.md)
+- [compare-slider](https://mantisdesignsystem.com/usage/compare-slider.md)
 - [countdown](https://mantisdesignsystem.com/usage/countdown.md)
 - [dialog](https://mantisdesignsystem.com/usage/dialog.md)
 - [dropdown-menu](https://mantisdesignsystem.com/usage/dropdown-menu.md)
@@ -188,6 +192,8 @@ Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesig
 - [toggle-group](https://mantisdesignsystem.com/usage/toggle-group.md)
 - [tooltip](https://mantisdesignsystem.com/usage/tooltip.md)
 - [top-navigation](https://mantisdesignsystem.com/usage/top-navigation.md)
+- [upload-dropzone](https://mantisdesignsystem.com/usage/upload-dropzone.md)
+- [usage-chart](https://mantisdesignsystem.com/usage/usage-chart.md)
 - [usage-summary](https://mantisdesignsystem.com/usage/usage-summary.md)
 - [video-player](https://mantisdesignsystem.com/usage/video-player.md)
 - [video-studio-page](https://mantisdesignsystem.com/usage/video-studio-page.md)
