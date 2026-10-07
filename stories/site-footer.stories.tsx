@@ -93,6 +93,14 @@ export const LegalOnly: Story = {
 export const Narrow: Story = {
   name: 'Narrow screen',
   decorators: [(Story) => <div className="max-w-sm">{Story()}</div>],
+  // The box is narrow but the window is wide: the footer must lay out for the box. Two link columns
+  // fit here, so the third starts a new row under the first instead of squeezing in beside it.
+  play: async ({ canvasElement }) => {
+    const [first, second, third] = within(canvasElement).getAllByRole('navigation').map((column) => column.getBoundingClientRect())
+    await expect(second.left).toBeGreaterThanOrEqual(first.right)
+    await expect(third.top).toBeGreaterThanOrEqual(first.bottom)
+    await expect(third.left).toBe(first.left)
+  },
 }
 
 // Proves each column is a named group and every social link has a name.

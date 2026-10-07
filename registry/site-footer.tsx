@@ -75,19 +75,23 @@ function SiteFooter({
   const linkClass = cn("rounded-sm text-sm font-medium outline-none hover:underline underline-offset-4 focus-visible:ring-3", toneClasses.link, toneClasses.focus)
 
   return (
-    <footer data-slot="site-footer" data-tone={tone} className={cn("w-full px-6 py-12 md:px-10", toneClasses.root, className)} {...props}>
-      <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
-        <div className="flex flex-col gap-6 lg:w-2/5">
+    <footer data-slot="site-footer" data-tone={tone} className={cn("@container/footer w-full", toneClasses.root, className)} {...props}>
+      {/* The layout follows the footer's own width, not the window's, so it also holds up in a narrow
+          preview or side panel on a wide screen. The padding lives on this inner box because a
+          container cannot be styled by its own width. */}
+      <div className="px-6 py-12 @3xl/footer:px-10">
+      <div className="flex flex-col gap-10 @5xl/footer:flex-row @5xl/footer:gap-16">
+        <div className="flex flex-col gap-6 @5xl/footer:w-2/5">
           <a href={homeHref} className={cn("w-fit rounded-xl outline-none focus-visible:ring-3", toneClasses.focus)}>
             {/* An empty, labelled slot: the product's own mark goes here. */}
             <span role="img" aria-label={`${brandName} logo`} className={cn("block size-10 rounded-xl", toneClasses.slot)} />
           </a>
           {tagline && tone === "brand" ? (
-            <p className="max-w-md font-grotesk text-display-sm uppercase md:text-display-md">{tagline}</p>
+            <p className="max-w-md font-grotesk text-display-sm uppercase @3xl/footer:text-display-md">{tagline}</p>
           ) : null}
         </div>
 
-        <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-10 @2xl/footer:grid-cols-3 @5xl/footer:grid-cols-4">
           {columns.map((column) => {
             return (
               <nav key={column.title} aria-label={column.title} className="flex flex-col gap-3">
@@ -109,7 +113,7 @@ function SiteFooter({
         </div>
       </div>
 
-      <div className={cn("mt-12 flex flex-col-reverse gap-6 border-t pt-6 md:flex-row md:items-center", toneClasses.rule)}>
+      <div className={cn("mt-12 flex flex-col-reverse gap-6 border-t pt-6 @3xl/footer:flex-row @3xl/footer:items-center", toneClasses.rule)}>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
           <p>{legal}</p>
           {legalLinks.length ? (
@@ -125,7 +129,7 @@ function SiteFooter({
           ) : null}
         </div>
         {socials.length ? (
-          <ul className="flex gap-2 md:ml-auto" aria-label={`${brandName} elsewhere`}>
+          <ul className="flex gap-2 @3xl/footer:ml-auto" aria-label={`${brandName} elsewhere`}>
             {socials.map((social) => (
               <li key={social.href}>
                 {/* A real link with button looks: Base UI's Button would announce it as a button. */}
@@ -145,6 +149,7 @@ function SiteFooter({
             ))}
           </ul>
         ) : null}
+      </div>
       </div>
     </footer>
   )
