@@ -7,7 +7,7 @@
  * CSS, and the DTCG export from this file alone.
  */
 export const tokens = {
-  meta: { name: 'mantis', version: '0.1.0', defaultTheme: 'dark' },
+  meta: { name: 'mantis', version: '1.0.0', defaultTheme: 'dark' },
   // Every mode this system ships, default first. Each color and shadow leaf
   // holds one value per mode; a mode after the first is selected with
   // data-theme="<mode>". Dark is derived only when the source defines none.

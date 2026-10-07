@@ -14,12 +14,13 @@ AGENTS.md (imported above) is how to *use* Mantis: components, props, tokens, ru
 ## Where it lives
 
 - **Live:** https://mantisdesignsystem.com (domain registered at GoDaddy, DNS pointed at Vercel on 2026-10-04) and https://mantis-gold.vercel.app, the same deployment (Vercel project `mantis`, team `craftwell-ais-projects`, public). Registry at `/r/<name>.json`, Storybook at `/storybook/`, guides at `/usage/<name>.md`, `llms.txt`, `design.md`.
-- **Deploy:** `vercel deploy --prod --scope craftwell-ais-projects` after the gates below pass. `npm run build` builds Storybook into `public/storybook` first. Deploying is outward-facing: only with the owner's OK.
+- **Deploy:** pushing to `main` deploys to production. The Vercel project is connected to the GitHub repo (2026-10-07), so there is no deploy command to run. That makes a push to `main` outward-facing: push only with the owner's OK and after the gates below pass. `npm run build` builds Storybook into `public/storybook` first. Fallback if the connection is ever broken: `vercel deploy --prod --scope craftwell-ais-projects` (run `vercel whoami` first; the sign-in expires after about 8 hours).
 - **Home page:** `app/page.tsx` with its parts in `components/home/`. The site address and fixed links are in `lib/site.ts`; the counts it shows are read from the repo by `lib/site-stats.ts`. `app/home.css` holds the few values the home page design uses that have no token; nothing else should read them.
 - `components.json` keeps `@mantis` pointed at `http://localhost:3000` on purpose, so work in this repo installs unpublished changes from `npm run dev`.
 
 ## Workflow rules
 
+- **Every change bumps the version (owner rule, 2026-10-07).** Before the build scripts, run `npm run version:bump -- <patch|minor|major> "<what changed>"`. It updates `package.json`, the lock file, the token file and `CHANGELOG.md` together; the home page footer and `llms.txt` print the version. `patch`: a fix, or a change nobody installing Mantis would notice (docs, scripts, the Paper builder). `minor`: something new (a block, component, prop or token). `major`: something removed, renamed or broken for existing installs; ask the owner first. One bump per commit, and tag the commit `v<version>` when it is pushed.
 - After ANY change to `registry.json` or `registry/`, run `npm run registry:build` and commit the regenerated `public/r/`.
 - After touching tokens, `registry.json`, `usage/` or any `components/ui` props, run `node scripts/build-tokens.mjs`, `node scripts/build-llms.mjs`, `node scripts/build-usage.mjs` and `node scripts/build-agents.mjs`, then commit. `scripts/build-llms.test.mjs` asserts byte equality, so a stale `llms.txt` fails CI.
 - Verify before declaring done: `npm test`, `npm run lint`, `npx tsc --noEmit`, `npm run test-storybook`.

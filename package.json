@@ -1,6 +1,6 @@
 {
   "name": "mantis",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -13,7 +13,8 @@
     "build-storybook": "storybook build",
     "test-storybook": "vitest --project=storybook run",
     "prebuild": "npm run build-storybook -- -o public/storybook --quiet",
-    "paper:boards": "node scripts/paper/run.mjs"
+    "paper:boards": "node scripts/paper/run.mjs",
+    "version:bump": "node scripts/bump-version.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
