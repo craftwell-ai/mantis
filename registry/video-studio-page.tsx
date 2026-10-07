@@ -13,6 +13,7 @@ import { EmptyState } from "./empty-state"
 import { SAMPLE_CLIPS, SAMPLE_VIDEO_SETTINGS, sampleNavigation } from "./sample-content"
 import { StudioSettingsPanel, type StudioSettingsPanelProps } from "./studio-settings-panel"
 import { TopNavigation, type TopNavigationProps } from "./top-navigation"
+import { VideoPlayer } from "./video-player"
 
 export interface VideoStudioClip {
   id: string
@@ -155,17 +156,15 @@ function ClipCanvas({
             </div>
           </>
         ) : clip.videoSrc ? (
-          <video
+          <VideoPlayer
             key={clip.id}
             src={clip.videoSrc}
             poster={clip.posterSrc}
-            controls
-            playsInline
-            aria-label={clip.alt}
-            className="size-full object-contain"
-          >
-            {clip.captionsSrc ? <track kind="captions" src={clip.captionsSrc} default /> : null}
-          </video>
+            title={clip.alt}
+            captionsSrc={clip.captionsSrc}
+            // The frame around it already sets the shape and the corners.
+            className="size-full rounded-none"
+          />
         ) : (
           // A plain <img> keeps the block framework-agnostic; swap in next/image in your app if you like.
           // eslint-disable-next-line @next/next/no-img-element

@@ -43,8 +43,12 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// The live street map. It needs the network, so this story only checks what does not depend on it.
+// The live street map, for people to look at and try. It is left out of the automated test run
+// (`!test`): drawing a city's worth of streets in the test browser, which has no graphics card, starves
+// the other stories of processor time and made unrelated tests fail at random (4 runs in 5). The
+// stories below test the same block on the blank map, and they are checked by axe as usual.
 export const Default: Story = {
+  tags: ['!test'],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await expect(canvas.getByRole('heading', { name: /Events/ })).toBeVisible()

@@ -91,9 +91,12 @@ export const AnswerRequest: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement)
     await userEvent.click(canvas.getByRole('tab', { name: /Requests/ }))
-    const [accept] = canvas.getAllByRole('button', { name: 'Accept' })
+    // Look only inside the Requests panel: while the tabs switch, the All panel can still be on the
+    // page for a moment, and it shows the same request (this made the test fail about one run in three).
+    const requests = within(await canvas.findByRole('tabpanel', { name: /Requests/ }))
+    const [accept] = await requests.findAllByRole('button', { name: 'Accept' })
     await userEvent.click(accept)
-    await expect(canvas.getByRole('status')).toHaveTextContent('Accepted')
+    await expect(await requests.findByRole('status')).toHaveTextContent('Accepted')
     await expect(args.onRespond).toHaveBeenCalledWith(expect.objectContaining({ id: 'invite-1' }), 'accepted')
   },
 }

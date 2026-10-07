@@ -1864,6 +1864,7 @@
         "@mantis/sample-content",
         "@mantis/studio-settings-panel",
         "@mantis/top-navigation",
+        "@mantis/video-player",
         "@mantis/mantis-cn"
       ],
       "files": [
@@ -2172,6 +2173,32 @@
       "files": [
         {
           "path": "registry/event-map.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "video-player",
+      "type": "registry:block",
+      "title": "Video Player",
+      "description": "A video player in Mantis's look: play and pause, a lime scrub bar, elapsed and total time, mute and volume, an optional captions button and fullscreen, over a clip in a rounded 16:9, square or portrait frame. Playback behavior and keyboard shortcuts come from Media Chrome; the icons and colors are Mantis's. Takes the clip address, a title, and optional poster and captions file.",
+      "meta": {
+        "intent": [
+          "content",
+          "data-display"
+        ],
+        "use_when": "People watch a generated or uploaded clip and need to scrub, mute, read captions or go fullscreen"
+      },
+      "registryDependencies": [
+        "@mantis/icon",
+        "@mantis/mantis-cn"
+      ],
+      "dependencies": [
+        "media-chrome@^4.19.3"
+      ],
+      "files": [
+        {
+          "path": "registry/video-player.tsx",
           "type": "registry:component"
         }
       ]
