@@ -7,6 +7,8 @@ export const REPO = join(dirname(fileURLToPath(import.meta.url)), '../..')
 export const WORK_DIR = join(REPO, '.paper-build')
 export const CAPTURE_DIR = join(WORK_DIR, 'captures')
 export const SHOT_DIR = join(WORK_DIR, 'boards')
+// Pictures of the parts a board cannot rebuild from HTML (maps, video, charts); Paper uploads them.
+export const RASTER_DIR = join(WORK_DIR, 'rasters')
 // Icons are committed: the boards in Paper were built from these files.
 export const SVG_DIR = join(REPO, 'design/svg')
 export const STORYBOOK_URL = process.env.STORYBOOK_URL || 'https://mantisdesignsystem.com/storybook'

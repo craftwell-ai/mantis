@@ -458,6 +458,15 @@ function convertStory(options) {
 
   function convert(element, cs, rect, isTop) {
     const tag = element.tagName
+    // A part the capture step photographed (a map, a video, a chart): place the picture, skip what is inside.
+    const raster = element.getAttribute('data-paper-raster')
+    if (raster) {
+      if (rect.width < 1 || rect.height < 1) return null
+      const style = { width: px(rect.width), height: px(rect.height), flexShrink: 0 }
+      const radius = radiusOut(cs.borderTopLeftRadius, rect)
+      if (radius) style.borderRadius = radius
+      return { tag: 'img', attrs: { 'layer-name': element.getAttribute('data-paper-raster-name') || 'picture', src: `paper-asset://${raster}` }, style, rect }
+    }
     if (tag === 'svg' || tag === 'SVG') {
       if (rect.width < 1 || rect.height < 1) return null
       const name = saveSvg(element, cs, rect)

@@ -99,6 +99,7 @@ The Paper file "Mantis Design System" has one page per item: `❖` components, `
 
 - `npm run paper:boards` rebuilds all of them; `npm run paper:boards -- pricing-card` only the named ones. Paper must be running with the file open (the scripts call Paper's local MCP endpoint).
 - Which stories a board shows is listed in `scripts/paper/boards.mjs`. A story is captured in the state its interaction test ends in, so check the picture, not the story name.
+- Parts a board cannot rebuild from HTML (a map, a video, a chart, connector lines) are photographed and placed as pictures. They are listed in `RASTERS` in `scripts/paper/capture.mjs`; a new block that draws its content needs an entry there.
 - Review the result in `.paper-build/boards/` (git-ignored). Icons the boards use are written to `design/svg/` and committed.
 - The component (`❖`) boards and Foundations are hand-maintained; the scripts only move them when pages need reordering.
 

@@ -10,8 +10,10 @@ const patternStories = {
   'agent-approval-card': ['spends-credits', 'changes-data', 'not-enough-credits', 'approved', 'stopped'],
   'announcement-bar': ['default', 'with-countdown', 'not-dismissible'],
   'command-palette': ['open', 'no-results'],
+  'compare-slider': ['default', 'starting-off-centre', 'color-change'],
   countdown: ['default', 'compact', 'ended'],
   'empty-state': ['default', 'asset-library', 'no-search-results'],
+  'event-map': ['default', 'empty', 'saving-an-event'],
   'feature-grid': ['default', 'four-columns', 'without-links'],
   'feed-post': ['default', 'text-only', 'two-images', 'own-post'],
   'generation-feed': ['default', 'list-view', 'still-generating', 'loading', 'empty'],
@@ -37,7 +39,11 @@ const patternStories = {
   'site-footer': ['default', 'plain', 'legal-only'],
   'studio-settings-panel': ['empty', 'filled', 'generating', 'not-enough-credits'],
   'top-navigation': ['default', 'signed-out', 'no-sale'],
+  'upload-dropzone': ['default', 'uploading', 'turned-away', 'full', 'one-file'],
+  'usage-chart': ['bars', 'lines', 'areas', 'one-series'],
   'usage-summary': ['default', 'loading', 'empty'],
+  'video-player': ['default', 'with-captions', 'portrait'],
+  'workflow-canvas': ['default', 'empty', 'running', 'not-enough-credits'],
 }
 const templateStories = {
   'app-shell': ['default'],
