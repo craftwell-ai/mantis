@@ -34,7 +34,8 @@ rewrite('package-lock.json', new RegExp(`("name": "${pkg.name}",\\s+)"version": 
 rewrite('package-lock.json', new RegExp(`("": \\{\\s+"name": "${pkg.name}",\\s+)"version": "${current}"`), `$1"version": "${next}"`)
 rewrite('tokens/mantis.tokens.mjs', new RegExp(`version: '${current}'`), `version: '${next}'`)
 
-const today = new Date().toISOString().slice(0, 10)
+// The owner's local date. toISOString() is UTC, which is already tomorrow on a US evening.
+const today = new Date().toLocaleDateString('en-CA')
 const entry = `## [${next}] - ${today}\n${notes.map((note) => `- ${note}`).join('\n')}\n\n`
 rewrite('CHANGELOG.md', /^(# Changelog\n\n)/, `$1${entry}`)
 
