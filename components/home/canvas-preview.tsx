@@ -64,7 +64,7 @@ function CanvasPreview() {
         <span className="text-xs text-muted-foreground">Glass greenhouse at dusk, fog</span>
       </Node>
       <Node className="top-[62%] left-[6%] w-1/4 border-divider" icon="image" color="pink" title="Reference">
-        <span className="home-canvas-thumb block h-6 rounded-md" />
+        <span className="text-xs text-muted-foreground">greenhouse-mood.jpg</span>
       </Node>
       <Node className="top-[26%] left-[45%] w-[22%] border-brand" icon="star_shine-fill" color="purple" title="Model">
         <div className="flex gap-1">

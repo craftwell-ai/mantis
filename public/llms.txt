@@ -1,6 +1,6 @@
 # Mantis Design System
 
-> The Mantis token layer (one dark, cinematic theme: the reference's source tokens plus semantic roles) and the core component set. Install this first; it is the one-install entry point for the design system. Version 1.0.1.
+> The Mantis token layer (one dark, cinematic theme: the reference's source tokens plus semantic roles) and the core component set. Install this first; it is the one-install entry point for the design system. Version 1.0.2.
 
 Install any item with the shadcn CLI: `npx shadcn@latest add https://mantisdesignsystem.com/r/base.json` for the base theme first, then components and blocks the same way. Add `"registries": { "@mantis": "https://mantisdesignsystem.com/r/{name}.json" }` to your components.json and `npx shadcn@latest add @mantis/<name>` works too; `npx shadcn@latest mcp init` then lets a coding agent search and install from it.
 

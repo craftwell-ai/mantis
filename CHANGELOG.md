@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.0.2] - 2026-10-10
+- Home page: the Canvas card's Reference step shows a file name like the other steps, not a blurred gradient
+
 ## [1.0.1] - 2026-10-09
 - Changelog: the 1.0.0 entry now lists the usage guides published as data, which shipped in 1.0.0 but was left out
 - The bump script dates entries by the local calendar, not UTC
