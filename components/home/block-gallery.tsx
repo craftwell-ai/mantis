@@ -11,7 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Countdown } from "@/registry/countdown"
 import { PlanMatrix, type PlanMatrixPlan, type PlanMatrixSection } from "@/registry/plan-matrix"
 import { PromptComposer } from "@/registry/prompt-composer"
-import { SAMPLE_IMAGE_COMPOSER, SAMPLE_USAGE, SAMPLE_VIDEO_SETTINGS } from "@/registry/sample-content"
+import { SAMPLE_IMAGE_COMPOSER, SAMPLE_USAGE, SAMPLE_VIDEO_SETTINGS, photo } from "@/registry/sample-content"
 import { StudioSettingsPanel } from "@/registry/studio-settings-panel"
 import { UsageSummary } from "@/registry/usage-summary"
 
@@ -48,13 +48,12 @@ const PREVIEW_SECTIONS: PlanMatrixSection[] = [
 ]
 
 // One subject for the whole studio card, so the preset, the references and the clip belong together.
-// Fixed Picsum photos (by id) rather than seeds, because a seed returns an unrelated random picture.
-const seaPhoto = (id: number, width: number, height: number) => `https://picsum.photos/id/${id}/${width}/${height}`
-const STUDIO_PROMPT = "Slow push toward a wave as it curls and breaks, cold blue light, spray lifting off the crest."
-const STUDIO_PRESET = { title: "Slow dolly in", description: "The camera glides toward the subject", image: seaPhoto(1038, 704, 256), imageAlt: "" }
+// The same neon city photos the rest of the system's samples use, so the home page shares their look.
+const STUDIO_PROMPT = "Slow push down a rain-wet street at night, neon signs glowing purple on the pavement."
+const STUDIO_PRESET = { title: "Slow dolly in", description: "The camera glides toward the subject", image: photo("home-rain", 704, 256), imageAlt: "" }
 const STUDIO_REFERENCES = [
-  { id: "reference-1", src: seaPhoto(1052, 160, 160), alt: "" },
-  { id: "reference-2", src: seaPhoto(1049, 160, 160), alt: "" },
+  { id: "reference-1", src: photo("home-clip", 160, 160), alt: "" },
+  { id: "reference-2", src: photo("home-signs", 160, 160), alt: "" },
 ]
 
 const PREVIEW_JOBS = [
@@ -107,7 +106,7 @@ function StudioPreview() {
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         {/* The rendered clip, drawn as a paused video so it reads as footage and not as a photo. */}
         <div className="relative">
-          <MediaTile aspect="video" radius="2xl" src={seaPhoto(1041, 1280, 720)} alt="" />
+          <MediaTile aspect="video" radius="2xl" src={photo("home-night", 1280, 720)} alt="" />
           <span className="absolute top-1/2 left-1/2 flex size-14 -translate-1/2 items-center justify-center rounded-full bg-overlay text-2xl text-foreground">
             <Icon name="play_arrow" />
           </span>

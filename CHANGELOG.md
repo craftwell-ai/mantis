@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.1] - 2026-10-12
+- Home page: the studio settings preview uses the neon city photos, in line with the rest of the samples
+
 ## [1.1.0] - 2026-10-12
 - Sample pictures in blocks, templates and stories are now free Unsplash photos chosen to share one look: a neon-lit street or city view at night with a purple cast (`photo(spot, width, height)` in the sample content). Picsum's random photos and the stock footage are gone
 - New `placeholder(width, height)` draws television static for a spot with no picture yet, and `PLACEHOLDER_CLIP` is a short static clip for the video player
