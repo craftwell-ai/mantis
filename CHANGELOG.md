@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] - 2026-10-12
+- Published icons as drawings: `public/icons/<name>.svg` for every shipped icon, plus `public/icons/index.json`
+- Each guide in `public/usage/index.json` carries a `hash` (the SHA-256 of its JSON), so tools notice a reworded rule
+
 ## [1.1.1] - 2026-10-12
 - Home page: the studio settings preview uses the neon city photos, in line with the rest of the samples
 

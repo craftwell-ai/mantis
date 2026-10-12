@@ -4,442 +4,530 @@
     {
       "name": "accordion",
       "kind": "component",
-      "summary": "Stacked sections that open one at a time, such as the steps of a character builder or a list of advanced settings."
+      "summary": "Stacked sections that open one at a time, such as the steps of a character builder or a list of advanced settings.",
+      "hash": "4d6931eae1bf71c6af1b790c4df5e04d5e83ce4d8182a8af5fde60759a7db079"
     },
     {
       "name": "account-menu",
       "kind": "block",
-      "summary": "The menu that opens from the avatar: who is signed in (name, email, plan), a credit meter showing what is left this month, a couple of ways to get more credits, then settings, help and sign out."
+      "summary": "The menu that opens from the avatar: who is signed in (name, email, plan), a credit meter showing what is left this month, a couple of ways to get more credits, then settings, help and sign out.",
+      "hash": "4b0f87e4b3a454a6e28783dd4e5abd79c4bc176eacebf2adfb94fc59b0a12054"
     },
     {
       "name": "add-media-panel",
       "kind": "block",
-      "summary": "A panel for pulling existing media into a project: Uploads, Elements, Generations and Liked tabs over a grid of images, skeleton tiles while a tab loads, an empty state for each tab, an upload action and a count of what is picked."
+      "summary": "A panel for pulling existing media into a project: Uploads, Elements, Generations and Liked tabs over a grid of images, skeleton tiles while a tab loads, an empty state for each tab, an upload action and a count of what is picked.",
+      "hash": "484000d5061b2ac625579b05aee99a609a7b0a3ad3992ccdffb348d9f9adaab4"
     },
     {
       "name": "agent-approval-card",
       "kind": "block",
-      "summary": "A human-in-the-loop card: before an AI agent spends credits or changes data it lists exactly what it will do and what it costs, then waits for Approve, Stop, or Approve with \"Always allow\" switched on."
+      "summary": "A human-in-the-loop card: before an AI agent spends credits or changes data it lists exactly what it will do and what it costs, then waits for Approve, Stop, or Approve with \"Always allow\" switched on.",
+      "hash": "aa085af7d489bfd361c5518c57ee8f724e495d0d0143245c446b9bf0ca17f022"
     },
     {
       "name": "alert-dialog",
       "kind": "component",
-      "summary": "A blocking confirmation for an action that cannot be undone, such as deleting a generation or cancelling a plan."
+      "summary": "A blocking confirmation for an action that cannot be undone, such as deleting a generation or cancelling a plan.",
+      "hash": "d7189651a870a43b286bbad01dd7a09c08accbf0770baf417473df28fc2b69fe"
     },
     {
       "name": "announcement-bar",
       "kind": "block",
-      "summary": "A full-width lime bar above the top navigation that carries one short message, one call-to-action link and a close button."
+      "summary": "A full-width lime bar above the top navigation that carries one short message, one call-to-action link and a close button.",
+      "hash": "c8063f620661ebf91640fd3e5ebb382850b77283509169ea1347936247ba505c"
     },
     {
       "name": "app-shell",
       "kind": "block",
-      "summary": "The signed-in page frame: the top navigation bar across the top with the account menu wired into it, and one content area under it that scrolls on its own so the bar never moves. It fills the viewport, has a skip link to the content, and takes the page as `children`."
+      "summary": "The signed-in page frame: the top navigation bar across the top with the account menu wired into it, and one content area under it that scrolls on its own so the bar never moves. It fills the viewport, has a skip link to the content, and takes the page as `children`.",
+      "hash": "5f5f35dfc05021f0afae6069805ddd692172865e42f46820594466223a1ca8cc"
     },
     {
       "name": "app-shell-sidebar",
       "kind": "block",
-      "summary": "The signed-in frame for a section with many destinations: the top navigation bar, a left sidebar of icon links grouped into labelled sections, and a content area that scrolls on its own. When the shell is at least 1024px wide (it measures its own width, not the window) the sidebar sits beside the page and collapses to icons with tooltips; below that it moves into a sheet opened from a slim bar that names the current page."
+      "summary": "The signed-in frame for a section with many destinations: the top navigation bar, a left sidebar of icon links grouped into labelled sections, and a content area that scrolls on its own. When the shell is at least 1024px wide (it measures its own width, not the window) the sidebar sits beside the page and collapses to icons with tooltips; below that it moves into a sheet opened from a slim bar that names the current page.",
+      "hash": "89e00fe5d91aa84dd2736077fd0ab92b19f4f051e51e0349fa585335f03fd919"
     },
     {
       "name": "asset-library-page",
       "kind": "block",
-      "summary": "An asset library page template: the top navigation, a page header with the Upload action, filter tabs (All, Images, Videos, Uploads) and a name search, a grid of asset tiles selected with a corner checkbox, and a floating selection bar to download or delete in bulk (delete is confirmed). Shows skeletons while loading, a no-match state with Clear search, and the empty state with its one upload button when the library is empty. Composes top-navigation and empty-state."
+      "summary": "An asset library page template: the top navigation, a page header with the Upload action, filter tabs (All, Images, Videos, Uploads) and a name search, a grid of asset tiles selected with a corner checkbox, and a floating selection bar to download or delete in bulk (delete is confirmed). Shows skeletons while loading, a no-match state with Clear search, and the empty state with its one upload button when the library is empty. Composes top-navigation and empty-state.",
+      "hash": "8e8ca898c35180bae8a7b3fd9c189fe948b881021f13dd393bf75e3e5ad2205f"
     },
     {
       "name": "avatar",
       "kind": "component",
-      "summary": "A round picture or initials that stands for a person, such as the account button, a post author or a collaborator."
+      "summary": "A round picture or initials that stands for a person, such as the account button, a post author or a collaborator.",
+      "hash": "9c2b42bfcba6ed4356d247639fcbedb955d8641de976d9e1d725c5e2289c09ff"
     },
     {
       "name": "badge",
       "kind": "component",
-      "summary": "A short label that marks something as new, discounted, featured or counted, set beside the thing it describes."
+      "summary": "A short label that marks something as new, discounted, featured or counted, set beside the thing it describes.",
+      "hash": "c06616d4f04f65390e062f905a8eb38ee4d05c23fd1a73995c70bf133b73820a"
     },
     {
       "name": "button",
       "kind": "component",
-      "summary": "Runs an action in place: saving a project, inviting a collaborator, confirming a delete, or opening a dialog."
+      "summary": "Runs an action in place: saving a project, inviting a collaborator, confirming a delete, or opening a dialog.",
+      "hash": "550a9e317b01c47da5ba90a169c71d09e48c9d1e2c5a4a56020cac3ed0918ed4"
     },
     {
       "name": "canvas-shell",
       "kind": "block",
-      "summary": "The chrome of a board page, with no canvas engine: a full-bleed dotted (or blank) board, a minimal floating top bar with the logo slot, board name, undo, redo and Share, a floating tool bar at the bottom (select, hand, text, shapes, an Add menu, and zoom out, zoom percent and zoom in), and a Layers and Properties panel on the right that becomes a sheet when the shell is narrower than 1024px (it measures its own width, not the window). Board content goes in as children and scales with the zoom."
+      "summary": "The chrome of a board page, with no canvas engine: a full-bleed dotted (or blank) board, a minimal floating top bar with the logo slot, board name, undo, redo and Share, a floating tool bar at the bottom (select, hand, text, shapes, an Add menu, and zoom out, zoom percent and zoom in), and a Layers and Properties panel on the right that becomes a sheet when the shell is narrower than 1024px (it measures its own width, not the window). Board content goes in as children and scales with the zoom.",
+      "hash": "8f5b4d6ec2f76b9b122c436596be6df9e8f0eb8752396a16b8ed1756089447f7"
     },
     {
       "name": "card",
       "kind": "component",
-      "summary": "Holds the content and actions for one subject, such as a generation, a project or a credit balance, on a single bordered surface."
+      "summary": "Holds the content and actions for one subject, such as a generation, a project or a credit balance, on a single bordered surface.",
+      "hash": "a3067b0364de3cae9aad25421e48e00ab5c4c5e42c6aa8fbf158cecfc3f208f8"
     },
     {
       "name": "checkbox",
       "kind": "component",
-      "summary": "Lets someone pick any number of independent options, such as which sessions to sign out or which formats to export."
+      "summary": "Lets someone pick any number of independent options, such as which sessions to sign out or which formats to export.",
+      "hash": "6777ec3e3213f96880b553c4e03ae4ae1e8c467064a7f11b7edc9f0cefbd92a2"
     },
     {
       "name": "combobox",
       "kind": "component",
-      "summary": "A searchable picker: type to filter a long list, then choose one item, such as a model, a preset or a collaborator."
+      "summary": "A searchable picker: type to filter a long list, then choose one item, such as a model, a preset or a collaborator.",
+      "hash": "a7cee137c1ed4891a53f023468b7cacd07372ce9d7999ab847e466584ff330bf"
     },
     {
       "name": "command-palette",
       "kind": "block",
-      "summary": "The ⌘K search dialog: a search field, filter chips, recent searches, a row of featured cards and a two-column trending list. Typing switches to results grouped by category, and the arrow keys move through every row and card."
+      "summary": "The ⌘K search dialog: a search field, filter chips, recent searches, a row of featured cards and a two-column trending list. Typing switches to results grouped by category, and the arrow keys move through every row and card.",
+      "hash": "e904ec8b409b9aaf72927f72798c9dfedbce98c34edad6560c435473236d5496"
     },
     {
       "name": "compare-slider",
       "kind": "block",
-      "summary": "A before and after comparison: two pictures in one frame with a divider people drag, or move with the arrow keys, to reveal more of either."
+      "summary": "A before and after comparison: two pictures in one frame with a divider people drag, or move with the arrow keys, to reveal more of either.",
+      "hash": "c6f66eda680ffc2660bf55a6382d7451f251297ff88c6c8d2f1a60cbe5f88221"
     },
     {
       "name": "countdown",
       "kind": "block",
-      "summary": "An offer timer: a label such as \"Launch pricing ends in\" above hours, minutes and seconds shown as glass tiles, counting down to a fixed time and switching to an ended message at zero."
+      "summary": "An offer timer: a label such as \"Launch pricing ends in\" above hours, minutes and seconds shown as glass tiles, counting down to a fixed time and switching to an ended message at zero.",
+      "hash": "a46b13c730b0e38e92e57c3052614346e643e929bf10c58e6a4bbbb561fb664f"
     },
     {
       "name": "dialog",
       "kind": "component",
-      "summary": "A modal window that pauses the page for one short task or decision, such as deleting a generation or renaming a project."
+      "summary": "A modal window that pauses the page for one short task or decision, such as deleting a generation or renaming a project.",
+      "hash": "ef028f420cdc6b9f06b72bcd4fbfaf954533805d618f4d12eedf6a5ee777e8d6"
     },
     {
       "name": "dropdown-menu",
       "kind": "component",
-      "summary": "A list of actions or options that opens from a button, keeping secondary choices tucked away until someone asks for them."
+      "summary": "A list of actions or options that opens from a button, keeping secondary choices tucked away until someone asks for them.",
+      "hash": "9002f5f1562a7406a152e2c6ab1c73c7f056baa80fa2eeb2742003908b8c33ab"
     },
     {
       "name": "empty-state",
       "kind": "block",
-      "summary": "A dashed placeholder that fills the space where content will appear, says what belongs there in one sentence, and offers one button to add the first item, such as an empty asset library asking for a first upload."
+      "summary": "A dashed placeholder that fills the space where content will appear, says what belongs there in one sentence, and offers one button to add the first item, such as an empty asset library asking for a first upload.",
+      "hash": "c93e9069354b69d143c9d29e6e7ad1d601662e9c3a6be70b25a7d83e013a4e25"
     },
     {
       "name": "event-map",
       "kind": "block",
-      "summary": "A map for logging events at places: drop a pin, or draw a circle or an area, fill in a title, a type and notes, and the event joins a list and stays marked on the map."
+      "summary": "A map for logging events at places: drop a pin, or draw a circle or an area, fill in a title, a type and notes, and the event joins a list and stays marked on the map.",
+      "hash": "1421bd363b7c3fb983cfabd103100246f9e26bc5fd2b7587241f7b2bee4b9b97"
     },
     {
       "name": "explore-page",
       "kind": "block",
-      "summary": "A full community page: the app top bar, an uppercase headline with one lime word, a row of category pills, and the masonry media grid of everyone's work. Clicking a picture opens the lightbox inspector on it, and its arrows step through the selected category. Likes update in place."
+      "summary": "A full community page: the app top bar, an uppercase headline with one lime word, a row of category pills, and the masonry media grid of everyone's work. Clicking a picture opens the lightbox inspector on it, and its arrows step through the selected category. Likes update in place.",
+      "hash": "ccb3ac674666fdb37bef976484ddca3a70955c8029b0ac15a407df9377d178d1"
     },
     {
       "name": "feature-grid",
       "kind": "block",
-      "summary": "A landing-page section of feature cards: an uppercase section title with an optional lime word, then a grid of image-first cards, each with an uppercase title, one line and an optional lime \"New\" tag."
+      "summary": "A landing-page section of feature cards: an uppercase section title with an optional lime word, then a grid of image-first cards, each with an uppercase title, one line and an optional lime \"New\" tag.",
+      "hash": "bf337a2292e7a46db28fed1532a6bf989fbb66bf58fa375849a7085293d8b308"
     },
     {
       "name": "feed-post",
       "kind": "block",
-      "summary": "One post in a community feed: the author with avatar, time and a Follow button, an optional title and text, up to four pictures with a small tool label, and a footer of like, dislike and comment counts that double as actions, plus share, views and a more menu."
+      "summary": "One post in a community feed: the author with avatar, time and a Follow button, an optional title and text, up to four pictures with a small tool label, and a footer of like, dislike and comment counts that double as actions, plus share, views and a more menu.",
+      "hash": "27d4c6a56bc9dccd452e1a01be5464fd129079ac080207c5fdad933a50f745ad"
     },
     {
       "name": "field",
       "kind": "component",
-      "summary": "Wraps a form control with its label, hint and error message, laid out the way the reference's profile and settings forms are."
+      "summary": "Wraps a form control with its label, hint and error message, laid out the way the reference's profile and settings forms are.",
+      "hash": "9d10bd57f7d4de2a18f4f45e0a0dff3ecf936e4488ea1bfddd418a0460c93479"
     },
     {
       "name": "generation-feed",
       "kind": "block",
-      "summary": "A person's generation history: an edge-to-edge grid of results with a zoom slider that changes tile size, or a list that puts each result beside its prompt, model, settings and time, with Reuse prompt and Download. Shows skeletons while loading, a shimmering tile for work still generating, and a dashed placeholder when empty."
+      "summary": "A person's generation history: an edge-to-edge grid of results with a zoom slider that changes tile size, or a list that puts each result beside its prompt, model, settings and time, with Reuse prompt and Download. Shows skeletons while loading, a shimmering tile for work still generating, and a dashed placeholder when empty.",
+      "hash": "6189ecb7dad4cfefa35a1434d3270525a78cdf355535fc2ab758f52941c2e6da"
     },
     {
       "name": "heading",
       "kind": "component",
-      "summary": "Page and section headings: the signature uppercase grotesk display levels (hero, section, sub, label) and plain Inter titles for dialogs and panels."
+      "summary": "Page and section headings: the signature uppercase grotesk display levels (hero, section, sub, label) and plain Inter titles for dialogs and panels.",
+      "hash": "f4a115d2ef8182592b56ae1315533395028f1fa43b40dc0264ee06ea6d387c90"
     },
     {
       "name": "hello-card",
       "kind": "block",
-      "summary": "A one-card smoke test showing the theme is installed: its fill, border and muted text come from the design system's color tokens."
+      "summary": "A one-card smoke test showing the theme is installed: its fill, border and muted text come from the design system's color tokens.",
+      "hash": "3a32c5a899b341a34e8be8e7766fb3a5965b760c64ed6676f4c622ead0593245"
     },
     {
       "name": "how-it-works",
       "kind": "block",
-      "summary": "A three-step explainer strip for a tool or landing page: an uppercase headline, then a row of steps, each with a picture, a number, a short uppercase title and one sentence."
+      "summary": "A three-step explainer strip for a tool or landing page: an uppercase headline, then a row of steps, each with a picture, a number, a short uppercase title and one sentence.",
+      "hash": "d8230eb219fd2d8a0c16fe3179c65c0664d16171c411bcef82c77d83d6172497"
     },
     {
       "name": "icon",
       "kind": "component",
-      "summary": "Draws a Material Symbols icon by name, sized to the text around it and painted in its color."
+      "summary": "Draws a Material Symbols icon by name, sized to the text around it and painted in its color.",
+      "hash": "ba21960271f51a090934154a12ad3b4364b6acc3cca6ed8932d3c2fad43907b0"
     },
     {
       "name": "icon-tile",
       "kind": "component",
-      "summary": "A small colored rounded square behind an icon that gives each nav, menu or settings entry a recognizable color, from the reference's palette pairs."
+      "summary": "A small colored rounded square behind an icon that gives each nav, menu or settings entry a recognizable color, from the reference's palette pairs.",
+      "hash": "e9a0ffe66ff2265cd59928a8a2c277638fd2d2bd29dfb6475f2d3a498eeb213e"
     },
     {
       "name": "image-studio-page",
       "kind": "block",
-      "summary": "A full image-studio page template: the top navigation, a centered uppercase hero with one lime word that gives way to the generation feed once there are results, and the prompt composer docked to the bottom of the window. Results open in the lightbox inspector. Composes top-navigation, prompt-composer, generation-feed and lightbox-inspector."
+      "summary": "A full image-studio page template: the top navigation, a centered uppercase hero with one lime word that gives way to the generation feed once there are results, and the prompt composer docked to the bottom of the window. Results open in the lightbox inspector. Composes top-navigation, prompt-composer, generation-feed and lightbox-inspector.",
+      "hash": "860a2c276d333b0bca2a387464d78a34bd8c264133e9fe818717a45cf1c7936f"
     },
     {
       "name": "input",
       "kind": "component",
-      "summary": "A single-line text field for short typed answers: project names, seeds, collaborator emails, search terms."
+      "summary": "A single-line text field for short typed answers: project names, seeds, collaborator emails, search terms.",
+      "hash": "87af3e725874a314fca1613165c226829ccf0ba9f6cf59941d9eacbe93dc93e6"
     },
     {
       "name": "input-group",
       "kind": "component",
-      "summary": "An input with icons or buttons inside its frame, such as a search field with a leading magnifier or a link field with a Copy button."
+      "summary": "An input with icons or buttons inside its frame, such as a search field with a leading magnifier or a link field with a Copy button.",
+      "hash": "c5372592afbb703c8bc3fa34c6f960aa0c94c058ed207e5f9e0ca6ba92768c7a"
     },
     {
       "name": "kbd",
       "kind": "component",
-      "summary": "Shows a keyboard key or shortcut, such as ⌘K beside the search pill or Esc in a dialog footer."
+      "summary": "Shows a keyboard key or shortcut, such as ⌘K beside the search pill or Esc in a dialog footer.",
+      "hash": "f12ba63ccbd564939ddecce66c5348c1030460b681bf94b0e4610e3053524518"
     },
     {
       "name": "landing-page",
       "kind": "block",
-      "summary": "A public marketing page for a product or tool: the signed-out top bar, the marketing hero, a feature grid, a three-step how-it-works, one closing call-to-action band and the lime site footer. Every section takes the props of the block it wraps, so the page is filled by content alone."
+      "summary": "A public marketing page for a product or tool: the signed-out top bar, the marketing hero, a feature grid, a three-step how-it-works, one closing call-to-action band and the lime site footer. Every section takes the props of the block it wraps, so the page is filled by content alone.",
+      "hash": "16069e6bf9fc7449516c2e6d38b72a844bdda44e567797ee294d19a6c69a30f2"
     },
     {
       "name": "lightbox-inspector",
       "kind": "block",
-      "summary": "A full-screen viewer for one generation: the picture centered on a blurred copy of itself with previous and next buttons, and an inspector card on the right holding the creator, the copyable prompt, a details list (model, size, seed, date), a lime Recreate button and a grid of Download, Share, Upscale and Delete."
+      "summary": "A full-screen viewer for one generation: the picture centered on a blurred copy of itself with previous and next buttons, and an inspector card on the right holding the creator, the copyable prompt, a details list (model, size, seed, date), a lime Recreate button and a grid of Download, Share, Upscale and Delete.",
+      "hash": "37cdc0f09d5847a49d9201cef86e6df04cc1cb71f0cff2bae51d63b54626116b"
     },
     {
       "name": "marketing-hero",
       "kind": "block",
-      "summary": "The top of a landing page: an optional small eyebrow, a huge uppercase headline with one word in lime, one supporting line, a lime primary and a glass secondary call to action, and a showcase of one to three images."
+      "summary": "The top of a landing page: an optional small eyebrow, a huge uppercase headline with one word in lime, one supporting line, a lime primary and a glass secondary call to action, and a showcase of one to three images.",
+      "hash": "e16f7b82b90166ed7a8e2ca331f3cc29792c71a6d578631e86a2f65dc51a56f2"
     },
     {
       "name": "media-grid",
       "kind": "block",
-      "summary": "A masonry gallery of community work in mixed aspect ratios with 4px gutters. Hovering or focusing a picture reveals its author and Recreate and Like actions over a dark scrim; a Load more button (and optional load-on-scroll) adds pages, with skeleton tiles while they arrive."
+      "summary": "A masonry gallery of community work in mixed aspect ratios with 4px gutters. Hovering or focusing a picture reveals its author and Recreate and Like actions over a dark scrim; a Load more button (and optional load-on-scroll) adds pages, with skeleton tiles while they arrive.",
+      "hash": "760ece271180b4a8872dd5c53c9d85a073ea48a2f5ef9e4ae8cc37b6c5430c51"
     },
     {
       "name": "media-tile",
       "kind": "component",
-      "summary": "An image or video filling a rounded frame, for pickers, galleries, feeds and libraries."
+      "summary": "An image or video filling a rounded frame, for pickers, galleries, feeds and libraries.",
+      "hash": "f8cc371e844c81abc64c7ddc8aa7cb5da405a698f263586e630c016dc72c7666"
     },
     {
       "name": "model-picker",
       "kind": "block",
-      "summary": "A searchable list of AI models that opens from a composer chip: Featured and All groups, each row an icon tile, the model name, a one-line description and an optional New or Hot badge, with a check on the model in use."
+      "summary": "A searchable list of AI models that opens from a composer chip: Featured and All groups, each row an icon tile, the model name, a one-line description and an optional New or Hot badge, with a check on the model in use.",
+      "hash": "c7db96322ec40acca892278909a61a1d4e25cea84f271c6fdd888db2366c2039"
     },
     {
       "name": "notification-settings",
       "kind": "block",
-      "summary": "The Notifications section of account settings: checkboxes for which emails to receive, a digest frequency (never, daily, weekly) and a Save button that confirms in place."
+      "summary": "The Notifications section of account settings: checkboxes for which emails to receive, a digest frequency (never, daily, weekly) and a Save button that confirms in place.",
+      "hash": "987ec8b203e74281eadedf2eb51eb4cbd4b9ead83990fc0a8b09b38d757633e9"
     },
     {
       "name": "notifications-panel",
       "kind": "block",
-      "summary": "The bell menu in the top bar: tabs for All, Requests and Unread, rows with an avatar or icon, the message, a time and an unread dot, Accept and Decline right in request rows, Mark all as read, and an empty state for each tab."
+      "summary": "The bell menu in the top bar: tabs for All, Requests and Unread, rows with an avatar or icon, the message, a time and an unread dot, Accept and Decline right in request rows, Mark all as read, and an empty state for each tab.",
+      "hash": "73a781af71c224f3ff2be624e2ed6d3dc7522f718d6526a49105557f52d23042"
     },
     {
       "name": "onboarding-steps",
       "kind": "block",
-      "summary": "A short welcome flow: a lime progress bar with \"Step 1 of 3\", one question per step answered either with large single-choice cards or a grid of multi-select rows, and Back and Continue buttons."
+      "summary": "A short welcome flow: a lime progress bar with \"Step 1 of 3\", one question per step answered either with large single-choice cards or a grid of multi-select rows, and Back and Continue buttons.",
+      "hash": "8ac3ab81c2e29acd7ff576af5c4e8c88dbd6bc4c2046a13c76edf5c0c8a9a06a"
     },
     {
       "name": "pagination",
       "kind": "component",
-      "summary": "The compact pager under a table: an optional rows-per-page picker, \"Page X of Y\" and previous and next buttons."
+      "summary": "The compact pager under a table: an optional rows-per-page picker, \"Page X of Y\" and previous and next buttons.",
+      "hash": "c051b27e0c130af6d0e9fde84aa1486def4071db010cb1086844f3fc65db74c9"
     },
     {
       "name": "plan-matrix",
       "kind": "block",
-      "summary": "The body of a pricing page: one monthly/yearly switch that sets the price on a row of plan cards, one plan framed as most popular, and a comparison table that lists every feature by section with a check, a dash or a limit per plan."
+      "summary": "The body of a pricing page: one monthly/yearly switch that sets the price on a row of plan cards, one plan framed as most popular, and a comparison table that lists every feature by section with a check, a dash or a limit per plan.",
+      "hash": "b459ded72eb87015c4760aea1830f95593dc9712804f0c687cceb85d827d0bed"
     },
     {
       "name": "popover",
       "kind": "component",
-      "summary": "A small floating panel anchored to a control, for a few related choices or a short form without leaving the page."
+      "summary": "A small floating panel anchored to a control, for a few related choices or a short form without leaving the page.",
+      "hash": "b8b0c60d8a925b5ea0273b97ce37ec46795593c5e7b221813a2e6179f0fc735d"
     },
     {
       "name": "preset-gallery",
       "kind": "block",
-      "summary": "A browser of looks and camera moves: model tabs and a search field above a grid of media tiles, each an image with its uppercase title over it; the chosen preset gets a lime outline and a check."
+      "summary": "A browser of looks and camera moves: model tabs and a search field above a grid of media tiles, each an image with its uppercase title over it; the chosen preset gets a lime outline and a check.",
+      "hash": "25df6d76ab336350f0272701217d8e21f90d71a37322b1c3521827909c0ecc65"
     },
     {
       "name": "pricing-card",
       "kind": "block",
-      "summary": "One subscription plan on a card: its name, a monthly/yearly billing switch, the price for the chosen period, what the plan includes, and a button to subscribe."
+      "summary": "One subscription plan on a card: its name, a monthly/yearly billing switch, the price for the chosen period, what the plan includes, and a button to subscribe.",
+      "hash": "3c5531673a722a84e49859047207b56274395492d3cda9f96ef0f9779d2454f4"
     },
     {
       "name": "pricing-page",
       "kind": "block",
-      "summary": "A complete plans page: a lime announcement bar with a live countdown for a time-limited offer, the app top bar, an uppercase headline, the plan matrix (one billing switch, plan cards and the comparison table), a frequently-asked-questions accordion and the lime site footer."
+      "summary": "A complete plans page: a lime announcement bar with a live countdown for a time-limited offer, the app top bar, an uppercase headline, the plan matrix (one billing switch, plan cards and the comparison table), a frequently-asked-questions accordion and the lime site footer.",
+      "hash": "83557307c9c004e743056b947419eefcc764f508e3b4e147d27eea8e7ff11f98"
     },
     {
       "name": "profile-page",
       "kind": "block",
-      "summary": "A person's page in a signed-in creative app: a sidebar card with avatar, name, handle, bio, location, stats and Follow (or Edit profile on your own page), beside tabs for their generations, the work they liked and their posts. Each tab has its own empty state, worded for the owner with a way to start, or for a visitor with no action. Pictures open in the lightbox inspector."
+      "summary": "A person's page in a signed-in creative app: a sidebar card with avatar, name, handle, bio, location, stats and Follow (or Edit profile on your own page), beside tabs for their generations, the work they liked and their posts. Each tab has its own empty state, worded for the owner with a way to start, or for a visitor with no action. Pictures open in the lightbox inspector.",
+      "hash": "ce468ff08872e95b58acb3ee483fcda64f2efc84040897c3d66aa2f15afacbdd"
     },
     {
       "name": "progress",
       "kind": "component",
-      "summary": "A thin lime bar on a faint track that shows how much of something is used or done, such as credits left this month."
+      "summary": "A thin lime bar on a faint track that shows how much of something is used or done, such as credits left this month.",
+      "hash": "6b849c79f4096099830b037585e045c6810b8798d6cf57cd4eccb75b03846589"
     },
     {
       "name": "project-card",
       "kind": "block",
-      "summary": "One project in a library grid: a 16:9 thumbnail, the project name and when it was last edited, with a \"more\" menu to rename, duplicate or delete it. Delete asks for confirmation first."
+      "summary": "One project in a library grid: a 16:9 thumbnail, the project name and when it was last edited, with a \"more\" menu to rename, duplicate or delete it. Delete asks for confirmation first.",
+      "hash": "2567bead8710b9cc6803281ea06bd886b2df62177861c0b62ddfdfa0d67b8c79"
     },
     {
       "name": "promo-modal",
       "kind": "block",
-      "summary": "An upsell dialog: a media header with a sale tag, an uppercase headline, a short benefit list, a price tile beside a countdown to the deadline, the lime claim button and a quiet \"Maybe later\"."
+      "summary": "An upsell dialog: a media header with a sale tag, an uppercase headline, a short benefit list, a price tile beside a countdown to the deadline, the lime claim button and a quiet \"Maybe later\".",
+      "hash": "9cefe2e9a86ae1bd6048d59a104e20b238b0b549872ffb27975abeb896ffaf32"
     },
     {
       "name": "prompt-composer",
       "kind": "block",
-      "summary": "The image generator's composer: a prompt box, a model chip, an aspect-ratio chip, a 1 to 4 image stepper and the lime Generate button showing what the request will cost in credits."
+      "summary": "The image generator's composer: a prompt box, a model chip, an aspect-ratio chip, a 1 to 4 image stepper and the lime Generate button showing what the request will cost in credits.",
+      "hash": "4ca32466b67b3a891e67ad7efc49e76e3d72a6f38bd099626a97af6b647257b4"
     },
     {
       "name": "radio-group",
       "kind": "component",
-      "summary": "Lets someone choose exactly one option from a short list, either as small radios or as whole selectable cards."
+      "summary": "Lets someone choose exactly one option from a short list, either as small radios or as whole selectable cards.",
+      "hash": "dfbba93fe9ea77894419bad832d8f1e6b9da95ca0230e8ae3196c65dd5747aa4"
     },
     {
       "name": "select",
       "kind": "component",
-      "summary": "A composer-style chip that opens a menu to pick one value, such as the aspect ratio or quality of a generation."
+      "summary": "A composer-style chip that opens a menu to pick one value, such as the aspect ratio or quality of a generation.",
+      "hash": "5cc7eff253dd45eac0a16a975f8fc3faac805337890ba302e7d99e3de9761179"
     },
     {
       "name": "separator",
       "kind": "component",
-      "summary": "A 1px white 8% line that divides groups inside one surface, such as sections of a menu or a settings card."
+      "summary": "A 1px white 8% line that divides groups inside one surface, such as sections of a menu or a settings card.",
+      "hash": "f3b7642c48403e41f7818a0d315714c7b96c6aeeb041399ada0c81604469e11d"
     },
     {
       "name": "session-list",
       "kind": "block",
-      "summary": "The devices signed in to an account: one row per session with a device icon, browser and system, location and last activity, a \"This device\" marker on the current one, a Sign out button on the others and a confirmed \"Sign out everywhere else\"."
+      "summary": "The devices signed in to an account: one row per session with a device icon, browser and system, location and last activity, a \"This device\" marker on the current one, a Sign out button on the others and a confirmed \"Sign out everywhere else\".",
+      "hash": "2810b9ab4a09b37f9f5e0939548f07d801579fe2ba29dbf30bcbad6c3ea3d947"
     },
     {
       "name": "settings-nav",
       "kind": "block",
-      "summary": "The left navigation of a settings page: a small workspace label, then one row per page led by a colored icon tile, with the current page tinted, and an optional footer such as Sign out."
+      "summary": "The left navigation of a settings page: a small workspace label, then one row per page led by a colored icon tile, with the current page tinted, and an optional footer such as Sign out.",
+      "hash": "b69c0198eb81ac7ae3840e6ce47b9c8ce2a1f8e6291f14a13b1f780e1b117a1f"
     },
     {
       "name": "settings-page",
       "kind": "block",
-      "summary": "The full account settings page: the app shell, the settings nav on the left and, on the right, stacked section cards for the chosen page. It ships four pages, switched by the nav: Profile (photo, name, username, email, sharing), Notifications, Security (sign-in, signed-in devices, delete account) and Usage (credit summary and history). When the page is narrower than 768px (its own width) the nav sits above the cards."
+      "summary": "The full account settings page: the app shell, the settings nav on the left and, on the right, stacked section cards for the chosen page. It ships four pages, switched by the nav: Profile (photo, name, username, email, sharing), Notifications, Security (sign-in, signed-in devices, delete account) and Usage (credit summary and history). When the page is narrower than 768px (its own width) the nav sits above the cards.",
+      "hash": "040876a2beba78972a7d5921949f6371c96040575d988896c050828c41bbcff3"
     },
     {
       "name": "settings-section",
       "kind": "block",
-      "summary": "One stacked card of a settings page: a title and a short description, rows of label + one-line explanation + a control at the end, and an optional red danger zone that confirms before it acts."
+      "summary": "One stacked card of a settings page: a title and a short description, rows of label + one-line explanation + a control at the end, and an optional red danger zone that confirms before it acts.",
+      "hash": "080dc2ddde5ea40f7d8d16af9ffbd66a29cf411bb3c18d6a82dc97fae2190b9a"
     },
     {
       "name": "share-dialog",
       "kind": "block",
-      "summary": "A dialog for sharing a project: type emails that turn into chips, pick a role for each invitee, choose who can open it (private, anyone with the link, public) as radio cards, copy the link, then Share."
+      "summary": "A dialog for sharing a project: type emails that turn into chips, pick a role for each invitee, choose who can open it (private, anyone with the link, public) as radio cards, copy the link, then Share.",
+      "hash": "f7dc6779bb1914e86b272d6404bc8f44ee4d7b5d77215286d11265233b04dcf1"
     },
     {
       "name": "sheet",
       "kind": "component",
-      "summary": "A panel that slides in from an edge to show details or settings next to the page, such as a generation inspector or project settings."
+      "summary": "A panel that slides in from an edge to show details or settings next to the page, such as a generation inspector or project settings.",
+      "hash": "bfb6d51d5373d675a00756bdba39c39519c3b7db7bb2f03854a3e65b3baeae35"
     },
     {
       "name": "site-footer",
       "kind": "block",
-      "summary": "The footer of a marketing site: an empty logo slot and an uppercase statement, columns of links, then a bottom row with the copyright line, legal links and social buttons. Lime for marketing pages, or a quiet dark tone for in-app pages."
+      "summary": "The footer of a marketing site: an empty logo slot and an uppercase statement, columns of links, then a bottom row with the copyright line, legal links and social buttons. Lime for marketing pages, or a quiet dark tone for in-app pages.",
+      "hash": "797b6b6be3f5c7edcd8e6fb030c3dbca6fb2897d0adc1716e50dbce3da1dad93"
     },
     {
       "name": "skeleton",
       "kind": "component",
-      "summary": "A dark placeholder block with a slow shimmer that holds the shape of content while it loads, such as thumbnails in the asset picker."
+      "summary": "A dark placeholder block with a slow shimmer that holds the shape of content while it loads, such as thumbnails in the asset picker.",
+      "hash": "9a8073a2169ee2b3d595eb94fd12877052194f12a02b9adf6f69a59d1b0061d1"
     },
     {
       "name": "slider",
       "kind": "component",
-      "summary": "Adjusts a value along a range by dragging a small white thumb, such as the zoom level of a generation grid."
+      "summary": "Adjusts a value along a range by dragging a small white thumb, such as the zoom level of a generation grid.",
+      "hash": "b1d6a9e9e40382932947c197d4ddc233c5d0d0368ca06d49d77526df3477b525"
     },
     {
       "name": "sonner",
       "kind": "component",
-      "summary": "Brief toast notifications that confirm an action finished, or report a problem, without pulling the user away from the canvas."
+      "summary": "Brief toast notifications that confirm an action finished, or report a problem, without pulling the user away from the canvas.",
+      "hash": "7a3ef9eb27daa980056f98188fbfb23941b188f14a31084e9bb9bc10b4fa21cf"
     },
     {
       "name": "spinner",
       "kind": "component",
-      "summary": "A small spinning ring that shows something is working, such as a button while it upscales or a tile while it queues."
+      "summary": "A small spinning ring that shows something is working, such as a button while it upscales or a tile while it queues.",
+      "hash": "0ee59b9a4d7aa7d35ca360ca39d32c2c3e0a8ae37dd5b40fb50443b4f15a9c8b"
     },
     {
       "name": "stepper",
       "kind": "component",
-      "summary": "The composer's \"− 1/4 +\" control for small whole-number settings, such as how many images to generate at once."
+      "summary": "The composer's \"− 1/4 +\" control for small whole-number settings, such as how many images to generate at once.",
+      "hash": "fb32c67987e25f8367716646bcbeb5af958fb5a76ebbb1afeb74d7bc47a4e83b"
     },
     {
       "name": "studio-home-page",
       "kind": "block",
-      "summary": "A studio home page template: the top navigation, an uppercase hero with one lime word and a short line, the prompt composer right under it, then \"Recent projects\" as a grid of project cards that opens with a dashed New project tile, with skeletons while loading and an empty state before there are any projects. Composes top-navigation, prompt-composer, project-card and empty-state."
+      "summary": "A studio home page template: the top navigation, an uppercase hero with one lime word and a short line, the prompt composer right under it, then \"Recent projects\" as a grid of project cards that opens with a dashed New project tile, with skeletons while loading and an empty state before there are any projects. Composes top-navigation, prompt-composer, project-card and empty-state.",
+      "hash": "db46c3e79b95352cd030b0d75ffd48866f70b14e4cafd30d85d994bc3d53ca5e"
     },
     {
       "name": "studio-settings-panel",
       "kind": "block",
-      "summary": "The left rail of a video studio: the chosen preset on top, up to N reference images, the prompt, the model row, duration, aspect and quality chips, a bitrate slider and the lime Generate button with its credit cost pinned at the bottom."
+      "summary": "The left rail of a video studio: the chosen preset on top, up to N reference images, the prompt, the model row, duration, aspect and quality chips, a bitrate slider and the lime Generate button with its credit cost pinned at the bottom.",
+      "hash": "96943879e6c6a4850e139082895aca662a29bba224a0a8679c422163c5d131c7"
     },
     {
       "name": "switch",
       "kind": "component",
-      "summary": "Turns one setting on or off immediately, such as sound on a clip or making a project public."
+      "summary": "Turns one setting on or off immediately, such as sound on a clip or making a project public.",
+      "hash": "79941f0fdceb40b75176826258f78708b119cd0708fc2cbf8b2ddacd3e8bc9c4"
     },
     {
       "name": "table",
       "kind": "component",
-      "summary": "Lays records out in rows and columns so people can scan, compare and act on many items that share the same fields."
+      "summary": "Lays records out in rows and columns so people can scan, compare and act on many items that share the same fields.",
+      "hash": "b9fc1d212bf4f47a293ec0556de03da60a0aec838c385594e0f1eefb225e7bd1"
     },
     {
       "name": "tabs",
       "kind": "component",
-      "summary": "Switches between a few related views of one subject without leaving the page, such as a project's overview, activity and settings."
+      "summary": "Switches between a few related views of one subject without leaving the page, such as a project's overview, activity and settings.",
+      "hash": "a502147eff0b9dd79104287b7b7a7c9f65b2af5be57b9b43c8f70d7bf0a65f50"
     },
     {
       "name": "textarea",
       "kind": "component",
-      "summary": "A multi-line text field: a filled `field` for forms, and borderless `prompt` and `prompt-lg` for writing generation prompts."
+      "summary": "A multi-line text field: a filled `field` for forms, and borderless `prompt` and `prompt-lg` for writing generation prompts.",
+      "hash": "530f99d81d258bd4edbc28346204538fdf4b154ee02d953cc318c9464f7e104c"
     },
     {
       "name": "toggle",
       "kind": "component",
-      "summary": "A single pressable button that stays pressed until pressed again, styled like one segment of a toggle group."
+      "summary": "A single pressable button that stays pressed until pressed again, styled like one segment of a toggle group.",
+      "hash": "7913af00ada87886c63a32a9af356d66cbebee2e7deadc464d50bd300c7a7f99"
     },
     {
       "name": "toggle-group",
       "kind": "component",
-      "summary": "A compact row of options where the chosen one is highlighted: a white segment (`segment`) or a lime-outlined tile (`outline`)."
+      "summary": "A compact row of options where the chosen one is highlighted: a white segment (`segment`) or a lime-outlined tile (`outline`).",
+      "hash": "86bff1a9886dcc27fe365e8b081c84f9953baf213ac2914e8b4a6ecdc1d43557"
     },
     {
       "name": "tooltip",
       "kind": "component",
-      "summary": "A small dark label that names an icon-only control when someone hovers or focuses it."
+      "summary": "A small dark label that names an icon-only control when someone hovers or focuses it.",
+      "hash": "bfb13d42d106c127ae08e94e98b5077e923fd3658dda3567cbf669329184faea"
     },
     {
       "name": "top-navigation",
       "kind": "block",
-      "summary": "The app's top bar: an empty logo slot, section links with the current one in lime and an optional New badge, a search pill with a ⌘K hint, a pricing link carrying a sale tag, an Assets button, the credit balance and the account control. When the bar is narrower than 1024px the links, pricing and assets fold into a menu sheet (it measures its own width, not the window)."
+      "summary": "The app's top bar: an empty logo slot, section links with the current one in lime and an optional New badge, a search pill with a ⌘K hint, a pricing link carrying a sale tag, an Assets button, the credit balance and the account control. When the bar is narrower than 1024px the links, pricing and assets fold into a menu sheet (it measures its own width, not the window).",
+      "hash": "b8b3923b5c66f761da48d0279262ff4a3e39ff1f7f059f9e5e81cf05fe788612"
     },
     {
       "name": "upload-dropzone",
       "kind": "block",
-      "summary": "A drop area for adding files: drag them in, paste them or browse, with a list of what was added and a plain reason when a file is turned away."
+      "summary": "A drop area for adding files: drag them in, paste them or browse, with a list of what was added and a plain reason when a file is turned away.",
+      "hash": "0d51bb0e2f366818b0c086036db6fed484dc747bd65e1f610a0f5093598dd14a"
     },
     {
       "name": "usage-chart",
       "kind": "block",
-      "summary": "A chart of numbers over time for up to five series, as stacked bars, lines or stacked areas, with a legend, hover details and the same numbers as a table for screen readers."
+      "summary": "A chart of numbers over time for up to five series, as stacked bars, lines or stacked areas, with a legend, hover details and the same numbers as a table for screen readers.",
+      "hash": "6edd624dc0e45dea274d36719a79726de38ddd60b9dc5c09f41993d19cf56bdc"
     },
     {
       "name": "usage-summary",
       "kind": "block",
-      "summary": "Where credits went: a period picker, total tiles, a stacked bar of credits by tool with a legend, and a usage history table with tool and action filters and pagination."
+      "summary": "Where credits went: a period picker, total tiles, a stacked bar of credits by tool with a legend, and a usage history table with tool and action filters and pagination.",
+      "hash": "1ea715346b29b418654e3502fcfa66eaf94d9670ee6fdccda7a1211e6c5b4134"
     },
     {
       "name": "video-player",
       "kind": "block",
-      "summary": "A video player in Mantis's look: play and pause, a lime scrub bar, time, sound, captions and fullscreen over a clip in a rounded frame."
+      "summary": "A video player in Mantis's look: play and pause, a lime scrub bar, time, sound, captions and fullscreen over a clip in a rounded frame.",
+      "hash": "ccd9594a21ad3a6dcdddd30b33aea1050aa40cfff973d6862db6382556caebd7"
     },
     {
       "name": "video-studio-page",
       "kind": "block",
-      "summary": "A full video-studio page template: the top navigation, the studio settings panel as a left rail with Generate pinned to its foot, and a canvas that shows the latest clip large with its prompt and settings, a strip of recent clips to switch between, a rendering state and an empty state. Composes top-navigation, studio-settings-panel and empty-state."
+      "summary": "A full video-studio page template: the top navigation, the studio settings panel as a left rail with Generate pinned to its foot, and a canvas that shows the latest clip large with its prompt and settings, a strip of recent clips to switch between, a rendering state and an empty state. Composes top-navigation, studio-settings-panel and empty-state.",
+      "hash": "43519f014ebf13f693b0baec373fdfc8cf537689c576e0b3341f6047b67e45ef"
     },
     {
       "name": "workflow-canvas",
       "kind": "block",
-      "summary": "A node-and-wire editor for chaining generation steps: step cards people drag around a dotted board, wires drawn by dragging from one card to another, pan and zoom, an Add step menu, a Tidy up button that lines the steps up left to right, and one lime Run button with the live credit cost."
+      "summary": "A node-and-wire editor for chaining generation steps: step cards people drag around a dotted board, wires drawn by dragging from one card to another, pan and zoom, an Add step menu, a Tidy up button that lines the steps up left to right, and one lime Run button with the live credit cost.",
+      "hash": "fcfc880bf12f58c3c0e0c95490f8c5c151fd5abd7f75c1acfbff656bb5b9de92"
     }
   ]
 }

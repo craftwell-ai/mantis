@@ -22,7 +22,7 @@ AGENTS.md (imported above) is how to *use* Mantis: components, props, tokens, ru
 
 - **Every change bumps the version (owner rule, 2026-10-07).** Before the build scripts, run `npm run version:bump -- <patch|minor|major> "<what changed>"`. It updates `package.json`, the lock file, the token file and `CHANGELOG.md` together; the home page footer and `llms.txt` print the version. `patch`: a fix, or a change nobody installing Mantis would notice (docs, scripts, the Paper builder). `minor`: something new (a block, component, prop or token). `major`: something removed, renamed or broken for existing installs; ask the owner first. One bump per commit, and tag the commit `v<version>` when it is pushed.
 - After ANY change to `registry.json` or `registry/`, run `npm run registry:build` and commit the regenerated `public/r/`.
-- After touching tokens, `registry.json`, `usage/` or any `components/ui` props, run `node scripts/build-tokens.mjs`, `node scripts/build-llms.mjs`, `node scripts/build-usage.mjs` and `node scripts/build-agents.mjs`, then commit. `scripts/build-llms.test.mjs` asserts byte equality, so a stale `llms.txt` fails CI.
+- After touching tokens, `registry.json`, `usage/` or any `components/ui` props, run `node scripts/build-tokens.mjs`, `node scripts/build-llms.mjs`, `node scripts/build-usage.mjs` and `node scripts/build-agents.mjs`, then commit. `scripts/build-llms.test.mjs` asserts byte equality, so a stale `llms.txt` fails CI. `public/usage/index.json` carries a `hash` per guide (the SHA-256 of that guide's JSON), which is how tools notice a reworded rule.
 - Verify before declaring done: `npm test`, `npm run lint`, `npx tsc --noEmit`, `npm run test-storybook`.
 - Stop any running `npm run storybook` before `npm run test-storybook`: the two share Vite and the test run can hang indefinitely while the dev server is up. A first test run after adding stories can fail while Vite optimizes dependencies; re-run once before investigating.
 - Never remove or rename a published item without checking who consumes it.
@@ -43,6 +43,7 @@ AGENTS.md (imported above) is how to *use* Mantis: components, props, tokens, ru
 - `public/llms.txt`
 - `public/r/*.json`
 - `components/ui/icons.generated.ts`
+- `public/icons/*` (the shipped icons as SVG files plus `index.json`, for design tools)
 - `.storybook/manager-theme.generated.mjs`
 - `public/usage/*.md`
 
@@ -92,7 +93,7 @@ system's own pages, samples, stories, and docs.
 
 ## Icons
 
-Only from `components/ui/icon` (Material Symbols). To add one: put its name in `scripts/icons.manifest.mjs`, run `node scripts/build-icons.mjs`, then `npm run registry:build`, and commit.
+Only from `components/ui/icon` (Material Symbols). To add one: put its name in `scripts/icons.manifest.mjs`, run `node scripts/build-icons.mjs`, then `npm run registry:build`, and commit. The same run writes `public/icons/`: one SVG per shipped icon and an `index.json`, in the shape the Quill CLI reads (names in lowercase letters, digits and underscores; each file under 20,000 characters).
 
 ## Paper boards
 

@@ -7,6 +7,7 @@
  * scripts/build-usage.test.mjs fails when a committed page is stale. Run
  * `node scripts/build-usage.mjs` after touching any usage guide.
  */
+import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
@@ -25,9 +26,15 @@ export function renderUsageJson(u) {
   return JSON.stringify(u, null, 2) + '\n'
 }
 
-// A site cannot be listed like a folder, so this is how a tool finds every guide.
+/** A guide's fingerprint: the SHA-256 of its published JSON, so a tool can tell that one guide changed. */
+export function usageHash(u) {
+  return createHash('sha256').update(renderUsageJson(u)).digest('hex')
+}
+
+// A site cannot be listed like a folder, so this is how a tool finds every guide. Without the hash a
+// reworded rule changes no file a tool watches, and it keeps serving the old wording.
 export function renderUsageIndex(all = ALL_USAGE) {
-  return JSON.stringify({ schemaVersion: 1, guides: all.map((u) => ({ name: u.name, kind: u.kind, summary: u.summary })) }, null, 2) + '\n'
+  return JSON.stringify({ schemaVersion: 1, guides: all.map((u) => ({ name: u.name, kind: u.kind, summary: u.summary, hash: usageHash(u) })) }, null, 2) + '\n'
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -13,7 +13,7 @@
  * an unknown name is an ERROR, not a silent skip — a manifest entry that
  * renders nothing is exactly the quiet failure this engine refuses.
  */
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
@@ -56,7 +56,41 @@ export function renderIconsModule(names = ICON_NAMES, dir = ICON_SOURCE_DIR) {
   )
 }
 
+export const PUBLIC_ICONS_DIR = join(root, 'public/icons')
+
+// What <Icon> renders with (components/ui/icon.tsx), stated for tools that draw the SVGs directly.
+// The paths are Material Symbols Rounded from @material-symbols/svg-300: weight 300, fill 0,
+// grade 0, drawn at optical size 48.
+export const ICON_SET = 'Material Symbols Rounded'
+export const ICON_DEFAULTS = { size: '1em', color: 'currentColor', weight: 300, fill: 0, grade: 0, opticalSize: 48 }
+
+/**
+ * public/icons: index.json plus one SVG per icon the `icon` registry item ships, keyed by file
+ * name. A design tool has icon names from the guides but nothing to draw; this is the drawing.
+ * Built from the same manifest and source package as the icon module, in the shape quill-ds
+ * publishes, because the Quill CLI reads that exact shape.
+ */
+export function renderPublicIcons(names = ICON_NAMES, dir = ICON_SOURCE_DIR) {
+  const unique = [...new Set(names)].sort()
+  const data = Object.fromEntries(unique.map((name) => [name, readIcon(name, dir)]))
+  const viewBoxes = [...new Set(unique.map((name) => data[name].viewBox))]
+  if (viewBoxes.length !== 1) throw new Error(`the shipped icons do not share one viewBox: ${viewBoxes.join(', ')}`)
+  const files = {
+    'index.json': JSON.stringify({ schemaVersion: 1, set: ICON_SET, viewBox: viewBoxes[0], defaults: ICON_DEFAULTS, icons: unique }, null, 2) + '\n',
+  }
+  for (const name of unique) {
+    const paths = data[name].paths.map((d) => `<path d="${d}"/>`).join('')
+    files[`${name}.svg`] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${data[name].viewBox}" width="24" height="24" fill="currentColor">${paths}</svg>\n`
+  }
+  return files
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   writeFileSync(ICONS_MODULE_PATH, renderIconsModule())
-  console.log(`wrote ${ICONS_MODULE_PATH.slice(root.length + 1)} (${new Set(ICON_NAMES).size} icons)`)
+  const files = renderPublicIcons()
+  mkdirSync(PUBLIC_ICONS_DIR, { recursive: true })
+  // An icon taken out of the manifest must not stay published.
+  for (const stale of readdirSync(PUBLIC_ICONS_DIR)) if (!(stale in files)) rmSync(join(PUBLIC_ICONS_DIR, stale))
+  for (const [name, content] of Object.entries(files)) writeFileSync(join(PUBLIC_ICONS_DIR, name), content)
+  console.log(`wrote ${ICONS_MODULE_PATH.slice(root.length + 1)} and public/icons/ (${new Set(ICON_NAMES).size} icons)`)
 }
