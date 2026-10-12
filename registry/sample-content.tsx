@@ -188,10 +188,17 @@ export const SAMPLE_PROJECTS: SampleProject[] = [
 // Video studio
 // ---------------------------------------------------------------------------
 
+// The video studio's sample footage: free stock video from Pexels (free to use, no attribution needed).
+// Picsum has no video and its photos are random, so the first clip, its still and the preset picture
+// are chosen to belong together: a dark street at night.
+const NIGHT_RUN_VIDEO = "https://videos.pexels.com/video-files/5843853/5843853-hd_1280_720_60fps.mp4"
+const NIGHT_RUN_STILL = "https://images.pexels.com/videos/5843853/pexels-photo-5843853.jpeg?auto=compress&cs=tinysrgb&w=1280"
+const NIGHT_STREET_FRAME = "https://images.pexels.com/videos/29834228/pexels-photo-29834228.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=704&h=256"
+
 /** The video settings rail, with the sample models, a chosen preset and the balance. */
 export const SAMPLE_VIDEO_SETTINGS: StudioSettingsPanelProps = {
   models: SAMPLE_VIDEO_MODELS,
-  preset: { title: "Slow dolly in", description: "The camera glides toward the subject", image: picsum("preset", 704, 256), imageAlt: "Placeholder frame for the selected preset" },
+  preset: { title: "Slow dolly in", description: "The camera glides toward the subject", image: NIGHT_STREET_FRAME, imageAlt: "A car on a dark street lit by neon signs" },
   onChangePreset: () => {},
   onAddReference: () => {},
   creditBalance: SAMPLE_CREDITS,
@@ -201,6 +208,7 @@ export const SAMPLE_VIDEO_SETTINGS: StudioSettingsPanelProps = {
 export type SampleClip = {
   id: string
   posterSrc: string
+  videoSrc?: string
   alt: string
   prompt: string
   model: string
@@ -208,8 +216,19 @@ export type SampleClip = {
   createdAt: string
 }
 
-export const SAMPLE_CLIPS: SampleClip[] = [
-  ["ferry", "A ferry pulling away from a pier at sunset", "The camera rises slowly from the pier as the ferry pulls away, gulls crossing the low sun, water glittering.", "3 min ago"],
+// The newest clip is real footage, so the canvas shows the video player; the rest are stills.
+const NIGHT_RUN_CLIP: SampleClip = {
+  id: "night-run",
+  posterSrc: NIGHT_RUN_STILL,
+  videoSrc: NIGHT_RUN_VIDEO,
+  alt: "A tuned white car with red underglow on a dark street at night",
+  prompt: "A tuned white car rolls down a dark city street at night, red underglow on the asphalt, shop signs glowing behind it.",
+  model: "Lumen 3",
+  settings: ["12s", "16:9", "720p"],
+  createdAt: "3 min ago",
+}
+
+const STILL_CLIPS: SampleClip[] = [
   ["market", "A night market street lit by paper lanterns", "Slow push down a crowded night market, lantern light swaying, steam rising from food stalls.", "20 min ago"],
   ["glacier", "Blue glacier ice cracking into the sea", "Wide shot of a glacier face, a slab of blue ice breaking away and crashing into the water.", "1 hour ago"],
   ["dancer", "A dancer turning in an empty warehouse", "A dancer spins in an empty warehouse, dust in the window light, the camera circling once.", "yesterday"],
@@ -223,6 +242,8 @@ export const SAMPLE_CLIPS: SampleClip[] = [
   settings: ["5s", "16:9", "720p"],
   createdAt,
 }))
+
+export const SAMPLE_CLIPS: SampleClip[] = [NIGHT_RUN_CLIP, ...STILL_CLIPS]
 
 // ---------------------------------------------------------------------------
 // Asset library
