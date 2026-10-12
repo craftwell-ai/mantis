@@ -32,7 +32,7 @@ export const isSourceLeaf = (node) => isObject(node) && '$value' in node
 // A semantic leaf holds one value per mode — always a string ('#fff',
 // 'var(--x)', an rgba() string). A group nests further objects instead.
 // Testing the VALUES' shape, not a key name, means a default mode named
-// 'base' or 'card' (a Figma theme collection can name its modes anything,
+// 'base' or 'card' (a source can name its modes anything,
 // including a word a token role also uses) can never be mistaken for a leaf.
 export const isSemanticLeaf = (value) =>
   isObject(value) && Object.keys(value).length > 0 && Object.values(value).every((v) => typeof v === 'string')

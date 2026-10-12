@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.3] - 2026-10-11
+- Maintainer rules: Paper is the design source of truth and is synced after every Storybook release; Figma is no longer updated
+- Removed the unused Figma variable reader (`scripts/figma-variables.mjs`); nothing in Mantis read from it
+
 ## [1.0.2] - 2026-10-10
 - Home page: the Canvas card's Reference step shows a file name like the other steps, not a blurred gradient
 

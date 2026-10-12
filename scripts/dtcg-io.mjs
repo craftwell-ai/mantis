@@ -6,8 +6,7 @@
  *                                                     carry $extensions.modes
  *
  * Key each document by its mode's name, default mode first. The single-document
- * form is what exportDtcg writes and what figma-variables.mjs and
- * css-custom-properties.mjs produce.
+ * form is what exportDtcg writes and what css-custom-properties.mjs produces.
  *
  * Values are normalized so everything downstream reads CSS-ready text: DTCG
  * color objects become hex (rgba() when translucent, the CSS color function for

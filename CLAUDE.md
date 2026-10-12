@@ -96,6 +96,13 @@ Only from `components/ui/icon` (Material Symbols). To add one: put its name in `
 
 ## Paper boards
 
+**Paper is the design source of truth (owner rule, 2026-10-11).** Design work is no longer tracked in Figma: do not connect to a Figma file or update one. Every Storybook release (a push to `main` that changes what Storybook shows) is followed by a Paper sync in the same piece of work, once the deploy is live:
+
+- A changed pattern or template: rebuild its board. A new one: add it to `scripts/paper/boards.mjs` and build it on its own page.
+- A changed component: update its hand-maintained `❖` board to match.
+- A changed token: update the matching token in the Paper file (and Foundations if it is drawn there).
+- If Paper is not running, say so in the report and list which boards are behind; do not call the release synced.
+
 The Paper file "Mantis Design System" has one page per item: `❖` components, `◆` patterns, `▣` templates, each A–Z. The pattern and template boards are generated from the live Storybook, so rebuild them after a pattern change is deployed:
 
 - `npm run paper:boards` rebuilds all of them; `npm run paper:boards -- pricing-card` only the named ones. Paper must be running with the file open (the scripts call Paper's local MCP endpoint).

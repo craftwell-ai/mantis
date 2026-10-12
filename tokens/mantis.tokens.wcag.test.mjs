@@ -7,7 +7,7 @@ import { modesOf, resolveValue, walkSource, applyAccent, semanticLeaves } from '
 const MODES = modesOf(tokens)
 // A semantic leaf holds one value per mode — always a string. A group nests
 // further objects instead. Testing the VALUES' shape, not a key name, means a
-// default mode named 'base' or 'card' (an ordinary Figma collection name that
+// default mode named 'base' or 'card' (an ordinary mode name that
 // also happens to be a token role) can never be mistaken for a leaf.
 const isLeaf = (v) => v && typeof v === 'object' && Object.keys(v).length > 0 && Object.values(v).every((x) => typeof x === 'string')
 
@@ -74,9 +74,8 @@ test('every color leaf carries both modes (structural parity)', () => {
         for (const m of MODES) assert.equal(typeof v[m], 'string', `${path}.${k} missing mode '${m}'`)
         // Parity in the other direction: an EXTRA key the source layer's own
         // guard below already catches on itself, but nothing caught it here.
-        // splitFigmaCollections returns modes: ['light'] when no theme
-        // collection is named (a live-URL harvest of a site with no dark
-        // rules does the same); an agent then derives dark and pastes it in
+        // A live-URL harvest of a site with no dark rules returns modes:
+        // ['light']; an agent then derives dark and pastes it in
         // without anyone setting tokens.modes back to ['light', 'dark'] — the
         // client ships with no dark mode at all and the derived values are
         // never measured. A key on a leaf that MODES does not know about is
