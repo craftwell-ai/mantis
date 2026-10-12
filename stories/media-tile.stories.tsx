@@ -10,8 +10,9 @@ import { Spinner } from '@/components/ui/spinner'
 import { usage } from '../usage/media-tile.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo as samplePhoto } from '@/registry/sample-content'
 
-const photo = (slug: string, w = 480, h = 480) => `https://picsum.photos/seed/${slug}/${w}/${h}`
+const photo = (slug: string, w = 480, h = 480) => samplePhoto(slug, w, h)
 
 const meta = {
   title: 'Components / Media Tile',

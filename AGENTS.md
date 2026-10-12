@@ -16,7 +16,7 @@ Mantis is a dark, cinematic design system (shadcn registry on Base UI, Tailwind 
 6. **Pink and blue are for offers, not buying:** `sale`, `badge-hot`, `badge-value` and `commerce-pink` mark sales, discounts and best-value tags. Plans are bought with the lime `brand` button, not `commerce-blue`.
 7. **Dark only.** There is no light mode: never add a theme toggle or light-mode styles. Base styles already are the dark theme, so new code needs no `dark:` variants.
 8. **Compose before you build, and ask before adding a primitive.** Patterns and screens go in `registry/` as blocks built from *Components*. If no primitive fits, stop and ask the owner before creating one in `components/ui`: a primitive changes the whole system. To add a pattern, follow the `mantis-build` skill (`.claude/skills/mantis-build/SKILL.md`).
-9. **Content is your own.** Write real copy for the product (never lorem ipsum); images are `https://picsum.photos/seed/<slug>/<w>/<h>` with descriptive `alt`.
+9. **Content is your own.** Write real copy for the product (never lorem ipsum); images are the sample city photos (`photo(spot, width, height)` from the `sample-content` item: free Unsplash pictures of neon-lit streets at night) with descriptive `alt`; a spot with no picture yet gets `placeholder(width, height)` (television static) and a video player gets `PLACEHOLDER_CLIP`. No random or unrelated photos.
 10. **Accessible by default.** Icon-only buttons get `aria-label`; every field gets a visible label; text meets 4.5:1 (the tokens already do — do not lower opacity on text). `data-contrast-exempt` is reserved for grey secondary text on stacked glass (owner decision, see CLAUDE.md); never use it anywhere else.
 
 ## Components

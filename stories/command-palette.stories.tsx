@@ -15,6 +15,7 @@ import {
 import { usage } from '../usage/command-palette.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const categories: CommandPaletteCategory[] = [
   { value: 'tools', label: 'Tools', icon: 'wand_stars' },
@@ -40,9 +41,9 @@ const items: CommandPaletteItem[] = [
 const byId = (id: string) => items.find((item) => item.id === id)!
 
 const featured: CommandPaletteFeatured[] = [
-  { id: 'storyboard-studio', title: 'Storyboard studio', description: 'Plan every shot before you render', tag: 'Tool', image: 'https://picsum.photos/seed/storyboard/480/240', alt: 'Placeholder photo for the storyboard studio card' },
-  { id: 'drift-video', title: 'Drift video', description: 'Cinematic camera moves from one still', tag: 'Model', image: 'https://picsum.photos/seed/drift/480/240', alt: 'Placeholder photo for the Drift video model card', badge: { label: 'Hot', variant: 'hot' } },
-  { id: 'voice-lab', title: 'Voice lab', description: 'Narrate a clip from a written script', tag: 'Tool', image: 'https://picsum.photos/seed/voicelab/480/240', alt: 'Placeholder photo for the voice lab card', badge: { label: 'New', variant: 'new' } },
+  { id: 'storyboard-studio', title: 'Storyboard studio', description: 'Plan every shot before you render', tag: 'Tool', image: photo('storyboard', 480, 240), alt: 'Placeholder photo for the storyboard studio card' },
+  { id: 'drift-video', title: 'Drift video', description: 'Cinematic camera moves from one still', tag: 'Model', image: photo('drift', 480, 240), alt: 'Placeholder photo for the Drift video model card', badge: { label: 'Hot', variant: 'hot' } },
+  { id: 'voice-lab', title: 'Voice lab', description: 'Narrate a clip from a written script', tag: 'Tool', image: photo('voicelab', 480, 240), alt: 'Placeholder photo for the voice lab card', badge: { label: 'New', variant: 'new' } },
 ]
 
 const searchTrigger = (

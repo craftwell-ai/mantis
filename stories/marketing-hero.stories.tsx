@@ -5,11 +5,12 @@ import { MarketingHero } from '@/registry/marketing-hero'
 import { usage } from '../usage/marketing-hero.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const media = [
-  { src: 'https://picsum.photos/seed/hero/1280/720', alt: 'Placeholder for a wide generated film still, the main showcase image' },
-  { src: 'https://picsum.photos/seed/hero-portrait/640/360', alt: 'Placeholder for a generated portrait example' },
-  { src: 'https://picsum.photos/seed/hero-product/640/360', alt: 'Placeholder for a generated product shot example' },
+  { src: photo('hero', 1280, 720), alt: 'Placeholder for a wide generated film still, the main showcase image' },
+  { src: photo('hero-portrait', 640, 360), alt: 'Placeholder for a generated portrait example' },
+  { src: photo('hero-product', 640, 360), alt: 'Placeholder for a generated product shot example' },
 ]
 
 const meta = {

@@ -6,6 +6,7 @@ import { MediaGrid, type MediaGridItem } from '@/registry/media-grid'
 import { usage } from '../usage/media-grid.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const SHAPES: [string, string, number, number][] = [
   ['lantern', 'Paper lanterns over a night market', 600, 800],
@@ -25,7 +26,7 @@ const AUTHORS = ['Mira Okafor', 'Tomas Lindqvist', 'Ana Ruiz', 'Kenji Mori', 'Pr
 function makeItems(offset = 0): MediaGridItem[] {
   return SHAPES.map(([seed, alt, width, height], index) => ({
     id: `${seed}-${offset}`,
-    src: `https://picsum.photos/seed/${seed}${offset || ''}/${width}/${height}`,
+    src: photo(`${seed}${offset || ''}`, width, height),
     alt,
     width,
     height,

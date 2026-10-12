@@ -8,6 +8,7 @@ import { TopNavigation } from '@/registry/top-navigation'
 import { usage } from '../usage/top-navigation.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const links = [
   { label: 'Explore', href: '#explore' },
@@ -20,7 +21,7 @@ const links = [
 
 const account = (
   <AccountMenu
-    user={{ name: 'Maya Okafor', email: 'maya@northlight.studio', plan: 'Creator', avatarSrc: 'https://picsum.photos/seed/avatar/96/96' }}
+    user={{ name: 'Maya Okafor', email: 'maya@northlight.studio', plan: 'Creator', avatarSrc: photo('avatar', 96, 96) }}
     credits={{ used: 1760, total: 3000 }}
     upsells={[{ icon: 'add_circle', label: 'Top up credits', actionLabel: 'Buy' }]}
   />

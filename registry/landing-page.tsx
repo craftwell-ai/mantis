@@ -9,7 +9,7 @@ import { Icon } from "@/components/ui/icon"
 import { FeatureGrid, type FeatureGridProps } from "./feature-grid"
 import { HowItWorks, type HowItWorksProps } from "./how-it-works"
 import { MarketingHero, type MarketingHeroProps } from "./marketing-hero"
-import { SAMPLE_BRAND_NAME, SAMPLE_FOOTER, SAMPLE_NAV_LINKS } from "./sample-content"
+import { SAMPLE_BRAND_NAME, SAMPLE_FOOTER, SAMPLE_NAV_LINKS, photo } from "./sample-content"
 import { SiteFooter, type SiteFooterProps } from "./site-footer"
 import { TopNavigation, type TopNavigationProps } from "./top-navigation"
 
@@ -57,9 +57,9 @@ const DEFAULT_HERO: MarketingHeroProps = {
   primaryAction: { label: "Start for free", href: "/sign-up" },
   secondaryAction: { label: "See examples", href: "/explore" },
   media: [
-    { src: "https://picsum.photos/seed/hero/1280/720", alt: "Placeholder for a wide generated film still, the main showcase image" },
-    { src: "https://picsum.photos/seed/hero-portrait/640/360", alt: "Placeholder for a generated portrait example" },
-    { src: "https://picsum.photos/seed/hero-product/640/360", alt: "Placeholder for a generated product shot example" },
+    { src: photo("hero", 1280, 720), alt: "Placeholder for a wide generated film still, the main showcase image" },
+    { src: photo("hero-portrait", 640, 360), alt: "Placeholder for a generated portrait example" },
+    { src: photo("hero-product", 640, 360), alt: "Placeholder for a generated product shot example" },
   ],
 }
 
@@ -71,38 +71,38 @@ const DEFAULT_FEATURES: FeatureGridProps = {
     {
       title: "Camera moves",
       description: "Dolly, orbit or crane through a scene with one setting.",
-      image: { src: "https://picsum.photos/seed/camera/800/600", alt: "Placeholder for a clip made with a camera move" },
+      image: { src: photo("camera", 800, 600), alt: "Placeholder for a clip made with a camera move" },
       href: "/motion",
       badge: "New",
     },
     {
       title: "Relight",
       description: "Change the time of day on a photo without reshooting it.",
-      image: { src: "https://picsum.photos/seed/relight/800/600", alt: "Placeholder for a relit photograph" },
+      image: { src: photo("relight", 800, 600), alt: "Placeholder for a relit photograph" },
       href: "/relight",
     },
     {
       title: "Consistent characters",
       description: "Keep one face and outfit across every shot in a story.",
-      image: { src: "https://picsum.photos/seed/character/800/600", alt: "Placeholder for a character shown in several scenes" },
+      image: { src: photo("character", 800, 600), alt: "Placeholder for a character shown in several scenes" },
       href: "/characters",
     },
     {
       title: "Upscale to 4K",
       description: "Sharpen any generation for print or a big screen.",
-      image: { src: "https://picsum.photos/seed/upscale/800/600", alt: "Placeholder for an upscaled detail shot" },
+      image: { src: photo("upscale", 800, 600), alt: "Placeholder for an upscaled detail shot" },
       href: "/upscale",
     },
     {
       title: "Lip sync",
       description: "Match a voiceover to a face in any clip.",
-      image: { src: "https://picsum.photos/seed/lipsync/800/600", alt: "Placeholder for a speaking portrait" },
+      image: { src: photo("lipsync", 800, 600), alt: "Placeholder for a speaking portrait" },
       href: "/lip-sync",
     },
     {
       title: "Storyboards",
       description: "Turn a script into a frame-by-frame plan in minutes.",
-      image: { src: "https://picsum.photos/seed/storyboard/800/600", alt: "Placeholder for a storyboard frame" },
+      image: { src: photo("storyboard", 800, 600), alt: "Placeholder for a storyboard frame" },
       href: "/storyboards",
     },
   ],
@@ -119,17 +119,17 @@ const DEFAULT_HOW_IT_WORKS: HowItWorksProps = {
     {
       title: "Drop in a still",
       description: "Upload a photo or pick one from your generations to set the first frame.",
-      media: { src: "https://picsum.photos/seed/upload/800/450", alt: "A still photo of a coastline ready to upload" },
+      media: { src: photo("upload", 800, 450), alt: "A still photo of a coastline ready to upload" },
     },
     {
       title: "Choose a motion",
       description: "Pick a camera move such as a slow push-in or orbit, or describe your own.",
-      media: { src: "https://picsum.photos/seed/motion/800/450", alt: "Camera motion presets shown as small previews" },
+      media: { src: photo("motion", 800, 450), alt: "Camera motion presets shown as small previews" },
     },
     {
       title: "Get your clip",
       description: "Generate and download a six-second clip in 1080p, ready to cut into your edit.",
-      media: { src: "https://picsum.photos/seed/clip/800/450", alt: "The finished video clip playing in a frame" },
+      media: { src: photo("clip", 800, 450), alt: "The finished video clip playing in a frame" },
     },
   ],
 }

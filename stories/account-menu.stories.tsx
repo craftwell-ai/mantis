@@ -8,13 +8,14 @@ import { AccountMenu } from '@/registry/account-menu'
 import { usage } from '../usage/account-menu.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Blocks / Account Menu',
   component: AccountMenu,
   parameters: { layout: 'padded', docs: { description: { component: renderUsageDocs(usage) } } },
   args: {
-    user: { name: 'Maya Okafor', email: 'maya@northlight.studio', plan: 'Creator', avatarSrc: 'https://picsum.photos/seed/avatar/96/96' },
+    user: { name: 'Maya Okafor', email: 'maya@northlight.studio', plan: 'Creator', avatarSrc: photo('avatar', 96, 96) },
     credits: { used: 1760, total: 3000 },
     upsells: [
       { icon: 'add_circle', label: 'Top up credits', actionLabel: 'Buy' },

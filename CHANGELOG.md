@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] - 2026-10-12
+- Sample pictures in blocks, templates and stories are now free Unsplash photos chosen to share one look: a neon-lit street or city view at night with a purple cast (`photo(spot, width, height)` in the sample content). Picsum's random photos and the stock footage are gone
+- New `placeholder(width, height)` draws television static for a spot with no picture yet, and `PLACEHOLDER_CLIP` is a short static clip for the video player
+
 ## [1.0.4] - 2026-10-12
 - Video studio page: the sample's newest clip is real night-street footage, so the canvas shows the video player; the preset picture matches it
 

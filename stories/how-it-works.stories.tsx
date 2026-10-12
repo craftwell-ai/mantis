@@ -6,22 +6,23 @@ import { HowItWorks } from '@/registry/how-it-works'
 import { usage } from '../usage/how-it-works.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const STEPS = [
   {
     title: 'Drop in a still',
     description: 'Upload a photo or pick one from your generations to set the first frame.',
-    media: { src: 'https://picsum.photos/seed/upload/800/450', alt: 'A still photo of a coastline ready to upload' },
+    media: { src: photo('upload', 800, 450), alt: 'A still photo of a coastline ready to upload' },
   },
   {
     title: 'Choose a motion',
     description: 'Pick a camera move such as a slow push-in or orbit, or describe your own.',
-    media: { src: 'https://picsum.photos/seed/motion/800/450', alt: 'Camera motion presets shown as small previews' },
+    media: { src: photo('motion', 800, 450), alt: 'Camera motion presets shown as small previews' },
   },
   {
     title: 'Get your clip',
     description: 'Generate and download a six-second clip in 1080p, ready to cut into your edit.',
-    media: { src: 'https://picsum.photos/seed/clip/800/450', alt: 'The finished video clip playing in a frame' },
+    media: { src: photo('clip', 800, 450), alt: 'The finished video clip playing in a frame' },
   },
 ]
 

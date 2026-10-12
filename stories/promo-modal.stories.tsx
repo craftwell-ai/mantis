@@ -7,6 +7,7 @@ import { PromoModal } from '@/registry/promo-modal'
 import { usage } from '../usage/promo-modal.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 // About 9 hours 41 minutes out, from when the story loads.
 const inNineHours = () => Date.now() + (9 * 60 + 41) * 60 * 1000
@@ -18,7 +19,7 @@ const meta = {
     headline: 'Render without the wait',
     description: 'Upgrade to Studio and your generations skip the queue, all year, at a lower price.',
     benefits: ['Priority rendering on every model', '3,000 credits each month', '4K exports and commercial use'],
-    image: { src: 'https://picsum.photos/seed/promo/896/352', alt: 'Placeholder photo for the Studio plan offer' },
+    image: { src: photo('promo', 896, 352), alt: 'Placeholder photo for the Studio plan offer' },
     price: 14,
     originalPrice: 24,
     deadline: inNineHours(),

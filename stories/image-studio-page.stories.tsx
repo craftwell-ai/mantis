@@ -6,7 +6,7 @@ import { Heading, HeadingAccent } from '@/components/ui/heading'
 import type { GenerationFeedItem } from '@/registry/generation-feed'
 import { ImageStudioPage } from '@/registry/image-studio-page'
 import type { PromptComposerRequest } from '@/registry/prompt-composer'
-import { SAMPLE_ACCOUNT, SAMPLE_GENERATIONS, SAMPLE_IMAGE_COMPOSER, picsum, sampleNavigation } from '@/registry/sample-content'
+import { SAMPLE_ACCOUNT, SAMPLE_GENERATIONS, SAMPLE_IMAGE_COMPOSER, photo, sampleNavigation } from '@/registry/sample-content'
 import { usage } from '../usage/image-studio-page.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
@@ -67,7 +67,7 @@ function FirstGenerationDemo(args: React.ComponentProps<typeof ImageStudioPage>)
     setItems(
       Array.from({ length: request.count }, (_, index) => ({
         id: `result-${index}`,
-        src: picsum(`result-${index}`, 800, 800),
+        src: photo(`result-${index}`, 800, 800),
         alt: `Result ${index + 1} for your prompt`,
         prompt: request.prompt,
         model: 'Standard',
@@ -126,7 +126,7 @@ function DockSketch({ docked }: { docked: boolean }) {
       {!docked ? <div className="h-8 rounded-md border border-separator bg-card" /> : null}
       <div className="grid flex-1 grid-cols-4 gap-0.5">
         {['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((seed) => (
-          <img key={seed} src={picsum(`dock-${seed}`, 120, 120)} alt="" className="size-full object-cover" />
+          <img key={seed} src={photo(`dock-${seed}`, 120, 120)} alt="" className="size-full object-cover" />
         ))}
       </div>
       {docked ? <div className="mx-auto h-8 w-3/4 rounded-md border border-separator bg-card" /> : null}

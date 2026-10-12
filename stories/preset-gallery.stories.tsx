@@ -6,6 +6,7 @@ import { PresetGallery, type GalleryModelTab, type GalleryPreset } from '@/regis
 import { usage } from '../usage/preset-gallery.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 // Invented models and presets for the stories only; a product passes its own.
 const MODELS: GalleryModelTab[] = [
@@ -19,7 +20,7 @@ const preset = (value: string, title: string, models: string[], isNew = false): 
   title,
   models,
   isNew,
-  image: `https://picsum.photos/seed/${value}/480/270`,
+  image: photo(value, 480, 270),
   imageAlt: `Placeholder frame for the ${title} preset`,
 })
 
@@ -89,7 +90,7 @@ export const Loading: Story = {
 // Static tiles for the Do/Don't pairs.
 function Tile({ title, selected = false, check = true, below = false }: { title: string; selected?: boolean; check?: boolean; below?: boolean }) {
   const image = (
-    <img src="https://picsum.photos/seed/orbit/480/270" alt="Placeholder frame for the example preset" className={below ? 'size-16 rounded-lg object-cover' : 'absolute inset-0 -z-10 size-full object-cover'} />
+    <img src={photo('orbit', 480, 270)} alt="Placeholder frame for the example preset" className={below ? 'size-16 rounded-lg object-cover' : 'absolute inset-0 -z-10 size-full object-cover'} />
   )
   if (below) {
     return (

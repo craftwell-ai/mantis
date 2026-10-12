@@ -4,6 +4,7 @@ import { expect, within } from 'storybook/test'
 import { LandingPage } from '@/registry/landing-page'
 import { usage } from '../usage/landing-page.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Templates / Landing Page',
@@ -31,7 +32,7 @@ export const ToolPage: Story = {
       accent: 'the sun',
       description: 'Upload a photo, drag the light where you want it, and get the same scene at golden hour, noon or night.',
       primaryAction: { label: 'Try Relight free', href: '/sign-up' },
-      media: [{ src: 'https://picsum.photos/seed/relight-hero/1280/720', alt: 'Placeholder for a photo relit from noon to sunset' }],
+      media: [{ src: photo('relight-hero', 1280, 720), alt: 'Placeholder for a photo relit from noon to sunset' }],
     },
     cta: {
       title: 'Relight your first photo today',

@@ -24,6 +24,9 @@ const RASTERS = [
   { frame: '[data-slot="video-player"]', name: 'video player' },
   { frame: '.maplibregl-map', name: 'map' },
   { frame: '.react-flow', keep: '.react-flow__edges', name: 'connectors', underlay: true },
+  // Sample photos are swapped for television static first (see showStatic); the static is drawn by a
+  // filter Paper cannot rebuild, so each one is photographed. Ones inside a part already photographed are skipped.
+  { frame: 'img[data-paper-static]:not([data-paper-raster] *)', name: 'placeholder' },
 ]
 
 async function rasterize(page, storyId) {
@@ -86,6 +89,34 @@ export async function captureStories(storyIds, colorTokens, { concurrency = 4, w
   const queue = [...storyIds]
   const failed = []
 
+  // Paper shows a placeholder wherever Storybook shows a sample photo (owner decision, 2026-10-12):
+  // every Unsplash picture, and every video poster, becomes television static of the same size.
+  async function showStatic(page) {
+    await page.evaluate(async () => {
+      const staticPicture = (width, height) =>
+        `data:image/svg+xml,${encodeURIComponent(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><filter id="n" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="3.4" intercept="-1.2"/><feFuncG type="linear" slope="3.4" intercept="-1.2"/><feFuncB type="linear" slope="3.4" intercept="-1.2"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer></filter><pattern id="l" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#0f1113" fill-opacity="0.45"/></pattern><rect width="${width}" height="${height}" fill="#0f1113"/><rect width="${width}" height="${height}" filter="url(#n)" opacity="0.7"/><rect width="${width}" height="${height}" fill="url(#l)"/></svg>`,
+        )}`
+      const isSample = (address) => /images\.unsplash\.com/.test(address || '')
+      const swapped = []
+      for (const image of document.querySelectorAll('img')) {
+        if (!isSample(image.currentSrc || image.src)) continue
+        const box = image.getBoundingClientRect()
+        image.removeAttribute('srcset')
+        image.src = staticPicture(Math.round(box.width) || 320, Math.round(box.height) || 180)
+        image.setAttribute('data-paper-static', '')
+        swapped.push(image)
+      }
+      for (const video of document.querySelectorAll('video')) {
+        if (!isSample(video.poster)) continue
+        const box = video.getBoundingClientRect()
+        video.poster = staticPicture(Math.round(box.width) || 640, Math.round(box.height) || 360)
+      }
+      await Promise.race([Promise.all(swapped.map((image) => image.decode().catch(() => {}))), new Promise((resolve) => setTimeout(resolve, 4000))])
+    })
+    await page.waitForTimeout(200)
+  }
+
   async function captureOne(storyId) {
     const page = await context.newPage()
     try {
@@ -103,6 +134,7 @@ export async function captureStories(storyIds, colorTokens, { concurrency = 4, w
       await page.evaluate(() => document.activeElement && document.activeElement !== document.body && document.activeElement.blur())
       await page.mouse.move(0, 0)
       await page.waitForTimeout(300)
+      await showStatic(page)
       const pictures = await rasterize(page, storyId)
       await page.evaluate(`${converterSource}\n;window.convertStory = convertStory`)
       const result = await page.evaluate(

@@ -88,7 +88,7 @@ const eslintConfig = [
     rules: { "no-restricted-syntax": ["error", ...systemRules] },
   },
   {
-    // Stories show Picsum placeholders in plain <img>; next/image optimization
+    // Stories show sample photos in plain <img>; next/image optimization
     // is an app concern, not a documentation one.
     files: ["stories/**/*.tsx"],
     rules: { "@next/next/no-img-element": "off" },

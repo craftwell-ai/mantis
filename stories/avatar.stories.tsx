@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { usage } from '../usage/avatar.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Components / Avatar',
@@ -27,7 +28,7 @@ export const Sizes: Story = {
 export const WithPhoto: Story = {
   render: () => (
     <span className="flex items-center gap-2 text-sm">
-      <Avatar><AvatarImage src="https://picsum.photos/seed/avatar/64/64" alt="" /><AvatarFallback>PS</AvatarFallback></Avatar>
+      <Avatar><AvatarImage src={photo('avatar', 64, 64)} alt="" /><AvatarFallback>PS</AvatarFallback></Avatar>
       Priya Sen
     </span>
   ),

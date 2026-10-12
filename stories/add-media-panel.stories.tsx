@@ -8,11 +8,12 @@ import { AddMediaPanel, type MediaItem } from '@/registry/add-media-panel'
 import { usage } from '../usage/add-media-panel.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const media = (prefix: string, label: string, count: number): MediaItem[] =>
   Array.from({ length: count }, (_, index) => ({
     id: `${prefix}-${index + 1}`,
-    src: `https://picsum.photos/seed/${prefix}-${index + 1}/240/240`,
+    src: photo(`${prefix}-${index + 1}`, 240, 240),
     alt: `${label} ${index + 1}`,
   }))
 

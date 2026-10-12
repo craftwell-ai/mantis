@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element -- placeholder Picsum photos: next/image would make every app allow-list that host first */
+/* eslint-disable @next/next/no-img-element -- sample Unsplash photos: next/image would make every app allow-list that host first */
 // Placeholder content for the page templates, like the sample text baked into
 // a Figma component: render a template with no props and it shows a complete,
 // believable page for an invented product, Lumen. Every template prop that a
@@ -22,8 +22,60 @@ import type { StudioModel, StudioSettingsPanelProps } from "./studio-settings-pa
 import type { TopNavigationLink, TopNavigationProps } from "./top-navigation"
 import type { UsageCategory, UsageEntry, UsageSummaryProps } from "./usage-summary"
 
-/** A Lorem Picsum photo that stays the same for a given seed. */
-export const picsum = (seed: string, width: number, height: number) => `https://picsum.photos/seed/${seed}/${width}/${height}`
+// The sample pictures: free Unsplash photos chosen by eye to share one look, a street or city view at
+// night, lit by neon with a purple cast. Add to the list only with a photo that fits it.
+const CITY_PHOTOS = [
+  "1519608487953-e999c86e7455",
+  "1531113165519-5eb0816d7e02",
+  "1600998837340-4887228e311f",
+  "1503058474900-cb76710f9cd1",
+  "1606913914063-88b87d1ad466",
+  "1631044176346-804c33ade61c",
+  "1623744633276-48875373d0c7",
+  "1770938814072-17a57f6b1a6f",
+  "1663511173930-8e7a82205f49",
+  "1600687681193-5887e9ae1f05",
+  "1557515126-1bf9ada5cb93",
+  "1551712766-817b7d0e8291",
+  "1573456170607-b885fdc78985",
+  "1609860850812-86de933acace",
+  "1581441379020-247e49a30452",
+  "1711539924834-06816347ff2a",
+  "1569490202825-a9369cb9793b",
+  "1734576722118-6683abf6fff8",
+]
+
+/** One of the sample city photos, cropped to size. The same `spot` name always gets the same photo. */
+export function photo(spot: string, width: number, height: number) {
+  let hash = 0
+  for (const character of spot) hash = (hash * 31 + character.charCodeAt(0)) % 100003
+  return `https://images.unsplash.com/photo-${CITY_PHOTOS[hash % CITY_PHOTOS.length]}?auto=format&fit=crop&w=${width}&h=${height}&q=70`
+}
+
+/**
+ * A placeholder for a spot that has no picture yet: television static, drawn on the spot so nothing
+ * is fetched. Swap in real media before shipping.
+ */
+export function placeholder(width: number, height: number) {
+  // An <img> cannot read the page's CSS variables, so the dark base color is written out.
+  const svg = [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
+    `<filter id="n" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="3.4" intercept="-1.2"/><feFuncG type="linear" slope="3.4" intercept="-1.2"/><feFuncB type="linear" slope="3.4" intercept="-1.2"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer></filter>`,
+    `<pattern id="l" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#0f1113" fill-opacity="0.45"/></pattern>`,
+    `<rect width="${width}" height="${height}" fill="#0f1113"/>`,
+    `<rect width="${width}" height="${height}" filter="url(#n)" opacity="0.7"/>`,
+    `<rect width="${width}" height="${height}" fill="url(#l)"/>`,
+    `</svg>`,
+  ].join("")
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`
+}
+
+/**
+ * A placeholder clip: three silent seconds of television static, so a video player has something
+ * to load, play and scrub without fetching footage. Swap in a real clip before shipping.
+ */
+// prettier-ignore
+export const PLACEHOLDER_CLIP = "data:video/webm;base64,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"
 
 // ---------------------------------------------------------------------------
 // The product and the signed-in person
@@ -35,7 +87,7 @@ export const SAMPLE_BRAND_NAME = "Lumen"
 export const SAMPLE_CREDITS = 1240
 
 export const SAMPLE_ACCOUNT: AccountMenuProps = {
-  user: { name: "Maya Okafor", email: "maya@northlight.studio", plan: "Creator", avatarSrc: picsum("avatar", 96, 96) },
+  user: { name: "Maya Okafor", email: "maya@northlight.studio", plan: "Creator", avatarSrc: photo("avatar", 96, 96) },
   credits: { used: 1760, total: 3000 },
   upsells: [{ icon: "add_circle", label: "Top up credits", actionLabel: "Buy" }],
 }
@@ -156,7 +208,7 @@ export const SAMPLE_GENERATIONS: GenerationFeedItem[] = [
   ["dunes", "Wind-shaped sand dunes at noon", "Pale dunes under a hard noon sun, ripples in the sand, a single line of footprints.", "Sep 27"],
 ].map(([id, alt, prompt, createdAt]) => ({
   id,
-  src: picsum(id, 800, 800),
+  src: photo(id, 800, 800),
   alt,
   prompt,
   model: "Standard",
@@ -177,7 +229,7 @@ export const SAMPLE_PROJECTS: SampleProject[] = [
   id,
   name,
   lastEdited,
-  thumbnail: { src: picsum(`project-${id}`, 640, 360) },
+  thumbnail: { src: photo(`project-${id}`, 640, 360) },
   href: `#${id}`,
   onRename: () => {},
   onDuplicate: () => {},
@@ -188,17 +240,10 @@ export const SAMPLE_PROJECTS: SampleProject[] = [
 // Video studio
 // ---------------------------------------------------------------------------
 
-// The video studio's sample footage: free stock video from Pexels (free to use, no attribution needed).
-// Picsum has no video and its photos are random, so the first clip, its still and the preset picture
-// are chosen to belong together: a dark street at night.
-const NIGHT_RUN_VIDEO = "https://videos.pexels.com/video-files/5843853/5843853-hd_1280_720_60fps.mp4"
-const NIGHT_RUN_STILL = "https://images.pexels.com/videos/5843853/pexels-photo-5843853.jpeg?auto=compress&cs=tinysrgb&w=1280"
-const NIGHT_STREET_FRAME = "https://images.pexels.com/videos/29834228/pexels-photo-29834228.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=704&h=256"
-
 /** The video settings rail, with the sample models, a chosen preset and the balance. */
 export const SAMPLE_VIDEO_SETTINGS: StudioSettingsPanelProps = {
   models: SAMPLE_VIDEO_MODELS,
-  preset: { title: "Slow dolly in", description: "The camera glides toward the subject", image: NIGHT_STREET_FRAME, imageAlt: "A car on a dark street lit by neon signs" },
+  preset: { title: "Slow dolly in", description: "The camera glides toward the subject", image: photo("preset", 704, 256), imageAlt: "A city street at night, lit by neon signs" },
   onChangePreset: () => {},
   onAddReference: () => {},
   creditBalance: SAMPLE_CREDITS,
@@ -216,15 +261,15 @@ export type SampleClip = {
   createdAt: string
 }
 
-// The newest clip is real footage, so the canvas shows the video player; the rest are stills.
+// The newest clip carries a video file, so the canvas shows the video player; the rest are stills.
 const NIGHT_RUN_CLIP: SampleClip = {
   id: "night-run",
-  posterSrc: NIGHT_RUN_STILL,
-  videoSrc: NIGHT_RUN_VIDEO,
-  alt: "A tuned white car with red underglow on a dark street at night",
-  prompt: "A tuned white car rolls down a dark city street at night, red underglow on the asphalt, shop signs glowing behind it.",
+  posterSrc: photo("clip-night-run", 1280, 720),
+  videoSrc: PLACEHOLDER_CLIP,
+  alt: "A city street at night, lit by neon signs",
+  prompt: "Slow push down a rain-wet city street at night, neon signs glowing purple and pink on the pavement.",
   model: "Lumen 3",
-  settings: ["12s", "16:9", "720p"],
+  settings: ["5s", "16:9", "720p"],
   createdAt: "3 min ago",
 }
 
@@ -235,7 +280,7 @@ const STILL_CLIPS: SampleClip[] = [
   ["vineyard", "Drone shot over vineyard rows in autumn", "Drone glides low over autumn vineyard rows toward a stone farmhouse.", "Sep 29"],
 ].map(([id, alt, prompt, createdAt]) => ({
   id,
-  posterSrc: picsum(`clip-${id}`, 1280, 720),
+  posterSrc: photo(`clip-${id}`, 1280, 720),
   alt,
   prompt,
   model: "Lumen 3",
@@ -279,7 +324,7 @@ export const SAMPLE_ASSETS: SampleAsset[] = (
   kind,
   detail,
   duration,
-  src: picsum(`asset-${id}`, 600, 600),
+  src: photo(`asset-${id}`, 600, 600),
 }))
 
 // ---------------------------------------------------------------------------
@@ -300,7 +345,7 @@ export const SAMPLE_SETTINGS_PROFILE: SampleSettingsProfile = {
   name: "Maya Okafor",
   username: "mayamakes",
   email: "maya@northlight.studio",
-  avatarSrc: picsum("avatar", 160, 160),
+  avatarSrc: photo("avatar", 160, 160),
   publishByDefault: false,
 }
 
@@ -408,7 +453,7 @@ export function SampleLibraryPage() {
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {LIBRARY_SHOTS.map((slug) => (
           <li key={slug}>
-            <MediaTile aspect="portrait" radius="2xl" className="bg-card" src={picsum(slug, 480, 600)} alt={`Placeholder for a generated image (${slug})`} />
+            <MediaTile aspect="portrait" radius="2xl" className="bg-card" src={photo(slug, 480, 600)} alt={`Placeholder for a generated image (${slug})`} />
           </li>
         ))}
       </ul>
@@ -427,7 +472,7 @@ export function SampleProjectsPage() {
       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {["lookbook", "teaser", "storyboard", "portraits", "campaign", "moodboard"].map((slug) => (
           <li key={slug} className="flex flex-col gap-2">
-            <MediaTile aspect="video" radius="2xl" className="bg-card" src={picsum(slug, 640, 400)} alt={`Placeholder cover for the ${slug} project`} />
+            <MediaTile aspect="video" radius="2xl" className="bg-card" src={photo(slug, 640, 400)} alt={`Placeholder cover for the ${slug} project`} />
             <p className="text-sm font-medium capitalize">{slug}</p>
           </li>
         ))}
@@ -440,9 +485,9 @@ export function SampleProjectsPage() {
 export function SampleCanvasBoard() {
   return (
     <div className="relative h-108 w-148">
-      <img src={picsum("hero", 720, 480)} alt="Placeholder for the hero frame" className="absolute top-0 left-0 h-60 w-90 rounded-xl object-cover ring-2 ring-ring" />
-      <img src={picsum("detail", 400, 480)} alt="Placeholder for a close-up detail" className="absolute top-0 left-98 h-60 w-50 rounded-xl object-cover" />
-      <img src={picsum("teaser", 560, 320)} alt="Placeholder for the teaser clip's first frame" className="absolute top-68 left-0 h-40 w-70 rounded-xl object-cover" />
+      <img src={photo("hero", 720, 480)} alt="Placeholder for the hero frame" className="absolute top-0 left-0 h-60 w-90 rounded-xl object-cover ring-2 ring-ring" />
+      <img src={photo("detail", 400, 480)} alt="Placeholder for a close-up detail" className="absolute top-0 left-98 h-60 w-50 rounded-xl object-cover" />
+      <img src={photo("teaser", 560, 320)} alt="Placeholder for the teaser clip's first frame" className="absolute top-68 left-0 h-40 w-70 rounded-xl object-cover" />
       <div className="absolute top-68 left-78 flex h-35 w-50 flex-col gap-1 rounded-xl bg-card p-3 text-sm">
         <p className="font-medium">Feedback</p>
         <p className="text-muted-foreground">Warmer light on the hero, and try a slower push-in on the clip.</p>

@@ -7,11 +7,12 @@ import { NotificationsPanel, type NotificationEntry } from '@/registry/notificat
 import { usage } from '../usage/notifications-panel.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const notifications: NotificationEntry[] = [
   {
     id: 'invite-1',
-    actor: { name: 'Mara Quinn', avatar: 'https://picsum.photos/seed/mara/64/64' },
+    actor: { name: 'Mara Quinn', avatar: photo('mara', 64, 64) },
     message: 'invited you to edit Desert Bloom',
     time: '4m',
     unread: true,
@@ -41,7 +42,7 @@ const notifications: NotificationEntry[] = [
   },
   {
     id: 'like-1',
-    actor: { name: 'Sam Okafor', avatar: 'https://picsum.photos/seed/sam/64/64' },
+    actor: { name: 'Sam Okafor', avatar: photo('sam', 64, 64) },
     message: 'liked your image Paper Lanterns',
     time: 'Yesterday',
     unread: false,

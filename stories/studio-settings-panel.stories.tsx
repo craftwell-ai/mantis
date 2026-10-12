@@ -9,6 +9,7 @@ import { StudioSettingsPanel, type StudioModel, type StudioReference } from '@/r
 import { usage } from '../usage/studio-settings-panel.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 // Invented models for the stories only; a product passes its own list.
 const MODELS: StudioModel[] = [
@@ -20,13 +21,13 @@ const MODELS: StudioModel[] = [
 const PRESET = {
   title: 'Slow dolly in',
   description: 'The camera glides toward the subject',
-  image: 'https://picsum.photos/seed/preset/704/256',
+  image: photo('preset', 704, 256),
   imageAlt: 'Placeholder frame for the selected preset',
 }
 
 const REFERENCES: StudioReference[] = [
-  { id: 'ref-1', src: 'https://picsum.photos/seed/reference-face/160/160', alt: 'Reference image 1, a face' },
-  { id: 'ref-2', src: 'https://picsum.photos/seed/reference-product/160/160', alt: 'Reference image 2, a product' },
+  { id: 'ref-1', src: photo('reference-face', 160, 160), alt: 'Reference image 1, a face' },
+  { id: 'ref-2', src: photo('reference-product', 160, 160), alt: 'Reference image 2, a product' },
 ]
 
 const meta = {
@@ -64,7 +65,7 @@ function WithReferenceState(props: Partial<React.ComponentProps<typeof StudioSet
           ...current,
           {
             id: `ref-${current.length + 1}`,
-            src: `https://picsum.photos/seed/reference-${current.length + 1}/160/160`,
+            src: photo(`reference-${current.length + 1}`, 160, 160),
             alt: `Reference image ${current.length + 1}`,
           },
         ])

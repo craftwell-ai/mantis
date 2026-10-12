@@ -16,7 +16,7 @@ The Mantis repo fails its build on the ones marked ⛔; hold your code to the sa
 6. **Pink and blue are for offers, not buying:** `sale`, `badge-hot`, `badge-value` and `commerce-pink` mark sales, discounts and best-value tags. Plans are bought with the lime `brand` button, not `commerce-blue`.
 7. **Dark only.** There is no light mode: never add a theme toggle or light-mode styles. Base styles already are the dark theme, so new code needs no `dark:` variants.
 8. **Compose before you build.** Check *Blocks* for a ready-made pattern or page first (`npx shadcn@latest add @mantis/<name>`), then compose from *Components*. Do not restyle the installed files in `components/ui`; if nothing fits, ask the owner rather than forking a primitive.
-9. **Content is your own.** Write real copy for the product (never lorem ipsum); images are `https://picsum.photos/seed/<slug>/<w>/<h>` with descriptive `alt`.
+9. **Content is your own.** Write real copy for the product (never lorem ipsum); images are the sample city photos (`photo(spot, width, height)` from the `sample-content` item: free Unsplash pictures of neon-lit streets at night) with descriptive `alt`; a spot with no picture yet gets `placeholder(width, height)` (television static) and a video player gets `PLACEHOLDER_CLIP`. No random or unrelated photos.
 10. **Accessible by default.** Icon-only buttons get `aria-label`; every field gets a visible label; text meets 4.5:1 (the tokens already do — do not lower opacity on text).
 
 ## Components

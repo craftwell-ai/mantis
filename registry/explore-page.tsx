@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { EmptyState } from "./empty-state"
 import { LightboxInspector, type LightboxItem } from "./lightbox-inspector"
 import { MediaGrid, type MediaGridItem } from "./media-grid"
-import { SAMPLE_BRAND_NAME, sampleNavigationWithoutBrand } from "./sample-content"
+import { SAMPLE_BRAND_NAME, sampleNavigationWithoutBrand, photo } from "./sample-content"
 import { TopNavigation, type TopNavigationProps } from "./top-navigation"
 
 export type ExploreItem = MediaGridItem &
@@ -83,7 +83,7 @@ const SAMPLE: [string, string, number, number, string, string][] = [
 
 const DEFAULT_ITEMS: ExploreItem[] = SAMPLE.map(([seed, alt, width, height, category, prompt], index) => ({
   id: seed,
-  src: `https://picsum.photos/seed/${seed}/${width}/${height}`,
+  src: photo(seed, width, height),
   alt,
   width,
   height,

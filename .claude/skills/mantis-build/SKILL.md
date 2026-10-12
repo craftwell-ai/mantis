@@ -19,7 +19,7 @@ AGENTS.md (already loaded through CLAUDE.md) is the index: components, their rea
 - Import primitives from `@/components/ui/<name>`; icons only via `<Icon name="…" />`.
 - Colors, radius, shadows and type come from token utilities only. If a value seems to need a hex code or `[13px]`, there is a token or scale step for it; `npm run lint` will reject the raw value anyway, and its message names the fix.
 - Lime `brand` only on the one main call to action of the view (generate, sign up, buy a plan, or the main action of a focused flow); everyday Save/Continue/Invite stay white. One lime action and one filled button per view, card or dialog.
-- Content: write real, specific copy for a creative-AI product; Picsum seeds for images with real `alt`; logos as empty labelled slots. Never reuse the reference product's wording, model names or imagery.
+- Content: write real, specific copy for a creative-AI product; sample city photos for images (`photo(spot, width, height)` from `registry/sample-content`) with real `alt`, and `placeholder(width, height)` (television static) where there is no picture yet; logos as empty labelled slots. Never reuse the reference product's wording, model names or imagery.
 - Accessibility: every control has a visible label or `aria-label`; headings in order; nothing conveyed by color alone.
 
 ## 3. Document it

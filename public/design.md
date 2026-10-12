@@ -52,7 +52,7 @@ These are the shapes the reference repeats. Build new screens from them.
 
 ## Content
 
-All copy is written fresh for the product being built: plain, specific, sentence case (headlines excepted). Placeholder images come from Picsum (`https://picsum.photos/seed/<slug>/<w>/<h>`) with real `alt` text. Logos are empty labelled slots. Nothing — text, imagery, icons, logos or model names — is copied from the reference.
+All copy is written fresh for the product being built: plain, specific, sentence case (headlines excepted). Sample images are free Unsplash photos of neon-lit city streets at night (`photo(spot, width, height)` from the sample content) with real `alt` text; a spot with no picture yet shows television static (`placeholder(width, height)`). Logos are empty labelled slots. Nothing — text, imagery, icons, logos or model names — is copied from the reference.
 
 ## Mantis decisions (not measurements)
 

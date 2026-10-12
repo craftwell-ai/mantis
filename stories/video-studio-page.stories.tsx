@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { expect, fn, userEvent, within } from 'storybook/test'
 
 import { Icon } from '@/components/ui/icon'
-import { SAMPLE_CLIPS, SAMPLE_VIDEO_SETTINGS, picsum, sampleNavigation } from '@/registry/sample-content'
+import { SAMPLE_CLIPS, SAMPLE_VIDEO_SETTINGS, photo, sampleNavigation } from '@/registry/sample-content'
 import { VideoStudioPage } from '@/registry/video-studio-page'
 import { usage } from '../usage/video-studio-page.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
@@ -66,7 +66,7 @@ function StripSketch({ marks }: { marks: 'lime' | 'many' }) {
           key={seed}
           className={`relative aspect-video w-24 overflow-hidden rounded-lg ${(marks === 'lime' && index === 0) ? 'ring-2 ring-ring ring-inset' : ''}`}
         >
-          <img src={picsum(`strip-${seed}`, 192, 108)} alt="" className="size-full object-cover" />
+          <img src={photo(`strip-${seed}`, 192, 108)} alt="" className="size-full object-cover" />
           {marks === 'many' ? (
             <span className="absolute inset-0 flex items-center justify-center bg-overlay text-foreground">
               <Icon name="play_arrow" />

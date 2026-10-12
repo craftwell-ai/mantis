@@ -12,7 +12,7 @@ import { EmptyState } from "./empty-state"
 import { FeedPost, type FeedPostProps } from "./feed-post"
 import { LightboxInspector, type LightboxItem } from "./lightbox-inspector"
 import { MediaGrid, type MediaGridItem } from "./media-grid"
-import { SAMPLE_BRAND_NAME, sampleNavigationWithoutBrand } from "./sample-content"
+import { SAMPLE_BRAND_NAME, sampleNavigationWithoutBrand, photo } from "./sample-content"
 import { TopNavigation, type TopNavigationProps } from "./top-navigation"
 
 export type ProfileWork = MediaGridItem & Pick<LightboxItem, "prompt" | "info">
@@ -62,7 +62,7 @@ export interface ProfilePageProps {
 function sampleWork(seed: string, alt: string, width: number, height: number, author: string, prompt: string): ProfileWork {
   return {
     id: seed,
-    src: `https://picsum.photos/seed/${seed}/${width}/${height}`,
+    src: photo(seed, width, height),
     alt,
     width,
     height,
@@ -111,7 +111,7 @@ const DEFAULT_POSTS: ProfilePost[] = [
     postedAt: "2d ago",
     title: "Three ways to keep fog from turning grey",
     text: "Name the light source and its color before you mention fog. \"Warm cabin light through fog\" keeps the haze glowing instead of flat.",
-    media: [{ src: "https://picsum.photos/seed/fogtest/1200/675", alt: "Harbor in warm fog, the result of the tip" }],
+    media: [{ src: photo("fogtest", 1200, 675), alt: "Harbor in warm fog, the result of the tip" }],
     likes: 482,
     comments: 37,
     views: 9100,
@@ -122,8 +122,8 @@ const DEFAULT_POSTS: ProfilePost[] = [
     postedAt: "1w ago",
     text: "Started a series of coastal towns at blue hour. Here are the first two, more on Friday.",
     media: [
-      { src: "https://picsum.photos/seed/bluehour1/800/800", alt: "Coastal town at blue hour, first in the series" },
-      { src: "https://picsum.photos/seed/bluehour2/800/800", alt: "Second coastal town at blue hour" },
+      { src: photo("bluehour1", 800, 800), alt: "Coastal town at blue hour, first in the series" },
+      { src: photo("bluehour2", 800, 800), alt: "Second coastal town at blue hour" },
     ],
     likes: 1240,
     comments: 88,

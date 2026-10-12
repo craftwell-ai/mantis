@@ -7,12 +7,13 @@ import { AgentApprovalCard, type AgentApprovalStep } from '@/registry/agent-appr
 import { usage } from '../usage/agent-approval-card.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const generations: AgentApprovalStep[] = [
   {
     id: 'shot-1',
     description: 'Amber glass dropper bottle on wet black slate, single soft key light from the left, shallow depth of field, droplets on the glass.',
-    thumbnail: { src: 'https://picsum.photos/seed/bottle/112/112', alt: 'Reference photo the agent will use for the first shot' },
+    thumbnail: { src: photo('bottle', 112, 112), alt: 'Reference photo the agent will use for the first shot' },
     details: ['Lumen 2', '4:5', '2K'],
     credits: 4,
   },

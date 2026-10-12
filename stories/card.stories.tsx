@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { usage } from '../usage/card.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Components / Card',
@@ -37,7 +38,7 @@ export const Default: Story = { render: () => <CreditsCard /> }
 export const WithImage: Story = {
   render: () => (
     <Card className="w-full max-w-sm overflow-hidden pt-0">
-      <img src="https://picsum.photos/seed/night-market-teaser/640/360" alt="Placeholder still standing in for a generated night-market street scene" className="w-full" />
+      <img src={photo('night-market-teaser', 640, 360)} alt="Placeholder still standing in for a generated night-market street scene" className="w-full" />
       <CardHeader>
         <CardTitle>Night Market Teaser</CardTitle>
         <CardDescription>Video · 16:9 · generated 12 minutes ago</CardDescription>
@@ -161,7 +162,7 @@ export const Variants: StoryObj = {
       {(['default', 'glass', 'outlined', 'media'] as const).map((variant) => (
         <Card key={variant} variant={variant}>
           {variant === 'media' ? (
-            <img src={`https://picsum.photos/seed/card-${variant}/320/180`} alt="Placeholder still from a generated clip" className="aspect-video w-full object-cover" />
+            <img src={photo(`card-${variant}`, 320, 180)} alt="Placeholder still from a generated clip" className="aspect-video w-full object-cover" />
           ) : null}
           <CardHeader>
             <CardTitle className="capitalize">{variant}</CardTitle>

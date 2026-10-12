@@ -8,6 +8,7 @@ import { ProjectCard } from '@/registry/project-card'
 import { usage } from '../usage/project-card.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Blocks / Project Card',
@@ -17,7 +18,7 @@ const meta = {
     name: 'Night Market Teaser',
     lastEdited: '2 hours ago',
     lastEditedDateTime: '2026-10-02T09:14:00Z',
-    thumbnail: { src: 'https://picsum.photos/seed/project/640/360' },
+    thumbnail: { src: photo('project', 640, 360) },
     href: '#night-market-teaser',
     onRename: () => {},
     onDuplicate: () => {},
@@ -68,7 +69,7 @@ function RenamableCard() {
     <ProjectCard
       name={name}
       lastEdited="2 hours ago"
-      thumbnail={{ src: 'https://picsum.photos/seed/project/640/360' }}
+      thumbnail={{ src: photo('project', 640, 360) }}
       onRename={setName}
       onDuplicate={() => {}}
       onDelete={() => {}}
@@ -125,7 +126,7 @@ function ProjectLibrary() {
           key={project.id}
           name={project.name}
           lastEdited={project.lastEdited}
-          thumbnail={{ src: `https://picsum.photos/seed/${project.seed}/640/360` }}
+          thumbnail={{ src: photo(`${project.seed}`, 640, 360) }}
           href={`#${project.id}`}
           onRename={(name) => setProjects((current) => current.map((item) => (item.id === project.id ? { ...item, name } : item)))}
           onDuplicate={() =>
@@ -182,7 +183,7 @@ export const DoDont: Story = {
           <ProjectCard
             name="Glass Harbor"
             lastEdited="Sep 28"
-            thumbnail={{ src: 'https://picsum.photos/seed/glass-harbor/640/360' }}
+            thumbnail={{ src: photo('glass-harbor', 640, 360) }}
             onRename={() => {}}
             onDuplicate={() => {}}
             onDelete={() => {}}
@@ -190,7 +191,7 @@ export const DoDont: Story = {
         }
         dontExample={
           <div className="flex flex-col gap-3">
-            <img src="https://picsum.photos/seed/glass-harbor/640/360" alt="" className="aspect-video w-full rounded-2xl object-cover" />
+            <img src={photo('glass-harbor', 640, 360)} alt="" className="aspect-video w-full rounded-2xl object-cover" />
             <div className="px-1">
               <p className="text-sm font-medium">Glass Harbor</p>
               <p className="text-xs text-muted-foreground">Edited Sep 28</p>

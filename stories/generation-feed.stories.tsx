@@ -7,11 +7,12 @@ import { GenerationFeed, type GenerationFeedItem } from '@/registry/generation-f
 import { usage } from '../usage/generation-feed.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const ITEMS: GenerationFeedItem[] = [
   {
     id: 'harbor',
-    src: 'https://picsum.photos/seed/harbor/800/800',
+    src: photo('harbor', 800, 800),
     alt: 'Fishing boats moored in a harbor at dusk',
     prompt: 'A quiet harbor at blue hour, wooden fishing boats rocking on glassy water, warm cabin lights reflected in long streaks, light fog over the breakwater, shot on 35mm film.',
     model: 'Lumen Photo 2',
@@ -21,7 +22,7 @@ const ITEMS: GenerationFeedItem[] = [
   },
   {
     id: 'atrium',
-    src: 'https://picsum.photos/seed/atrium/800/800',
+    src: photo('atrium', 800, 800),
     alt: 'Sunlit concrete atrium with hanging plants',
     prompt: 'Brutalist concrete atrium flooded with late afternoon sun, trailing plants from every balcony, a single figure crossing the courtyard, architectural photography.',
     model: 'Lumen Photo 2',
@@ -30,7 +31,7 @@ const ITEMS: GenerationFeedItem[] = [
   },
   {
     id: 'ceramics',
-    src: 'https://picsum.photos/seed/ceramics/800/800',
+    src: photo('ceramics', 800, 800),
     alt: 'Glazed ceramic bowls stacked on a workbench',
     prompt: 'Hand-thrown ceramic bowls with drippy celadon glaze stacked on a flour-dusted workbench, soft window light, shallow depth of field.',
     model: 'Lumen Photo 2',
@@ -39,7 +40,7 @@ const ITEMS: GenerationFeedItem[] = [
   },
   {
     id: 'canyon',
-    src: 'https://picsum.photos/seed/canyon/800/800',
+    src: photo('canyon', 800, 800),
     alt: 'Red canyon walls under a stormy sky',
     prompt: 'Slot canyon walls glowing red under a breaking storm, wide angle, dust in the air catching light.',
     model: 'Drift Video 1.5',
@@ -48,7 +49,7 @@ const ITEMS: GenerationFeedItem[] = [
   },
   {
     id: 'tram',
-    src: 'https://picsum.photos/seed/tram/800/800',
+    src: photo('tram', 800, 800),
     alt: 'A vintage tram on a rainy city street',
     prompt: 'A vintage green tram turning a corner on a rain-soaked cobbled street at night, neon shop signs, cinematic.',
     model: 'Drift Video 1.5',
@@ -57,7 +58,7 @@ const ITEMS: GenerationFeedItem[] = [
   },
   {
     id: 'orchard',
-    src: 'https://picsum.photos/seed/orchard/800/800',
+    src: photo('orchard', 800, 800),
     alt: 'Rows of apple trees in morning mist',
     prompt: 'Rows of apple trees in early morning mist, ladders against the trunks, baskets half full, muted autumn palette.',
     model: 'Lumen Photo 2',

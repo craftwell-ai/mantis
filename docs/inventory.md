@@ -160,7 +160,7 @@ Also to add as source tokens: `color-font-disabled #737475`, `color-button-secon
 
 | Item | Reason |
 |---|---|
-| The reference's own text, images, logos, AI model names, custom icons | Content rule: never copied. Replaced by fresh copy, Picsum placeholders, Material Symbols, empty logo slots |
+| The reference's own text, images, logos, AI model names, custom icons | Content rule: never copied. Replaced by fresh copy, free Unsplash photos, Material Symbols, empty logo slots |
 | Video player internals, canvas engine, agent runtime | Product functionality, not a design system. Mantis ships their visible chrome (toolbars, controls, panels) only |
 | Third-party widgets (cookie banner, Google sign-in button styling) | Not part of the reference's design language |
 | Paid-plan-only screens not seen on Mobbin | Not observable on a free account. Will be marked **M** or added if seen later |

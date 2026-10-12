@@ -8,11 +8,12 @@ import { LightboxInspector, type LightboxItem } from '@/registry/lightbox-inspec
 import { usage } from '../usage/lightbox-inspector.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const ITEMS: LightboxItem[] = [
   {
     id: 'harbor',
-    src: 'https://picsum.photos/seed/harbor/1200/800',
+    src: photo('harbor', 1200, 800),
     alt: 'Fishing boats moored in a harbor at dusk',
     prompt: 'A quiet harbor at blue hour, wooden fishing boats rocking on glassy water, warm cabin lights reflected in long streaks, light fog over the breakwater, shot on 35mm film.',
     author: { name: 'Mira Okafor' },
@@ -25,7 +26,7 @@ const ITEMS: LightboxItem[] = [
   },
   {
     id: 'studio',
-    src: 'https://picsum.photos/seed/studio/800/1200',
+    src: photo('studio', 800, 1200),
     alt: 'Portrait of a potter in her studio',
     prompt: 'Environmental portrait of a potter at her wheel, clay on her forearms, shelves of drying bowls behind her, north window light.',
     author: { name: 'Ana Ruiz' },
@@ -38,7 +39,7 @@ const ITEMS: LightboxItem[] = [
   },
   {
     id: 'glacier',
-    src: 'https://picsum.photos/seed/glacier/1000/1000',
+    src: photo('glacier', 1000, 1000),
     alt: 'Blue ice cave inside a glacier',
     prompt: 'Inside a glacier ice cave, translucent blue walls rippled like water, a lone climber with a headlamp for scale.',
     author: { name: 'Kenji Mori' },

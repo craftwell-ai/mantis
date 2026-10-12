@@ -81,7 +81,7 @@ The `base` item's `meta.usage` in `registry.json` spells out every manual step, 
 - **Icons:** the source's icons are a commercial or custom set and are not copied. Mantis uses Material Symbols **Rounded, weight 300**, the closest licensable match.
 
 - **Known gap:** the source enlarges type sizes at 768px and 1280px widths. Mantis currently ships the base (mobile) sizes only.
-- **Content:** no text, images, icons or logos were copied from the reference. Images are Lorem Picsum placeholders, icons are Material Symbols.
+- **Content:** no text, images, icons or logos were copied from the reference. Images are free Unsplash photos, empty picture spots show a television-static placeholder, icons are Material Symbols.
 
 ## Develop
 

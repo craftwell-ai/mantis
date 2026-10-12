@@ -10,6 +10,7 @@ import { ShareDialog } from '@/registry/share-dialog'
 import { usage } from '../usage/share-dialog.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Blocks / Share Dialog',
@@ -18,7 +19,7 @@ const meta = {
     itemName: 'Desert Bloom',
     shareUrl: 'https://studio.example.com/p/desert-bloom-7f3k',
     members: [
-      { id: 'me', name: 'Ava Reyes', email: 'ava@lumenhouse.studio', avatar: 'https://picsum.photos/seed/ava/64/64', role: 'owner' },
+      { id: 'me', name: 'Ava Reyes', email: 'ava@lumenhouse.studio', avatar: photo('ava', 64, 64), role: 'owner' },
       { id: 'leo', name: 'Leo Park', email: 'leo@lumenhouse.studio', role: 'editor' },
     ],
     trigger: (

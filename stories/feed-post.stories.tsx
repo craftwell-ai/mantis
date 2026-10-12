@@ -7,6 +7,7 @@ import { FeedPost } from '@/registry/feed-post'
 import { usage } from '../usage/feed-post.usage.mjs'
 import { renderUsageDocs } from '../usage/render.mjs'
 import { DoDontPair } from './DoDont'
+import { photo } from '@/registry/sample-content'
 
 const meta = {
   title: 'Blocks / Feed Post',
@@ -14,12 +15,12 @@ const meta = {
   parameters: { layout: 'padded', docs: { description: { component: renderUsageDocs(usage) } } },
   args: {
     className: 'max-w-xl',
-    author: { name: 'Mira Okafor', avatarSrc: 'https://picsum.photos/seed/mira/96/96' },
+    author: { name: 'Mira Okafor', avatarSrc: photo('mira', 96, 96) },
     postedAt: '2d ago',
     postedAtDateTime: '2026-09-30T18:20:00Z',
     title: 'Night market, three ways',
     text: 'Same prompt, three seeds. The second one finally got the lantern glow right.',
-    media: [{ src: 'https://picsum.photos/seed/lantern/1280/720', alt: 'Paper lanterns glowing over a crowded night market' }],
+    media: [{ src: photo('lantern', 1280, 720), alt: 'Paper lanterns glowing over a crowded night market' }],
     mediaLabel: 'Drift Video 1.5',
     likes: 88,
     dislikes: 2,
@@ -49,8 +50,8 @@ export const TwoImages: Story = {
     title: 'Spice jar series',
     text: 'Studio light versus market light.',
     media: [
-      { src: 'https://picsum.photos/seed/jar/800/800', alt: 'A jar of chili flakes on a dark slate' },
-      { src: 'https://picsum.photos/seed/market/800/800', alt: 'The same jar on a sunny market stall' },
+      { src: photo('jar', 800, 800), alt: 'A jar of chili flakes on a dark slate' },
+      { src: photo('market', 800, 800), alt: 'The same jar on a sunny market stall' },
     ],
     mediaLabel: undefined,
   },
