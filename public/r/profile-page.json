@@ -32,5 +32,6 @@
     ],
     "use_when": "You are building a creator's public profile or the viewer's own profile, with their identity on the side and their work, likes and posts in tabs"
   },
+  "docs": "Composition, outer to inner, then left to right: top-navigation → avatar → heading → button → tabs → media-grid → feed-post → lightbox-inspector. Under the top navigation the page is two columns. Left: a sidebar card with the avatar, the name as the heading, and the Follow or Edit profile button. Right: the tabs, with a media grid in Generations and in Liked, and feed posts in Posts. The lightbox inspector opens over the page on the picture that was clicked.",
   "type": "registry:block"
 }

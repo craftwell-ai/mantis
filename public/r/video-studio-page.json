@@ -30,5 +30,6 @@
     ],
     "use_when": "You need the whole page where people set up a video clip (preset, references, duration, quality), generate it, and compare the latest takes on a large canvas."
   },
+  "docs": "Composition, outer to inner, then left to right: top-navigation → studio-settings-panel → video-player → button → media-tile. Under the top navigation the page is two columns. Left: the studio settings panel as a rail. Right: the video player showing the selected clip, the Reuse prompt and Download buttons under it, then the media tiles as the strip of recent clips. With no clips, empty-state fills the right column.",
   "type": "registry:block"
 }

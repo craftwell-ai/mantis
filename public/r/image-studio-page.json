@@ -26,5 +26,6 @@
     ],
     "use_when": "You need the whole page where people write a prompt and get images back: a hero on first visit, their generation history after, and the composer always in reach."
   },
+  "docs": "Composition, top to bottom: top-navigation → heading → generation-feed → prompt-composer → lightbox-inspector. The heading is the first-visit hero; once there are results the generation feed takes its place. The prompt composer stays docked to the bottom of the window. The lightbox inspector opens over the page on the result that was clicked.",
   "type": "registry:block"
 }

@@ -29,5 +29,6 @@
     ],
     "use_when": "You need the signed-in home page where people can start a generation straight away or return to one of their recent projects."
   },
+  "docs": "Composition, top to bottom: top-navigation → heading → prompt-composer → project-card. The heading is the hero and the prompt composer sits right under it. The project cards are the Recent projects grid, which opens with a New project tile. With no projects, empty-state takes the place of the grid.",
   "type": "registry:block"
 }

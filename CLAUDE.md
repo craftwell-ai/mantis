@@ -127,4 +127,6 @@ The Paper file "Mantis Design System" has one page per item: `❖` components, `
 
 ## Stories and usage guides
 
+A page template (an item whose name ends in `-page`) also states its layout in `registry.json`: a `docs` field with one line shaped `Composition, top to bottom: top-navigation → heading → tabs.` Pieces are registry names, joined by the arrow `→`, in the order they appear on the page (a side-by-side page goes outer to inner, then left to right). The Quill CLI reads that line to tell an agent how to stack the page; a piece it cannot read is dropped without a warning, so `scripts/registry-meta.test.mjs` checks every name. Update the line whenever a page's layout changes.
+
 A new item or roster primitive ships its usage guide (`usage/<name>.usage.mjs`, listed in `usage/index.mjs`) and story (`stories/<name>.stories.tsx`) in the same change. Run `node scripts/build-usage.mjs`; `npm run test-storybook` must pass. axe runs on every story, so never switch a rule off to get a green run. Fix the component.

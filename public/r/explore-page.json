@@ -28,5 +28,6 @@
     ],
     "use_when": "You need the whole explore or community page of a signed-in creative app, where people browse everyone's work by category and open one piece to read its prompt and recreate it"
   },
+  "docs": "Composition, top to bottom: top-navigation → heading → tabs → media-grid → lightbox-inspector. The tabs are the category pills and the media grid sits inside them. The lightbox inspector opens over the page on the picture that was clicked.",
   "type": "registry:block"
 }

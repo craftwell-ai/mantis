@@ -37,5 +37,6 @@
     ],
     "use_when": "You need a complete account settings page with profile, notifications, security and usage pages built from the system's settings blocks."
   },
+  "docs": "Composition, outer to inner, then left to right: app-shell → settings-nav → heading → settings-section → notification-settings → session-list → usage-summary. The app shell wraps the whole page and draws the top navigation with the account menu. Inside it are two columns. Left: the settings nav. Right: the heading of the chosen page, then that page only: settings-section for Profile, notification-settings for Notifications, settings-section and session-list for Security, usage-summary for Usage.",
   "type": "registry:block"
 }

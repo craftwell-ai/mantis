@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.0] - 2026-10-12
+- Each of the nine page templates states its layout: a `Composition` line in the item's `docs`, listing its pieces in order, so tools know how a page is stacked and not only what it uses
+
 ## [1.3.0] - 2026-10-12
 - New registry item `check`: `npx shadcn@latest add @mantis/check` installs `scripts/mantis-check.mjs`, a self-check for apps built on Mantis that lists every place the code stepped outside the system, with the fix
 

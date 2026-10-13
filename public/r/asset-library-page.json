@@ -32,5 +32,6 @@
     ],
     "use_when": "You need the page where people find, filter and manage everything they have generated or uploaded, including selecting several files to download or delete."
   },
+  "docs": "Composition, top to bottom: top-navigation → heading → button → tabs → input-group → media-tile → alert-dialog. The heading and the lime Upload button share the header row. The tabs are the type filter, with the name search (input-group) at the right end of the same row. The media tiles are the grid. The alert dialog opens over the page to confirm a bulk delete. An empty library shows empty-state in place of everything under the header.",
   "type": "registry:block"
 }

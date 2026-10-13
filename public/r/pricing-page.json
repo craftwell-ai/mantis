@@ -30,5 +30,6 @@
     ],
     "use_when": "You need the whole pricing page for a subscription product, from a time-limited offer bar through plan comparison and pre-purchase questions to the footer"
   },
+  "docs": "Composition, top to bottom: announcement-bar → countdown → top-navigation → heading → plan-matrix → accordion → site-footer. The countdown sits inside the announcement bar. The accordion is the questions list, under a heading of its own.",
   "type": "registry:block"
 }

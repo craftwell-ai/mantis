@@ -202,3 +202,25 @@ test('every @mantis/* dependency names an item this registry ships', () => {
     }
   }
 })
+
+// Tools that build a screen from a page template read its layout from one line in `docs`:
+// "Composition, top to bottom: top-navigation → heading → tabs." A dependency list says what a
+// page uses, not the order, so a page without the line can only be guessed at. The parsing below
+// is the Quill CLI's own, which drops a segment it cannot read without saying so.
+test('every page template states its composition, in names this registry ships', () => {
+  const names = new Set(registry.items.map((item) => item.name))
+  const pages = registry.items.filter((item) => item.name.endsWith('-page'))
+  assert.ok(pages.length >= 9, 'expected the page templates')
+  for (const page of pages) {
+    const line = String(page.docs ?? '').match(/Composition[^:\n]*:\s*([^\n]+)/)?.[1]
+    assert.ok(line, `${page.name}: docs needs a "Composition: a → b → c." line`)
+    const segments = line.split('→').map((segment) => segment.trim())
+    const pieces = segments.map((segment) => segment.match(/^[a-z0-9-]+/)?.[0])
+    const uses = new Set((page.registryDependencies ?? []).map((dependency) => dependency.replace(/^@mantis\//, '')))
+    pieces.forEach((piece, index) => {
+      assert.ok(piece, `${page.name}: "${segments[index]}" does not start with a registry name`)
+      assert.ok(names.has(piece), `${page.name}: "${piece}" is not an item in this registry`)
+      assert.ok(uses.has(piece), `${page.name}: "${piece}" is not in the page's registryDependencies`)
+    })
+  }
+})

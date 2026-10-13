@@ -29,5 +29,6 @@
     ],
     "use_when": "You are building a home page or a single tool's landing page for signed-out visitors, walking them from a promise to what it does, how it works and signing up"
   },
+  "docs": "Composition, top to bottom: top-navigation → marketing-hero → feature-grid → how-it-works → heading → button → site-footer. The heading and the lime button are the closing call-to-action band, centered on one card surface.",
   "type": "registry:block"
 }

@@ -1706,6 +1706,7 @@
       "type": "registry:block",
       "title": "Explore Page",
       "description": "A full community gallery page: the app top bar, an uppercase headline, category filter pills, the masonry media grid, and the lightbox inspector that opens on the picture you click.",
+      "docs": "Composition, top to bottom: top-navigation → heading → tabs → media-grid → lightbox-inspector. The tabs are the category pills and the media grid sits inside them. The lightbox inspector opens over the page on the picture that was clicked.",
       "meta": {
         "intent": [
           "app-shell",
@@ -1736,6 +1737,7 @@
       "type": "registry:block",
       "title": "Profile Page",
       "description": "A person's page: a sidebar with avatar, name, handle, bio, stats and Follow or Edit profile, beside tabs for their generations, likes and posts, each with its own empty state for owner or visitor.",
+      "docs": "Composition, outer to inner, then left to right: top-navigation → avatar → heading → button → tabs → media-grid → feed-post → lightbox-inspector. Under the top navigation the page is two columns. Left: a sidebar card with the avatar, the name as the heading, and the Follow or Edit profile button. Right: the tabs, with a media grid in Generations and in Liked, and feed posts in Posts. The lightbox inspector opens over the page on the picture that was clicked.",
       "meta": {
         "intent": [
           "app-shell",
@@ -1770,6 +1772,7 @@
       "type": "registry:block",
       "title": "Pricing Page",
       "description": "A complete plans page: a lime offer bar with a live countdown, the top bar, a headline, the plan matrix with one billing switch and a comparison table, an FAQ accordion and the site footer.",
+      "docs": "Composition, top to bottom: announcement-bar → countdown → top-navigation → heading → plan-matrix → accordion → site-footer. The countdown sits inside the announcement bar. The accordion is the questions list, under a heading of its own.",
       "meta": {
         "intent": [
           "marketing",
@@ -1802,6 +1805,7 @@
       "type": "registry:block",
       "title": "Landing Page",
       "description": "A public marketing page: the signed-out top bar, the marketing hero, a feature grid, a three-step how-it-works, a closing call-to-action band and the lime site footer.",
+      "docs": "Composition, top to bottom: top-navigation → marketing-hero → feature-grid → how-it-works → heading → button → site-footer. The heading and the lime button are the closing call-to-action band, centered on one card surface.",
       "meta": {
         "intent": [
           "marketing",
@@ -1833,6 +1837,7 @@
       "type": "registry:block",
       "title": "Image Studio Page",
       "description": "A full image-studio page: top navigation, a centered uppercase hero with one lime word that gives way to the generation feed once there are results, and the prompt composer docked at the bottom. Results open in the lightbox inspector.",
+      "docs": "Composition, top to bottom: top-navigation → heading → generation-feed → prompt-composer → lightbox-inspector. The heading is the first-visit hero; once there are results the generation feed takes its place. The prompt composer stays docked to the bottom of the window. The lightbox inspector opens over the page on the result that was clicked.",
       "meta": {
         "intent": [
           "app-shell",
@@ -1861,6 +1866,7 @@
       "type": "registry:block",
       "title": "Video Studio Page",
       "description": "A full video-studio page: top navigation, the studio settings panel as a left rail with Generate pinned to its foot, and a canvas showing the latest clip (or an empty state) above a strip of recent clips.",
+      "docs": "Composition, outer to inner, then left to right: top-navigation → studio-settings-panel → video-player → button → media-tile. Under the top navigation the page is two columns. Left: the studio settings panel as a rail. Right: the video player showing the selected clip, the Reuse prompt and Download buttons under it, then the media tiles as the strip of recent clips. With no clips, empty-state fills the right column.",
       "meta": {
         "intent": [
           "app-shell",
@@ -1893,6 +1899,7 @@
       "type": "registry:block",
       "title": "Studio Home Page",
       "description": "A studio home page: top navigation, an uppercase hero with one lime word, the prompt composer, then Recent projects as a grid of project cards opening with a New project tile, with loading skeletons and an empty state.",
+      "docs": "Composition, top to bottom: top-navigation → heading → prompt-composer → project-card. The heading is the hero and the prompt composer sits right under it. The project cards are the Recent projects grid, which opens with a New project tile. With no projects, empty-state takes the place of the grid.",
       "meta": {
         "intent": [
           "app-shell",
@@ -1924,6 +1931,7 @@
       "type": "registry:block",
       "title": "Asset Library Page",
       "description": "An asset library page: top navigation, a header with Upload, filter tabs and a name search, a grid of selectable asset tiles with a floating bar to download or delete in bulk, and the empty state when there are none.",
+      "docs": "Composition, top to bottom: top-navigation → heading → button → tabs → input-group → media-tile → alert-dialog. The heading and the lime Upload button share the header row. The tabs are the type filter, with the name search (input-group) at the right end of the same row. The media tiles are the grid. The alert dialog opens over the page to confirm a bulk delete. An empty library shows empty-state in place of everything under the header.",
       "meta": {
         "intent": [
           "app-shell",
@@ -2015,6 +2023,7 @@
       "type": "registry:block",
       "title": "Settings page",
       "description": "The full account settings page: app shell, settings nav and stacked section cards for profile, notifications, security (with signed-in devices) and credit usage, switched by the nav.",
+      "docs": "Composition, outer to inner, then left to right: app-shell → settings-nav → heading → settings-section → notification-settings → session-list → usage-summary. The app shell wraps the whole page and draws the top navigation with the account menu. Inside it are two columns. Left: the settings nav. Right: the heading of the chosen page, then that page only: settings-section for Profile, notification-settings for Notifications, settings-section and session-list for Security, usage-summary for Usage.",
       "meta": {
         "intent": [
           "app-shell",
