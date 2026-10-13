@@ -31,6 +31,7 @@ jobs:
           node scripts/build-llms.mjs
           node scripts/build-usage.mjs
           node scripts/build-agents.mjs
+          node scripts/build-check.mjs
           git add -A && git diff --cached --exit-code
       # build-tokens.mjs silently skips globals.css injection (and exits 0)
       # when app/globals.css is absent — a deliberate guard so the same script

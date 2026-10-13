@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.3.0] - 2026-10-12
+- New registry item `check`: `npx shadcn@latest add @mantis/check` installs `scripts/mantis-check.mjs`, a self-check for apps built on Mantis that lists every place the code stepped outside the system, with the fix
+
 ## [1.2.0] - 2026-10-12
 - Published icons as drawings: `public/icons/<name>.svg` for every shipped icon, plus `public/icons/index.json`
 - Each guide in `public/usage/index.json` carries a `hash` (the SHA-256 of its JSON), so tools notice a reworded rule

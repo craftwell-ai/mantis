@@ -150,7 +150,9 @@ test('no registry file reads the source layer — semantic tokens only', () => {
   // Same condition the WCAG suite's source-layer exemption rests on. The theme
   // CSS is the one file that declares these properties, so it is skipped.
   const theme = `registry/${tokens.meta.name}-theme.css`
-  const paths = registry.items.flatMap((item) => (item.files ?? []).map((f) => f.path)).filter((p) => p !== theme)
+  // The check names the prefix in order to forbid it in an app; it reads no token.
+  const check = `registry/check/${tokens.meta.name}-check.mjs`
+  const paths = registry.items.flatMap((item) => (item.files ?? []).map((f) => f.path)).filter((p) => p !== theme && p !== check)
   for (const path of paths) {
     const text = readFileSync(join(root, path), 'utf8')
     assert.ok(

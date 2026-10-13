@@ -89,6 +89,20 @@
       ]
     },
     {
+      "name": "check",
+      "type": "registry:file",
+      "title": "Mantis check",
+      "description": "A self-check an AI agent runs inside its app after changing UI: lists every place the code stepped outside Mantis (stock Tailwind colors, raw color values, bracket values where a token or scale step exists, numeric durations and stock blur sizes, source-layer tokens, Radix habits, another icon set, a theme that is not wired in), each with the fix to write. One file with no dependencies, generated from the token source.",
+      "files": [
+        {
+          "path": "registry/check/mantis-check.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/mantis-check.mjs"
+        }
+      ],
+      "docs": "Installed to scripts/mantis-check.mjs. Run `node scripts/mantis-check.mjs` from the app root after every UI change and clear every finding; `--json` for tools, `--dir <path>` to narrow, `--include-ui` to also scan the installed primitives and Mantis's own blocks, `--css <entry>` if the Tailwind entry is not app/globals.css, `--quiet` for the summary line only. Exit code 1 means something was found. A deliberate exception takes a comment with a reason: `// mantis-check: allow raw-color — the partner's logo color`. Re-run `npx shadcn@latest add @mantis/check --overwrite` after each Mantis release."
+    },
+    {
       "name": "hello-card",
       "type": "registry:block",
       "title": "Hello Card",
