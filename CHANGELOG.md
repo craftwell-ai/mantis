@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.5.0] - 2026-10-16
+- Tailwind's spacing, border, ring and outline widths, font weights and leading steps now read Mantis tokens: p-4 compiles to var(--mantis-space-400), border-2 to var(--mantis-border-width-thick). Same pixels; new border-0.5 and border-1.5 classes.
+
 ## [1.4.0] - 2026-10-12
 - Each of the nine page templates states its layout: a `Composition` line in the item's `docs`, listing its pieces in order, so tools know how a page is stacked and not only what it uses
 

@@ -7,7 +7,7 @@
  * CSS, and the DTCG export from this file alone.
  */
 export const tokens = {
-  meta: { name: 'mantis', version: '1.4.0', defaultTheme: 'dark' },
+  meta: { name: 'mantis', version: '1.5.0', defaultTheme: 'dark' },
   // Every mode this system ships, default first. Each color and shadow leaf
   // holds one value per mode; a mode after the first is selected with
   // data-theme="<mode>". Dark is derived only when the source defines none.
@@ -52,8 +52,36 @@ export const tokens = {
   },
   radius: { xs: '{radius-050}', sm: '{radius-100}', md: '{radius-150}', lg: '{radius-200}', control: '{radius-250}', xl: '{radius-300}', '2xl': '{radius-400}', '3xl': '{radius-500}', '4xl': '{radius-600}' },
   text: { '2xs': '{type-size-050}', xs: '{type-size-100}', sm: '{type-size-200}', base: '{type-size-300}', lg: '{type-size-500}', xl: '{type-size-600}', '2xl': '{type-size-700}', '3xl': '{type-size-900}', '4xl': '{type-size-1100}', '5xl': '{type-size-1300}', '6xl': '{type-size-1400}' },
-  // The source's spacing scale, when it has one (values may alias `source`).
-  spacing: {},
+  // Tailwind's spacing steps that equal a source step, so p-4, gap-2, w-6… read
+  // the source variable. Keys use `_` for `.` (Tailwind reads --spacing-0_5 as
+  // step 0.5, and DTCG names may not contain a dot). Step 0 is left out on
+  // purpose: the source's space-0 is a bare `0`, and inside Tailwind's
+  // calc(… * -1) a bare 0 is a number, not a length, so `-top-0` would become
+  // `top: auto` (verified in Chromium, 2026-10-16). space-650 repeats 600's
+  // 1.5rem in the source, so step 6 uses 600.
+  spacing: {
+    '0_5': '{space-050}', 1: '{space-100}', '1_5': '{space-150}', 2: '{space-200}', '2_5': '{space-250}', 3: '{space-300}',
+    4: '{space-400}', 5: '{space-500}', 6: '{space-600}', 7: '{space-700}', 8: '{space-800}', 10: '{space-1000}',
+    12: '{space-1200}', 14: '{space-1400}', 16: '{space-1600}', 20: '{space-2000}', 24: '{space-2400}',
+  },
+  // Tailwind's multiplier (--spacing). Any step without a key above, such as
+  // w-105, compiles to calc(var(--mantis-space-100) * 105): still 4px a step,
+  // but read from the source. mantis-check flags those steps in app code.
+  spacingUnit: '{space-100}',
+  // border-*, divide-*, ring-* and outline-* widths. `DEFAULT` is the bare
+  // `border`, `ring` and `outline`. Named by pixels, as Tailwind's are, so
+  // border-2 stays 2px; border-3, border-4 and border-8 are not Mantis widths
+  // (Tailwind still generates them; mantis-check flags them).
+  borderWidth: { DEFAULT: '{border-width-thin}', 0: '{border-width-none}', '0_5': '{border-width-hairline}', 1: '{border-width-thin}', '1_5': '{border-width-medium}', 2: '{border-width-thick}' },
+  // font-* weights that equal a source weight. thin, extralight, light and
+  // extrabold have no source weight and stay Tailwind's (mantis-check flags them).
+  fontWeight: { normal: '{type-weight-regular}', medium: '{type-weight-medium}', semibold: '{type-weight-semi-bold}', bold: '{type-weight-bold}', black: '{type-weight-black}' },
+  // leading-N steps that equal a source line height (N × 4px, as Tailwind's are).
+  leading: {
+    3: '{type-line-height-100}', '3_5': '{type-line-height-200}', 4: '{type-line-height-300}', '4_5': '{type-line-height-500}',
+    5: '{type-line-height-600}', 6: '{type-line-height-700}', 7: '{type-line-height-800}', '7_5': '{type-line-height-900}',
+    8: '{type-line-height-1000}', 9: '{type-line-height-1100}', 10: '{type-line-height-1200}', 12: '{type-line-height-1300}', 14: '{type-line-height-1400}',
+  },
   shadow: {
     // Overlays, measured live: small popovers and menus; switch thumbs.
     popover: { dark: '0 4px 20px 0 rgba(0, 0, 0, 0.2)' },

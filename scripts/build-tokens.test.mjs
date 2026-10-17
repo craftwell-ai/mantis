@@ -305,3 +305,27 @@ test('composite text styles emit size, line height, tracking and weight together
     assert.ok(css.includes(`  ${line}`), `missing ${line}`)
   }
 })
+
+test('spacing, border width, weight and line height point Tailwind\'s theme keys at the source layer', () => {
+  const wired = {
+    ...fixture,
+    spacing: { '0_5': '{space-050}', 4: '{space-400}' },
+    spacingUnit: '{space-100}',
+    borderWidth: { DEFAULT: '{border-width-thin}', 2: '{border-width-thick}' },
+    fontWeight: { semibold: '{type-weight-semi-bold}' },
+    leading: { '3_5': '{type-line-height-200}' },
+  }
+  const theme = renderRegistryTheme(wired).split('\n}')[0]
+  const v = (path) => `var(--${name}-${path})`
+  // The multiplier first, so the named steps after it override it.
+  assert.ok(theme.indexOf(`  --spacing: ${v('space-100')};`) < theme.indexOf(`  --spacing-4: ${v('space-400')};`))
+  assert.ok(theme.includes(`  --spacing-0_5: ${v('space-050')};`), 'Tailwind reads --spacing-0_5 as step 0.5')
+  for (const kind of ['border', 'ring', 'outline']) {
+    assert.ok(theme.includes(`  --default-${kind}-width: ${v('border-width-thin')};`), `bare ${kind}`)
+    assert.ok(theme.includes(`  --${kind}-width-2: ${v('border-width-thick')};`), `${kind}-2`)
+  }
+  assert.ok(theme.includes(`  --font-weight-semibold: ${v('type-weight-semi-bold')};`))
+  assert.ok(theme.includes(`  --leading-3_5: ${v('type-line-height-200')};`))
+  // A system without these sections emits none of them.
+  assert.ok(!/--spacing:|--default-border-width|--font-weight-|--leading-/.test(renderRegistryTheme(fixture)))
+})

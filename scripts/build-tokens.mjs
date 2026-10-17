@@ -113,7 +113,18 @@ function buildCss(t) {
     ...Object.keys(t.shadcn).map((key) => `  --color-${key}: var(--${key});`),
     ...Object.entries(t.radius).map(([key, value]) => (key === 'lg' ? '  --radius-lg: var(--radius);' : `  --radius-${key}: ${cssValue(t, value)};`)),
     ...Object.entries(t.text).map(([key, value]) => `  --text-${key}: ${cssValue(t, value)};`),
+    // The multiplier first, then the named steps that override it.
+    ...(t.spacingUnit ? [`  --spacing: ${cssValue(t, t.spacingUnit)};`] : []),
     ...Object.entries(t.spacing ?? {}).map(([key, value]) => `  --spacing-${key}: ${cssValue(t, value)};`),
+    // One width scale for border-*, divide-*, ring-* and outline-* (Tailwind
+    // reads a separate theme key for each); DEFAULT is the bare utility.
+    ...['border', 'ring', 'outline'].flatMap((kind) =>
+      Object.entries(t.borderWidth ?? {}).map(([key, value]) =>
+        key === 'DEFAULT' ? `  --default-${kind}-width: ${cssValue(t, value)};` : `  --${kind}-width-${key}: ${cssValue(t, value)};`,
+      ),
+    ),
+    ...Object.entries(t.fontWeight ?? {}).map(([key, value]) => `  --font-weight-${key}: ${cssValue(t, value)};`),
+    ...Object.entries(t.leading ?? {}).map(([key, value]) => `  --leading-${key}: ${cssValue(t, value)};`),
     ...Object.keys(t.shadow).map((key) => `  --shadow-${key}: var(--shadow-${key});`),
     // Optional composite type styles: size plus line height, tracking and weight.
     ...Object.entries(t.textStyles ?? {}).flatMap(([key, style]) => [

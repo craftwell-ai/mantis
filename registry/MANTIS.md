@@ -119,6 +119,7 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 - **Text styles:** `text-display-sm`, `text-display-md`, `text-display-lg`, `text-display-xl`, `text-label-caps`, `text-title-sm`, `text-title-md` (size, line height, weight and tracking in one class), plus `text-2xs`…`text-6xl`. Fonts: `font-sans`, `font-display`, `font-grotesk`, `font-mono`.
 - **Radius:** `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-control`, `rounded-xl`, `rounded-2xl`, `rounded-3xl`, `rounded-4xl`, `rounded-full`. Controls use `rounded-control`.
 - **Shadows:** `shadow-popover`, `shadow-card-inset`, `shadow-thumb-on`, `shadow-thumb-lg`, `shadow-thumb-off`, `shadow-inset-glass`, `shadow-inset-tint`, `shadow-cta-light`, `shadow-cta-brand`, `shadow-cta-pink`, `shadow-cta-blue`, `shadow-gloss-edge`, `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`.
+- **Spacing steps** (`p-` `m-` `gap-` `inset-` `w-` `h-` `size-`…, × 4px): `0` `0.5` `1` `1.5` `2` `2.5` `3` `4` `5` `6` `7` `8` `10` `12` `14` `16` `20` `24`; no others. **Border widths** (`border-` `ring-` `outline-`, px): `0` `0.5` `1` `1.5` `2`. **Weights:** `normal` `medium` `semibold` `bold` `black`. **Leading** (× 4px): `3` `3.5` `4` `4.5` `5` `6` `7` `7.5` `8` `9` `10` `12` `14`.
 - **Motion:** `animate-shimmer`. Interactions dim on hover (`hover:brightness-80`) and press (`active:brightness-60`) over 200ms.
 
 ## Icons

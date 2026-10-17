@@ -27,6 +27,9 @@ export const CONSUMER_AGENTS_PATH = join(root, 'registry', 'MANTIS.md')
 export const DESIGN_PUBLIC_PATH = join(root, 'public', 'design.md')
 
 const code = (s) => `\`${s}\``
+// A theme key as the class suffix an agent writes (0_5 → 0.5).
+const step = (key) => key.replace('_', '.')
+const sorted = (group) => Object.entries(group ?? {}).filter(([key]) => key !== 'DEFAULT').sort(([a], [b]) => parseFloat(step(a)) - parseFloat(step(b)))
 
 function propsLine(props, sharedWith, sameAsButton = () => false) {
   return Object.entries(props)
@@ -155,6 +158,9 @@ export function renderAgents({ t = tokens, api = readComponentApi(), usage = ALL
   p(`- **Text styles:** ${Object.keys(t.textStyles ?? {}).map((k) => code(`text-${k}`)).join(', ')} (size, line height, weight and tracking in one class), plus \`text-2xs\`…\`text-6xl\`. Fonts: ${Object.keys(t.font).map((k) => code(`font-${k}`)).join(', ')}.`)
   p(`- **Radius:** ${Object.keys(t.radius).map((k) => code(`rounded-${k}`)).join(', ')}, \`rounded-full\`. Controls use \`rounded-control\`.`)
   p(`- **Shadows:** ${Object.keys(t.shadow).map((k) => code(`shadow-${k}`)).join(', ')}.`)
+  // Steps only, no pixel values: this index has a size cap (build-agents.test.mjs).
+  const steps = (group) => sorted(group).map(([k]) => code(step(k))).join(' ')
+  if (t.spacing) p(`- **Spacing steps** (\`p-\` \`m-\` \`gap-\` \`inset-\` \`w-\` \`h-\` \`size-\`…, × 4px): \`0\` ${steps(t.spacing)}; no others. **Border widths** (\`border-\` \`ring-\` \`outline-\`, px): ${steps(t.borderWidth)}. **Weights:** ${Object.keys(t.fontWeight ?? {}).map(code).join(' ')}. **Leading** (× 4px): ${steps(t.leading)}.`)
   if (t.animate) p(`- **Motion:** ${Object.keys(t.animate).map((k) => code(`animate-${k}`)).join(', ')}. Interactions dim on hover (\`hover:brightness-80\`) and press (\`active:brightness-60\`) over 200ms.`)
   p()
 
