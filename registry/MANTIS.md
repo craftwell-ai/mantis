@@ -9,7 +9,7 @@ Mantis is a dark, cinematic design system (shadcn registry on Base UI, Tailwind 
 The Mantis repo fails its build on the ones marked ⛔; hold your code to the same bar.
 
 1. ⛔ **Colors come from tokens only.** No hex/rgb, no `bg-[#…]`, no Tailwind palette (`text-white`, `bg-zinc-900`). Use the utilities under *Tokens*. Motion and blur too: `duration-(--duration-normal)`, `backdrop-blur-glass`, never `duration-200` or `backdrop-blur-md`.
-2. ⛔ **No arbitrary pixels** (`w-[13px]`) outside `components/ui`. Use the spacing scale (`w-105` = 420px) or a component size prop.
+2. ⛔ **No arbitrary pixels** (`w-[13px]`) outside `components/ui`. Use a Mantis step (`w-6`, listed under *Tokens*) or a component size prop.
 3. ⛔ **Base UI, not Radix.** Compose with `render`: `<DialogTrigger render={<Button variant="outline" />}>Open</DialogTrigger>`. Never `asChild`. A link that looks like a button is a real `<a>` styled with `buttonVariants`: `<a href="/pricing" className={buttonVariants({ variant: "outline" })}>` (Button with `render={<a>}` is announced as a button).
 4. ⛔ **Icons:** `<Icon name="close" />` from `@/components/ui/icon` only — never lucide-react. Names are listed under *Icons*.
 5. **Lime (`brand`) marks the one main call to action on a screen:** generate, sign up, buy or upgrade a plan, the main marketing call to action, or the main action of a focused flow (upload, download, follow). Everyday confirm and save actions in forms, settings and dialogs (Save, Continue, Invite) use the white `default` button. One lime action and one filled button per view, card or dialog (a signed-out top bar's Sign up may repeat the page's own ask). No large lime areas besides the announcement bar and the marketing footer.

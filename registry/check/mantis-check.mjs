@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { join, relative, resolve, extname } from 'node:path'
 
 export const DATA = {
- "version": "1.5.0",
+ "version": "1.6.0",
  "colors": [
   "background",
   "foreground",
@@ -183,6 +183,81 @@ export const DATA = {
   "3xl": 20,
   "4xl": 24
  },
+ "spacing": {
+  "1": 4,
+  "2": 8,
+  "3": 12,
+  "4": 16,
+  "5": 20,
+  "6": 24,
+  "7": 28,
+  "8": 32,
+  "10": 40,
+  "12": 48,
+  "14": 56,
+  "16": 64,
+  "20": 80,
+  "24": 96,
+  "0.5": 2,
+  "1.5": 6,
+  "2.5": 10
+ },
+ "borders": {
+  "0": 0,
+  "1": 1,
+  "2": 2,
+  "0.5": 0.5,
+  "1.5": 1.5
+ },
+ "leading": {
+  "3": 12,
+  "4": 16,
+  "5": 20,
+  "6": 24,
+  "7": 28,
+  "8": 32,
+  "9": 36,
+  "10": 40,
+  "12": 48,
+  "14": 56,
+  "3.5": 14,
+  "4.5": 18,
+  "7.5": 30
+ },
+ "weights": {
+  "normal": 400,
+  "medium": 500,
+  "semibold": 600,
+  "bold": 700,
+  "black": 900
+ },
+ "shadows": [
+  "popover",
+  "card-inset",
+  "thumb-on",
+  "thumb-lg",
+  "thumb-off",
+  "inset-glass",
+  "inset-tint",
+  "cta-light",
+  "cta-brand",
+  "cta-pink",
+  "cta-blue",
+  "gloss-edge",
+  "sm",
+  "md",
+  "lg",
+  "xl"
+ ],
+ "textStyles": [
+  "display-sm",
+  "display-md",
+  "display-lg",
+  "display-xl",
+  "label-caps",
+  "title-sm",
+  "title-md"
+ ],
  "durations": {
   "fast": 100,
   "quick": 150,
@@ -252,7 +327,7 @@ export const DATA = {
 
 // ------------------------------------------------------------------ files
 const SKIP_DIRS = new Set(['node_modules', '.next', 'dist', 'build', 'out', 'storybook-static', 'public', '.git', 'coverage'])
-const EXTS = new Set(['.tsx', '.jsx', '.ts', '.js', '.mdx', '.html'])
+const EXTS = new Set(['.tsx', '.jsx', '.ts', '.js', '.mdx', '.html', '.css'])
 // Never scan the check itself (its fix strings look like classes).
 const SELF = /(^|[\\/])mantis-check(\.template)?\.mjs$/
 
@@ -364,26 +439,198 @@ export function paletteRule(base) {
   return { rule: 'palette', fix: `→ ${exact ?? `${prefix}-${table['*']}`}` }
 }
 
-// ------------------------------------------------------------------ rule: bracket values
-const nearest = (table, value) => Object.entries(table).map(([name, n]) => [name, Math.abs(n - value)]).sort((a, b) => a[1] - b[1])[0][0]
-const SPACING = new Set(['w', 'h', 'size', 'min-w', 'max-w', 'min-h', 'max-h', 'p', 'px', 'py', 'pt', 'pr', 'pb', 'pl', 'ps', 'pe', 'm', 'mx', 'my', 'mt', 'mr', 'mb', 'ml', 'ms', 'me', 'gap', 'gap-x', 'gap-y', 'space-x', 'space-y', 'inset', 'inset-x', 'inset-y', 'top', 'right', 'bottom', 'left', 'start', 'end', 'translate-x', 'translate-y', 'basis', 'scroll-m', 'scroll-p'])
+// ------------------------------------------------------------------ Mantis's scales
+// Every measured value an app writes should be a Mantis step. These tables say which steps
+// exist (in pixels) and how each is written as a class, in CSS, or in a style prop.
+const SPACE = { 0: 0, ...DATA.spacing }
+const SCALES = {
+  space: { table: SPACE, theme: 'spacing', label: 'spacing steps' },
+  size: { table: SPACE, theme: 'spacing', label: 'spacing steps' },
+  border: { table: DATA.borders, theme: 'border-width', label: 'border widths' },
+  leading: { table: DATA.leading, theme: 'leading', label: 'line heights' },
+  weight: { table: DATA.weights, theme: 'font-weight', label: 'weights' },
+  text: { table: DATA.text, theme: 'text', label: 'type sizes' },
+  radius: { table: DATA.radius, theme: 'radius', label: 'radius steps' },
+}
+const MAX_SPACE = Math.max(...Object.values(SPACE))
+const SPACE_PREFIXES = new Set(['p', 'px', 'py', 'pt', 'pr', 'pb', 'pl', 'ps', 'pe', 'm', 'mx', 'my', 'mt', 'mr', 'mb', 'ml', 'ms', 'me', 'gap', 'gap-x', 'gap-y', 'space-x', 'space-y', 'inset', 'inset-x', 'inset-y', 'top', 'right', 'bottom', 'left', 'start', 'end', 'translate-x', 'translate-y'])
+const SIZE_PREFIXES = new Set(['w', 'h', 'size', 'min-w', 'max-w', 'min-h', 'max-h', 'basis'])
+const BORDER_PREFIX = /^(?:border(?:-[xytrblse])?|divide-[xy]|ring|outline)$/
+const kindOfPrefix = (prefix) =>
+  SPACE_PREFIXES.has(prefix) || /^scroll-[mp][xytrblse]?$/.test(prefix) ? 'space'
+    : SIZE_PREFIXES.has(prefix) ? 'size'
+      : BORDER_PREFIX.test(prefix) ? 'border'
+        : prefix === 'leading' ? 'leading'
+          : prefix === 'text' ? 'text'
+            : prefix === 'rounded' || prefix.startsWith('rounded-') ? 'radius'
+              : null
 
-// Returns a finding, 'layout' (a bracket size this check does not judge) or null (not a bracket utility).
+// The steps nearest a value: one, or the two either side when it sits exactly between them.
+export function nearestSteps(kind, value) {
+  const ranked = Object.entries(SCALES[kind].table).map(([key, v]) => [key, v, Math.abs(v - value)]).sort((a, b) => a[2] - b[2] || a[1] - b[1])
+  return ranked.filter((step) => step[2] === ranked[0][2]).slice(0, 2).map(([key, v]) => [key, v])
+}
+const unit = (kind) => (kind === 'weight' ? '' : 'px')
+const stepList = (kind) => Object.entries(SCALES[kind].table).sort((a, b) => a[1] - b[1]).map(([key, v]) => `${key} ${v}${unit(kind)}`).join(' · ')
+// How a step is written: `p-3`, `border` (the bare utility is 1px), `--theme(--spacing-3)`.
+const asClass = (prefix, key, kind) => (kind === 'border' && key === '1' ? prefix : kind === 'weight' ? `font-${key}` : `${prefix}-${key}`)
+const asTheme = (kind, key) => `--theme(--${SCALES[kind].theme}-${String(key).replace('.', '_')})`
+
+// The nearest steps, written the way the author types them: `p-3 (12px) or p-4 (16px)`.
+const stepNames = (kind, value, write, negative = false) =>
+  nearestSteps(kind, value).map(([key, v]) => `${negative ? '-' : ''}${write(key)} (${v}${unit(kind)})`).join(' or ')
+const scaleTail = (kind) => (kind === 'size' ? `, or the component's size prop; the ${SCALES.size.label}: ${stepList('size')}` : `; the ${SCALES[kind].label}: ${stepList(kind)}`)
+const TOO_BIG = () => `→ the component's size prop, or let the layout size it (w-full, flex-1, grid columns): Mantis has no size step above ${MAX_SPACE}px`
+
+// The fix for a measured value of one kind. `write` turns a step key into what the author types.
+function stepFix(kind, value, write, { negative = false } = {}) {
+  if (kind === 'size' && value > MAX_SPACE) return TOO_BIG()
+  return `→ ${stepNames(kind, value, write, negative)}${scaleTail(kind)}`
+}
+const SHADOW_FIX = (as = 'class') => `→ a Mantis shadow: ${DATA.shadows.map((name) => (as === 'css' ? `var(--shadow-${name})` : `shadow-${name}`)).join(' · ')}`
+const TRACKING_FIX = () => `→ a type style that carries Mantis's tracking (${DATA.textStyles.map((name) => `text-${name}`).join(' · ')}), or leave tracking at its default: Mantis has no tracking scale for running text`
+// A stock line-height ratio has no fixed size; show what it comes to on text-sm, the body size.
+const ratioFix = (ratio) => {
+  const body = DATA.text.sm
+  const [[key, v]] = nearestSteps('leading', ratio * body)
+  return `→ the leading-* step for your font size (on text-sm, ${ratio} is leading-${key}, ${v}px); the ${SCALES.leading.label}: ${stepList('leading')}`
+}
+
+// A length in pixels, or null: px and rem (at 16px) only; em and % depend on the element.
+const toPx = (text) => {
+  const m = String(text).trim().match(/^(-?\d*\.?\d+)(px|rem)$/)
+  return m ? Math.round(Number(m[1]) * (m[2] === 'rem' ? 16 : 1) * 1000) / 1000 : null
+}
+
+// ------------------------------------------------------------------ rule: bracket values
+// Returns a finding, 'layout' (a bracket size this check does not judge, such as calc() or %) or null.
 export function bracketRule(base, { shipped = false } = {}) {
   const m = base.match(/^([a-z]+(?:-[a-z]+)*)-\[(.+)\]$/)
   if (!m) return null
   const [, prefix, inner] = m
   if (/^(#|rgba?\(|hsla?\(|oklch\(|oklab\()/.test(inner)) return { rule: 'bracket', fix: `→ ${hexHint(inner, COLOR_PREFIXES.has(prefix) ? prefix : 'bg')}` }
-  const px = inner.match(/^(-?[0-9.]+)px$/)
-  if (!px) return 'layout'
   // Mantis's own blocks hold the reference's measured values; an app's code uses the scale.
   if (shipped) return 'layout'
-  const value = Number(px[1])
-  if (prefix === 'text') return { rule: 'bracket', fix: `→ text-${nearest(DATA.text, value)} (${DATA.text[nearest(DATA.text, value)]}px); the sizes: ${Object.entries(DATA.text).map(([k, v]) => `${k} ${v}`).join(' · ')}` }
-  if (prefix === 'rounded' || prefix.startsWith('rounded-')) return { rule: 'bracket', fix: `→ ${prefix}-${nearest(DATA.radius, value)} (${DATA.radius[nearest(DATA.radius, value)]}px); the steps: ${Object.entries(DATA.radius).map(([k, v]) => `${k} ${v}`).join(' · ')}` }
+  if (prefix === 'shadow') return { rule: 'bracket', fix: SHADOW_FIX() }
+  if (prefix === 'tracking') return { rule: 'bracket', fix: TRACKING_FIX() }
+  if (prefix === 'font' && /^[1-9]\d\d$/.test(inner)) return { rule: 'bracket', fix: stepFix('weight', Number(inner), (key) => `font-${key}`) }
+  if (prefix === 'leading' && /^\d*\.?\d+$/.test(inner)) return { rule: 'bracket', fix: ratioFix(Number(inner)) }
+  const value = toPx(inner)
+  if (value === null) return 'layout'
   if (prefix === 'backdrop-blur') return { rule: 'bracket', fix: `→ backdrop-blur-${nearest(DATA.blurs, value)} (${DATA.blurs[nearest(DATA.blurs, value)]}px)` }
-  if (SPACING.has(prefix)) return { rule: 'bracket', fix: `→ ${value < 0 ? '-' : ''}${prefix}-${Math.abs(value) / 4} (the spacing scale: one step is 4px)` }
-  return { rule: 'bracket', fix: `→ a scale step or a component size prop in place of an exact pixel value (${FALLBACK_HINT})` }
+  const kind = kindOfPrefix(prefix)
+  if (!kind) return { rule: 'bracket', fix: `→ a Mantis step or a component size prop in place of an exact value (${FALLBACK_HINT})` }
+  return { rule: 'bracket', fix: stepFix(kind, Math.abs(value), (key) => asClass(prefix, key, kind), { negative: value < 0 }) }
+}
+const nearest = (table, value) => Object.entries(table).map(([name, n]) => [name, Math.abs(n - value)]).sort((a, b) => a[1] - b[1])[0][0]
+
+// ------------------------------------------------------------------ rule: Tailwind steps Mantis does not have
+// p-13, w-105, border-4, leading-11: Tailwind generates any number, Mantis names a few.
+export function offScaleRule(base) {
+  const m = base.match(/^([a-z]+(?:-[a-z]+)*)-(\d+(?:\.\d+)?)$/)
+  if (!m) return null
+  const [, prefix, step] = m
+  const kind = kindOfPrefix(prefix)
+  if (!kind || kind === 'text' || kind === 'radius') return null
+  if (step in SCALES[kind].table) return null
+  // A spacing step is 4px (space-100); a border step is its pixel width.
+  const value = Number(step) * (kind === 'border' ? 1 : 4)
+  return { rule: 'off-scale', fix: stepFix(kind, value, (key) => asClass(prefix, key, kind)) }
+}
+
+// ------------------------------------------------------------------ rule: Tailwind's own named values
+// leading-normal, tracking-wide, font-light: they read Tailwind's theme, not Mantis's.
+const STOCK_LEADING = { none: 1, tight: 1.25, snug: 1.375, normal: 1.5, relaxed: 1.625, loose: 2 }
+const STOCK_WEIGHT = { thin: 100, extralight: 200, light: 300, extrabold: 800 }
+export function stockRule(base) {
+  const leading = base.match(/^leading-([a-z]+)$/)
+  if (leading && leading[1] in STOCK_LEADING) return { rule: 'stock-value', fix: ratioFix(STOCK_LEADING[leading[1]]) }
+  if (/^tracking-(tighter|tight|normal|wide|wider|widest)$/.test(base)) return { rule: 'stock-value', fix: TRACKING_FIX() }
+  const weight = base.match(/^font-([a-z]+)$/)
+  if (weight && weight[1] in STOCK_WEIGHT) return { rule: 'stock-value', fix: stepFix('weight', STOCK_WEIGHT[weight[1]], (key) => `font-${key}`) }
+  return null
+}
+
+// ------------------------------------------------------------------ measured values outside classes
+// One table for style props and CSS: the property (kebab-case), what it measures, and its class prefix.
+const SIDES = { top: 't', right: 'r', bottom: 'b', left: 'l', inline: 'x', block: 'y', 'inline-start': 's', 'inline-end': 'e' }
+const PROPERTIES = new Map([
+  ...['padding', 'margin'].flatMap((p) => [[p, ['space', p[0]]], ...Object.entries(SIDES).map(([side, s]) => [`${p}-${side}`, ['space', p[0] + s]])]),
+  ['gap', ['space', 'gap']], ['row-gap', ['space', 'gap-y']], ['column-gap', ['space', 'gap-x']],
+  ['top', ['space', 'top']], ['right', ['space', 'right']], ['bottom', ['space', 'bottom']], ['left', ['space', 'left']],
+  ['inset', ['space', 'inset']], ['inset-inline', ['space', 'inset-x']], ['inset-block', ['space', 'inset-y']],
+  ['width', ['size', 'w']], ['height', ['size', 'h']], ['min-width', ['size', 'min-w']], ['max-width', ['size', 'max-w']],
+  ['min-height', ['size', 'min-h']], ['max-height', ['size', 'max-h']], ['flex-basis', ['size', 'basis']],
+  ['border-radius', ['radius', 'rounded']],
+  ...[['top-left', 'tl'], ['top-right', 'tr'], ['bottom-right', 'br'], ['bottom-left', 'bl']].map(([corner, c]) => [`border-${corner}-radius`, ['radius', `rounded-${c}`]]),
+  ['font-size', ['text', 'text']],
+  ['border-width', ['border', 'border']], ['outline-width', ['border', 'outline']],
+  ...Object.entries(SIDES).map(([side, s]) => [`border-${side}-width`, ['border', `border-${s}`]]),
+  // Shorthands: only their width is judged (the colour is the raw-colour rule's).
+  ['border', ['border', 'border']], ['outline', ['border', 'outline']],
+  ...Object.entries(SIDES).map(([side, s]) => [`border-${side}`, ['border', `border-${s}`]]),
+  ['line-height', ['leading', 'leading']], ['font-weight', ['weight', 'font']],
+  ['letter-spacing', ['tracking', 'tracking']], ['box-shadow', ['shadow', 'shadow']],
+])
+// React adds px to a bare number, except on these.
+const UNITLESS = new Set(['line-height', 'font-weight'])
+
+// The finding for one property and value, or null. `as` is 'class' (a style prop) or 'css'.
+export function valueRule(property, value, as) {
+  const entry = PROPERTIES.get(property)
+  if (!entry) return null
+  const [kind, prefix] = entry
+  const text = String(value).trim()
+  if (!text || /^(inherit|initial|unset|none|auto|normal|0)$/.test(text)) return null
+  // A token read is fine; a raw length beside one (border: 3px solid var(--border)) is still judged.
+  const readsToken = /var\(|--theme\(|--spacing\(/.test(text)
+  const rule = as === 'css' ? 'css-value' : 'inline-style'
+  const write = (key) => (as === 'css' ? asTheme(kind, key) : `className="${asClass(prefix, key, kind)}"`)
+  if (kind === 'shadow') return readsToken ? null : { rule, fix: SHADOW_FIX(as) }
+  if (kind === 'tracking') return readsToken || toPx(text) === 0 ? null : { rule, fix: TRACKING_FIX() }
+  if (kind === 'weight') return /^[1-9]\d\d$/.test(text) ? { rule, fix: stepFix('weight', Number(text), write) } : null
+  if (kind === 'leading' && /^\d*\.?\d+$/.test(text)) return { rule, fix: ratioFix(Number(text)) }
+  // A bare number in a style prop is pixels; every length in a value is judged on its own.
+  const lengths = typeof value === 'number' ? [value] : [...text.matchAll(/(?<![\w.#-])-?\d*\.?\d+(?:px|rem)\b/g)].map((l) => toPx(l[0]))
+  const judged = lengths.filter((n) => n !== null && n !== 0)
+  if (!judged.length) return null
+  if (judged.length === 1) return { rule, fix: stepFix(kind, Math.abs(judged[0]), write, { negative: judged[0] < 0 }) }
+  // A shorthand such as padding: 8px 12px. In CSS the steps keep the shorthand's order; as
+  // classes each length gets its own side (py-2 px-3), the way CSS reads two, three or four values.
+  const sides = { 2: ['y', 'x'], 3: ['t', 'x', 'b'], 4: ['t', 'r', 'b', 'l'] }[judged.length]
+  const perSide = as === 'class' && kind === 'space' && (prefix === 'p' || prefix === 'm') && sides && judged.length === lengths.length
+  const each = judged.map((n, i) => {
+    if (kind === 'size' && Math.abs(n) > MAX_SPACE) return `${n}px has no step`
+    return stepNames(kind, Math.abs(n), perSide ? (key) => `className="${prefix}${sides[i]}-${key}"` : write, n < 0)
+  })
+  return { rule, fix: `→ ${each.join(perSide ? ' with ' : ', then ')}${scaleTail(kind)}` }
+}
+
+// Every hard-coded value in a JSX `style={{ … }}` block. Objects built elsewhere are not traced.
+export function styleFindings(text) {
+  const out = []
+  const lineAt = (index) => text.slice(0, index).split('\n').length
+  const colAt = (index) => index - text.lastIndexOf('\n', index - 1)
+  for (const open of text.matchAll(/style=\{\{/g)) {
+    let depth = 0
+    let end = open.index + 6
+    for (; end < text.length; end++) {
+      if (text[end] === '{') depth++
+      else if (text[end] === '}' && --depth === 0) break
+    }
+    const body = text.slice(open.index + 7, end)
+    for (const m of body.matchAll(/([A-Za-z]+)\s*:\s*(-?\d*\.?\d+(?![\w.])|'[^'\n]*'|"[^"\n]*")/g)) {
+      const property = m[1].replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)
+      const raw = m[2]
+      const quoted = /^['"]/.test(raw)
+      const value = quoted ? raw.slice(1, -1) : UNITLESS.has(property) ? raw : Number(raw)
+      const hit = valueRule(property, value, 'class')
+      if (!hit) continue
+      const index = open.index + 7 + m.index
+      out.push({ line: lineAt(index), col: colAt(index), rule: hit.rule, value: `${m[1]}: ${raw}`, fix: hit.fix })
+    }
+  }
+  return out
 }
 
 // ------------------------------------------------------------------ rule: motion and blur
@@ -437,7 +684,8 @@ export function lineFindings(lines) {
 // mandatory: an allow without one is itself a finding, so exceptions never go quiet.
 const ALLOW_RE = /mantis-check:\s*allow\s+([a-z-]+)(?:\s*[—–-]+\s*(.*?))?\s*(?:\*\/|-->|\}|$)/
 const ALLOW_ONLY_LINE = /^\s*(?:\{\/\*|\/\/|\/\*|<!--)\s*mantis-check:/
-export function allowsFor(lines, lineNo) {
+// In CSS an allow on its own line covers the declaration below it, not the rest of the rule.
+export function allowsFor(lines, lineNo, { css = false } = {}) {
   const found = []
   const same = lines[lineNo - 1]?.match(ALLOW_RE)
   if (same) found.push({ rule: same[1], reason: (same[2] ?? '').trim(), line: lineNo })
@@ -445,8 +693,55 @@ export function allowsFor(lines, lineNo) {
     const text = lines[l - 1]
     if (ALLOW_ONLY_LINE.test(text)) { const m = text.match(ALLOW_RE); if (m) found.push({ rule: m[1], reason: (m[2] ?? '').trim(), line: l }); break }
     if (/>\s*$/.test(text)) break // a tag closed between: the allow above belongs to that element
+    if (css && /[;{}]\s*$/.test(text)) break // another declaration or rule sits between
   }
   return found
+}
+
+// ------------------------------------------------------------------ one class
+// The finding for one utility, 'layout' (a size this check does not judge) or null. Mantis's own
+// blocks hold the reference's measured values, so only colour and motion rules apply to them.
+function classFinding(base, shipped) {
+  const hit = paletteRule(base) ?? motionRule(base) ?? (shipped ? null : stockRule(base) ?? offScaleRule(base))
+  return hit ?? bracketRule(base, { shipped })
+}
+
+// ------------------------------------------------------------------ stylesheets
+// The theme file is Mantis's own, and so is the block build-tokens writes between the @tokens markers.
+const THEME_FILE = /(^|[\\/])mantis-theme\.css$/
+export function cssFindings(text, { shipped = false } = {}) {
+  const out = []
+  const raw = text.split('\n')
+  // Comments become spaces, so columns and line numbers still match the file.
+  const lines = text.replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, ' ')).split('\n')
+  let generated = false
+  lines.forEach((line, i) => {
+    if (raw[i].includes('@tokens:start')) generated = true
+    if (raw[i].includes('@tokens:end')) generated = false
+    if (generated) return
+    const at = (index) => ({ line: i + 1, col: index + 1 })
+    for (const m of line.matchAll(/--mantis-[a-z0-9-]+/g)) out.push({ ...at(m.index), rule: 'source-token', value: m[0], fix: '→ --mantis-* is the source layer; read a semantic token or alias instead (--background, --primary, --brand… in MANTIS.md › Tokens)' })
+    // @apply takes the same classes as className, so the same rules.
+    const apply = line.match(/@apply\s+([^;}]+)/)
+    if (apply) {
+      for (const t of apply[1].matchAll(/\S+/g)) {
+        const hit = classFinding(baseOf(t[0]), shipped)
+        if (hit && hit !== 'layout') out.push({ ...at(apply.index + apply[0].indexOf(apply[1]) + t.index), rule: hit.rule, value: t[0], fix: hit.fix })
+      }
+    }
+    // Declarations. A custom property (--x: …) is a definition, not a use: Mantis's install steps
+    // keep the app's own --chart-* and --sidebar-* colours, and a definition's unit is unknown.
+    for (const m of line.matchAll(/(?:^|[;{])\s*([a-z][a-z-]*)\s*:\s*([^;{}]+)/g)) {
+      const [, property, value] = m
+      const start = m.index + m[0].indexOf(property)
+      for (const re of [HEX_RE, FN_RE]) {
+        for (const c of value.matchAll(re)) out.push({ ...at(start), rule: 'raw-color', value: `${property}: ${c[0]}`, fix: `→ a token: var(--background), var(--card), var(--brand)… — ${hexHint(c[0])}` })
+      }
+      const hit = valueRule(property, value, 'css')
+      if (hit) out.push({ ...at(start), rule: hit.rule, value: `${property}: ${value.trim()}`, fix: hit.fix })
+    }
+  })
+  return out
 }
 
 // ------------------------------------------------------------------ one file
@@ -455,17 +750,21 @@ export function scanFile(file, text, { includeUi = false } = {}) {
   const findings = []
   let layout = 0
   const shipped = !includeUi && SHIPPED.has(file.split(/[\\/]/).pop())
-  for (const c of extractCandidates(text)) {
-    const hit = paletteRule(c.base) ?? motionRule(c.base)
-    if (hit) { findings.push({ file, line: c.line, col: c.col, rule: hit.rule, value: c.token, fix: hit.fix }); continue }
-    const bracket = bracketRule(c.base, { shipped })
-    if (bracket === 'layout') layout++
-    else if (bracket) findings.push({ file, line: c.line, col: c.col, rule: bracket.rule, value: c.token, fix: bracket.fix })
+  const css = file.endsWith('.css')
+  if (css && THEME_FILE.test(file)) return { findings, layout }
+  if (css) for (const f of cssFindings(text, { shipped })) findings.push({ file, ...f })
+  else {
+    for (const c of extractCandidates(text)) {
+      const hit = classFinding(c.base, shipped)
+      if (hit === 'layout') layout++
+      else if (hit) findings.push({ file, line: c.line, col: c.col, rule: hit.rule, value: c.token, fix: hit.fix })
+    }
+    if (!shipped) for (const f of styleFindings(text)) findings.push({ file, ...f })
+    for (const f of lineFindings(lines)) findings.push({ file, ...f })
   }
-  for (const f of lineFindings(lines)) findings.push({ file, ...f })
   const seenAllow = new Set()
   for (const f of [...findings]) {
-    for (const a of allowsFor(lines, f.line)) {
+    for (const a of allowsFor(lines, f.line, { css })) {
       if (a.rule !== f.rule) continue
       if (a.reason) f.allowed = a.reason
       else if (!seenAllow.has(a.line)) {
@@ -513,7 +812,7 @@ export async function runCheck({ cwd = process.cwd(), dirs, includeUi = false, c
 }
 
 // ------------------------------------------------------------------ output
-const RULE_LABEL = { unresolved: 'unresolved', palette: 'palette', 'raw-color': 'raw colour', bracket: 'bracket', 'dark-variant': 'dark:', 'allow-without-reason': 'allow', 'source-token': 'source tok', motion: 'motion', radix: 'radix', 'icon-set': 'icon set' }
+const RULE_LABEL = { 'off-scale': 'off-scale', 'stock-value': 'stock', 'inline-style': 'style', 'css-value': 'css value', unresolved: 'unresolved', palette: 'palette', 'raw-color': 'raw colour', bracket: 'bracket', 'dark-variant': 'dark:', 'allow-without-reason': 'allow', 'source-token': 'source tok', motion: 'motion', radix: 'radix', 'icon-set': 'icon set' }
 
 export function formatText({ findings, layout, notes }, { quiet = false } = {}) {
   const lines = []

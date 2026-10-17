@@ -59,7 +59,7 @@ const systemRules = [
 
 const noArbitraryPx = stringRules(
   "/-\\[-?[0-9.]+px\\]/",
-  "Mantis: no arbitrary pixel values like w-[13px]. Use the spacing scale (w-105 = 420px) or a component size prop.",
+  "Mantis: no arbitrary pixel values like w-[13px]. Use a Mantis spacing step (w-6 = 24px; AGENTS.md › Tokens) or a component size prop.",
 );
 
 const eslintConfig = [

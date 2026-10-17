@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 
 import { CHECK_PATH, checkData, renderCheck } from './build-check.mjs'
-import { baseOf, bracketRule, formatText, motionRule, paletteRule, scanFile } from '../registry/check/mantis-check.mjs'
+import { baseOf, bracketRule, formatText, motionRule, offScaleRule, paletteRule, scanFile, stockRule, styleFindings, cssFindings } from '../registry/check/mantis-check.mjs'
 
 test('the committed check is in sync with the token source (byte equality)', () => {
   assert.ok(existsSync(CHECK_PATH), 'registry/check/mantis-check.mjs does not exist — run node scripts/build-check.mjs')
@@ -27,6 +27,12 @@ test('its data comes from the token source', () => {
   assert.deepEqual(data.blurs, { chip: 8, glass: 12, dialog: 32 })
   assert.equal(data.text.sm, 14)
   assert.equal(data.radius.control, 10)
+  assert.deepEqual(Object.keys(data.spacing).sort((a, b) => a - b), ['0.5', '1', '1.5', '2', '2.5', '3', '4', '5', '6', '7', '8', '10', '12', '14', '16', '20', '24'])
+  assert.equal(data.spacing['2.5'], 10)
+  assert.deepEqual(data.borders, { 0: 0, '0.5': 0.5, 1: 1, '1.5': 1.5, 2: 2 })
+  assert.equal(data.weights.semibold, 600)
+  assert.equal(data.leading['3.5'], 14)
+  assert.ok(data.shadows.includes('md') && data.textStyles.includes('title-sm'))
   assert.ok(data.shipped.includes('pricing-card.tsx'))
 })
 
@@ -49,7 +55,11 @@ test('stock palette classes are findings, token classes are not', () => {
 
 test('bracket values: colors and pixels are findings, other sizes are counted', () => {
   assert.match(bracketRule('bg-[#d1fe17]').fix, /bg-brand/)
-  assert.match(bracketRule('w-[13px]').fix, /w-3\.25/)
+  // The nearest Mantis step, not the same 13px written as a Tailwind step (w-3.25)
+  assert.match(bracketRule('w-[13px]').fix, /^→ w-3 \(12px\), or the component's size prop/)
+  assert.match(bracketRule('p-[14px]').fix, /^→ p-3 \(12px\) or p-4 \(16px\)/)
+  assert.match(bracketRule('p-[1.25rem]').fix, /^→ p-5 \(20px\)/)
+  assert.match(bracketRule('w-[420px]').fix, /no size step above 96px/)
   assert.match(bracketRule('text-[13px]').fix, /text-xs|text-sm/)
   assert.match(bracketRule('rounded-[5px]').fix, /rounded-(sm|md)/)
   assert.equal(bracketRule('w-[calc(100%-2rem)]'), 'layout')
@@ -150,4 +160,88 @@ test('the registry publishes it as the item "check", installed to scripts/mantis
   assert.equal(item.type, 'registry:file')
   assert.deepEqual(item.files, [{ path: 'registry/check/mantis-check.mjs', type: 'registry:file', target: '~/scripts/mantis-check.mjs' }])
   assert.equal(execFileSync(process.execPath, [CHECK_PATH, '--help'], { encoding: 'utf8' }).split('\n')[0], `mantis-check ${checkData().version}`)
+})
+
+test('bracket widths, shadows, weights, line heights and tracking name the Mantis token', () => {
+  assert.match(bracketRule('border-[3px]').fix, /^→ border-2 \(2px\); the border widths: 0 0px · 0\.5 0\.5px · 1 1px · 1\.5 1\.5px · 2 2px$/)
+  assert.match(bracketRule('border-t-[1px]').fix, /^→ border-t \(1px\)/)
+  assert.match(bracketRule('shadow-[0_1px_2px_black]').fix, /shadow-sm/)
+  assert.match(bracketRule('font-[550]').fix, /^→ font-medium \(500\) or font-semibold \(600\)/)
+  assert.match(bracketRule('leading-[22px]').fix, /^→ leading-5 \(20px\) or leading-6 \(24px\)/)
+  assert.match(bracketRule('leading-[1.4]').fix, /on text-sm, 1\.4 is leading-5/)
+  assert.match(bracketRule('tracking-[0.1em]').fix, /text-title-sm/)
+  assert.equal(bracketRule('shadow-[0_1px_2px_black]', { shipped: true }), 'layout')
+})
+
+test('Tailwind steps that are not Mantis steps are findings, with the nearest step', () => {
+  assert.match(offScaleRule('p-13').fix, /^→ p-12 \(48px\) or p-14 \(56px\)/)
+  assert.match(offScaleRule('p-9').fix, /^→ p-8 \(32px\) or p-10 \(40px\)/)
+  assert.match(offScaleRule('gap-x-3.5').fix, /^→ gap-x-3 \(12px\) or gap-x-4 \(16px\)/)
+  assert.match(offScaleRule('h-9').fix, /^→ h-8 \(32px\) or h-10 \(40px\), or the component's size prop/)
+  assert.match(offScaleRule('w-105').fix, /size prop, or let the layout size it/)
+  assert.match(offScaleRule('border-4').fix, /^→ border-2 \(2px\)/)
+  assert.match(offScaleRule('ring-3').fix, /^→ ring-2 \(2px\)/)
+  assert.match(offScaleRule('leading-11').fix, /^→ leading-10 \(40px\) or leading-12 \(48px\)/)
+  for (const fine of ['p-4', 'gap-0.5', '-mt-2.5', 'inset-0', 'w-24', 'border', 'border-0.5', 'ring-2', 'leading-7.5', 'translate-x-1/2', 'w-full', 'text-2', 'rounded-2', 'z-10', 'grid-cols-12', 'col-span-7', 'line-clamp-3', 'opacity-50']) assert.equal(offScaleRule(fine), null, fine)
+  assert.deepEqual(rulesIn('<div className="md:-mt-13 p-4" />'), ['off-scale'])
+})
+
+test("Tailwind's own named values are findings, with the Mantis equivalent", () => {
+  assert.match(stockRule('leading-normal').fix, /on text-sm, 1\.5 is leading-5/)
+  assert.match(stockRule('leading-none').fix, /leading-3\.5/)
+  assert.match(stockRule('tracking-wide').fix, /text-display-sm/)
+  assert.match(stockRule('font-light').fix, /^→ font-normal \(400\)/)
+  assert.match(stockRule('font-extrabold').fix, /^→ font-bold \(700\) or font-black \(900\)/)
+  for (const fine of ['font-bold', 'font-semibold', 'font-sans', 'leading-5', 'tracking-[0]']) assert.equal(stockRule(fine), null, fine)
+})
+
+test('hard-coded numbers in a style={{ }} block are findings; tokens and zero are not', () => {
+  const found = styleFindings(`<div style={{ padding: 13, borderRadius: 7,\n  fontSize: "13px", margin: "8px 12px", gap: 0, top: "var(--x)", height: "100%", fontWeight: 600 }} />`)
+  assert.deepEqual(found.map((f) => `${f.line} ${f.value}`), ['1 padding: 13', '1 borderRadius: 7', '2 fontSize: "13px"', '2 margin: "8px 12px"', '2 fontWeight: 600'])
+  assert.match(found[0].fix, /^→ className="p-3" \(12px\)/)
+  assert.match(found[1].fix, /^→ className="rounded-md" \(6px\) or className="rounded-lg" \(8px\)/)
+  assert.match(found[3].fix, /^→ className="my-2" \(8px\) with className="mx-3" \(12px\)/)
+  assert.match(found[4].fix, /^→ className="font-semibold" \(600\)/)
+  // a style prop in Mantis's own blocks holds the reference's measured values
+  assert.deepEqual(scanFile('components/pricing-card.tsx', '<p style={{ padding: 13 }} />').findings, [])
+  assert.deepEqual(rulesIn('<p style={{ padding: 13 }} />'), ['inline-style'])
+})
+
+test('app stylesheets: measured values, colours, the source layer and @apply', () => {
+  const css = [
+    '.a {', //                                                   1
+    '  padding: 13px;', //                                       2
+    '  /* margin: 99px */', //                                   3 a comment is not code
+    '  border: 3px solid #ff0000;', //                           4
+    '  border-radius: .5rem;', //                                5
+    '  width: 100%;', //                                         6
+    '  --gap: 13px;', //                                         7 a definition, not a use
+    '  color: var(--mantis-color-lime-500);', //                 8
+    '  @apply p-13 leading-normal bg-card;', //                  9
+    '  margin: --theme(--spacing-3); box-shadow: var(--shadow-md); letter-spacing: var(--x);', // 10 tokens
+    '}',
+    '@media (min-width: 768px) { .b { margin: 0 } }', //         12
+    '.c { border: 3px solid var(--border); top: var(--x) }', //   13 a raw width beside a token colour
+  ].join('\n')
+  const found = cssFindings(css)
+  assert.deepEqual(found.map((f) => `${f.line} ${f.rule} ${f.value}`), [
+    '2 css-value padding: 13px',
+    '4 raw-color border: #ff0000',
+    '4 css-value border: 3px solid #ff0000',
+    '5 css-value border-radius: .5rem',
+    '8 source-token --mantis-color-lime-500',
+    '9 off-scale p-13',
+    '9 stock-value leading-normal',
+    '13 css-value border: 3px solid var(--border)',
+  ])
+  assert.match(found[0].fix, /^→ --theme\(--spacing-3\) \(12px\)/)
+  assert.match(found[2].fix, /^→ --theme\(--border-width-2\) \(2px\)/)
+  assert.match(found[3].fix, /^→ --theme\(--radius-lg\) \(8px\)/)
+})
+
+test('stylesheets: the theme file and the generated tokens block are exempt, and an allow covers one declaration', () => {
+  assert.deepEqual(scanFile('app/mantis-theme.css', '.x { padding: 13px; color: #fff }').findings, [])
+  assert.deepEqual(cssFindings('/* @tokens:start */\n.x { padding: 13px }\n/* @tokens:end */\n.y { padding: 5px }').map((f) => f.line), [4])
+  const css = '.d {\n  /* mantis-check: allow css-value — the logo lockup is drawn at 7px */\n  padding: 7px;\n  margin: 7px;\n}'
+  assert.deepEqual(scanFile('app/brand.css', css).findings.map((f) => `${f.line}${f.allowed ? ' allowed' : ''}`), ['3 allowed', '4'])
 })

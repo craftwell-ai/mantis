@@ -30,6 +30,9 @@ const number = (value) => {
   return Math.round(Number(amount) * (unit === 'rem' ? 16 : unit === 's' ? 1000 : 1) * 1000) / 1000
 }
 const resolved = (t, group) => Object.fromEntries(Object.entries(group).map(([name, value]) => [name, number(resolveValue(t, value, t.modes[0]))]))
+// A Tailwind step table, smallest first, without the bare utility's DEFAULT.
+const steps = (t, group = {}) =>
+  Object.fromEntries(Object.entries(resolved(t, group)).filter(([key]) => key !== 'DEFAULT').map(([key, px]) => [key.replace('_', '.'), px]).sort((a, b) => a[1] - b[1] || Number(a[0]) - Number(b[0])))
 
 // Every color utility name with the opaque value it paints, read from the published theme so a
 // `var()` chain ends where the browser's would. See-through and gradient roles have no single
@@ -58,6 +61,13 @@ export function checkData(t = tokens, registry = JSON.parse(readFileSync(REGISTR
     swatches: swatches(t),
     text: resolved(t, t.text),
     radius: resolved(t, t.radius),
+    // The steps an app may write, keyed by the class suffix (0_5 in the theme is written 0.5).
+    spacing: steps(t, t.spacing),
+    borders: steps(t, t.borderWidth),
+    leading: steps(t, t.leading),
+    weights: resolved(t, t.fontWeight),
+    shadows: Object.keys(t.shadow),
+    textStyles: Object.keys(t.textStyles ?? {}),
     durations: resolved(t, t.motion.duration),
     blurs: Object.fromEntries(Object.entries(t.blur).map(([name, value]) => [name, number(value)])),
     // Mantis's own blocks hold the reference's measured pixel values; installed into an app they

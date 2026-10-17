@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.6.0] - 2026-10-16
+- mantis-check enforces the Mantis scales: off-scale Tailwind steps (p-13, w-105, border-4), Tailwind's own named values (leading-normal, tracking-wide, font-light), hard-coded numbers in style={{ }}, and raw spacing, radius, type, border, shadow and colour values in app .css files are findings. Bracket fixes name the nearest Mantis step (p-[13px] → p-3) and cover border, shadow, weight, line height and tracking.
+
 ## [1.5.0] - 2026-10-16
 - Tailwind's spacing, border, ring and outline widths, font weights and leading steps now read Mantis tokens: p-4 compiles to var(--mantis-space-400), border-2 to var(--mantis-border-width-thick). Same pixels; new border-0.5 and border-1.5 classes.
 
