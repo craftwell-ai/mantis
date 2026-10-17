@@ -208,7 +208,7 @@ export function offScaleRule(base) {
   if (step in SCALES[kind].table) return null
   // A spacing step is 4px (space-100); a border step is its pixel width.
   const value = Number(step) * (kind === 'border' ? 1 : 4)
-  return { rule: 'off-scale', fix: stepFix(kind, value, (key) => asClass(prefix, key, kind)) }
+  return { rule: 'scale', fix: stepFix(kind, value, (key) => asClass(prefix, key, kind)) }
 }
 
 // ------------------------------------------------------------------ rule: Tailwind's own named values
@@ -217,10 +217,10 @@ const STOCK_LEADING = { none: 1, tight: 1.25, snug: 1.375, normal: 1.5, relaxed:
 const STOCK_WEIGHT = { thin: 100, extralight: 200, light: 300, extrabold: 800 }
 export function stockRule(base) {
   const leading = base.match(/^leading-([a-z]+)$/)
-  if (leading && leading[1] in STOCK_LEADING) return { rule: 'stock-value', fix: ratioFix(STOCK_LEADING[leading[1]]) }
-  if (/^tracking-(tighter|tight|normal|wide|wider|widest)$/.test(base)) return { rule: 'stock-value', fix: TRACKING_FIX() }
+  if (leading && leading[1] in STOCK_LEADING) return { rule: 'scale', fix: ratioFix(STOCK_LEADING[leading[1]]) }
+  if (/^tracking-(tighter|tight|normal|wide|wider|widest)$/.test(base)) return { rule: 'scale', fix: TRACKING_FIX() }
   const weight = base.match(/^font-([a-z]+)$/)
-  if (weight && weight[1] in STOCK_WEIGHT) return { rule: 'stock-value', fix: stepFix('weight', STOCK_WEIGHT[weight[1]], (key) => `font-${key}`) }
+  if (weight && weight[1] in STOCK_WEIGHT) return { rule: 'scale', fix: stepFix('weight', STOCK_WEIGHT[weight[1]], (key) => `font-${key}`) }
   return null
 }
 
@@ -485,7 +485,8 @@ export async function runCheck({ cwd = process.cwd(), dirs, includeUi = false, c
 }
 
 // ------------------------------------------------------------------ output
-const RULE_LABEL = { 'off-scale': 'off-scale', 'stock-value': 'stock', 'inline-style': 'style', 'css-value': 'css value', unresolved: 'unresolved', palette: 'palette', 'raw-color': 'raw colour', bracket: 'bracket', 'dark-variant': 'dark:', 'allow-without-reason': 'allow', 'source-token': 'source tok', motion: 'motion', radix: 'radix', 'icon-set': 'icon set' }
+// Labels and ids match quill-check's, so the Quill CLI shows both systems' findings the same way.
+const RULE_LABEL = { scale: 'off scale', 'inline-style': 'inline style', 'css-value': 'css value', unresolved: 'unresolved', palette: 'palette', 'raw-color': 'raw colour', bracket: 'bracket', 'dark-variant': 'dark:', 'allow-without-reason': 'allow', 'source-token': 'source tok', motion: 'motion', radix: 'radix', 'icon-set': 'icon set' }
 
 export function formatText({ findings, layout, notes }, { quiet = false } = {}) {
   const lines = []
@@ -498,7 +499,7 @@ export function formatText({ findings, layout, notes }, { quiet = false } = {}) 
         if (lines.length) lines.push('')
         lines.push(f.file)
       }
-      lines.push(`  ${String(f.line).padStart(4)}  ${f.value.padEnd(28)}  ${RULE_LABEL[f.rule].padEnd(10)}  ${f.allowed ? `allowed — ${f.allowed}` : f.fix}`)
+      lines.push(`  ${String(f.line).padStart(4)}  ${f.value.padEnd(28)}  ${RULE_LABEL[f.rule].padEnd(12)}  ${f.allowed ? `allowed — ${f.allowed}` : f.fix}`)
     }
     if (lines.length) lines.push('')
   }

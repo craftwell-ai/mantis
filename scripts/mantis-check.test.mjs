@@ -100,7 +100,7 @@ test('an allow needs a reason, and covers only the element it sits on', () => {
 test('the report has the summary line tools read', () => {
   const result = { findings: [{ file: 'a.tsx', line: 3, col: 1, rule: 'palette', value: 'bg-white', fix: '→ bg-primary' }], layout: 2, notes: [] }
   assert.equal(formatText(result, { quiet: true }), '1 finding · 0 allowed · 2 layout sizes not checked')
-  assert.match(formatText(result), /^a\.tsx\n {5}3 {2}bg-white {22}palette {5}→ bg-primary\n\n1 finding/)
+  assert.match(formatText(result), /^a\.tsx\n {5}3 {2}bg-white {22}palette {7}→ bg-primary\n\n1 finding/)
 })
 
 // The check is run the way an app runs it: copied into scripts/, from the app root.
@@ -183,7 +183,7 @@ test('Tailwind steps that are not Mantis steps are findings, with the nearest st
   assert.match(offScaleRule('ring-3').fix, /^→ ring-2 \(2px\)/)
   assert.match(offScaleRule('leading-11').fix, /^→ leading-10 \(40px\) or leading-12 \(48px\)/)
   for (const fine of ['p-4', 'gap-0.5', '-mt-2.5', 'inset-0', 'w-24', 'border', 'border-0.5', 'ring-2', 'leading-7.5', 'translate-x-1/2', 'w-full', 'text-2', 'rounded-2', 'z-10', 'grid-cols-12', 'col-span-7', 'line-clamp-3', 'opacity-50']) assert.equal(offScaleRule(fine), null, fine)
-  assert.deepEqual(rulesIn('<div className="md:-mt-13 p-4" />'), ['off-scale'])
+  assert.deepEqual(rulesIn('<div className="md:-mt-13 p-4" />'), ['scale'])
 })
 
 test("Tailwind's own named values are findings, with the Mantis equivalent", () => {
@@ -230,8 +230,8 @@ test('app stylesheets: measured values, colours, the source layer and @apply', (
     '4 css-value border: 3px solid #ff0000',
     '5 css-value border-radius: .5rem',
     '8 source-token --mantis-color-lime-500',
-    '9 off-scale p-13',
-    '9 stock-value leading-normal',
+    '9 scale p-13',
+    '9 scale leading-normal',
     '13 css-value border: 3px solid var(--border)',
   ])
   assert.match(found[0].fix, /^→ --theme\(--spacing-3\) \(12px\)/)

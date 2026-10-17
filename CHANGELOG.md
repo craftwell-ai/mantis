@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.6.1] - 2026-10-16
+- mantis-check uses quill-check's rule ids and labels: off-scale steps and Tailwind's own named values are both `scale` (was off-scale and stock-value), and the report pads labels to 12 like quill-check, so the Quill CLI shows both systems' findings the same way.
+
 ## [1.6.0] - 2026-10-16
 - mantis-check enforces the Mantis scales: off-scale Tailwind steps (p-13, w-105, border-4), Tailwind's own named values (leading-normal, tracking-wide, font-light), hard-coded numbers in style={{ }}, and raw spacing, radius, type, border, shadow and colour values in app .css files are findings. Bracket fixes name the nearest Mantis step (p-[13px] → p-3) and cover border, shadow, weight, line height and tracking.
 
