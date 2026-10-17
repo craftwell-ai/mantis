@@ -121,7 +121,7 @@ export function ModelPicker({
             className,
           )}
         >
-          {selected ? <Icon name={selected.icon} className="size-4" /> : null}
+          {selected ? <Icon name={selected.icon} className="size-icon-md" /> : null}
           {selected?.label ?? `Choose a ${label.toLowerCase()}`}
         </ComboboxTrigger>
       ) : (
@@ -159,7 +159,7 @@ export function ModelPicker({
           {(group: ModelGroup) => (
             <ComboboxGroup key={group.value} items={group.items}>
               <ComboboxLabel className="flex items-center gap-1.5 pt-2">
-                <Icon name={group.icon} className="size-3.5" />
+                <Icon name={group.icon} className="size-icon-sm" />
                 {group.label}
               </ComboboxLabel>
               <ComboboxCollection>

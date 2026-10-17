@@ -125,7 +125,7 @@ export function PromoModal({
           <ul className="flex w-full flex-col gap-2 text-left text-sm" aria-label="What you get">
             {benefits.map((benefit) => (
               <li key={benefit} className="flex items-start gap-2">
-                <Icon name="check" className="mt-0.5 size-4 shrink-0 text-foreground" />
+                <Icon name="check" className="mt-0.5 size-icon-md shrink-0 text-foreground" />
                 <span>{benefit}</span>
               </li>
             ))}

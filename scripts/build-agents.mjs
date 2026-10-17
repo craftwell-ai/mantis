@@ -100,13 +100,16 @@ export function renderAgents({ t = tokens, api = readComponentApi(), usage = ALL
 
   p('## Components')
   p()
-  p(`Import from \`@/components/ui/<name>\`. Each entry: **name** exports · Mantis-specific props (\`=\` lists the allowed values) · what it is for · alternatives to weigh · rule ids. Full guide with do/don't: ${guide}.`)
+  p(`Import from \`@/components/ui/<name>\`. Each entry: **name** exports (\`…Item\` means \`<First export>Item\`) · Mantis-specific props (\`=\` lists the allowed values) · what it is for · alternatives to weigh · rule ids. Full guide with do/don't: ${guide}.`)
   p()
   const byName = Object.fromEntries(usage.map((u) => [u.name, u]))
   for (const name of Object.keys(api).sort()) {
     const { exports, props } = api[name]
     const guide = byName[name]
-    const parts = [`**${name}** ${exports.filter((e) => /^[A-Z]/.test(e)).join(', ')}`]
+    // `…Content` is short for `<Root>Content`: the shared prefix is written once, which keeps the index under its cap.
+    const named = exports.filter((e) => /^[A-Z]/.test(e))
+    const root = named[0]
+    const parts = [`**${name}** ${named.map((e, i) => (i > 0 && e !== root && e.startsWith(root) ? `…${e.slice(root.length)}` : e)).join(', ')}`]
     const line = propsLine(props, sharedWith, sameAsButton)
     if (line) parts.push(line)
     if (guide) {
@@ -161,6 +164,7 @@ export function renderAgents({ t = tokens, api = readComponentApi(), usage = ALL
   // Steps only, no pixel values: this index has a size cap (build-agents.test.mjs).
   const steps = (group) => sorted(group).map(([k]) => code(step(k))).join(' ')
   if (t.spacing) p(`- **Spacing steps** (\`p-\` \`m-\` \`gap-\` \`inset-\` \`w-\` \`h-\` \`size-\`…, × 4px): \`0\` ${steps(t.spacing)}; no others. **Border widths** (\`border-\` \`ring-\` \`outline-\`, px): ${steps(t.borderWidth)}. **Weights:** ${Object.keys(t.fontWeight ?? {}).map(code).join(' ')}. **Leading** (× 4px): ${steps(t.leading)}.`)
+  if (t.size) p(`- **Sizes** (\`size-\` \`h-\` \`w-\` \`min-w-\` \`min-h-\`): icons ${Object.keys(t.size).filter((k) => k.startsWith('icon-')).map((k) => code(k.slice(5))).join(' ')} (\`size-icon-sm\` 14px); controls \`control-2xs\`…\`control-3xl\`, Button's own sizes (\`h-control\` 36px); \`tap\` 44px. Merge classes with \`cn\` from \`@/lib/mantis-cn\`: stock \`cn\` does not know these names.`)
   if (t.animate) p(`- **Motion:** ${Object.keys(t.animate).map((k) => code(`animate-${k}`)).join(', ')}. Interactions dim on hover (\`hover:brightness-80\`) and press (\`active:brightness-60\`) over 200ms.`)
   p()
 

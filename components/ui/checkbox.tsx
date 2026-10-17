@@ -20,10 +20,10 @@ const checkboxVariants = cva(
       },
       /** Box size: xs 16px, sm 18px, md 20px, lg 24px. Match the text beside it. */
       size: {
-        xs: "size-4 [&_svg]:size-2.5",
-        sm: "size-4.5 [&_svg]:size-3",
-        md: "size-5 [&_svg]:size-3.5",
-        lg: "size-6 [&_svg]:size-4",
+        xs: "size-4 [&_svg]:size-icon-2xs",
+        sm: "size-4.5 [&_svg]:size-icon-xs",
+        md: "size-5 [&_svg]:size-icon-sm",
+        lg: "size-6 [&_svg]:size-icon-md",
       },
     },
     defaultVariants: { variant: "brand", size: "md" },

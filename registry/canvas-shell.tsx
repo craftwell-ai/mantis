@@ -169,11 +169,11 @@ function LayersList({
               aria-pressed={selected}
               onClick={() => onSelect(layer.id)}
               className={cn(
-                "flex h-9 min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 text-left text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                "flex h-control min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 text-left text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                 layer.hidden ? "text-muted-foreground" : "text-foreground"
               )}
             >
-              <Icon name={LAYER_ICON[layer.kind]} className="size-4.5 shrink-0 text-muted-foreground" />
+              <Icon name={LAYER_ICON[layer.kind]} className="size-icon-lg shrink-0 text-muted-foreground" />
               <span className="truncate">{layer.name}</span>
               {layer.hidden ? <span className="sr-only">(hidden)</span> : null}
             </button>
@@ -342,7 +342,7 @@ function CanvasShell({
 
       {/* The top bar floats over the board; only its controls take clicks. */}
       <header className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
-        <div className={cn("pointer-events-auto flex h-11 min-w-0 items-center gap-1 rounded-xl pr-1 pl-1.5", floating)}>
+        <div className={cn("pointer-events-auto flex h-tap min-w-0 items-center gap-1 rounded-xl pr-1 pl-1.5", floating)}>
           <a href={homeHref} className="shrink-0 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
             {/* An empty, labelled slot: the product's own mark goes here. */}
             <span role="img" aria-label={`${brandName} logo`} className="block size-8 rounded-lg bg-glass shadow-inset-glass" />

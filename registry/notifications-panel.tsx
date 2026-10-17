@@ -145,7 +145,7 @@ export function NotificationsPanel({
             {visible[key].length === 0 ? (
               <div className="flex flex-col items-center gap-2 px-6 py-10 text-center">
                 <span className="flex size-12 items-center justify-center rounded-full bg-glass text-muted-foreground">
-                  <Icon name="notifications" className="size-6" />
+                  <Icon name="notifications" className="size-icon-2xl" />
                 </span>
                 <p className="text-sm font-medium text-foreground">{EMPTY_COPY[key].title}</p>
                 <p className="text-xs text-muted-foreground">{EMPTY_COPY[key].body}</p>
@@ -179,7 +179,7 @@ export function NotificationsPanel({
         render={<Button variant="glass" size="icon" className="relative" />}
         aria-label={unreadCount ? `Notifications, ${unreadCount} unread` : "Notifications"}
       >
-        <Icon name="notifications" className="size-5" />
+        <Icon name="notifications" className="size-icon-xl" />
         {unreadCount > 0 ? (
           <span
             aria-hidden="true"
@@ -253,7 +253,7 @@ function NotificationRow({
             </span>
           ) : (
             <span role="status" className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Icon name={status === "accepted" ? "check_circle" : "close"} className="size-3.5" />
+              <Icon name={status === "accepted" ? "check_circle" : "close"} className="size-icon-sm" />
               {status === "accepted" ? "Accepted" : "Declined"}
             </span>
           )}

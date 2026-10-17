@@ -109,7 +109,7 @@ export function AgentApprovalCard({
         className={cn("flex items-center gap-2 rounded-2xl border border-separator bg-card px-4 py-3 text-sm", className)}
         {...props}
       >
-        <Icon name={approved ? "check_circle" : "dangerous"} className="size-4 text-muted-foreground" />
+        <Icon name={approved ? "check_circle" : "dangerous"} className="size-icon-md text-muted-foreground" />
         <h3 id={headingId} className="font-medium">
           {approved ? "Approved" : "Stopped"}
         </h3>
@@ -141,7 +141,7 @@ export function AgentApprovalCard({
       {...props}
     >
       <header className="flex items-center gap-2 px-4 pt-3.5 pb-2">
-        <Icon name="smart_toy" className="size-4 text-muted-foreground" />
+        <Icon name="smart_toy" className="size-icon-md text-muted-foreground" />
         <h3 id={headingId} className="font-medium">
           {title}
         </h3>
@@ -175,7 +175,7 @@ export function AgentApprovalCard({
                   ))}
                   {step.credits ? (
                     <li className="inline-flex h-7 items-center gap-1 rounded-lg border border-chip-border bg-chip px-2.5 text-xs font-medium text-chip-foreground tabular-nums">
-                      <Icon name="star_shine-fill" className="size-3" />
+                      <Icon name="star_shine-fill" className="size-icon-xs" />
                       {step.credits} {step.credits === 1 ? "credit" : "credits"}
                     </li>
                   ) : null}
@@ -209,7 +209,7 @@ export function AgentApprovalCard({
               value={reply}
               disabled={busy}
               onChange={(event) => setReply(event.target.value)}
-              className="h-9 w-full rounded-control bg-transparent px-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="h-control w-full rounded-control bg-transparent px-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             />
           </form>
         ) : (
@@ -239,7 +239,7 @@ export function AgentApprovalCard({
             <span className="inline-flex items-center gap-0.5 tabular-nums">
               {totalCredits > 0 ? (
                 <>
-                  <Icon name="star_shine-fill" className="size-3.5" />
+                  <Icon name="star_shine-fill" className="size-icon-sm" />
                   {totalCredits}
                   <span className="sr-only">{totalCredits === 1 ? "credit" : "credits"}</span>
                 </>

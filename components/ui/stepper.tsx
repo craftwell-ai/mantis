@@ -42,7 +42,7 @@ function Stepper({
       data-slot="stepper"
       role="group"
       aria-label={label}
-      className={cn("inline-flex h-10 items-center gap-1 rounded-xl border border-chip-border bg-chip px-1 text-sm text-foreground", className)}
+      className={cn("inline-flex h-control-lg items-center gap-1 rounded-xl border border-chip-border bg-chip px-1 text-sm text-foreground", className)}
       {...props}
     >
       <Button variant="ghost" size="icon-sm" aria-label={`Decrease ${label}`} disabled={current <= min} onClick={() => set(current - 1)}>

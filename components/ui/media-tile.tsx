@@ -240,7 +240,7 @@ function MediaTile({
 function DefaultCheck() {
   return (
     <span className="flex size-5 items-center justify-center rounded-full bg-brand text-brand-foreground">
-      <Icon name="check" className="size-3.5" />
+      <Icon name="check" className="size-icon-sm" />
     </span>
   )
 }

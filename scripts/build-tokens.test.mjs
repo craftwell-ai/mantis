@@ -329,3 +329,16 @@ test('spacing, border width, weight and line height point Tailwind\'s theme keys
   // A system without these sections emits none of them.
   assert.ok(!/--spacing:|--default-border-width|--font-weight-|--leading-/.test(renderRegistryTheme(fixture)))
 })
+
+test('size tokens become runtime variables and width, height, size, min-width and min-height keys', () => {
+  const sized = { ...fixture, size: { control: '2.25rem', 'icon-md': '{icon-sm}' } }
+  const css = renderRegistryTheme(sized)
+  const theme = css.split('\n}')[0]
+  for (const family of ['width', 'height', 'size', 'min-width', 'min-height']) {
+    assert.ok(theme.includes(`  --${family}-control: var(--size-control);`), `${family}-control`)
+  }
+  const root = css.slice(css.indexOf('html:root {'))
+  assert.ok(root.includes('  --size-control: 2.25rem;'))
+  assert.ok(root.includes(`  --size-icon-md: var(--${name}-icon-sm);`))
+  assert.ok(!/--size-control/.test(renderRegistryTheme(fixture)))
+})

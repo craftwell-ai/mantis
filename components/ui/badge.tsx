@@ -6,7 +6,7 @@ import { cn } from "@/lib/mantis-cn"
 // Sizes, type and colors measured on the reference product (docs/inventory.md).
 // Fills that failed WCAG use the owner-approved nearest passing shades.
 const badgeVariants = cva(
-  "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border border-transparent leading-none whitespace-nowrap focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border border-transparent leading-none whitespace-nowrap focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none [&>svg]:size-icon-xs!",
   {
     variants: {
       /** What the label means: new and tag for features, neutral for counts, sale, hot and value for offers, gold for premium, outline for quiet states, destructive for failures. */

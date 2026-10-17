@@ -366,7 +366,7 @@ export function StudioSettingsPanel({
             <>
               Generate
               <span className="inline-flex items-center gap-0.5 tabular-nums">
-                <Icon name="star_shine-fill" className="size-3.5" />
+                <Icon name="star_shine-fill" className="size-icon-sm" />
                 {credits}
                 <span className="sr-only">{credits === 1 ? "credit" : "credits"}</span>
               </span>

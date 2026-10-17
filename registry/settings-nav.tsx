@@ -36,7 +36,7 @@ function SettingsNav({ items, label = "Settings", value: valueProp, defaultValue
   const labelId = React.useId()
 
   const rowClass =
-    "flex h-9 w-full items-center gap-2.5 rounded-lg px-2 text-sm font-medium text-foreground outline-none transition-[background-color,filter] duration-(--duration-normal) hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass"
+    "flex h-control w-full items-center gap-2.5 rounded-lg px-2 text-sm font-medium text-foreground outline-none transition-[background-color,filter] duration-(--duration-normal) hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass"
 
   return (
     <nav data-slot="settings-nav" aria-labelledby={labelId} className={cn("flex w-full max-w-60 flex-col gap-2", className)}>

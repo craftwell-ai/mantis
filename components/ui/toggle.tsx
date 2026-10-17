@@ -8,7 +8,7 @@ import { cn } from "@/lib/mantis-cn"
 // with dark 12px semibold text, others stay gray (32px, 10px radius). outline:
 // tiles such as aspect ratios, where the chosen one gets a 2px lime outline.
 const toggleVariants = cva(
-  "group/toggle inline-flex items-center justify-center gap-1 whitespace-nowrap transition-[background-color,color,border-color] duration-(--duration-normal) outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/toggle inline-flex items-center justify-center gap-1 whitespace-nowrap transition-[background-color,color,border-color] duration-(--duration-normal) outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-icon-md",
   {
     variants: {
       /** Pressed look: segment (white fill), outline (lime border, for tiles) or ghost (subtle fill, for toolbars). */
@@ -20,8 +20,8 @@ const toggleVariants = cva(
       /** Height: sm 28px, default 32px, lg 40px. */
       size: {
         sm: "h-7 min-w-7 rounded-full px-3 text-xs font-medium",
-        default: "h-8 min-w-8 rounded-control px-3.5 text-xs font-semibold",
-        lg: "h-10 min-w-10 rounded-control px-2.5 text-sm font-semibold",
+        default: "h-control-sm min-w-control-sm rounded-control px-3.5 text-xs font-semibold",
+        lg: "h-control-lg min-w-control-lg rounded-control px-2.5 text-sm font-semibold",
       },
     },
     defaultVariants: {

@@ -65,6 +65,8 @@ export function checkData(t = tokens, registry = JSON.parse(readFileSync(REGISTR
     spacing: steps(t, t.spacing),
     borders: steps(t, t.borderWidth),
     leading: steps(t, t.leading),
+    // Named sizes (h-control, size-icon-sm), in pixels.
+    sizes: resolved(t, t.size ?? {}),
     weights: resolved(t, t.fontWeight),
     shadows: Object.keys(t.shadow),
     textStyles: Object.keys(t.textStyles ?? {}),
@@ -85,7 +87,7 @@ export function renderCheck(data = checkData()) {
     '// Usage: node scripts/mantis-check.mjs [--dir <path>]… [--css <tailwind entry>] [--include-ui] [--json] [--quiet]',
     "import { readFileSync, readdirSync, statSync, existsSync, realpathSync } from 'node:fs'",
     "import { fileURLToPath } from 'node:url'",
-    "import { join, relative, resolve, extname } from 'node:path'",
+    "import { join, relative, resolve, extname, dirname } from 'node:path'",
     '',
     `export const DATA = ${JSON.stringify(data, null, 1)}`,
     '',

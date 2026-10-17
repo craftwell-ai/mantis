@@ -104,6 +104,8 @@ function buildCss(t) {
     // Durations are plain variables: Tailwind has no duration theme key, so
     // components read them as duration-(--duration-normal).
     if (!block.accent && block.mode === first) lines.push(...Object.entries(t.motion?.duration ?? {}).map(([key, value]) => `  --duration-${key}: ${cssValue(t, value)};`))
+    // Sizes are plain variables on the default block, like durations; the theme keys below read them.
+    if (!block.accent && block.mode === first) lines.push(...Object.entries(t.size ?? {}).map(([key, value]) => `  --size-${key}: ${cssValue(t, value)};`))
     lines.push(...aliasLines)
     const scheme = !block.accent && block.mode !== first ? `  color-scheme: ${block.scheme};\n\n` : ''
     return `${selectorFor(block, first)} {\n${scheme}${lines.join('\n')}\n}`
@@ -125,6 +127,8 @@ function buildCss(t) {
     ),
     ...Object.entries(t.fontWeight ?? {}).map(([key, value]) => `  --font-weight-${key}: ${cssValue(t, value)};`),
     ...Object.entries(t.leading ?? {}).map(([key, value]) => `  --leading-${key}: ${cssValue(t, value)};`),
+    // Width, height, size and the two minimums each have their own Tailwind family, so a size never becomes a spacing step.
+    ...Object.keys(t.size ?? {}).flatMap((key) => ['width', 'height', 'size', 'min-width', 'min-height'].map((family) => `  --${family}-${key}: var(--size-${key});`)),
     ...Object.keys(t.shadow).map((key) => `  --shadow-${key}: var(--shadow-${key});`),
     // Optional composite type styles: size plus line height, tracking and weight.
     ...Object.entries(t.textStyles ?? {}).flatMap(([key, style]) => [

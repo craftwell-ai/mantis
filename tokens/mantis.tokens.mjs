@@ -7,7 +7,7 @@
  * CSS, and the DTCG export from this file alone.
  */
 export const tokens = {
-  meta: { name: 'mantis', version: '1.6.1', defaultTheme: 'dark' },
+  meta: { name: 'mantis', version: '1.7.0', defaultTheme: 'dark' },
   // Every mode this system ships, default first. Each color and shadow leaf
   // holds one value per mode; a mode after the first is selected with
   // data-theme="<mode>". Dark is derived only when the source defines none.
@@ -81,6 +81,19 @@ export const tokens = {
     3: '{type-line-height-100}', '3_5': '{type-line-height-200}', 4: '{type-line-height-300}', '4_5': '{type-line-height-500}',
     5: '{type-line-height-600}', 6: '{type-line-height-700}', 7: '{type-line-height-800}', '7_5': '{type-line-height-900}',
     8: '{type-line-height-1000}', 9: '{type-line-height-1100}', 10: '{type-line-height-1200}', 12: '{type-line-height-1300}', 14: '{type-line-height-1400}',
+  },
+  // Named sizes (owner-approved 2026-10-17). The source names only its icon sizes; the rest are
+  // measured from Mantis's own primitives, so they are authored values. Icon names are Mantis's
+  // own scale and do not match the source's: the source's icon-sm is Mantis's icon-md (16px).
+  // Each becomes a runtime variable (--size-control) and w-/h-/size-/min-w-/min-h- classes.
+  size: {
+    'icon-3xs': '0.5rem', 'icon-2xs': '0.625rem', 'icon-xs': '{icon-xs}', 'icon-sm': '0.875rem', 'icon-md': '{icon-sm}',
+    'icon-lg': '1.125rem', 'icon-xl': '{icon-md}', 'icon-2xl': '{icon-lg}', 'icon-3xl': '{icon-xl}',
+    // Button's size ladder, named after its size prop; the default is the bare name.
+    'control-2xs': '1rem', 'control-xs': '1.5rem', 'control-sm': '2rem', control: '2.25rem', 'control-lg': '2.5rem',
+    'control-xl': '3rem', 'control-cta': '3.25rem', 'control-2xl': '3.5rem', 'control-3xl': '4rem',
+    // The large field and the command palette: 44px, the accessible touch size.
+    tap: '2.75rem',
   },
   shadow: {
     // Overlays, measured live: small popovers and menus; switch thumbs.

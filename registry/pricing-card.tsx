@@ -139,7 +139,7 @@ function PricingCard({
         <ul className="flex flex-col gap-3 text-sm" aria-label={`${planName} plan includes`}>
           {features.map((feature) => (
             <li key={feature} className="flex items-start gap-2">
-              <Icon name="check" className="mt-0.5 size-4 text-foreground" />
+              <Icon name="check" className="mt-0.5 size-icon-md text-foreground" />
               <span>{feature}</span>
             </li>
           ))}

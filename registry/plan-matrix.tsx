@@ -122,7 +122,7 @@ function PlanMatrix({
           return (
             <div key={plan.id} className="flex flex-col rounded-2xl bg-commerce-pink p-0.5">
               <p className="flex h-6.5 items-center justify-center gap-1 font-grotesk text-label-caps text-commerce-pink-foreground uppercase">
-                <Icon name="star_shine-fill" className="size-3.5" />
+                <Icon name="star_shine-fill" className="size-icon-sm" />
                 {highlightLabel}
               </p>
               {card}
@@ -190,12 +190,12 @@ function MatrixValue({ value }: { value: PlanMatrixValue }) {
   // The icons are decorative; the hidden words carry the meaning for screen readers.
   return value ? (
     <span className="inline-flex text-foreground">
-      <Icon name="check" className="size-4.5" />
+      <Icon name="check" className="size-icon-lg" />
       <span className="sr-only">Included</span>
     </span>
   ) : (
     <span className="inline-flex text-muted-foreground">
-      <Icon name="remove" className="size-4.5" />
+      <Icon name="remove" className="size-icon-lg" />
       <span className="sr-only">Not included</span>
     </span>
   )

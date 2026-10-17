@@ -177,7 +177,7 @@ test('Tailwind steps that are not Mantis steps are findings, with the nearest st
   assert.match(offScaleRule('p-13').fix, /^→ p-12 \(48px\) or p-14 \(56px\)/)
   assert.match(offScaleRule('p-9').fix, /^→ p-8 \(32px\) or p-10 \(40px\)/)
   assert.match(offScaleRule('gap-x-3.5').fix, /^→ gap-x-3 \(12px\) or gap-x-4 \(16px\)/)
-  assert.match(offScaleRule('h-9').fix, /^→ h-8 \(32px\) or h-10 \(40px\), or the component's size prop/)
+  assert.match(offScaleRule('h-15').fix, /^→ h-14 \(56px\) or h-16 \(64px\), or the component's size prop/)
   assert.match(offScaleRule('w-105').fix, /size prop, or let the layout size it/)
   assert.match(offScaleRule('border-4').fix, /^→ border-2 \(2px\)/)
   assert.match(offScaleRule('ring-3').fix, /^→ ring-2 \(2px\)/)
@@ -244,4 +244,81 @@ test('stylesheets: the theme file and the generated tokens block are exempt, and
   assert.deepEqual(cssFindings('/* @tokens:start */\n.x { padding: 13px }\n/* @tokens:end */\n.y { padding: 5px }').map((f) => f.line), [4])
   const css = '.d {\n  /* mantis-check: allow css-value — the logo lockup is drawn at 7px */\n  padding: 7px;\n  margin: 7px;\n}'
   assert.deepEqual(scanFile('app/brand.css', css).findings.map((f) => `${f.line}${f.allowed ? ' allowed' : ''}`), ['3 allowed', '4'])
+})
+
+test('sizes: an off-scale step that equals a size token suggests the token', () => {
+  assert.equal(checkData().sizes.control, 36)
+  assert.match(offScaleRule('h-9').fix, /^→ h-control \(36px\)/)
+  assert.match(offScaleRule('size-3.5').fix, /^→ size-icon-sm \(14px\)/)
+  assert.match(offScaleRule('min-h-11').fix, /^→ min-h-tap \(44px\)/)
+  assert.match(bracketRule('w-[52px]').fix, /^→ w-control-cta \(52px\)/)
+  // spacing never suggests a size
+  assert.match(offScaleRule('p-9').fix, /^→ p-8 \(32px\) or p-10 \(40px\)/)
+  // a size with no token keeps the nearest-step fix
+  assert.match(offScaleRule('h-15').fix, /^→ h-14 \(56px\) or h-16 \(64px\)/)
+  for (const fine of ['h-control', 'size-icon-sm', 'min-w-control-lg', 'h-tap']) assert.equal(offScaleRule(fine), null, fine)
+})
+
+test('sizes: only the families that have size tokens are offered them, and CSS reads the variable', () => {
+  // max-w-control and basis-control do not exist: the theme wires sizes to w, h, size, min-w and min-h only
+  assert.match(offScaleRule('max-w-9').fix, /^→ max-w-8 \(32px\) or max-w-10 \(40px\)/)
+  assert.match(bracketRule('basis-[36px]').fix, /^→ basis-8 \(32px\) or basis-10 \(40px\)/)
+  // negative sizes are not sizes
+  assert.doesNotMatch(bracketRule('w-[-36px]').fix, /control/)
+  // a stylesheet reads the runtime variable; a style prop gets the class
+  assert.match(cssFindings('.x { height: 36px }')[0].fix, /^→ var\(--size-control\) \(36px\)/)
+  assert.match(styleFindings('<div style={{ height: 44 }} />')[0].fix, /^→ className="h-tap" \(44px\)/)
+})
+
+test('sizes: a size token the app\'s theme file does not define is reported, so a button never silently collapses', () => {
+  const page = 'export default () => <button className="h-control px-3" />\n'
+  const old = app({ 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': '@theme inline {\n  --spacing: 4px;\n}\n', 'app/page.tsx': page })
+  const report = JSON.parse(run(old, ['--json']).stdout)
+  const finding = report.findings.find((f) => f.rule === 'unresolved' && f.value === 'h-control')
+  assert.ok(finding, JSON.stringify(report.findings))
+  assert.match(finding.fix, /reinstall the theme: npx shadcn@latest add @mantis\/base --overwrite/)
+  const current = app({ 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8'), 'app/page.tsx': page })
+  assert.equal(JSON.parse(run(current, ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved').length, 0)
+  // primitives count too: they are what an update replaces
+  const ui = app({ 'app/globals.css': '@import "./mantis-theme.css";\n', 'app/mantis-theme.css': '@theme inline {\n}\n', 'components/ui/button.tsx': 'export const b = "h-control"\n' })
+  assert.ok(JSON.parse(run(ui, ['--json']).stdout).findings.some((f) => f.file === 'components/ui/button.tsx' && f.rule === 'unresolved'))
+})
+
+test('sizes: a mantis-cn older than the size tokens is reported, so a size passed in is never silently ignored', () => {
+  const theme = readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8')
+  const files = { 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': theme, 'app/page.tsx': 'export default () => <button className="h-control" />\n' }
+  const oldHelper = 'import { createCn } from "cn/config"\nexport const TEXT_STYLES = ["display-sm"]\nexport const cn = createCn({ extend: { classGroups: { "font-size": [{ text: TEXT_STYLES }] } } })\n'
+  const stale = JSON.parse(run(app({ ...files, 'lib/mantis-cn.ts': oldHelper }), ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved')
+  assert.equal(stale.length, 1, JSON.stringify(stale))
+  assert.equal(stale[0].file, 'lib/mantis-cn.ts')
+  assert.match(stale[0].fix, /npx shadcn@latest add @mantis\/mantis-cn --overwrite/)
+  const current = run(app({ ...files, 'lib/mantis-cn.ts': readFileSync(new URL('../lib/mantis-cn.ts', import.meta.url), 'utf8') }), ['--json'])
+  assert.equal(JSON.parse(current.stdout).findings.filter((f) => f.rule === 'unresolved').length, 0)
+})
+
+test('sizes: a theme the check cannot find is a note, not a finding the reinstall advice cannot clear', () => {
+  const root = app({ 'app/globals.css': '@import "tailwindcss";\n@import "@/app/mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8'), 'app/page.tsx': 'export default () => <button className="h-control" />\n' })
+  const report = JSON.parse(run(root, ['--json']).stdout)
+  assert.equal(report.findings.filter((f) => f.rule === 'unresolved').length, 0, JSON.stringify(report.findings))
+  assert.ok(report.summary.notes.some((n) => /could not read @\/app\/mantis-theme\.css/.test(n)), JSON.stringify(report.summary.notes))
+})
+
+test('sizes: max-h- has the size tokens too (Tailwind reads the height keys for it)', () => {
+  assert.match(offScaleRule('max-h-9').fix, /^→ max-h-control \(36px\)/)
+  assert.equal(offScaleRule('max-h-control'), null)
+})
+
+test('sizes: an outdated theme is one finding that names every size it is missing, including stylesheet reads', () => {
+  const root = app({
+    'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n',
+    'app/mantis-theme.css': '@theme inline {\n}\n',
+    'app/page.tsx': 'export default () => <><button className="h-control" /><i className="size-icon-sm max-h-tap" /></>\n',
+    'app/panel.css': '.panel { height: var(--size-control-lg); }\n',
+  })
+  const stale = JSON.parse(run(root, ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved')
+  assert.equal(stale.length, 1, JSON.stringify(stale))
+  assert.equal(stale[0].value, 'h-control')
+  for (const name of ['h-control', 'size-icon-sm', 'max-h-tap', 'var(--size-control-lg)']) assert.ok(stale[0].fix.includes(name), `${name} missing from: ${stale[0].fix}`)
+  // the advice says what else the reinstall replaces
+  assert.match(stale[0].fix, /also replaces the installed primitives, mantis-cn and MANTIS\.md/)
 })

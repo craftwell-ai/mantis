@@ -211,9 +211,9 @@ export function CommandPalette({
         </DialogDescription>
 
         <div className="flex flex-col gap-3 p-3 pb-2">
-          <InputGroup className="h-11 rounded-xl">
+          <InputGroup className="h-tap rounded-xl">
             <InputGroupAddon>
-              <Icon name="search" className="size-5" />
+              <Icon name="search" className="size-icon-xl" />
             </InputGroupAddon>
             <InputGroupInput
               autoFocus
@@ -256,7 +256,7 @@ export function CommandPalette({
               </ToggleGroupItem>
               {categories.map((entry) => (
                 <ToggleGroupItem key={entry.value} value={entry.value} className="border border-separator">
-                  {entry.icon ? <Icon name={entry.icon} className="size-3.5" /> : null}
+                  {entry.icon ? <Icon name={entry.icon} className="size-icon-sm" /> : null}
                   {entry.label}
                 </ToggleGroupItem>
               ))}
@@ -311,7 +311,7 @@ export function CommandPalette({
                           ) : null}
                           <span className="flex items-center gap-1 font-grotesk text-sm font-bold text-foreground uppercase">
                             {card.title}
-                            <Icon name="north_east" className="size-3.5" />
+                            <Icon name="north_east" className="size-icon-sm" />
                           </span>
                           <span className="line-clamp-1 text-xs text-foreground">{card.description}</span>
                         </div>

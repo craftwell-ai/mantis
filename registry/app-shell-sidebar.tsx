@@ -53,7 +53,7 @@ export interface AppShellSidebarProps extends Omit<React.ComponentProps<"div">, 
 }
 
 const rowClass =
-  "flex h-9 w-full items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium outline-none transition-[background-color,color] duration-(--duration-normal) hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass aria-[current=page]:text-foreground"
+  "flex h-control w-full items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium outline-none transition-[background-color,color] duration-(--duration-normal) hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass aria-[current=page]:text-foreground"
 
 function SidebarRow({
   item,
@@ -73,7 +73,7 @@ function SidebarRow({
       onClick={onNavigate}
       className={cn(rowClass, "text-muted-foreground", collapsed && "size-10 justify-center px-0")}
     >
-      <Icon name={item.icon} className="size-5" />
+      <Icon name={item.icon} className="size-icon-xl" />
       <span className={cn("truncate", collapsed && "sr-only")}>{item.label}</span>
       {item.badge ? (
         collapsed ? (

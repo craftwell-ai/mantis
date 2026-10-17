@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.7.0] - 2026-10-17
+- Size tokens: icons (size-icon-3xs…3xl, 8–28px), controls (h-control-2xs…3xl, Button's own ladder) and the 44px tap target (h-tap) are named tokens, and the primitives and blocks use them. Same pixels. mantis-cn knows the names, so a size passed to a component replaces its own. mantis-check suggests them (h-9 → h-control) and reports a theme or mantis-cn too old for them.
+
 ## [1.6.1] - 2026-10-16
 - mantis-check uses quill-check's rule ids and labels: off-scale steps and Tailwind's own named values are both `scale` (was off-scale and stock-value), and the report pads labels to 12 like quill-check, so the Quill CLI shows both systems' findings the same way.
 

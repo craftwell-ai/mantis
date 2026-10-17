@@ -19,7 +19,7 @@
   "rules": [
     {
       "id": "inherit-size-and-color",
-      "do": "Let the icon take its size and color from the text beside it, so it sits in line with its label.",
+      "do": "Let the icon take its size and color from the text beside it, so it sits in line with its label. When it needs its own size, use a size token (size-icon-sm 14px, size-icon-md 16px…).",
       "dont": "Give an icon inside a control its own large size or a different color; it drifts away from its label.",
       "visual": true
     },

@@ -291,7 +291,7 @@ export function ShareDialog({
             >
               {VISIBILITY.map((option) => (
                 <RadioGroupCard key={option.value} value={option.value} className="gap-1 p-3 pr-8">
-                  <Icon name={option.icon} className="mb-2 size-5 text-muted-foreground" />
+                  <Icon name={option.icon} className="mb-2 size-icon-xl text-muted-foreground" />
                   <span className="text-sm font-medium">{option.title}</span>
                   <span data-contrast-exempt className="text-xs text-muted-foreground">
                     {option.description}

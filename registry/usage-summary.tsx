@@ -151,7 +151,7 @@ function UsageSummary({
 
       <div className="flex flex-col gap-4 rounded-2xl bg-card p-4">
         <h3 className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Icon name="data_usage" className="size-4" />
+          <Icon name="data_usage" className="size-icon-md" />
           Spend overview
         </h3>
 
@@ -159,7 +159,7 @@ function UsageSummary({
           {allStats.map((stat) => (
             <div key={stat.label} className="flex items-center gap-3 rounded-xl bg-glass p-3">
               <span aria-hidden="true" className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-glass text-muted-foreground">
-                <Icon name={stat.icon} className="size-4" />
+                <Icon name={stat.icon} className="size-icon-md" />
               </span>
               <p className="flex min-w-0 flex-col">
                 <span className="text-base font-semibold tabular-nums">{stat.value}</span>
@@ -202,7 +202,7 @@ function UsageSummary({
 
       <div className="flex flex-col gap-2 rounded-2xl bg-card p-4">
         <h3 id={historyId} className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Icon name="receipt_long" className="size-4" />
+          <Icon name="receipt_long" className="size-icon-md" />
           Usage history
           <Badge variant="neutral" aria-label={`${filtered.length} entries`}>
             {filtered.length}

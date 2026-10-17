@@ -19,9 +19,9 @@ const iconTileVariants = cva("inline-flex shrink-0 items-center justify-center",
     },
     /** Tile size: sm 20px, md 24px, lg 32px. */
     size: {
-      sm: "size-5 rounded-md [&_svg]:size-3",
-      md: "size-6 rounded-md [&_svg]:size-3.5",
-      lg: "size-8 rounded-lg [&_svg]:size-4.5",
+      sm: "size-5 rounded-md [&_svg]:size-icon-xs",
+      md: "size-6 rounded-md [&_svg]:size-icon-sm",
+      lg: "size-8 rounded-lg [&_svg]:size-icon-lg",
     },
   },
   defaultVariants: { color: "neutral", size: "md" },

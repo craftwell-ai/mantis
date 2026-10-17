@@ -51,7 +51,7 @@ function RadioGroupCard({ className, children, ...props }: RadioPrimitive.Root.P
       {children}
       <span
         aria-hidden="true"
-        className="absolute top-3 right-3 flex size-4.5 items-center justify-center rounded-full border-2 border-input group-data-checked/radio-card:border-transparent group-data-checked/radio-card:bg-brand group-data-checked/radio-card:text-primary-foreground [&_svg]:size-3"
+        className="absolute top-3 right-3 flex size-4.5 items-center justify-center rounded-full border-2 border-input group-data-checked/radio-card:border-transparent group-data-checked/radio-card:bg-brand group-data-checked/radio-card:text-primary-foreground [&_svg]:size-icon-xs"
       >
         <RadioPrimitive.Indicator render={<Icon name="check" />} />
       </span>

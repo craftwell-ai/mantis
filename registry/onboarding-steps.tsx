@@ -126,7 +126,7 @@ function OnboardingSteps({
                 value={option.value}
                 className="min-h-40 items-center justify-center gap-2 px-6 py-8 text-center"
               >
-                {option.icon ? <Icon name={option.icon} className="mb-2 size-7" /> : null}
+                {option.icon ? <Icon name={option.icon} className="mb-2 size-icon-3xl" /> : null}
                 <span className="text-base font-medium">{option.label}</span>
                 {option.description ? (
                   <span className="text-xs text-muted-foreground">{option.description}</span>
@@ -146,7 +146,7 @@ function OnboardingSteps({
                     checked ? "border-brand" : "border-transparent"
                   )}
                 >
-                  {option.icon ? <Icon name={option.icon} className="size-4.5 text-muted-foreground" /> : null}
+                  {option.icon ? <Icon name={option.icon} className="size-icon-lg text-muted-foreground" /> : null}
                   <span className="flex-1">{option.label}</span>
                   <Checkbox
                     size="sm"

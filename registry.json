@@ -64,7 +64,7 @@
       "name": "mantis-cn",
       "type": "registry:lib",
       "title": "Mantis cn",
-      "description": "The class-name helper every Mantis component imports: shadcn's cn, taught Mantis's text styles (text-display-lg, text-title-sm…) so a color class never silently drops them. Installed by the base item.",
+      "description": "The class-name helper every Mantis component imports: shadcn's cn, taught Mantis's text styles (text-display-lg, text-title-sm…) so a color class never silently drops them, and its size tokens (h-control, size-icon-md…) so a size passed in replaces the component's own. Installed by the base item.",
       "dependencies": [
         "cn"
       ],

@@ -137,7 +137,7 @@ export function PromptComposer({
         </Select>
         <Select items={aspectRatios} value={aspectRatio} onValueChange={(next) => next && setAspectRatio(next)}>
           <SelectTrigger aria-label="Aspect ratio">
-            <Icon name="image" className="size-4" />
+            <Icon name="image" className="size-icon-md" />
             <SelectValue />
           </SelectTrigger>
           <SelectContent alignItemWithTrigger={false} align="start">
@@ -170,7 +170,7 @@ export function PromptComposer({
             <>
               Generate
               <span className="inline-flex items-center gap-0.5 font-medium tabular-nums">
-                <Icon name="star_shine-fill" className="size-3.5" />
+                <Icon name="star_shine-fill" className="size-icon-sm" />
                 {credits}
                 <span className="sr-only">{credits === 1 ? "credit" : "credits"}</span>
               </span>

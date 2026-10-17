@@ -118,7 +118,7 @@ function SessionList({ sessions: sessionsProp, onSignOut, onSignOutOthers, class
               aria-hidden="true"
               className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-glass text-foreground shadow-inset-glass"
             >
-              <Icon name={DEVICE_ICON[session.device]} className="size-5" />
+              <Icon name={DEVICE_ICON[session.device]} className="size-icon-xl" />
             </span>
             <div className="flex min-w-0 flex-1 flex-col gap-0.5">
               <p className="flex flex-wrap items-center gap-2 text-sm font-medium">
@@ -128,7 +128,7 @@ function SessionList({ sessions: sessionsProp, onSignOut, onSignOutOthers, class
                 {session.current ? <Badge variant="outline">This device</Badge> : null}
               </p>
               <p className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground">
-                <Icon name="location_on" className="size-3.5" />
+                <Icon name="location_on" className="size-icon-sm" />
                 <span>{session.location}</span>
                 <span aria-hidden="true">·</span>
                 <time dateTime={session.lastActiveDateTime}>{session.lastActive}</time>

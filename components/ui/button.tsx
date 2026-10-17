@@ -6,7 +6,7 @@ import { cn } from "@/lib/mantis-cn"
 // Interaction is the reference's own: hover dims to 80% brightness, press to
 // 60%, over a 0.2s standard ease, on every variant.
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-none select-none transition-[filter,background-color,color,box-shadow] duration-(--duration-normal) ease-in-out hover:brightness-80 active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-none select-none transition-[filter,background-color,color,box-shadow] duration-(--duration-normal) ease-in-out hover:brightness-80 active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-icon-md",
   {
     variants: {
       /** Visual weight: default (white) for everyday actions, brand (lime) for the one main call to action, destructive for irreversible ones; the rest are quieter secondary styles. */
@@ -37,19 +37,19 @@ const buttonVariants = cva(
       },
       /** Height and padding from 2xs (16px) to 3xl (64px). The icon-* sizes are square, for icon-only buttons, which also need an aria-label. */
       size: {
-        "2xs": "h-4 gap-1 rounded-xs px-1 text-2xs font-semibold [&_svg:not([class*='size-'])]:size-3",
-        xs: "h-6 gap-1 rounded-lg px-2.5 text-sm [&_svg:not([class*='size-'])]:size-3.5",
-        sm: "h-8 rounded-lg px-3 text-sm",
-        default: "h-9 rounded-control px-3 text-sm",
-        lg: "h-10 rounded-control px-4 text-sm font-semibold",
-        xl: "h-12 rounded-xl px-4 text-base font-semibold",
-        cta: "h-13 rounded-xl px-6 text-sm font-semibold",
-        "2xl": "h-14 gap-2 rounded-xl px-3.5 text-lg font-semibold",
-        "3xl": "h-16 gap-2 rounded-xl px-4 text-lg font-semibold",
-        "icon-xs": "size-6 rounded-lg [&_svg:not([class*='size-'])]:size-3.5",
-        "icon-sm": "size-8 rounded-lg",
-        icon: "size-9 rounded-control",
-        "icon-lg": "size-10 rounded-control",
+        "2xs": "h-control-2xs gap-1 rounded-xs px-1 text-2xs font-semibold [&_svg:not([class*='size-'])]:size-icon-xs",
+        xs: "h-control-xs gap-1 rounded-lg px-2.5 text-sm [&_svg:not([class*='size-'])]:size-icon-sm",
+        sm: "h-control-sm rounded-lg px-3 text-sm",
+        default: "h-control rounded-control px-3 text-sm",
+        lg: "h-control-lg rounded-control px-4 text-sm font-semibold",
+        xl: "h-control-xl rounded-xl px-4 text-base font-semibold",
+        cta: "h-control-cta rounded-xl px-6 text-sm font-semibold",
+        "2xl": "h-control-2xl gap-2 rounded-xl px-3.5 text-lg font-semibold",
+        "3xl": "h-control-3xl gap-2 rounded-xl px-4 text-lg font-semibold",
+        "icon-xs": "size-control-xs rounded-lg [&_svg:not([class*='size-'])]:size-icon-sm",
+        "icon-sm": "size-control-sm rounded-lg",
+        icon: "size-control rounded-control",
+        "icon-lg": "size-control-lg rounded-control",
       },
     },
     compoundVariants: [

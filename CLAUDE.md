@@ -34,6 +34,8 @@ AGENTS.md (imported above) is how to *use* Mantis: components, props, tokens, ru
 - **One mode: `dark`.** The source ships a single dark theme; `tokens.modes` is `['dark']` and there are no accents. Do not invent a light mode or accents. If one is ever wanted, it is an authored addition and goes through a confirmation with the owner.
 - Color roles: lime (`accent.base`, `--ring`) is the brand color. It marks **the one primary call to action on a screen** (generate, sign up, buy or upgrade a plan, the main marketing CTA, or the main action of a focused flow such as upload, download, follow), plus focus, selection and highlight badges (New, plan/allowance tags). One lime action per view or card; no large lime areas besides the announcement bar and the marketing footer (owner decision, 2026-10-02, matching the reference). **`--primary` is white**, the everyday confirm/save action in forms, settings and dialogs. Pink and blue source colors are for sale/discount/value tags and badges only; plans are bought with the lime button, not commerce blue.
 - A new color needs a new semantic role, not a new hue for decoration.
+- **Sizes (owner-approved 2026-10-17):** icon, control and tap sizes are tokens (`tokens.size`). Five icon sizes alias the source's icon tokens under Mantis's own names (the source's `icon-sm` is Mantis's `icon-md`); 8, 10, 14 and 18px icons, the control ladder and the 44px tap target are measured from Mantis's primitives and authored. Panel widths and breakpoints are not tokens yet.
+- **A new named utility needs `lib/mantis-cn.ts` too.** `cn` only merges classes it recognises: a name it does not know (`h-control`, `text-display-lg`) sits beside the class it should replace, and the stylesheet picks one. Register every new token-named utility there; `scripts/mantis-cn.test.mjs` checks the lists match the tokens (found 2026-10-17, when 19 stories changed size before the size names were registered).
 
 ## Never hand-edit generated files
 
@@ -124,7 +126,7 @@ The Paper file "Mantis Design System" has one page per item: `❖` components, `
 
 ## Maintained copies of shadcn components
 
-`dialog`, `dropdown-menu` and `sonner` are this registry's own copies of shadcn's `base-nova` versions, with Material Symbols in place of Lucide. When shadcn updates one upstream, take the new file and re-apply only the icon swap and the one-line prop descriptions.
+`dialog`, `dropdown-menu` and `sonner` are this registry's own copies of shadcn's `base-nova` versions, with Material Symbols in place of Lucide. When shadcn updates one upstream, take the new file and re-apply only the icon swap, the size tokens (`size-4` on a glyph → `size-icon-md`, Button's heights → `h-control…`) and the one-line prop descriptions.
 
 ## Stories and usage guides
 

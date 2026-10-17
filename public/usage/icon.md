@@ -11,7 +11,7 @@ Draws a Material Symbols icon by name, sized to the text around it and painted i
 - **Text alone** — when no symbol would be understood faster than the word itself
 
 ### Rules
-- **Do:** Let the icon take its size and color from the text beside it, so it sits in line with its label. **Don't:** Give an icon inside a control its own large size or a different color; it drifts away from its label.
+- **Do:** Let the icon take its size and color from the text beside it, so it sits in line with its label. When it needs its own size, use a size token (size-icon-sm 14px, size-icon-md 16px…). **Don't:** Give an icon inside a control its own large size or a different color; it drifts away from its label.
 - **Do:** Pass `label` only when the icon carries meaning on its own; next to visible text, leave it decorative. **Don't:** Label an icon that sits beside a text label; screen readers then read the same word twice.
 - **Do:** Use a name this system ships; to add one, list it in `scripts/icons.manifest.mjs` and rebuild. **Don't:** Paste in an SVG from elsewhere, or mix in another icon set.
 

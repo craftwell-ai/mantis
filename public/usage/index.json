@@ -191,7 +191,7 @@
       "name": "icon",
       "kind": "component",
       "summary": "Draws a Material Symbols icon by name, sized to the text around it and painted in its color.",
-      "hash": "ba21960271f51a090934154a12ad3b4364b6acc3cca6ed8932d3c2fad43907b0"
+      "hash": "4cac60f20ccb2e5a67118e2df93fd0d30065b96967c917e372e95a4622a4d559"
     },
     {
       "name": "icon-tile",

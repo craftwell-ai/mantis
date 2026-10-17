@@ -5,10 +5,10 @@
 // Usage: node scripts/mantis-check.mjs [--dir <path>]… [--css <tailwind entry>] [--include-ui] [--json] [--quiet]
 import { readFileSync, readdirSync, statSync, existsSync, realpathSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { join, relative, resolve, extname } from 'node:path'
+import { join, relative, resolve, extname, dirname } from 'node:path'
 
 export const DATA = {
- "version": "1.6.1",
+ "version": "1.7.0",
  "colors": [
   "background",
   "foreground",
@@ -224,6 +224,27 @@ export const DATA = {
   "4.5": 18,
   "7.5": 30
  },
+ "sizes": {
+  "icon-3xs": 8,
+  "icon-2xs": 10,
+  "icon-xs": 12,
+  "icon-sm": 14,
+  "icon-md": 16,
+  "icon-lg": 18,
+  "icon-xl": 20,
+  "icon-2xl": 24,
+  "icon-3xl": 28,
+  "control-2xs": 16,
+  "control-xs": 24,
+  "control-sm": 32,
+  "control": 36,
+  "control-lg": 40,
+  "control-xl": 48,
+  "control-cta": 52,
+  "control-2xl": 56,
+  "control-3xl": 64,
+  "tap": 44
+ },
  "weights": {
   "normal": 400,
   "medium": 500,
@@ -346,6 +367,38 @@ export function listFiles(root, { dirs = [root], includeUi = false } = {}) {
   }
   for (const dir of dirs) if (existsSync(dir)) walk(dir)
   return out
+}
+
+// A size token only has CSS if the app's copy of the theme defines it. An app that updates a
+// component but not the theme gets a class with no CSS, and the control collapses without an error.
+// components/ui is scanned whatever --include-ui says: an updated primitive is what outruns the theme.
+// Each name maps to the theme key that gives it CSS: h-control needs --height-control (max-h reads the
+// height keys too), and a stylesheet's var(--size-control) needs the runtime --size-control.
+const SIZE_FAMILIES = { w: 'width', h: 'height', size: 'size', 'min-w': 'min-width', 'min-h': 'min-height', 'max-h': 'height' }
+const SIZE_KEYS = Object.keys(DATA.sizes).join('|')
+const SIZE_CLASS = new RegExp(`^(${Object.keys(SIZE_FAMILIES).join('|')})-(${SIZE_KEYS})$`)
+const SIZE_VAR = new RegExp(`var\\(--size-(${SIZE_KEYS})\\)`, 'g')
+export function sizeClassesIn(cwd) {
+  const seen = new Map()
+  for (const path of listFiles(cwd, { includeUi: true })) {
+    const text = readFileSync(path, 'utf8')
+    const file = relative(cwd, path)
+    if (path.endsWith('.css')) {
+      if (THEME_FILE.test(path)) continue
+      // Mantis's own generated token block defines these variables; it does not read them.
+      const body = text.replace(/\/\* @tokens:start \*\/[\s\S]*?\/\* @tokens:end \*\//g, (block) => block.replace(/[^\n]/g, ' '))
+      for (const m of body.matchAll(SIZE_VAR)) {
+        const before = body.slice(0, m.index)
+        if (!seen.has(m[0])) seen.set(m[0], { file, line: before.split('\n').length, col: m.index - before.lastIndexOf('\n'), key: m[1], needs: `--size-${m[1]}:` })
+      }
+      continue
+    }
+    for (const c of extractCandidates(text)) {
+      const m = c.base.match(SIZE_CLASS)
+      if (m && !seen.has(c.base)) seen.set(c.base, { file, line: c.line, col: c.col, key: m[2], needs: `--${SIZE_FAMILIES[m[1]]}-${m[2]}:` })
+    }
+  }
+  return seen
 }
 
 // ------------------------------------------------------------------ candidates
@@ -476,9 +529,21 @@ const stepList = (kind) => Object.entries(SCALES[kind].table).sort((a, b) => a[1
 const asClass = (prefix, key, kind) => (kind === 'border' && key === '1' ? prefix : kind === 'weight' ? `font-${key}` : `${prefix}-${key}`)
 const asTheme = (kind, key) => `--theme(--${SCALES[kind].theme}-${String(key).replace('.', '_')})`
 
-// The nearest steps, written the way the author types them: `p-3 (12px) or p-4 (16px)`.
-const stepNames = (kind, value, write, negative = false) =>
-  nearestSteps(kind, value).map(([key, v]) => `${negative ? '-' : ''}${write(key)} (${v}${unit(kind)})`).join(' or ')
+// Size tokens exist only as w-, h-, size-, min-w-, min-h- and max-h- classes and as --size-* variables,
+// so max-w-, basis- and per-side spacing never get one. Returns how to write a token, or null.
+const sizeWriter = (write) => {
+  const probe = write('@key')
+  if (probe === asTheme('size', '@key')) return (key) => `var(--size-${key})`
+  return /^(?:className=")?(?:w|h|size|min-w|min-h|max-h)-@key"?$/.test(probe) ? write : null
+}
+// The nearest steps, written the way the author types them: `p-3 (12px) or p-4 (16px)`. A size
+// that equals a named size token gets the token instead: it says what the size is for.
+const stepNames = (kind, value, write, negative = false) => {
+  const named = kind === 'size' && !negative ? sizeWriter(write) : null
+  const tokens = named ? Object.entries(DATA.sizes).filter(([, px]) => px === value) : []
+  if (tokens.length) return tokens.map(([key, px]) => `${named(key)} (${px}px)`).join(' or ')
+  return nearestSteps(kind, value).map(([key, v]) => `${negative ? '-' : ''}${write(key)} (${v}${unit(kind)})`).join(' or ')
+}
 const scaleTail = (kind) => (kind === 'size' ? `, or the component's size prop; the ${SCALES.size.label}: ${stepList('size')}` : `; the ${SCALES[kind].label}: ${stepList(kind)}`)
 const TOO_BIG = () => `→ the component's size prop, or let the layout size it (w-full, flex-1, grid columns): Mantis has no size step above ${MAX_SPACE}px`
 
@@ -794,6 +859,31 @@ export function checkEntry(cwd, css) {
   if (!lines.some((line) => /@import\s+["'][^"']*mantis-theme\.css["']/.test(line))) findings.push({ file, line: 1, col: 1, rule: 'unresolved', value: 'mantis-theme.css', fix: NOT_WIRED })
   const stock = lines.findIndex((line) => /@custom-variant\s+dark\s*\(\s*&:is\(\s*\.dark\b/.test(line))
   if (stock >= 0) findings.push({ file, line: stock + 1, col: 1, rule: 'dark-variant', value: '@custom-variant dark', fix: DARK_FIX })
+  const sizes = sizeClassesIn(cwd)
+  const themeImport = lines.map((line) => line.match(/@import\s+["']([^"']*mantis-theme\.css)["']/)).find(Boolean)
+  if (sizes.size && themeImport) {
+    // Only a relative import is followed; an alias or package path is reported as unchecked rather than guessed.
+    const themePath = resolve(dirname(entry), themeImport[1])
+    if (!existsSync(themePath)) notes.push(`note: could not read ${themeImport[1]} from ${file}, so the size tokens were not checked against the theme`)
+    else {
+      // One root cause, one finding: placed at the first use, naming every size the theme lacks.
+      const theme = readFileSync(themePath, 'utf8')
+      const missing = [...sizes].filter(([, at]) => !theme.includes(at.needs))
+      if (missing.length) {
+        const [first, at] = missing[0]
+        const names = missing.map(([name]) => name).join(', ')
+        findings.push({ file: at.file, line: at.line, col: at.col, rule: 'unresolved', value: first, fix: `→ the app's mantis-theme.css predates the size tokens, so ${names} ${missing.length === 1 ? 'has' : 'have'} no CSS; reinstall the theme: npx shadcn@latest add @mantis/base --overwrite (this also replaces the installed primitives, mantis-cn and MANTIS.md with the current ones)` })
+      }
+    }
+  }
+  // The same gap in the class-merge helper: an older mantis-cn does not know the size names, so a size
+  // passed to a component (className="h-12") sits beside the component's own and the stylesheet picks one.
+  const helper = sizes.size ? listFiles(cwd, { includeUi: true }).find((path) => /(^|[\\/])mantis-cn\.[jt]sx?$/.test(path)) : null
+  if (helper) {
+    const source = readFileSync(helper, 'utf8')
+    const missing = [...new Set([...sizes.values()].map((at) => at.key))].filter((key) => !source.includes(`"${key}"`) && !source.includes(`'${key}'`))
+    if (missing.length) findings.push({ file: relative(cwd, helper), line: 1, col: 1, rule: 'unresolved', value: 'mantis-cn', fix: `→ this mantis-cn predates the size tokens (${missing.join(', ')}), so a size passed to a component does not replace its own; reinstall it: npx shadcn@latest add @mantis/mantis-cn --overwrite` })
+  }
   return { findings, notes }
 }
 

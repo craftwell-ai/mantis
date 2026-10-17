@@ -83,7 +83,7 @@ function SettingsSection({ title, description, rows = [], children, dangerZone, 
                     aria-hidden="true"
                     className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-glass text-foreground shadow-inset-glass"
                   >
-                    <Icon name={row.icon} className="size-4.5" />
+                    <Icon name={row.icon} className="size-icon-lg" />
                   </span>
                 ) : null}
                 <div className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -129,7 +129,7 @@ function DangerZone({
     >
       <div className="flex flex-col gap-1">
         <h3 id={`${id}-title`} className="flex items-center gap-2 text-sm font-medium text-destructive">
-          <Icon name="warning" className="size-4" />
+          <Icon name="warning" className="size-icon-md" />
           {title}
         </h3>
         <p className="text-xs text-muted-foreground">{description}</p>
@@ -138,7 +138,7 @@ function DangerZone({
         <ul className="flex flex-col gap-1.5 text-xs">
           {consequences.map((line) => (
             <li key={line} className="flex items-center gap-2">
-              <Icon name="close" className="size-3.5 text-destructive" />
+              <Icon name="close" className="size-icon-sm text-destructive" />
               {line}
             </li>
           ))}

@@ -48,3 +48,17 @@ test('MANTIS.md (shipped to apps) is in sync and only points at things an app ha
     assert.ok(!shipped.includes(repoOnly), `MANTIS.md mentions repo-only ${repoOnly}`)
   }
 })
+
+test('a compound component lists its parts once, after its root name', () => {
+  const line = rendered.split('\n').find((l) => l.startsWith('- **dropdown-menu**'))
+  assert.match(line, /\*\* DropdownMenu, …CheckboxItem, …Content,/)
+})
+
+test('every · separator has a space on both sides', () => {
+  assert.deepEqual(rendered.match(/\S·|·\S/g) ?? [], [])
+})
+
+test('the size line tells app code to merge classes with mantis-cn, which knows the size names', () => {
+  const line = rendered.split('\n').find((l) => l.startsWith('- **Sizes**'))
+  assert.match(line, /`cn` from `@\/lib\/mantis-cn`/)
+})

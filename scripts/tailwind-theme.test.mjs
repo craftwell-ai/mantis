@@ -5,7 +5,7 @@
 // tokens/mantis.tokens.mjs: Mantis becomes the source of every value, with no visual change.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname } from 'node:path'
 import { compile } from 'tailwindcss'
@@ -30,7 +30,10 @@ async function build(withMantis, classes) {
 function variables() {
   const map = new Map()
   for (const css of [readFileSync(STOCK_THEME, 'utf8'), readFileSync(THEME_PATH, 'utf8')]) {
-    for (const m of css.matchAll(/(--[\w-]+):\s*([^;]+);/g)) if (!map.has(m[1]) || m[2].includes('mantis')) map.set(m[1], m[2].trim())
+    for (const m of css.matchAll(/(--[\w-]+):\s*([^;]+);/g)) {
+      if (m[2].trim() === `var(${m[1]})`) continue // @theme inline key pointing at its runtime variable
+      if (!map.has(m[1]) || m[2].includes('mantis')) map.set(m[1], m[2].trim())
+    }
   }
   // The source layer's own values win over stock names that Mantis also defines.
   for (const m of readFileSync(THEME_PATH, 'utf8').matchAll(/(--mantis-[\w-]+):\s*([^;]+);/g)) map.set(m[1], m[2].trim())
@@ -117,4 +120,35 @@ test('border widths Mantis does not have are left to Tailwind (mantis-check flag
   const css = await build(true, ['border-3', 'border-4'])
   assert.match(rule(css, 'border-3').written, /border-width: 3px/)
   assert.match(rule(css, 'border-4').written, /border-width: 4px/)
+})
+
+test('size tokens: the inspector shows the token, the pixels match the old step, and names stay out of spacing', async () => {
+  const pairs = { 'h-control': 'h-9', 'size-control-sm': 'size-8', 'min-w-control-lg': 'min-w-10', 'h-control-cta': 'h-13', 'h-tap': 'h-11', 'size-icon-sm': 'size-3.5', 'size-icon-lg': 'size-4.5', 'size-icon-3xs': 'size-2', 'w-icon-md': 'w-4' }
+  const css = await build(true, [...Object.keys(pairs), ...Object.values(pairs), 'p-control', 'gap-icon-sm', 'm-tap'])
+  for (const [token, step] of Object.entries(pairs)) {
+    const named = rule(css, token)
+    assert.match(named.written, /var\(--size-/, `${token}: ${named.written}`)
+    assert.equal(named.computed, rule(css, step).computed, `${token} is not the same size as ${step}`)
+  }
+  for (const leak of ['p-control', 'gap-icon-sm', 'm-tap']) assert.equal(css.indexOf(`.${leak} {`), -1, `${leak} must not exist`)
+})
+
+test('every named width, height or size class in the source has CSS, so a misspelt token (h-contrl) cannot ship', async () => {
+  // A named class Tailwind cannot resolve produces no CSS and no error: the element just loses its size.
+  const dirs = ['components/ui', 'components/home', 'registry', 'stories', 'app']
+  const used = new Map()
+  for (const dir of dirs) {
+    for (const name of readdirSync(new URL(`../${dir}`, import.meta.url))) {
+      if (!name.endsWith('.tsx')) continue
+      const text = readFileSync(new URL(`../${dir}/${name}`, import.meta.url), 'utf8')
+      for (const m of text.matchAll(/(?<=^|[\s"'`:])((?:min-|max-)?[wh]|size)-([a-z][a-z0-9-]*)(?=[\s"'`!]|$)/gm)) {
+        if (/\bid=["']$/.test(text.slice(0, m.index))) continue // a usage rule id such as id="size-to-the-answer"
+        if (!used.has(m[0])) used.set(m[0], `${dir}/${name}`)
+      }
+    }
+  }
+  assert.ok(used.has('h-control') && used.has('size-icon-md'), 'the scan found no size tokens; check its pattern')
+  const css = await build(true, [...used.keys()])
+  const missing = [...used].filter(([cls]) => !css.includes(`.${cls} {`)).map(([cls, file]) => `${cls} (${file})`)
+  assert.deepEqual(missing, [])
 })

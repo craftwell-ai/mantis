@@ -55,13 +55,13 @@ const theme = cn(
 
 // Tailwind's reset removes padding from every element, Media Chrome's included, so each control's
 // size is set here: 36px square, which clears the 24px minimum target size.
-const control = "size-9 rounded-lg p-2"
+const control = "size-control rounded-lg p-2"
 
 // Every control's picture is a Mantis icon dropped into the slot Media Chrome leaves for it.
 function Glyph({ slot, name }: { slot: string; name: IconName }) {
   return (
     <span slot={slot} className="flex">
-      <Icon name={name} className="size-5" />
+      <Icon name={name} className="size-icon-xl" />
     </span>
   )
 }
@@ -142,14 +142,14 @@ function VideoPlayer({
             <Glyph slot="pause" name="pause" />
           </MediaPlayButton>
           <MediaTimeDisplay showDuration className="px-2 tabular-nums" />
-          <MediaTimeRange className="h-9 flex-1 px-2" />
+          <MediaTimeRange className="h-control flex-1 px-2" />
           <MediaMuteButton className={control}>
             <Glyph slot="high" name="volume_up" />
             <Glyph slot="medium" name="volume_down" />
             <Glyph slot="low" name="volume_down" />
             <Glyph slot="off" name="volume_off" />
           </MediaMuteButton>
-          <MediaVolumeRange className="hidden h-9 w-20 px-2 @md:inline-flex" />
+          <MediaVolumeRange className="hidden h-control w-20 px-2 @md:inline-flex" />
           {captionsSrc ? (
             // An on/off control, so it is announced as a switch; a plain button may not carry a checked state.
             <MediaCaptionsButton

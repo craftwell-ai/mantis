@@ -58,7 +58,7 @@ function Thumb({ file }: { file: File }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={url} alt="" className="size-full object-cover" onError={() => setUrl(undefined)} />
       ) : (
-        <Icon name={isImage ? "image" : file.type.startsWith("video/") ? "movie" : file.type.startsWith("audio/") ? "music_note" : "folder"} className="size-5" />
+        <Icon name={isImage ? "image" : file.type.startsWith("video/") ? "movie" : file.type.startsWith("audio/") ? "music_note" : "folder"} className="size-icon-xl" />
       )}
     </span>
   )
@@ -133,7 +133,7 @@ function UploadDropzone({
       >
         <input {...getInputProps({ "aria-label": label })} />
         <span className="flex size-11 items-center justify-center rounded-full bg-glass text-foreground">
-          <Icon name={isFull ? "check" : "upload"} className="size-5" />
+          <Icon name={isFull ? "check" : "upload"} className="size-icon-xl" />
         </span>
         <div className="flex flex-col gap-1">
           <p className="text-sm font-medium text-foreground">
@@ -152,7 +152,7 @@ function UploadDropzone({
       <div role="alert" className="flex flex-col gap-1 empty:hidden">
         {problems.map((problem) => (
           <p key={problem} className="flex items-start gap-1.5 text-xs text-destructive">
-            <Icon name="error" className="mt-px size-3.5 shrink-0" />
+            <Icon name="error" className="mt-px size-icon-sm shrink-0" />
             {problem}
           </p>
         ))}
