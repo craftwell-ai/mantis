@@ -228,7 +228,7 @@ function ClipThumb({ clip, selected, onSelect }: { clip: VideoStudioClip; select
       // and a plain inset ring is painted under the image, where nobody sees it.
       className={cn(
         "w-36 focus-visible:ring-3",
-        selected && "ring-transparent after:pointer-events-none after:absolute after:inset-0 after:z-10 after:rounded-[inherit] after:ring-2 after:ring-brand after:ring-inset",
+        selected && "ring-transparent after:pointer-events-none after:absolute after:inset-0 after:z-raised after:rounded-[inherit] after:ring-2 after:ring-brand after:ring-inset",
       )}
     >
       {/* A bare ring, not a Spinner: the button's own name already says "Rendering". */}

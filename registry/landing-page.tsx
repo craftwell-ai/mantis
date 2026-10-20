@@ -160,7 +160,7 @@ function LandingPage({
 
   return (
     <div data-slot="landing-page" className={cn("flex min-h-dvh w-full flex-col bg-background", className)}>
-      <TopNavigation brandName={brandName} {...navigation} className="sticky top-0 z-20" />
+      <TopNavigation brandName={brandName} {...navigation} className="sticky top-0 z-sticky" />
 
       <main className="flex flex-1 flex-col items-center gap-24 pb-24">
         <MarketingHero {...hero} />

@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.8.0] - 2026-10-19
+- Opacity, layer, container-width and motion utilities read Mantis tokens (opacity-disabled, z-floating, max-w-md, duration-normal), text sizes take Mantis line heights, and mantis-check flags the rest, including shadcn radius lines left after the theme import (radius-override)
+
 ## [1.7.0] - 2026-10-17
 - Size tokens: icons (size-icon-3xs…3xl, 8–28px), controls (h-control-2xs…3xl, Button's own ladder) and the 44px tap target (h-tap) are named tokens, and the primitives and blocks use them. Same pixels. mantis-cn knows the names, so a size passed to a component replaces its own. mantis-check suggests them (h-9 → h-control) and reports a theme or mantis-cn too old for them.
 

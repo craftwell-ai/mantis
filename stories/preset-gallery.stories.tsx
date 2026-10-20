@@ -90,7 +90,7 @@ export const Loading: Story = {
 // Static tiles for the Do/Don't pairs.
 function Tile({ title, selected = false, check = true, below = false }: { title: string; selected?: boolean; check?: boolean; below?: boolean }) {
   const image = (
-    <img src={photo('orbit', 480, 270)} alt="Placeholder frame for the example preset" className={below ? 'size-16 rounded-lg object-cover' : 'absolute inset-0 -z-10 size-full object-cover'} />
+    <img src={photo('orbit', 480, 270)} alt="Placeholder frame for the example preset" className={below ? 'size-16 rounded-lg object-cover' : 'absolute inset-0 -z-raised size-full object-cover'} />
   )
   if (below) {
     return (
@@ -106,7 +106,7 @@ function Tile({ title, selected = false, check = true, below = false }: { title:
   return (
     <div className={`relative isolate flex aspect-video w-full flex-col justify-end overflow-hidden rounded-xl p-3 ring-2 ${selected ? 'ring-brand' : 'ring-transparent'}`}>
       {image}
-      <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-t from-overlay to-transparent" />
+      <span aria-hidden="true" className="absolute inset-0 -z-raised bg-linear-to-t from-overlay to-transparent" />
       {selected && check ? (
         <span className="absolute top-2 right-2 flex size-5 items-center justify-center rounded-full bg-brand text-brand-foreground">
           <Icon name="check" className="size-3.5" />

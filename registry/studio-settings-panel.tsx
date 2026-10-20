@@ -207,7 +207,7 @@ export function StudioSettingsPanel({
           <button
             type="button"
             onClick={onAddReference}
-            className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-glass-border px-4 py-5 text-center transition-[filter,background-color] duration-(--duration-normal) outline-none hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-glass-border px-4 py-5 text-center transition-[filter,background-color] duration-normal outline-none hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <span className="flex size-8 items-center justify-center rounded-lg bg-glass text-foreground">
               <Icon name="add" />
@@ -248,7 +248,7 @@ export function StudioSettingsPanel({
                   type="button"
                   onClick={onAddReference}
                   aria-label="Add reference image"
-                  className="flex size-full items-center justify-center rounded-lg border border-dashed border-glass-border text-muted-foreground transition-colors duration-(--duration-normal) outline-none hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+                  className="flex size-full items-center justify-center rounded-lg border border-dashed border-glass-border text-muted-foreground transition-colors duration-normal outline-none hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
                 >
                   <Icon name="add" />
                 </button>

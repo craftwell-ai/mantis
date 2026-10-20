@@ -117,8 +117,8 @@ function ProjectCard({
         {hasMenu ? (
           <DropdownMenu>
             <DropdownMenuTrigger
-              // z-10 lifts the trigger above the stretched link so it stays clickable.
-              render={<Button variant="ghost" size="icon-sm" className="relative z-10 -mt-1 -mr-1" />}
+              // z-raised lifts the trigger above the stretched link so it stays clickable.
+              render={<Button variant="ghost" size="icon-sm" className="relative z-raised -mt-1 -mr-1" />}
               aria-label={`More actions for ${name}`}
             >
               <Icon name="more_vert" />

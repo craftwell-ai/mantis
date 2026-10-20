@@ -8,7 +8,7 @@ Mantis is a dark, cinematic design system (shadcn registry on Base UI, Tailwind 
 
 The Mantis repo fails its build on the ones marked ⛔; hold your code to the same bar.
 
-1. ⛔ **Colors come from tokens only.** No hex/rgb, no `bg-[#…]`, no Tailwind palette (`text-white`, `bg-zinc-900`). Use the utilities under *Tokens*. Motion and blur too: `duration-(--duration-normal)`, `backdrop-blur-glass`, never `duration-200` or `backdrop-blur-md`.
+1. ⛔ **Colors come from tokens only.** No hex/rgb, no `bg-[#…]`, no Tailwind palette (`text-white`, `bg-zinc-900`). Use the utilities under *Tokens*. Motion and blur too: `duration-normal`, `backdrop-blur-glass`, never `duration-200` or `backdrop-blur-md`.
 2. ⛔ **No arbitrary pixels** (`w-[13px]`) outside `components/ui`. Use a Mantis step (`w-6`, listed under *Tokens*) or a component size prop.
 3. ⛔ **Base UI, not Radix.** Compose with `render`: `<DialogTrigger render={<Button variant="outline" />}>Open</DialogTrigger>`. Never `asChild`. A link that looks like a button is a real `<a>` styled with `buttonVariants`: `<a href="/pricing" className={buttonVariants({ variant: "outline" })}>` (Button with `render={<a>}` is announced as a button).
 4. ⛔ **Icons:** `<Icon name="close" />` from `@/components/ui/icon` only — never lucide-react. Names are listed under *Icons*.
@@ -117,11 +117,12 @@ Every name below is a Tailwind color utility suffix: `bg-<name>`, `text-<name>`,
 - **Gradients** (use as `bg-[image:var(--<name>)]`): `brand-gloss`, `badge-hot`, `badge-value`, `text-gold`, `text-fade`, `skeleton-shimmer`
 - **Meaning:** `background` page · `card`/`soft` raised panels · `glass` translucent controls (`glass-hover` on hover) · `field` inputs · `chip` composer chips · `dialog` modals · `overlay` scrims · `muted-foreground` secondary text · `brand` lime · `primary` white · `separator`/`divider` hairlines · `tile-*` icon-tile colors.
 - **Text styles:** `text-display-sm`, `text-display-md`, `text-display-lg`, `text-display-xl`, `text-label-caps`, `text-title-sm`, `text-title-md` (size, line height, weight and tracking in one class), plus `text-2xs`…`text-6xl`. Fonts: `font-sans`, `font-display`, `font-grotesk`, `font-mono`.
-- **Radius:** `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-control`, `rounded-xl`, `rounded-2xl`, `rounded-3xl`, `rounded-4xl`, `rounded-full`. Controls use `rounded-control`.
+- **Radius** (`rounded-`): `xs` `sm` `md` `lg` `control` `xl` `2xl` `3xl` `4xl` `full`. Controls use `rounded-control`.
 - **Shadows:** `shadow-popover`, `shadow-card-inset`, `shadow-thumb-on`, `shadow-thumb-lg`, `shadow-thumb-off`, `shadow-inset-glass`, `shadow-inset-tint`, `shadow-cta-light`, `shadow-cta-brand`, `shadow-cta-pink`, `shadow-cta-blue`, `shadow-gloss-edge`, `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`.
 - **Spacing steps** (`p-` `m-` `gap-` `inset-` `w-` `h-` `size-`…, × 4px): `0` `0.5` `1` `1.5` `2` `2.5` `3` `4` `5` `6` `7` `8` `10` `12` `14` `16` `20` `24`; no others. **Border widths** (`border-` `ring-` `outline-`, px): `0` `0.5` `1` `1.5` `2`. **Weights:** `normal` `medium` `semibold` `bold` `black`. **Leading** (× 4px): `3` `3.5` `4` `4.5` `5` `6` `7` `7.5` `8` `9` `10` `12` `14`.
 - **Sizes** (`size-` `h-` `w-` `min-w-` `min-h-`): icons `3xs` `2xs` `xs` `sm` `md` `lg` `xl` `2xl` `3xl` (`size-icon-sm` 14px); controls `control-2xs`…`control-3xl`, Button's own sizes (`h-control` 36px); `tap` 44px. Merge classes with `cn` from `@/lib/mantis-cn`: stock `cn` does not know these names.
-- **Motion:** `animate-shimmer`. Interactions dim on hover (`hover:brightness-80`) and press (`active:brightness-60`) over 200ms.
+- **Opacity, layers, widths:** `opacity-disabled` `opacity-muted` `opacity-scrim` · `z-raised` `z-sticky` `z-floating` (popups) · `max-w-xs`…`max-w-7xl` (`max-w-md` 448px); never `opacity-50` or `z-50`.
+- **Motion:** `duration-fast` `duration-quick` `duration-normal` `duration-slow`; `ease-swift` `ease-emphasized` `ease-spring` `ease-out-expo`; `animate-shimmer`. Hover dims (`hover:brightness-80`), press dims more (`active:brightness-60`), over 200ms.
 
 ## Icons
 

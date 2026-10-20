@@ -117,7 +117,7 @@ export function ModelPicker({
           // its text is read as the current value, as with the composer's Select chips.
           aria-label={label}
           className={cn(
-            "inline-flex h-10 w-fit items-center gap-1.5 rounded-xl border border-chip-border bg-chip px-3 text-sm font-medium whitespace-nowrap text-chip-foreground transition-[filter] duration-(--duration-normal) outline-none hover:brightness-110 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50",
+            "inline-flex h-10 w-fit items-center gap-1.5 rounded-xl border border-chip-border bg-chip px-3 text-sm font-medium whitespace-nowrap text-chip-foreground transition-[filter] duration-normal outline-none hover:brightness-110 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-disabled",
             className,
           )}
         >
@@ -130,7 +130,7 @@ export function ModelPicker({
           aria-label={label}
           className={cn(
             // The field fill, as in the reference; the grey label is contrast-exempt (owner decision, 2026-10-02).
-            "flex w-full items-center gap-3 rounded-xl bg-field px-3 py-2 text-left transition-[filter] duration-(--duration-normal) outline-none hover:brightness-110 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full items-center gap-3 rounded-xl bg-field px-3 py-2 text-left transition-[filter] duration-normal outline-none hover:brightness-110 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-disabled",
             className,
           )}
         >

@@ -133,7 +133,7 @@ function ImageStudioPage({
         )}
 
         {/* Docked: sticks to the bottom of the window over the feed, on a fade so tiles slide under it. */}
-        <div className="sticky bottom-0 z-10 bg-linear-to-t from-background via-background/90 to-transparent px-3 pt-8 pb-3 sm:px-4 sm:pb-4">
+        <div className="sticky bottom-0 z-raised bg-linear-to-t from-background via-background/90 to-transparent px-3 pt-8 pb-3 sm:px-4 sm:pb-4">
           <PromptComposer {...composer} className={cn("mx-auto w-full max-w-3xl shadow-popover", composer.className)} />
         </div>
       </main>

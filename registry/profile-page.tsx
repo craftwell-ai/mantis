@@ -189,7 +189,7 @@ function ProfilePage({
 
   return (
     <div data-slot="profile-page" className={cn("flex min-h-dvh w-full flex-col bg-background", className)}>
-      <TopNavigation brandName={brandName} {...navigation} className="sticky top-0 z-20" />
+      <TopNavigation brandName={brandName} {...navigation} className="sticky top-0 z-sticky" />
 
       <main className="flex flex-1 flex-col gap-6 px-4 pt-4 pb-12 lg:flex-row lg:items-start">
         <aside

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { join, relative, resolve, extname, dirname } from 'node:path'
 
 export const DATA = {
- "version": "1.7.0",
+ "version": "1.8.0",
  "colors": [
   "background",
   "foreground",
@@ -245,6 +245,29 @@ export const DATA = {
   "control-3xl": 64,
   "tap": 44
  },
+ "layers": {
+  "raised": 10,
+  "sticky": 20,
+  "floating": 50
+ },
+ "containers": {
+  "xs": 320,
+  "sm": 384,
+  "md": 448,
+  "lg": 512,
+  "xl": 576,
+  "2xl": 672,
+  "3xl": 768,
+  "4xl": 896,
+  "5xl": 1024,
+  "6xl": 1152,
+  "7xl": 1280
+ },
+ "opacities": {
+  "disabled": 50,
+  "muted": 40,
+  "scrim": 30
+ },
  "weights": {
   "normal": 400,
   "medium": 500,
@@ -285,6 +308,15 @@ export const DATA = {
   "normal": 200,
   "slow": 300
  },
+ "eases": [
+  "in",
+  "out",
+  "in-out",
+  "swift",
+  "emphasized",
+  "spring",
+  "out-expo"
+ ],
  "blurs": {
   "chip": 8,
   "glass": 12,
@@ -369,16 +401,27 @@ export function listFiles(root, { dirs = [root], includeUi = false } = {}) {
   return out
 }
 
-// A size token only has CSS if the app's copy of the theme defines it. An app that updates a
-// component but not the theme gets a class with no CSS, and the control collapses without an error.
+// A named token only has CSS if the app's copy of the theme defines it. An app that updates a
+// component but not the theme gets a class with no CSS: a control collapses, a popup loses its
+// layer, a disabled control stops dimming, all without an error.
 // components/ui is scanned whatever --include-ui says: an updated primitive is what outruns the theme.
 // Each name maps to the theme key that gives it CSS: h-control needs --height-control (max-h reads the
-// height keys too), and a stylesheet's var(--size-control) needs the runtime --size-control.
+// height keys too), z-floating needs --z-index-floating, and a stylesheet's var(--size-control) needs
+// the runtime --size-control.
 const SIZE_FAMILIES = { w: 'width', h: 'height', size: 'size', 'min-w': 'min-width', 'min-h': 'min-height', 'max-h': 'height' }
-const SIZE_KEYS = Object.keys(DATA.sizes).join('|')
-const SIZE_CLASS = new RegExp(`^(${Object.keys(SIZE_FAMILIES).join('|')})-(${SIZE_KEYS})$`)
-const SIZE_VAR = new RegExp(`var\\(--size-(${SIZE_KEYS})\\)`, 'g')
-export function sizeClassesIn(cwd) {
+const keysOf = (table) => Object.keys(table).join('|')
+const NAMED_CLASSES = [
+  [new RegExp(`^(${Object.keys(SIZE_FAMILIES).join('|')})-(${keysOf(DATA.sizes)})$`), (m) => [m[2], `--${SIZE_FAMILIES[m[1]]}-${m[2]}:`]],
+  [new RegExp(`^opacity-(${keysOf(DATA.opacities)})$`), (m) => [m[1], `--opacity-${m[1]}:`]],
+  [new RegExp(`^-?z-(${keysOf(DATA.layers)})$`), (m) => [m[1], `--z-index-${m[1]}:`]],
+  [new RegExp(`^duration-(${keysOf(DATA.durations)})$`), (m) => [m[1], `--transition-duration-${m[1]}:`]],
+]
+const NAMED_VARS = [
+  [new RegExp(`var\\(--size-(${keysOf(DATA.sizes)})\\)`, 'g'), (m) => [m[1], `--size-${m[1]}:`]],
+  [new RegExp(`var\\(--opacity-(${keysOf(DATA.opacities)})\\)`, 'g'), (m) => [m[1], `--opacity-${m[1]}:`]],
+  [new RegExp(`var\\(--z-(${keysOf(DATA.layers)})\\)`, 'g'), (m) => [m[1], `--z-${m[1]}:`]],
+]
+export function namedTokensIn(cwd) {
   const seen = new Map()
   for (const path of listFiles(cwd, { includeUi: true })) {
     const text = readFileSync(path, 'utf8')
@@ -387,15 +430,22 @@ export function sizeClassesIn(cwd) {
       if (THEME_FILE.test(path)) continue
       // Mantis's own generated token block defines these variables; it does not read them.
       const body = text.replace(/\/\* @tokens:start \*\/[\s\S]*?\/\* @tokens:end \*\//g, (block) => block.replace(/[^\n]/g, ' '))
-      for (const m of body.matchAll(SIZE_VAR)) {
-        const before = body.slice(0, m.index)
-        if (!seen.has(m[0])) seen.set(m[0], { file, line: before.split('\n').length, col: m.index - before.lastIndexOf('\n'), key: m[1], needs: `--size-${m[1]}:` })
+      for (const [re, read] of NAMED_VARS) {
+        for (const m of body.matchAll(re)) {
+          const before = body.slice(0, m.index)
+          const [key, needs] = read(m)
+          if (!seen.has(m[0])) seen.set(m[0], { file, line: before.split('\n').length, col: m.index - before.lastIndexOf('\n'), key, needs })
+        }
       }
       continue
     }
     for (const c of extractCandidates(text)) {
-      const m = c.base.match(SIZE_CLASS)
-      if (m && !seen.has(c.base)) seen.set(c.base, { file, line: c.line, col: c.col, key: m[2], needs: `--${SIZE_FAMILIES[m[1]]}-${m[2]}:` })
+      for (const [re, read] of NAMED_CLASSES) {
+        const m = c.base.match(re)
+        if (!m || seen.has(c.base)) continue
+        const [key, needs] = read(m)
+        seen.set(c.base, { file, line: c.line, col: c.col, key, needs })
+      }
     }
   }
   return seen
@@ -407,7 +457,7 @@ const SHIPPED = new Set(DATA.shipped)
 
 // The utility after its variants: the segment after the last `:` that sits outside brackets,
 // so `data-[state=open]:bg-x` and `has-[[aria-invalid=true]]:border-x` split correctly.
-export function baseOf(token) {
+const afterVariants = (token) => {
   let depth = 0
   let cut = -1
   for (let i = 0; i < token.length; i++) {
@@ -416,8 +466,11 @@ export function baseOf(token) {
     else if (ch === ']' || ch === ')') depth--
     else if (ch === ':' && depth === 0) cut = i
   }
-  return token.slice(cut + 1).replace(/^!/, '').replace(/^-(?=[a-z])/, '')
+  return token.slice(cut + 1)
 }
+export const baseOf = (token) => afterVariants(token).replace(/^!/, '').replace(/^-(?=[a-z])/, '')
+// Whether the utility after its variants is negative (-z-10, md:-mt-2); baseOf drops the sign.
+export const isNegative = (token) => /^!?-[a-z]/.test(afterVariants(token))
 
 // Every whitespace-separated token inside a string literal that looks like a utility (`prefix-something`).
 // Template-literal holes become spaces so `${cond ? 'a' : 'b'}` never glues onto a class.
@@ -518,11 +571,12 @@ const kindOfPrefix = (prefix) =>
             : prefix === 'rounded' || prefix.startsWith('rounded-') ? 'radius'
               : null
 
-// The steps nearest a value: one, or the two either side when it sits exactly between them.
-export function nearestSteps(kind, value) {
-  const ranked = Object.entries(SCALES[kind].table).map(([key, v]) => [key, v, Math.abs(v - value)]).sort((a, b) => a[2] - b[2] || a[1] - b[1])
+// The entries of a { name: value } table nearest a value: one, or the two either side when it sits exactly between them.
+const nearestIn = (table, value) => {
+  const ranked = Object.entries(table).map(([key, v]) => [key, v, Math.abs(v - value)]).sort((a, b) => a[2] - b[2] || a[1] - b[1])
   return ranked.filter((step) => step[2] === ranked[0][2]).slice(0, 2).map(([key, v]) => [key, v])
 }
+export const nearestSteps = (kind, value) => nearestIn(SCALES[kind].table, value)
 const unit = (kind) => (kind === 'weight' ? '' : 'px')
 const stepList = (kind) => Object.entries(SCALES[kind].table).sort((a, b) => a[1] - b[1]).map(([key, v]) => `${key} ${v}${unit(kind)}`).join(' · ')
 // How a step is written: `p-3`, `border` (the bare utility is 1px), `--theme(--spacing-3)`.
@@ -547,9 +601,22 @@ const stepNames = (kind, value, write, negative = false) => {
 const scaleTail = (kind) => (kind === 'size' ? `, or the component's size prop; the ${SCALES.size.label}: ${stepList('size')}` : `; the ${SCALES[kind].label}: ${stepList(kind)}`)
 const TOO_BIG = () => `→ the component's size prop, or let the layout size it (w-full, flex-1, grid columns): Mantis has no size step above ${MAX_SPACE}px`
 
-// The fix for a measured value of one kind. `write` turns a step key into what the author types.
-function stepFix(kind, value, write, { negative = false } = {}) {
-  if (kind === 'size' && value > MAX_SPACE) return TOO_BIG()
+// Widths above the spacing scale have Mantis's container widths (max-w-md); heights do not.
+const WIDTH_PREFIXES = new Set(['w', 'max-w', 'min-w', 'basis'])
+const LAYOUT = "the component's size prop, or let the layout size it (w-full, flex-1, grid columns)"
+const widthFix = (px, write) => {
+  const near = nearestIn(DATA.containers, px)
+  const exact = near.length === 1 && near[0][1] === px
+  const list = Object.entries(DATA.containers).map(([key, v]) => `${key} ${v}px`).join(' · ')
+  // An agent applies the first suggestion: a width more than 15% away would change the layout.
+  if (Math.abs(near[0][1] - px) / px > 0.15) return `→ ${LAYOUT}; no Mantis width is near ${px}px; the widths: ${list}`
+  return `→ ${near.map(([key, v]) => `${write(key)} (${v}px)`).join(' or ')}${exact ? '' : `, or ${LAYOUT}; the widths: ${Object.entries(DATA.containers).map(([key, v]) => `${key} ${v}px`).join(' · ')}`}`
+}
+
+// The fix for a measured value of one kind. `write` turns a step key into what the author types;
+// `width`, when given, writes a container width for a width too big for the spacing scale.
+function stepFix(kind, value, write, { negative = false, width = null } = {}) {
+  if (kind === 'size' && value > MAX_SPACE) return width && !negative ? widthFix(value, width) : TOO_BIG()
   return `→ ${stepNames(kind, value, write, negative)}${scaleTail(kind)}`
 }
 const SHADOW_FIX = (as = 'class') => `→ a Mantis shadow: ${DATA.shadows.map((name) => (as === 'css' ? `var(--shadow-${name})` : `shadow-${name}`)).join(' · ')}`
@@ -585,7 +652,7 @@ export function bracketRule(base, { shipped = false } = {}) {
   if (prefix === 'backdrop-blur') return { rule: 'bracket', fix: `→ backdrop-blur-${nearest(DATA.blurs, value)} (${DATA.blurs[nearest(DATA.blurs, value)]}px)` }
   const kind = kindOfPrefix(prefix)
   if (!kind) return { rule: 'bracket', fix: `→ a Mantis step or a component size prop in place of an exact value (${FALLBACK_HINT})` }
-  return { rule: 'bracket', fix: stepFix(kind, Math.abs(value), (key) => asClass(prefix, key, kind), { negative: value < 0 }) }
+  return { rule: 'bracket', fix: stepFix(kind, Math.abs(value), (key) => asClass(prefix, key, kind), { negative: value < 0, width: WIDTH_PREFIXES.has(prefix) ? (key) => `${prefix}-${key}` : null }) }
 }
 const nearest = (table, value) => Object.entries(table).map(([name, n]) => [name, Math.abs(n - value)]).sort((a, b) => a[1] - b[1])[0][0]
 
@@ -600,7 +667,55 @@ export function offScaleRule(base) {
   if (step in SCALES[kind].table) return null
   // A spacing step is 4px (space-100); a border step is its pixel width.
   const value = Number(step) * (kind === 'border' ? 1 : 4)
-  return { rule: 'scale', fix: stepFix(kind, value, (key) => asClass(prefix, key, kind)) }
+  return { rule: 'scale', fix: stepFix(kind, value, (key) => asClass(prefix, key, kind), { width: WIDTH_PREFIXES.has(prefix) ? (key) => `${prefix}-${key}` : null }) }
+}
+
+// ------------------------------------------------------------------ rule: Tailwind's widths Mantis does not name
+// Mantis owns max-w-xs…7xl (the same pixels as Tailwind's); 3xs, 2xs and prose are Tailwind's alone.
+const STOCK_WIDTHS = { '3xs': 256, '2xs': 288 }
+export function containerRule(base) {
+  const m = base.match(/^(max-w|min-w|w|basis)-(3xs|2xs|prose)$/)
+  if (!m) return null
+  const [, prefix, key] = m
+  if (key === 'prose') return { rule: 'scale', fix: `→ a Mantis width for a text column, such as ${prefix}-xl (${DATA.containers.xl}px) or ${prefix}-2xl (${DATA.containers['2xl']}px), or ${LAYOUT}` }
+  return { rule: 'scale', fix: widthFix(STOCK_WIDTHS[key], (k) => `${prefix}-${k}`) }
+}
+
+// ------------------------------------------------------------------ rule: opacity
+// opacity-50, opacity-[0.3]: Tailwind takes any number, Mantis names three. Fully on (100) and off (0) are not a value.
+const listOf = (table, suffix) => Object.entries(table).sort((a, b) => a[1] - b[1]).map(([key, v]) => `${key} ${v}${suffix}`).join(' · ')
+// The named values nearest a measured one, written the way the author types them; the full list unless one is exact.
+const namedFix = (table, value, write, suffix, label) => {
+  const near = nearestIn(table, value)
+  const exact = near.length === 1 && near[0][1] === value
+  return `→ ${near.map(([key, v]) => `${write(key)} (${v}${suffix})`).join(' or ')}${exact ? '' : `; the ${label}: ${listOf(table, suffix)}`}`
+}
+// Above Mantis's highest opacity the value is almost always a hover or press dim, which Mantis does with brightness.
+const opacityFix = (percent, write) =>
+  percent > Math.max(...Object.values(DATA.opacities))
+    ? `→ Mantis names no opacity above ${Math.max(...Object.values(DATA.opacities))}%: dim a hover or press with hover:brightness-80 or active:brightness-60; the opacities: ${listOf(DATA.opacities, '%')}`
+    : namedFix(DATA.opacities, percent, write, '%', 'opacities')
+export function opacityRule(base) {
+  const step = base.match(/^opacity-(\d+)$/)
+  const bracket = base.match(/^opacity-\[(\d*\.?\d+)(%?)\]$/)
+  if (!step && !bracket) return null
+  const percent = step ? Number(step[1]) : Number(bracket[1]) * (bracket[2] ? 1 : 100)
+  if (percent === 0 || percent === 100) return null
+  return { rule: step ? 'scale' : 'bracket', fix: opacityFix(percent, (key) => `opacity-${key}`) }
+}
+
+// ------------------------------------------------------------------ rule: layers
+// z-10, -z-10, z-[5]: Tailwind takes any integer, Mantis names three layers. z-0 and z-auto are not a layer.
+const layerFix = (value, write) => {
+  const sign = value < 0 ? -1 : 1
+  return namedFix(DATA.layers, Math.abs(value), (key) => write(key, sign), '', 'layers').replace(/\((\d+)\)/g, (all, n) => (sign < 0 ? `(-${n})` : all))
+}
+export function layerRule(base) {
+  const m = base.match(/^(-?)z-(?:(\d+)|\[(-?\d+)\])$/)
+  if (!m) return null
+  const value = (m[1] ? -1 : 1) * Number(m[2] ?? m[3])
+  if (value === 0) return null
+  return { rule: m[2] ? 'scale' : 'bracket', fix: layerFix(value, (key, sign) => `${sign < 0 ? '-' : ''}z-${key}`) }
 }
 
 // ------------------------------------------------------------------ rule: Tailwind's own named values
@@ -636,6 +751,7 @@ const PROPERTIES = new Map([
   ...Object.entries(SIDES).map(([side, s]) => [`border-${side}`, ['border', `border-${s}`]]),
   ['line-height', ['leading', 'leading']], ['font-weight', ['weight', 'font']],
   ['letter-spacing', ['tracking', 'tracking']], ['box-shadow', ['shadow', 'shadow']],
+  ['opacity', ['opacity', 'opacity']], ['z-index', ['layer', 'z']], ['transition-duration', ['duration', 'duration']],
 ])
 // React adds px to a bare number, except on these.
 const UNITLESS = new Set(['line-height', 'font-weight'])
@@ -651,6 +767,21 @@ export function valueRule(property, value, as) {
   const readsToken = /var\(|--theme\(|--spacing\(/.test(text)
   const rule = as === 'css' ? 'css-value' : 'inline-style'
   const write = (key) => (as === 'css' ? asTheme(kind, key) : `className="${asClass(prefix, key, kind)}"`)
+  if (kind === 'duration') {
+    const ms = toMs(text)
+    return ms ? { rule, fix: durationFix(ms, as === 'css' ? (key) => `var(--duration-${key})` : (key) => `className="duration-${key}"`) } : null
+  }
+  if (kind === 'layer') {
+    if (!/^-?\d+$/.test(text) || Number(text) === 0) return null
+    const write = as === 'css' ? (key, sign) => (sign < 0 ? `calc(var(--z-${key}) * -1)` : `var(--z-${key})`) : (key, sign) => `className="${sign < 0 ? '-' : ''}z-${key}"`
+    return { rule, fix: layerFix(Number(text), write) }
+  }
+  if (kind === 'opacity') {
+    const m = text.match(/^(\d*\.?\d+)(%?)$/)
+    const percent = m && (m[2] ? Number(m[1]) : Number(m[1]) * 100)
+    if (!m || percent === 0 || percent === 100) return null
+    return { rule, fix: opacityFix(percent, as === 'css' ? (key) => `var(--opacity-${key})` : (key) => `className="opacity-${key}"`) }
+  }
   if (kind === 'shadow') return readsToken ? null : { rule, fix: SHADOW_FIX(as) }
   if (kind === 'tracking') return readsToken || toPx(text) === 0 ? null : { rule, fix: TRACKING_FIX() }
   if (kind === 'weight') return /^[1-9]\d\d$/.test(text) ? { rule, fix: stepFix('weight', Number(text), write) } : null
@@ -659,7 +790,8 @@ export function valueRule(property, value, as) {
   const lengths = typeof value === 'number' ? [value] : [...text.matchAll(/(?<![\w.#-])-?\d*\.?\d+(?:px|rem)\b/g)].map((l) => toPx(l[0]))
   const judged = lengths.filter((n) => n !== null && n !== 0)
   if (!judged.length) return null
-  if (judged.length === 1) return { rule, fix: stepFix(kind, Math.abs(judged[0]), write, { negative: judged[0] < 0 }) }
+  const width = WIDTH_PREFIXES.has(prefix) ? (as === 'css' ? (key) => `--theme(--container-${key})` : (key) => `className="${prefix}-${key}"`) : null
+  if (judged.length === 1) return { rule, fix: stepFix(kind, Math.abs(judged[0]), write, { negative: judged[0] < 0, width }) }
   // A shorthand such as padding: 8px 12px. In CSS the steps keep the shorthand's order; as
   // classes each length gets its own side (py-2 px-3), the way CSS reads two, three or four values.
   const sides = { 2: ['y', 'x'], 3: ['t', 'x', 'b'], 4: ['t', 'r', 'b', 'l'] }[judged.length]
@@ -700,16 +832,28 @@ export function styleFindings(text) {
 
 // ------------------------------------------------------------------ rule: motion and blur
 const STOCK_BLUR = { sm: 8, md: 12, lg: 16, xl: 24, '2xl': 40, '3xl': 64 }
-export function motionRule(base) {
-  const duration = base.match(/^duration-([0-9]+)$/)
+// A duration as milliseconds: 200ms, .2s. null for anything else (a variable, calc()).
+const toMs = (text) => {
+  const m = String(text).trim().match(/^(\d*\.?\d+)(ms|s)$/)
+  return m ? Math.round(Number(m[1]) * (m[2] === 's' ? 1000 : 1)) : null
+}
+const durationFix = (ms, write) => namedFix(DATA.durations, ms, write, 'ms', 'durations')
+const EASE_FIX = () => `→ a Mantis curve: ${DATA.eases.map((name) => `ease-${name}`).join(' · ')}`
+export function motionRule(base, { shipped = false } = {}) {
+  // duration-200 and duration-[250ms]; duration-0 is no motion at all.
+  const duration = base.match(/^duration-(?:(\d+)|\[([^\]]+)\])$/)
   if (duration) {
-    const name = nearest(DATA.durations, Number(duration[1]))
-    return { rule: 'motion', fix: `→ duration-(--duration-${name}) (${DATA.durations[name]}ms); the steps: ${Object.entries(DATA.durations).map(([k, v]) => `${k} ${v}ms`).join(' · ')}` }
+    const ms = duration[1] !== undefined ? Number(duration[1]) : toMs(duration[2])
+    return ms ? { rule: 'motion', fix: durationFix(ms, (key) => `duration-${key}`) } : null
   }
-  const blur = base.match(/^backdrop-blur-(sm|md|lg|xl|2xl|3xl)$/)
-  if (blur) {
-    const name = nearest(DATA.blurs, STOCK_BLUR[blur[1]])
-    return { rule: 'motion', fix: `→ backdrop-blur-${name} (${DATA.blurs[name]}px); the steps: ${Object.entries(DATA.blurs).map(([k, v]) => `${k} ${v}px`).join(' · ')}` }
+  if (/^ease-\[.+\]$/.test(base)) return { rule: 'motion', fix: EASE_FIX() }
+  // Filter blur (blur-3xl) and backdrop blur read the same Mantis keys: blur-glass, backdrop-blur-glass.
+  // A filter blur in Mantis's own blocks is the reference's measured value (lightbox's 64px
+  // backdrop has no Mantis blur); an app is not asked to fix code it did not write.
+  const blur = base.match(/^(backdrop-)?blur-(sm|md|lg|xl|2xl|3xl)$/)
+  if (blur && !(shipped && !blur[1])) {
+    const name = nearest(DATA.blurs, STOCK_BLUR[blur[2]])
+    return { rule: 'motion', fix: `→ ${blur[1] ?? ''}blur-${name} (${DATA.blurs[name]}px); the steps: ${Object.entries(DATA.blurs).map(([k, v]) => `${k} ${v}px`).join(' · ')}` }
   }
   return null
 }
@@ -766,8 +910,8 @@ export function allowsFor(lines, lineNo, { css = false } = {}) {
 // ------------------------------------------------------------------ one class
 // The finding for one utility, 'layout' (a size this check does not judge) or null. Mantis's own
 // blocks hold the reference's measured values, so only colour and motion rules apply to them.
-function classFinding(base, shipped) {
-  const hit = paletteRule(base) ?? motionRule(base) ?? (shipped ? null : stockRule(base) ?? offScaleRule(base))
+function classFinding(base, shipped, negative = false) {
+  const hit = paletteRule(base) ?? motionRule(base, { shipped }) ?? (shipped ? null : stockRule(base) ?? offScaleRule(base) ?? opacityRule(base) ?? layerRule(negative ? `-${base}` : base) ?? containerRule(base))
   return hit ?? bracketRule(base, { shipped })
 }
 
@@ -790,7 +934,7 @@ export function cssFindings(text, { shipped = false } = {}) {
     const apply = line.match(/@apply\s+([^;}]+)/)
     if (apply) {
       for (const t of apply[1].matchAll(/\S+/g)) {
-        const hit = classFinding(baseOf(t[0]), shipped)
+        const hit = classFinding(baseOf(t[0]), shipped, isNegative(t[0]))
         if (hit && hit !== 'layout') out.push({ ...at(apply.index + apply[0].indexOf(apply[1]) + t.index), rule: hit.rule, value: t[0], fix: hit.fix })
       }
     }
@@ -820,7 +964,7 @@ export function scanFile(file, text, { includeUi = false } = {}) {
   if (css) for (const f of cssFindings(text, { shipped })) findings.push({ file, ...f })
   else {
     for (const c of extractCandidates(text)) {
-      const hit = classFinding(c.base, shipped)
+      const hit = classFinding(c.base, shipped, isNegative(c.token))
       if (hit === 'layout') layout++
       else if (hit) findings.push({ file, line: c.line, col: c.col, rule: hit.rule, value: c.token, fix: hit.fix })
     }
@@ -846,6 +990,54 @@ const ENTRY_CANDIDATES = ['app/globals.css', 'src/app/globals.css', 'styles/glob
 const NOT_WIRED = '→ Mantis\'s theme is not wired into Tailwind here, so every token utility (bg-card, text-muted-foreground, bg-brand…) is dead. Add `@import "./mantis-theme.css";` beside the other @import rules at the top of this file'
 const DARK_FIX = '→ nothing in Mantis applies a .dark class, so every dark: utility in the primitives is dead. Write `@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));` and set data-theme="dark" on <html>'
 
+// shadcn init writes its own radius lines (`--radius-sm: calc(var(--radius) * 0.6)`) into an
+// @theme block below the imports. Tailwind keeps the last definition of a theme key, so a line left
+// there beats Mantis's theme: rounded-sm renders 4.8px instead of 4px, silently (measured in a fresh
+// Next 16 + shadcn 4.22 app, 2026-10-19). mantis-check does not compile Tailwind, so it reads the
+// lines: shadcn's calc(var(--radius) * n) shape and plain lengths are measured, anything else is
+// reported as what it reads. --radius itself is Mantis's (its html:root beats a :root line).
+const RADIUS_BASE = DATA.radius.lg
+export function radiusPx(value) {
+  const v = value.trim()
+  const length = toPx(v)
+  if (length !== null) return length
+  if (v === 'var(--radius)') return RADIUS_BASE
+  const m = v.match(/^calc\(var\(--radius\)\s*([*+-])\s*(\d*\.?\d+)(px|rem)?\)$/)
+  if (!m) return null
+  const n = m[3] ? toPx(m[2] + m[3]) : Number(m[2])
+  return Math.round((m[1] === '*' ? RADIUS_BASE * n : m[1] === '+' ? RADIUS_BASE + n : RADIUS_BASE - n) * 1000) / 1000
+}
+function radiusFindings(file, lines) {
+  const out = []
+  const importAt = lines.findIndex((line) => /@import\s+["'][^"']*mantis-theme\.css["']/.test(line))
+  let depth = 0
+  let inTheme = false
+  for (let i = importAt + 1; i < lines.length; i++) {
+    const line = lines[i]
+    if (!inTheme && /^\s*@theme\b/.test(line)) { inTheme = true; depth = 0 }
+    if (inTheme) {
+      const m = line.match(/^\s*--radius-([\w-]+)\s*:\s*([^;]+);/)
+      if (m && m[1] in DATA.radius) {
+        const [, key, value] = m
+        const px = radiusPx(value)
+        const mantis = DATA.radius[key]
+        // Mantis's own value, written either way, is not an override.
+        const own = value.trim() === `var(--radius-${key})` || /^var\(--mantis-radius-/.test(value.trim()) || (px !== null && Math.abs(px - mantis) < 0.05 && !/--radius\)/.test(value))
+        const sameLine = key === 'lg' && value.trim() === 'var(--radius)'
+        if (!own && !sameLine) {
+          const renders = px === null ? `rounded-${key} reads ${value.trim()}`
+            : Math.abs(px - mantis) < 0.05 ? `rounded-${key} renders ${px}px, the same as Mantis's only because --radius is ${RADIUS_BASE}px`
+              : `rounded-${key} renders ${px}px, Mantis's is ${mantis}px`
+          out.push({ file, line: i + 1, col: 1, rule: 'radius-override', value: `--radius-${key}: ${value.trim()}`, fix: `→ shadcn's radius line overrides Mantis's: ${renders}. Delete it (Mantis's theme defines every radius); it comes after the Mantis import, so it wins` })
+        }
+      }
+      depth += (line.match(/\{/g) ?? []).length - (line.match(/\}/g) ?? []).length
+      if (depth <= 0 && /\}/.test(line)) inTheme = false
+    }
+  }
+  return out
+}
+
 export function checkEntry(cwd, css) {
   const findings = []
   const notes = []
@@ -859,31 +1051,32 @@ export function checkEntry(cwd, css) {
   if (!lines.some((line) => /@import\s+["'][^"']*mantis-theme\.css["']/.test(line))) findings.push({ file, line: 1, col: 1, rule: 'unresolved', value: 'mantis-theme.css', fix: NOT_WIRED })
   const stock = lines.findIndex((line) => /@custom-variant\s+dark\s*\(\s*&:is\(\s*\.dark\b/.test(line))
   if (stock >= 0) findings.push({ file, line: stock + 1, col: 1, rule: 'dark-variant', value: '@custom-variant dark', fix: DARK_FIX })
-  const sizes = sizeClassesIn(cwd)
+  const named = namedTokensIn(cwd)
   const themeImport = lines.map((line) => line.match(/@import\s+["']([^"']*mantis-theme\.css)["']/)).find(Boolean)
-  if (sizes.size && themeImport) {
+  if (named.size && themeImport) {
     // Only a relative import is followed; an alias or package path is reported as unchecked rather than guessed.
     const themePath = resolve(dirname(entry), themeImport[1])
-    if (!existsSync(themePath)) notes.push(`note: could not read ${themeImport[1]} from ${file}, so the size tokens were not checked against the theme`)
+    if (!existsSync(themePath)) notes.push(`note: could not read ${themeImport[1]} from ${file}, so the token names were not checked against the theme`)
     else {
-      // One root cause, one finding: placed at the first use, naming every size the theme lacks.
+      // One root cause, one finding: placed at the first use, naming every name the theme lacks.
       const theme = readFileSync(themePath, 'utf8')
-      const missing = [...sizes].filter(([, at]) => !theme.includes(at.needs))
+      const missing = [...named].filter(([, at]) => !theme.includes(at.needs))
       if (missing.length) {
         const [first, at] = missing[0]
         const names = missing.map(([name]) => name).join(', ')
-        findings.push({ file: at.file, line: at.line, col: at.col, rule: 'unresolved', value: first, fix: `→ the app's mantis-theme.css predates the size tokens, so ${names} ${missing.length === 1 ? 'has' : 'have'} no CSS; reinstall the theme: npx shadcn@latest add @mantis/base --overwrite (this also replaces the installed primitives, mantis-cn and MANTIS.md with the current ones)` })
+        findings.push({ file: at.file, line: at.line, col: at.col, rule: 'unresolved', value: first, fix: `→ the app's mantis-theme.css is older than these token names, so ${names} ${missing.length === 1 ? 'has' : 'have'} no CSS; reinstall the theme: npx shadcn@latest add @mantis/base --overwrite (this also replaces the installed primitives, mantis-cn and MANTIS.md with the current ones)` })
       }
     }
   }
-  // The same gap in the class-merge helper: an older mantis-cn does not know the size names, so a size
-  // passed to a component (className="h-12") sits beside the component's own and the stylesheet picks one.
-  const helper = sizes.size ? listFiles(cwd, { includeUi: true }).find((path) => /(^|[\\/])mantis-cn\.[jt]sx?$/.test(path)) : null
+  // The same gap in the class-merge helper: an older mantis-cn does not know the names, so a value
+  // passed to a component (className="z-floating") sits beside the component's own and the stylesheet picks one.
+  const helper = named.size ? listFiles(cwd, { includeUi: true }).find((path) => /(^|[\\/])mantis-cn\.[jt]sx?$/.test(path)) : null
   if (helper) {
     const source = readFileSync(helper, 'utf8')
-    const missing = [...new Set([...sizes.values()].map((at) => at.key))].filter((key) => !source.includes(`"${key}"`) && !source.includes(`'${key}'`))
-    if (missing.length) findings.push({ file: relative(cwd, helper), line: 1, col: 1, rule: 'unresolved', value: 'mantis-cn', fix: `→ this mantis-cn predates the size tokens (${missing.join(', ')}), so a size passed to a component does not replace its own; reinstall it: npx shadcn@latest add @mantis/mantis-cn --overwrite` })
+    const missing = [...new Set([...named.values()].map((at) => at.key))].filter((key) => !source.includes(`"${key}"`) && !source.includes(`'${key}'`))
+    if (missing.length) findings.push({ file: relative(cwd, helper), line: 1, col: 1, rule: 'unresolved', value: 'mantis-cn', fix: `→ this mantis-cn is older than these token names (${missing.join(', ')}), so a value passed to a component does not replace its own; reinstall it: npx shadcn@latest add @mantis/mantis-cn --overwrite` })
   }
+  if (themeImport) findings.push(...radiusFindings(file, lines))
   return { findings, notes }
 }
 
@@ -903,7 +1096,7 @@ export async function runCheck({ cwd = process.cwd(), dirs, includeUi = false, c
 
 // ------------------------------------------------------------------ output
 // Labels and ids match quill-check's, so the Quill CLI shows both systems' findings the same way.
-const RULE_LABEL = { scale: 'off scale', 'inline-style': 'inline style', 'css-value': 'css value', unresolved: 'unresolved', palette: 'palette', 'raw-color': 'raw colour', bracket: 'bracket', 'dark-variant': 'dark:', 'allow-without-reason': 'allow', 'source-token': 'source tok', motion: 'motion', radix: 'radix', 'icon-set': 'icon set' }
+const RULE_LABEL = { 'radius-override': 'radius', scale: 'off scale', 'inline-style': 'inline style', 'css-value': 'css value', unresolved: 'unresolved', palette: 'palette', 'raw-color': 'raw colour', bracket: 'bracket', 'dark-variant': 'dark:', 'allow-without-reason': 'allow', 'source-token': 'source tok', motion: 'motion', radix: 'radix', 'icon-set': 'icon set' }
 
 export function formatText({ findings, layout, notes }, { quiet = false } = {}) {
   const lines = []

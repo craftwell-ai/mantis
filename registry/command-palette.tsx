@@ -294,13 +294,13 @@ export function CommandPalette({
                         <div
                           key={entry.key}
                           {...optionProps(entry)}
-                          className="group/card relative isolate flex h-28 cursor-pointer flex-col justify-end overflow-hidden rounded-xl p-3 outline-2 -outline-offset-2 outline-transparent transition-[filter,outline-color] duration-(--duration-normal) hover:brightness-110 data-active:outline-foreground/60"
+                          className="group/card relative isolate flex h-28 cursor-pointer flex-col justify-end overflow-hidden rounded-xl p-3 outline-2 -outline-offset-2 outline-transparent transition-[filter,outline-color] duration-normal hover:brightness-110 data-active:outline-foreground/60"
                         >
                           {/* A plain <img> keeps the block framework-agnostic; swap in next/image in your app if you like. */}
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={card.image} alt={card.alt} className="absolute inset-0 -z-10 size-full object-cover" />
+                          <img src={card.image} alt={card.alt} className="absolute inset-0 -z-raised size-full object-cover" />
                           {/* Scrim keeps the title readable on any photo. */}
-                          <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-t from-background via-background/80 to-background/20" />
+                          <span aria-hidden="true" className="absolute inset-0 -z-raised bg-linear-to-t from-background via-background/80 to-background/20" />
                           <span className="absolute top-2.5 left-2.5 rounded-md bg-background/70 px-1.5 py-0.5 text-2xs font-medium text-foreground backdrop-blur-chip">
                             {card.tag}
                           </span>
@@ -326,7 +326,7 @@ export function CommandPalette({
                         <div
                           key={entry.key}
                           {...optionProps(entry)}
-                          className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 transition-colors duration-(--duration-normal) data-active:bg-secondary"
+                          className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 transition-colors duration-normal data-active:bg-secondary"
                         >
                           <IconTile name={item.icon} size="lg" />
                           <span className="flex min-w-0 flex-col">

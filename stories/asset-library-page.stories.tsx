@@ -79,7 +79,7 @@ function TileSketch({ marked }: { marked: boolean }) {
     <div className="grid grid-cols-3 gap-2">
       {['a', 'b', 'c'].map((seed, index) => (
         <div key={seed} className={`relative aspect-square overflow-hidden rounded-lg ${marked && index === 1 ? 'ring-2 ring-ring' : ''}`}>
-          <img src={photo(`tile-${seed}`, 160, 160)} alt="" className={`size-full object-cover ${!marked && index === 1 ? 'opacity-50' : ''}`} />
+          <img src={photo(`tile-${seed}`, 160, 160)} alt="" className={`size-full object-cover ${!marked && index === 1 ? 'opacity-disabled' : ''}`} />
           {index === 1 ? (
             <span className="absolute top-1.5 left-1.5 flex rounded-md bg-overlay">
               <Checkbox size="sm" checked aria-label={marked ? 'Selected example' : 'Selected example, dimmed'} />

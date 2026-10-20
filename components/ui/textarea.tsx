@@ -5,7 +5,7 @@ import { cn } from "@/lib/mantis-cn"
 // Measured on the reference product. `field` matches Input; the two prompt
 // variants are borderless and grow with their content, as in its composers.
 const textareaVariants = cva(
-  "flex field-sizing-content w-full outline-none transition-[box-shadow,background-color] duration-(--duration-normal) placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/40",
+  "flex field-sizing-content w-full outline-none transition-[box-shadow,background-color] duration-normal placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-disabled aria-invalid:ring-3 aria-invalid:ring-destructive/40",
   {
     variants: {
       /** field is the filled box for forms; prompt and prompt-lg are borderless, for writing prompts inside a composer. */

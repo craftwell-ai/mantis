@@ -342,3 +342,37 @@ test('size tokens become runtime variables and width, height, size, min-width an
   assert.ok(root.includes(`  --size-icon-md: var(--${name}-icon-sm);`))
   assert.ok(!/--size-control/.test(renderRegistryTheme(fixture)))
 })
+
+test('opacity tokens become percentage runtime variables and --opacity-* keys', () => {
+  // A percentage, because Tailwind also reads --opacity-* for colour transparency (bg-brand/disabled).
+  const css = renderRegistryTheme({ ...fixture, opacity: { disabled: '0.5' } })
+  const theme = css.split('\n}')[0]
+  assert.ok(theme.includes('  --opacity-disabled: var(--opacity-disabled);'))
+  const root = css.slice(css.indexOf('html:root {'))
+  assert.ok(root.includes('  --opacity-disabled: calc(0.5 * 100%);'), root.slice(0, 400))
+  assert.ok(!/--opacity-/.test(renderRegistryTheme(fixture)))
+})
+
+test('layer tokens become --z-* runtime variables and --z-index-* keys', () => {
+  const css = renderRegistryTheme({ ...fixture, layer: { raised: '10' } })
+  const theme = css.split('\n}')[0]
+  assert.ok(theme.includes('  --z-index-raised: var(--z-raised);'))
+  assert.ok(css.slice(css.indexOf('html:root {')).includes('  --z-raised: 10;'))
+  assert.ok(!/--z-/.test(renderRegistryTheme(fixture)))
+})
+
+test('container widths go in a plain @theme block as literals, so container queries can read them', () => {
+  const css = renderRegistryTheme({ ...fixture, container: { md: '28rem' } })
+  assert.match(css, /\n@theme \{\n  --container-md: 28rem;\n\}\n/)
+  assert.ok(!css.split('\n}')[0].includes('--container-'), 'not in the inline block')
+  assert.ok(!/@theme \{|--container-/.test(renderRegistryTheme(fixture)))
+})
+
+test('motion: named and numeric durations become --transition-duration-* keys, and the default transition reads the tokens', () => {
+  const t = { ...fixture, motion: { duration: { normal: '.2s' }, ease: {}, default: { duration: '.15s', ease: 'ease' } } }
+  const theme = renderRegistryTheme(t).split('\n}')[0]
+  assert.ok(theme.includes('  --transition-duration-normal: var(--duration-normal);'))
+  assert.ok(theme.includes('  --default-transition-duration: .15s;'))
+  assert.ok(theme.includes('  --default-transition-timing-function: ease;'))
+  assert.ok(!/--transition-duration-|--default-transition/.test(renderRegistryTheme(fixture)))
+})

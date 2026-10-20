@@ -67,10 +67,14 @@ export function checkData(t = tokens, registry = JSON.parse(readFileSync(REGISTR
     leading: steps(t, t.leading),
     // Named sizes (h-control, size-icon-sm), in pixels.
     sizes: resolved(t, t.size ?? {}),
+    layers: resolved(t, t.layer ?? {}),
+    containers: resolved(t, t.container ?? {}),
+    opacities: Object.fromEntries(Object.entries(resolved(t, t.opacity ?? {})).map(([key, value]) => [key, Math.round(value * 100)])),
     weights: resolved(t, t.fontWeight),
     shadows: Object.keys(t.shadow),
     textStyles: Object.keys(t.textStyles ?? {}),
     durations: resolved(t, t.motion.duration),
+    eases: Object.keys(t.motion.ease),
     blurs: Object.fromEntries(Object.entries(t.blur).map(([name, value]) => [name, number(value)])),
     // Mantis's own blocks hold the reference's measured pixel values; installed into an app they
     // are recognised by file name, so the app is not asked to fix code it did not write.

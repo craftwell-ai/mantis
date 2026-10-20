@@ -29,7 +29,7 @@ function AppShellSkipLink({ targetId, label }: { targetId: string; label: string
   return (
     <a
       href={`#${targetId}`}
-      className="sr-only rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground outline-none focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="sr-only rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground outline-none focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-floating focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       {label}
     </a>

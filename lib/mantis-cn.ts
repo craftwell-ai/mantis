@@ -14,6 +14,22 @@ export const TEXT_STYLES = ["display-sm", "display-md", "display-lg", "display-x
 // tokens.size; scripts/mantis-cn.test.mjs checks that it does.
 export const SIZES = ["icon-3xs", "icon-2xs", "icon-xs", "icon-sm", "icon-md", "icon-lg", "icon-xl", "icon-2xl", "icon-3xl", "control-2xs", "control-xs", "control-sm", "control", "control-lg", "control-xl", "control-cta", "control-2xl", "control-3xl", "tap"]
 
+// Mantis's opacities (opacity-disabled…) are names, not Tailwind's numbers, so stock cn keeps
+// a numeric opacity beside one instead of replacing it. The list must match tokens.opacity.
+export const OPACITIES = ["disabled", "muted", "scrim"]
+
+// Mantis's layers (z-raised, z-sticky, z-floating) are names, not Tailwind's integers, so stock cn
+// keeps a numeric layer beside one instead of replacing it. The list must match tokens.layer.
+export const LAYERS = ["raised", "sticky", "floating"]
+
+// Mantis's motion names (duration-normal, ease-swift…) are not Tailwind's, so stock cn keeps both
+// classes in cn("ease-out", "ease-swift"). The lists must match tokens.motion.
+export const DURATIONS = ["fast", "quick", "normal", "slow"]
+export const EASES = ["in", "out", "in-out", "swift", "emphasized", "spring", "out-expo"]
+
+// Mantis's blurs (blur-glass, backdrop-blur-dialog…) are names Tailwind does not have. The list must match tokens.blur.
+export const BLURS = ["chip", "glass", "dialog"]
+
 export const cn = createCn({
   extend: {
     classGroups: {
@@ -24,6 +40,12 @@ export const cn = createCn({
       "min-w": [{ "min-w": SIZES }],
       "min-h": [{ "min-h": SIZES }],
       "max-h": [{ "max-h": SIZES }],
+      opacity: [{ opacity: OPACITIES }],
+      z: [{ z: LAYERS }],
+      duration: [{ duration: DURATIONS }],
+      ease: [{ ease: EASES }],
+      blur: [{ blur: BLURS }],
+      "backdrop-blur": [{ "backdrop-blur": BLURS }],
     },
   },
 })

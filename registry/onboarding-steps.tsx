@@ -142,7 +142,7 @@ function OnboardingSteps({
                 <label
                   key={option.value}
                   className={cn(
-                    "flex h-12 cursor-pointer items-center gap-3 rounded-xl border-2 bg-card px-4 text-sm transition-[border-color,filter] duration-(--duration-normal) hover:brightness-110 has-focus-visible:ring-3 has-focus-visible:ring-ring/50",
+                    "flex h-12 cursor-pointer items-center gap-3 rounded-xl border-2 bg-card px-4 text-sm transition-[border-color,filter] duration-normal hover:brightness-110 has-focus-visible:ring-3 has-focus-visible:ring-ring/50",
                     checked ? "border-brand" : "border-transparent"
                   )}
                 >

@@ -124,7 +124,7 @@ function NavLinks({
               href={link.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "flex items-center gap-1.5 rounded-lg font-medium whitespace-nowrap outline-none transition-[filter,background-color] duration-(--duration-normal) hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50",
+                "flex items-center gap-1.5 rounded-lg font-medium whitespace-nowrap outline-none transition-[filter,background-color] duration-normal hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50",
                 orientation === "horizontal" ? "h-8 px-2 text-sm" : "h-10 px-3 text-base",
                 active ? "text-brand-text" : "text-muted-foreground hover:text-foreground"
               )}
@@ -211,7 +211,7 @@ function TopNavigation({
             <button
               type="button"
               onClick={onSearch}
-              className="hidden h-8 w-48 items-center gap-2 rounded-lg bg-glass px-2.5 text-sm text-muted-foreground outline-none transition-[filter] duration-(--duration-normal) hover:brightness-80 focus-visible:ring-3 focus-visible:ring-ring/50 @3xl/topnav:flex"
+              className="hidden h-8 w-48 items-center gap-2 rounded-lg bg-glass px-2.5 text-sm text-muted-foreground outline-none transition-[filter] duration-normal hover:brightness-80 focus-visible:ring-3 focus-visible:ring-ring/50 @3xl/topnav:flex"
             >
               <Icon name="search" />
               Search

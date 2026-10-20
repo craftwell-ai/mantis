@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 
 import { CHECK_PATH, checkData, renderCheck } from './build-check.mjs'
-import { baseOf, bracketRule, formatText, motionRule, offScaleRule, paletteRule, scanFile, stockRule, styleFindings, cssFindings } from '../registry/check/mantis-check.mjs'
+import { baseOf, bracketRule, containerRule, formatText, layerRule, motionRule, offScaleRule, opacityRule, paletteRule, scanFile, stockRule, styleFindings, cssFindings } from '../registry/check/mantis-check.mjs'
 
 test('the committed check is in sync with the token source (byte equality)', () => {
   assert.ok(existsSync(CHECK_PATH), 'registry/check/mantis-check.mjs does not exist — run node scripts/build-check.mjs')
@@ -59,7 +59,7 @@ test('bracket values: colors and pixels are findings, other sizes are counted', 
   assert.match(bracketRule('w-[13px]').fix, /^→ w-3 \(12px\), or the component's size prop/)
   assert.match(bracketRule('p-[14px]').fix, /^→ p-3 \(12px\) or p-4 \(16px\)/)
   assert.match(bracketRule('p-[1.25rem]').fix, /^→ p-5 \(20px\)/)
-  assert.match(bracketRule('w-[420px]').fix, /no size step above 96px/)
+  assert.match(bracketRule('w-[420px]').fix, /^→ w-md \(448px\), or the component's size prop/)
   assert.match(bracketRule('text-[13px]').fix, /text-xs|text-sm/)
   assert.match(bracketRule('rounded-[5px]').fix, /rounded-(sm|md)/)
   assert.equal(bracketRule('w-[calc(100%-2rem)]'), 'layout')
@@ -68,8 +68,8 @@ test('bracket values: colors and pixels are findings, other sizes are counted', 
 })
 
 test('numeric durations and stock blur sizes point at the motion tokens', () => {
-  assert.match(motionRule('duration-200').fix, /duration-\(--duration-normal\)/)
-  assert.match(motionRule('duration-120').fix, /--duration-(fast|quick)/)
+  assert.match(motionRule('duration-200').fix, /^→ duration-normal \(200ms\)/)
+  assert.match(motionRule('duration-120').fix, /^→ duration-fast \(100ms\)/)
   assert.match(motionRule('backdrop-blur-md').fix, /backdrop-blur-glass/)
   assert.equal(motionRule('duration-(--duration-normal)'), null)
   assert.equal(motionRule('backdrop-blur-glass'), null)
@@ -321,4 +321,179 @@ test('sizes: an outdated theme is one finding that names every size it is missin
   for (const name of ['h-control', 'size-icon-sm', 'max-h-tap', 'var(--size-control-lg)']) assert.ok(stale[0].fix.includes(name), `${name} missing from: ${stale[0].fix}`)
   // the advice says what else the reinstall replaces
   assert.match(stale[0].fix, /also replaces the installed primitives, mantis-cn and MANTIS\.md/)
+})
+
+test('opacity: a numeric step is a finding with the Mantis opacity as the fix; fully on and off are not', () => {
+  assert.deepEqual(checkData().opacities, { disabled: 50, muted: 40, scrim: 30 })
+  assert.equal(opacityRule('opacity-50').rule, 'scale')
+  assert.match(opacityRule('opacity-50').fix, /^→ opacity-disabled \(50%\)/)
+  assert.match(opacityRule('opacity-40').fix, /^→ opacity-muted \(40%\)/)
+  assert.match(opacityRule('opacity-30').fix, /^→ opacity-scrim \(30%\)/)
+  assert.match(opacityRule('opacity-20').fix, /^→ opacity-scrim \(30%\); the opacities: scrim 30% · muted 40% · disabled 50%$/)
+  assert.match(opacityRule('opacity-35').fix, /^→ opacity-scrim \(30%\) or opacity-muted \(40%\)/)
+  assert.equal(opacityRule('opacity-[0.3]').rule, 'bracket')
+  assert.match(opacityRule('opacity-[0.3]').fix, /^→ opacity-scrim \(30%\)/)
+  assert.match(opacityRule('opacity-[45%]').fix, /^→ opacity-muted \(40%\) or opacity-disabled \(50%\)/)
+  for (const fine of ['opacity-0', 'opacity-100', 'opacity-disabled', 'opacity-muted', 'opacity-scrim', 'opacity-(--x)']) assert.equal(opacityRule(fine), null, fine)
+  assert.deepEqual(rulesIn('<div className="disabled:opacity-50 hover:opacity-100 opacity-[0.3]" />'), ['scale', 'bracket'])
+  // Mantis's own blocks are not judged on this
+  assert.deepEqual(scanFile('components/pricing-card.tsx', '<div className="opacity-50" />').findings, [])
+  const [style] = styleFindings('<div style={{ opacity: 0.5, zoom: 1 }} />')
+  assert.equal(style.rule, 'inline-style')
+  assert.match(style.fix, /^→ className="opacity-disabled" \(50%\)/)
+  assert.deepEqual(styleFindings('<div style={{ opacity: 1 }} /><p style={{ opacity: 0 }} />'), [])
+  const [css] = cssFindings('.x { opacity: .5; }\n.y { opacity: var(--opacity-muted); opacity: 1 }')
+  assert.equal(`${css.line} ${css.rule}`, '1 css-value')
+  assert.match(css.fix, /^→ var\(--opacity-disabled\) \(50%\)/)
+  assert.equal(cssFindings('.y { opacity: var(--opacity-muted); opacity: 1 }').length, 0)
+})
+
+test('layers: a numeric z-index is a finding with the Mantis layer as the fix', () => {
+  assert.deepEqual(checkData().layers, { raised: 10, sticky: 20, floating: 50 })
+  assert.equal(layerRule('z-10').rule, 'scale')
+  assert.match(layerRule('z-10').fix, /^→ z-raised \(10\)/)
+  assert.match(layerRule('z-50').fix, /^→ z-floating \(50\)/)
+  assert.match(layerRule('z-30').fix, /^→ z-sticky \(20\); the layers: raised 10 · sticky 20 · floating 50/)
+  assert.match(layerRule('-z-10').fix, /^→ -z-raised \(-10\)/)
+  assert.equal(layerRule('z-[5]').rule, 'bracket')
+  assert.match(layerRule('z-[5]').fix, /^→ z-raised \(10\)/)
+  for (const fine of ['z-0', 'z-auto', 'z-raised', '-z-raised', 'z-floating', 'z-(--x)', 'z-[var(--x)]']) assert.equal(layerRule(fine), null, fine)
+  assert.deepEqual(rulesIn('<div className="sticky top-0 md:z-20 z-[5]" />'), ['scale', 'bracket'])
+  assert.deepEqual(scanFile('components/pricing-card.tsx', '<div className="z-10" />').findings, [])
+  const [style] = styleFindings('<div style={{ zIndex: 10 }} />')
+  assert.equal(style.rule, 'inline-style')
+  assert.match(style.fix, /^→ className="z-raised" \(10\)/)
+  const found = cssFindings('.x { z-index: 50; }\n.y { z-index: -10 }\n.z { z-index: var(--z-sticky); z-index: 0 }')
+  assert.deepEqual(found.map((f) => `${f.line} ${f.rule}`), ['1 css-value', '2 css-value'])
+  assert.match(found[0].fix, /^→ var\(--z-floating\) \(50\)/)
+  assert.match(found[1].fix, /^→ calc\(var\(--z-raised\) \* -1\) \(-10\)/)
+})
+
+test('widths: Tailwind\'s widths Mantis does not name are findings, and a long length suggests a Mantis width', () => {
+  assert.deepEqual(checkData().containers, { xs: 320, sm: 384, md: 448, lg: 512, xl: 576, '2xl': 672, '3xl': 768, '4xl': 896, '5xl': 1024, '6xl': 1152, '7xl': 1280 })
+  assert.equal(containerRule('max-w-3xs').rule, 'scale')
+  assert.match(containerRule('max-w-3xs').fix, /^→ the component's size prop, or let the layout size it \(w-full, flex-1, grid columns\); no Mantis width is near 256px; the widths: xs 320px/)
+  assert.match(containerRule('w-2xs').fix, /^→ w-xs \(320px\)/)
+  assert.match(containerRule('max-w-prose').fix, /^→ a Mantis width for a text column, such as max-w-xl \(576px\) or max-w-2xl \(672px\)/)
+  for (const fine of ['max-w-md', 'max-w-7xl', 'w-full', 'max-w-none', 'min-w-0', 'basis-1/2']) assert.equal(containerRule(fine), null, fine)
+  assert.match(bracketRule('max-w-[640px]').fix, /^→ max-w-2xl \(672px\), or the component's size prop/)
+  assert.match(bracketRule('w-[317px]').fix, /^→ w-xs \(320px\)/)
+  assert.match(bracketRule('max-w-[448px]').fix, /^→ max-w-md \(448px\)$/)
+  assert.match(bracketRule('h-[400px]').fix, /Mantis has no size step above 96px/)
+  assert.match(offScaleRule('w-105').fix, /^→ w-md \(448px\), or the component's size prop, or let the layout size it/)
+  assert.deepEqual(rulesIn('<div className="mx-auto max-w-prose sm:max-w-md" />'), ['scale'])
+  const [style] = styleFindings('<div style={{ maxWidth: 448 }} />')
+  assert.match(style.fix, /^→ className="max-w-md" \(448px\)/)
+  const [css] = cssFindings('.x { max-width: 28rem }')
+  assert.match(css.fix, /^→ --theme\(--container-md\) \(448px\)/)
+})
+
+test('motion: bracket durations and hand-made curves are findings; Mantis names are not', () => {
+  assert.equal(motionRule('duration-[250ms]').rule, 'motion')
+  assert.match(motionRule('duration-[250ms]').fix, /^→ duration-normal \(200ms\) or duration-slow \(300ms\)/)
+  assert.match(motionRule('duration-[0.3s]').fix, /^→ duration-slow \(300ms\)/)
+  assert.match(motionRule('duration-75').fix, /^→ duration-fast \(100ms\)/)
+  assert.equal(motionRule('ease-[cubic-bezier(0,0,1,1)]').rule, 'motion')
+  assert.match(motionRule('ease-[cubic-bezier(0,0,1,1)]').fix, /^→ a Mantis curve: ease-in · ease-out · ease-in-out · ease-swift · ease-emphasized · ease-spring · ease-out-expo/)
+  for (const fine of ['duration-normal', 'duration-fast', 'duration-0', 'duration-(--duration-normal)', 'ease-swift', 'ease-in-out', 'ease-linear', 'ease-(--x)']) assert.equal(motionRule(fine), null, fine)
+  assert.deepEqual(rulesIn('<div className="transition hover:duration-[250ms] ease-[cubic-bezier(0,0,1,1)]" />'), ['motion', 'motion'])
+  const [style] = styleFindings('<div style={{ transitionDuration: "200ms" }} />')
+  assert.equal(style.rule, 'inline-style')
+  assert.match(style.fix, /^→ className="duration-normal" \(200ms\)/)
+  const found = cssFindings('.x { transition-duration: .2s }\n.y { transition-duration: var(--duration-slow) }')
+  assert.deepEqual(found.map((f) => `${f.line} ${f.rule}`), ['1 css-value'])
+  assert.match(found[0].fix, /^→ var\(--duration-normal\) \(200ms\)/)
+})
+
+test('install: a theme older than the opacity, layer and duration names is one finding naming each', () => {
+  const page = 'export default () => <div className="opacity-disabled -z-raised z-floating duration-normal h-control" />\n'
+  const css = '.x { opacity: var(--opacity-muted); z-index: var(--z-sticky) }\n'
+  const old = app({ 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': '@theme inline {\n}\n', 'app/page.tsx': page, 'app/x.css': css })
+  const stale = JSON.parse(run(old, ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved')
+  assert.equal(stale.length, 1, JSON.stringify(stale))
+  for (const name of ['opacity-disabled', 'z-raised', 'z-floating', 'duration-normal', 'h-control', 'var(--opacity-muted)', 'var(--z-sticky)']) assert.ok(stale[0].fix.includes(name), `${name} missing from: ${stale[0].fix}`)
+  assert.match(stale[0].fix, /reinstall the theme: npx shadcn@latest add @mantis\/base --overwrite/)
+  const current = app({ 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8'), 'app/page.tsx': page, 'app/x.css': css, 'lib/mantis-cn.ts': readFileSync(new URL('../lib/mantis-cn.ts', import.meta.url), 'utf8') })
+  assert.deepEqual(JSON.parse(run(current, ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved'), [])
+})
+
+test('install: a mantis-cn older than the opacity, layer and duration names is reported', () => {
+  const files = { 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8'), 'app/page.tsx': 'export default () => <div className="z-floating opacity-disabled duration-normal" />\n' }
+  const sizesOnly = 'import { createCn } from "cn/config"\nexport const SIZES = ["control"]\nexport const cn = createCn({})\n'
+  const stale = JSON.parse(run(app({ ...files, 'lib/mantis-cn.ts': sizesOnly }), ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved')
+  assert.equal(stale.length, 1, JSON.stringify(stale))
+  assert.match(stale[0].fix, /floating/)
+  assert.match(stale[0].fix, /disabled/)
+  assert.match(stale[0].fix, /npx shadcn@latest add @mantis\/mantis-cn --overwrite/)
+})
+
+test('radius-override: shadcn\'s radius lines after the Mantis import are findings on their own lines', () => {
+  const globals = [
+    '@import "tailwindcss";', //                                1
+    '@import "shadcn/tailwind.css";', //                        2
+    '@import "./mantis-theme.css";', //                         3
+    '', //                                                      4
+    '@theme inline {', //                                       5
+    '  --color-background: var(--background);', //              6
+    '  --radius-sm: calc(var(--radius) * 0.6);', //            7 4.8px, Mantis's is 4px
+    '  --radius-md: var(--radius-md);', //                      8 points back at Mantis
+    '  --radius-lg: var(--radius);', //                         9 the same line Mantis writes
+    '  --radius-xl: calc(var(--radius) * 1.4);', //            10 11.2px, Mantis's is 12px
+    '  --radius-2xl: 1rem;', //                                 11 Mantis's own 16px, as a length
+    '  --radius-3xl: var(--my-radius);', //                     12 cannot tell: reported as what it reads
+    '}', //                                                    13
+    ':root { --radius: 0.625rem; }', //                        14 loses to Mantis's html:root
+  ].join('\n')
+  const root = app({ 'app/globals.css': globals + '\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8') })
+  const found = JSON.parse(run(root, ['--json']).stdout).findings.filter((f) => f.rule === 'radius-override')
+  assert.deepEqual(found.map((f) => `${f.line} ${f.value}`), ['7 --radius-sm: calc(var(--radius) * 0.6)', '10 --radius-xl: calc(var(--radius) * 1.4)', '12 --radius-3xl: var(--my-radius)'])
+  assert.match(found[0].fix, /^→ shadcn's radius line overrides Mantis's: rounded-sm renders 4\.8px, Mantis's is 4px\. Delete it \(Mantis's theme defines every radius\)/)
+  assert.match(found[2].fix, /rounded-3xl reads var\(--my-radius\)/)
+  // a radius line above the Mantis import loses to it: no finding
+  const above = app({ 'app/globals.css': '@theme inline {\n  --radius-sm: 9px;\n}\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8') })
+  assert.equal(JSON.parse(run(above, ['--json']).stdout).findings.filter((f) => f.rule === 'radius-override').length, 0)
+  assert.match(run(root, []).stdout, /radius-override|radius {2,}/)
+})
+
+test('blur: Tailwind\'s own filter blur steps are findings like the backdrop ones, with the Mantis blurs as the fix', () => {
+  assert.equal(motionRule('blur-3xl').rule, 'motion')
+  assert.match(motionRule('blur-3xl').fix, /^→ blur-dialog \(32px\); the steps: chip 8px · glass 12px · dialog 32px/)
+  assert.match(motionRule('blur-md').fix, /^→ blur-glass \(12px\)/)
+  for (const fine of ['blur-dialog', 'blur-none', 'blur-glass', 'backdrop-blur-chip']) assert.equal(motionRule(fine), null, fine)
+})
+
+test('review fixes: a negative layer keeps its sign through a real scan', () => {
+  const found = scanFile('app/page.tsx', '<div className="absolute -z-10 md:-z-[5] z-10" />').findings
+  assert.deepEqual(found.map((f) => `${f.value} ${f.fix.split(';')[0]}`), ['-z-10 → -z-raised (-10)', 'md:-z-[5] → -z-raised (-10)', 'z-10 → z-raised (10)'])
+  const [css] = cssFindings('.x { @apply -z-10; }')
+  assert.match(css.fix, /^→ -z-raised \(-10\)/)
+})
+
+test('review fixes: Tailwind\'s filter blur steps are flagged in app code, not in Mantis\'s own shipped blocks', () => {
+  assert.deepEqual(rulesIn('<img className="blur-3xl" />'), ['motion'])
+  assert.deepEqual(scanFile('components/lightbox-inspector.tsx', '<img className="blur-3xl" />').findings, [])
+  // backdrop blur stays judged everywhere, as before
+  assert.deepEqual(scanFile('components/lightbox-inspector.tsx', '<div className="backdrop-blur-md" />').findings.map((f) => f.rule), ['motion'])
+})
+
+test('review fixes: a fix leads with a token only when one is close to what was written', () => {
+  // widths far from every container width lead with the layout advice
+  assert.match(bracketRule('w-[120px]').fix, /^→ the component's size prop, or let the layout size it \(w-full, flex-1, grid columns\); no Mantis width is near 120px; the widths: xs 320px/)
+  assert.match(offScaleRule('w-64').fix, /^→ the component's size prop, or let the layout size it/)
+  assert.match(styleFindings('<div style={{ maxWidth: 200 }} />')[0].fix, /^→ the component's size prop, or let the layout size it/)
+  // a close one still leads with the width
+  assert.match(bracketRule('w-[317px]').fix, /^→ w-xs \(320px\)/)
+  assert.match(bracketRule('max-w-[640px]').fix, /^→ max-w-2xl \(672px\)/)
+  // an opacity above Mantis's highest is a hover or press dim, not a disabled state
+  for (const cls of ['opacity-90', 'opacity-75', 'opacity-60']) {
+    assert.match(opacityRule(cls).fix, /^→ Mantis names no opacity above 50%: dim a hover or press with hover:brightness-80 or active:brightness-60; the opacities: scrim 30% · muted 40% · disabled 50%$/, cls)
+  }
+  assert.match(opacityRule('opacity-50').fix, /^→ opacity-disabled \(50%\)$/)
+})
+
+test('review fixes: a radius line equal to Mantis\'s today says so instead of contradicting itself', () => {
+  const globals = '@import "tailwindcss";\n@import "./mantis-theme.css";\n@theme inline {\n  --radius-sm: calc(var(--radius) - 4px);\n}\n'
+  const root = app({ 'app/globals.css': globals, 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8') })
+  const [found] = JSON.parse(run(root, ['--json']).stdout).findings.filter((f) => f.rule === 'radius-override')
+  assert.match(found.fix, /rounded-sm renders 4px, the same as Mantis's only because --radius is 8px/)
 })

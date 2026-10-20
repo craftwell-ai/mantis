@@ -62,3 +62,14 @@ test('the size line tells app code to merge classes with mantis-cn, which knows 
   const line = rendered.split('\n').find((l) => l.startsWith('- **Sizes**'))
   assert.match(line, /`cn` from `@\/lib\/mantis-cn`/)
 })
+
+test('the token section names the opacity, layer, width and motion tokens', () => {
+  const line = rendered.split('\n').find((l) => l.startsWith('- **Opacity, layers, widths:**'))
+  assert.ok(line, 'no opacity, layers and widths line')
+  for (const name of ['opacity-disabled', 'z-floating', 'z-raised', 'max-w-md']) assert.ok(line.includes(name), name)
+  const motion = rendered.split('\n').find((l) => l.startsWith('- **Motion:**'))
+  assert.match(motion, /`duration-normal`/)
+  assert.match(motion, /`ease-swift`/)
+  // the arbitrary-variable form is gone now that the names are utilities
+  assert.ok(!rendered.includes('duration-(--duration-'), 'AGENTS.md still writes duration-(--duration-…)')
+})

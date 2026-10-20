@@ -1,8 +1,11 @@
 // Measures every element of every story in a built Storybook, so a refactor that should change
-// nothing visible can prove it. Layout boxes only (computed width and height, offset position):
+// nothing visible can prove it. Layout boxes (computed width and height, offset position) do not show everything:
 // transforms and animations such as the skeleton shimmer move pixels without moving layout.
+// Each element also records the computed values in STYLE_PROPS (opacity, layer, timing, widths,
+// line height, radius), which change what you see without moving a box.
 // Usage:
 //   node scripts/story-geometry.mjs capture <storybook-static-dir> <out.json>
+//   node scripts/story-geometry.mjs capture-url <page-url> <out.json>   (one page, such as the home page)
 //   node scripts/story-geometry.mjs compare <before.json> <after.json> [<before-again.json>]
 // A third file is a second "before" capture: anything that differs between the two before runs
 // is noise (maps, video, timers) and is reported but not counted.
@@ -11,7 +14,10 @@
 import { createServer } from 'node:http'
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
 import { join, extname, resolve } from 'node:path'
-import { chromium } from 'playwright'
+import { pathToFileURL } from 'node:url'
+
+export const STYLE_PROPS = ['opacity', 'z-index', 'transition-duration', 'transition-timing-function', 'max-width', 'min-width', 'line-height', 'font-size', 'border-top-left-radius']
+export const styleLine = (cs, props) => props.map((p) => cs.getPropertyValue(p)).join('|')
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.woff2': 'font/woff2', '.mp4': 'video/mp4' }
 
@@ -26,14 +32,15 @@ function serve(dir) {
   return new Promise((ok) => server.listen(0, '127.0.0.1', () => ok(server)))
 }
 
-function measure() {
+// Runs inside the page, so everything it uses comes in as arguments.
+function measure(props, line) {
   const out = []
   const walk = (el, path) => {
     for (const [i, child] of [...el.children].entries()) {
       if (['SCRIPT', 'STYLE', 'LINK', 'META'].includes(child.tagName)) continue
       const key = `${path}/${child.tagName.toLowerCase()}${child.dataset.slot ? `[${child.dataset.slot}]` : ''}:${i}`
       const cs = getComputedStyle(child)
-      if (cs.display !== 'none') out.push(`${key} ${cs.width} ${cs.height} ${child.offsetLeft ?? ''},${child.offsetTop ?? ''}`)
+      if (cs.display !== 'none') out.push(`${key} ${cs.width} ${cs.height} ${child.offsetLeft ?? ''},${child.offsetTop ?? ''} ${line(cs, props)}`)
       walk(child, key)
     }
   }
@@ -41,12 +48,31 @@ function measure() {
   return out
 }
 
+const MEASURE = `(${measure})(${JSON.stringify(STYLE_PROPS)}, ${styleLine})`
+const launch = async () => (await import('playwright')).chromium.launch()
+
+async function settle(page, url) {
+  await page.goto(url, { waitUntil: 'networkidle', timeout: 30_000 })
+  await page.evaluate(() => document.fonts.ready)
+  await page.waitForTimeout(400)
+  return page.evaluate(MEASURE)
+}
+
+async function captureUrl(url, outFile) {
+  const browser = await launch()
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' })
+  const result = { [url]: await settle(page, url) }
+  await browser.close()
+  writeFileSync(outFile, JSON.stringify(result))
+  console.log(`measured ${url} → ${outFile}`)
+}
+
 async function capture(dir, outFile) {
   const index = JSON.parse(readFileSync(join(dir, 'index.json'), 'utf8'))
   const ids = Object.values(index.entries).filter((e) => e.type === 'story').map((e) => e.id).sort()
   const server = await serve(dir)
   const base = `http://127.0.0.1:${server.address().port}`
-  const browser = await chromium.launch()
+  const browser = await launch()
   const result = {}
   const queue = [...ids]
   const worker = async () => {
@@ -54,10 +80,7 @@ async function capture(dir, outFile) {
     while (queue.length) {
       const id = queue.shift()
       try {
-        await page.goto(`${base}/iframe.html?id=${id}&viewMode=story`, { waitUntil: 'networkidle', timeout: 30_000 })
-        await page.evaluate(() => document.fonts.ready)
-        await page.waitForTimeout(400)
-        result[id] = await page.evaluate(measure)
+        result[id] = await settle(page, `${base}/iframe.html?id=${id}&viewMode=story`)
       } catch (cause) {
         result[id] = [`error ${cause.message.split('\n')[0]}`]
       }
@@ -92,7 +115,10 @@ function compare(beforeFile, afterFile, againFile) {
   return changed
 }
 
-const [mode, a, b, c] = process.argv.slice(2)
-if (mode === 'capture') await capture(a, b)
-else if (mode === 'compare') process.exitCode = compare(a, b, c) ? 1 : 0
-else console.log('usage: story-geometry.mjs capture <dir> <out.json> | compare <before.json> <after.json> [<before-again.json>]')
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const [mode, a, b, c] = process.argv.slice(2)
+  if (mode === 'capture') await capture(a, b)
+  else if (mode === 'capture-url') await captureUrl(a, b)
+  else if (mode === 'compare') process.exitCode = compare(a, b, c) ? 1 : 0
+  else console.log('usage: story-geometry.mjs capture <dir> <out.json> | capture-url <url> <out.json> | compare <before.json> <after.json> [<before-again.json>]')
+}

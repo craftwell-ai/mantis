@@ -167,7 +167,7 @@ function ExplorePage({
 
   return (
     <div data-slot="explore-page" className={cn("flex min-h-dvh w-full flex-col bg-background", className)}>
-      <TopNavigation brandName={brandName} activeHref="/explore" {...navigation} className="sticky top-0 z-20" />
+      <TopNavigation brandName={brandName} activeHref="/explore" {...navigation} className="sticky top-0 z-sticky" />
 
       <main className="flex flex-1 flex-col gap-4 px-2 pt-4 pb-12 sm:px-4">
         <header className="flex flex-col gap-1 px-2 sm:px-0">

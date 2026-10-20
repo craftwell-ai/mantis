@@ -7,7 +7,7 @@
  * CSS, and the DTCG export from this file alone.
  */
 export const tokens = {
-  meta: { name: 'mantis', version: '1.7.0', defaultTheme: 'dark' },
+  meta: { name: 'mantis', version: '1.8.0', defaultTheme: 'dark' },
   // Every mode this system ships, default first. Each color and shadow leaf
   // holds one value per mode; a mode after the first is selected with
   // data-theme="<mode>". Dark is derived only when the source defines none.
@@ -52,6 +52,11 @@ export const tokens = {
   },
   radius: { xs: '{radius-050}', sm: '{radius-100}', md: '{radius-150}', lg: '{radius-200}', control: '{radius-250}', xl: '{radius-300}', '2xl': '{radius-400}', '3xl': '{radius-500}', '4xl': '{radius-600}' },
   text: { '2xs': '{type-size-050}', xs: '{type-size-100}', sm: '{type-size-200}', base: '{type-size-300}', lg: '{type-size-500}', xl: '{type-size-600}', '2xl': '{type-size-700}', '3xl': '{type-size-900}', '4xl': '{type-size-1100}', '5xl': '{type-size-1300}', '6xl': '{type-size-1400}' },
+  // Line heights for text-* (owner-approved 2026-10-19): the source's line-height tokens at the
+  // pixels Tailwind's ratios gave each size. A token is a length where Tailwind's was a ratio, so
+  // text-2xs gets its own (14px): it had none and inherited its parent's, which as a length grew
+  // from about 14px to 20px inside text-sm.
+  textLeading: { '2xs': '{type-line-height-200}', xs: '{type-line-height-300}', sm: '{type-line-height-600}', base: '{type-line-height-700}', lg: '{type-line-height-800}', xl: '{type-line-height-800}', '2xl': '{type-line-height-1000}', '3xl': '{type-line-height-1100}', '4xl': '{type-line-height-1200}', '5xl': '{type-line-height-1300}', '6xl': '{type-line-height-1400}' },
   // Tailwind's spacing steps that equal a source step, so p-4, gap-2, w-6… read
   // the source variable. Keys use `_` for `.` (Tailwind reads --spacing-0_5 as
   // step 0.5, and DTCG names may not contain a dot). Step 0 is left out on
@@ -94,6 +99,26 @@ export const tokens = {
     'control-xl': '3rem', 'control-cta': '3.25rem', 'control-2xl': '3.5rem', 'control-3xl': '4rem',
     // The large field and the command palette: 44px, the accessible touch size.
     tap: '2.75rem',
+  },
+  // Opacity (2026-10-19). disabled and muted are the source's; scrim (30%) is authored, measured
+  // from the lightbox's blurred backdrop picture (owner decision 2026-10-19). The source stores
+  // them as numbers, but they are emitted as percentages: Tailwind also reads --opacity-* for
+  // colour transparency (bg-brand/disabled), where only a percentage is valid CSS.
+  opacity: { disabled: '{opacity-disabled}', muted: '{opacity-muted}', scrim: '0.3' },
+  // Layers (2026-10-19, owner-approved names). The values are the source's z-index tokens; the
+  // names are Mantis's, after what Mantis code uses them for: raised lifts a control over its
+  // neighbours (the source's "dropdown", 10), sticky holds top bars (20), floating holds every
+  // popup, dialog, menu, tooltip and toast alike (the source's "popover", 50), so the one opened
+  // last sits on top. -z-raised (-10) puts decoration behind content.
+  layer: { raised: '{z-index-dropdown}', sticky: '{z-index-sticky}', floating: '{z-index-popover}' },
+  // Container widths (2026-10-19, owner-approved): max-w-*, w-*, min-w-*, basis-* and the @md:
+  // container queries. Tailwind's names at Tailwind's pixels, now owned by Mantis. xs, 3xl and 7xl
+  // are the source's mobile, tablet and desktop breakpoints; the other eight are authored from the
+  // widths Mantis code uses. Emitted as literals in a plain @theme block, not variables: a
+  // container query cannot read a CSS variable, and @md: would silently produce no CSS.
+  container: {
+    xs: '{breakpoint-mobile}', sm: '24rem', md: '28rem', lg: '32rem', xl: '36rem', '2xl': '42rem',
+    '3xl': '{breakpoint-tablet}', '4xl': '56rem', '5xl': '64rem', '6xl': '72rem', '7xl': '{breakpoint-desktop}',
   },
   shadow: {
     // Overlays, measured live: small popovers and menus; switch thumbs.
@@ -143,13 +168,16 @@ export const tokens = {
   // dialogs 32px, chips and tags over photos 8px. Emitted as backdrop-blur-*.
   blur: { chip: '8px', glass: '12px', dialog: '32px' },
   // Named motion the components read, aliasing the source's own scale.
-  // Durations become --duration-* variables (Tailwind has no duration theme
-  // key, so components write duration-(--duration-normal)); easings become
-  // ease-* utilities. Tailwind's stock ease-in/out/in-out already equal the
-  // source curves, so only the source's distinctive ones are added.
+  // Durations become --duration-* variables and duration-* utilities (Tailwind
+  // reads --transition-duration-*; verified 2026-10-19); every numeric step the
+  // source has a token for (duration-200) reads that token too. Easings become
+  // ease-* utilities; the source's in, out and in-out equal Tailwind's stock
+  // curves, so ease-in/out/in-out keep their timing and now read the source.
+  // `default` is what a bare `transition` uses: Tailwind's 150ms and in-out.
   motion: {
     duration: { fast: '{duration-fast}', quick: '{duration-150}', normal: '{duration-normal}', slow: '{duration-slow}' },
-    ease: { swift: '{ease-swift}', emphasized: '{ease-emphasized}', spring: '{ease-spring}', 'out-expo': '{ease-out-expo}' },
+    ease: { in: '{ease-in}', out: '{ease-out}', 'in-out': '{ease-in-out}', swift: '{ease-swift}', emphasized: '{ease-emphasized}', spring: '{ease-spring}', 'out-expo': '{ease-out-expo}' },
+    default: { duration: '{duration-150}', ease: '{ease-in-out}' },
   },
   keyframes: {
     'shimmer-vertical': '  0% { transform: translateY(100%); }\n  100% { transform: translateY(-150%); }',

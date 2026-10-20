@@ -106,6 +106,9 @@ function buildCss(t) {
     if (!block.accent && block.mode === first) lines.push(...Object.entries(t.motion?.duration ?? {}).map(([key, value]) => `  --duration-${key}: ${cssValue(t, value)};`))
     // Sizes are plain variables on the default block, like durations; the theme keys below read them.
     if (!block.accent && block.mode === first) lines.push(...Object.entries(t.size ?? {}).map(([key, value]) => `  --size-${key}: ${cssValue(t, value)};`))
+    // Opacities as percentages: the same keys feed colour transparency, which rejects a bare number.
+    if (!block.accent && block.mode === first) lines.push(...Object.entries(t.opacity ?? {}).map(([key, value]) => `  --opacity-${key}: calc(${cssValue(t, value)} * 100%);`))
+    if (!block.accent && block.mode === first) lines.push(...Object.entries(t.layer ?? {}).map(([key, value]) => `  --z-${key}: ${cssValue(t, value)};`))
     lines.push(...aliasLines)
     const scheme = !block.accent && block.mode !== first ? `  color-scheme: ${block.scheme};\n\n` : ''
     return `${selectorFor(block, first)} {\n${scheme}${lines.join('\n')}\n}`
@@ -115,6 +118,7 @@ function buildCss(t) {
     ...Object.keys(t.shadcn).map((key) => `  --color-${key}: var(--${key});`),
     ...Object.entries(t.radius).map(([key, value]) => (key === 'lg' ? '  --radius-lg: var(--radius);' : `  --radius-${key}: ${cssValue(t, value)};`)),
     ...Object.entries(t.text).map(([key, value]) => `  --text-${key}: ${cssValue(t, value)};`),
+    ...Object.entries(t.textLeading ?? {}).map(([key, value]) => `  --text-${key}--line-height: ${cssValue(t, value)};`),
     // The multiplier first, then the named steps that override it.
     ...(t.spacingUnit ? [`  --spacing: ${cssValue(t, t.spacingUnit)};`] : []),
     ...Object.entries(t.spacing ?? {}).map(([key, value]) => `  --spacing-${key}: ${cssValue(t, value)};`),
@@ -129,6 +133,8 @@ function buildCss(t) {
     ...Object.entries(t.leading ?? {}).map(([key, value]) => `  --leading-${key}: ${cssValue(t, value)};`),
     // Width, height, size and the two minimums each have their own Tailwind family, so a size never becomes a spacing step.
     ...Object.keys(t.size ?? {}).flatMap((key) => ['width', 'height', 'size', 'min-width', 'min-height'].map((family) => `  --${family}-${key}: var(--size-${key});`)),
+    ...Object.keys(t.opacity ?? {}).map((key) => `  --opacity-${key}: var(--opacity-${key});`),
+    ...Object.keys(t.layer ?? {}).map((key) => `  --z-index-${key}: var(--z-${key});`),
     ...Object.keys(t.shadow).map((key) => `  --shadow-${key}: var(--shadow-${key});`),
     // Optional composite type styles: size plus line height, tracking and weight.
     ...Object.entries(t.textStyles ?? {}).flatMap(([key, style]) => [
@@ -142,15 +148,40 @@ function buildCss(t) {
     // Optional backdrop blur and easing: backdrop-blur-* and ease-* utilities.
     ...Object.entries(t.blur ?? {}).map(([key, value]) => `  --blur-${key}: ${value};`),
     ...Object.entries(t.motion?.ease ?? {}).map(([key, value]) => `  --ease-${key}: ${cssValue(t, value)};`),
+    // duration-normal… read the runtime variables; duration-200… read the source token of the same length.
+    ...Object.keys(t.motion?.duration ?? {}).map((key) => `  --transition-duration-${key}: var(--duration-${key});`),
+    ...(t.motion?.duration ? sourceDurations(t).map(([ms, path]) => `  --transition-duration-${ms}: ${cssValue(t, `{${path}}`)};`) : []),
+    ...(t.motion?.default
+      ? [`  --default-transition-duration: ${cssValue(t, t.motion.default.duration)};`, `  --default-transition-timing-function: ${cssValue(t, t.motion.default.ease)};`]
+      : []),
   ]
-  return { theme: theme.join('\n'), blocks: blocks.join('\n\n') }
+  // Literal theme keys, for families a query reads (a container query cannot read var()).
+  const [defaultMode] = modesOf(t)
+  const literal = Object.entries(t.container ?? {}).map(([key, value]) => `  --container-${key}: ${resolveValue(t, value, defaultMode)};`)
+  return { theme: theme.join('\n'), literal: literal.join('\n'), blocks: blocks.join('\n\n') }
+}
+
+// Every source duration as [milliseconds, token name], one per length; a named token
+// (duration-normal) wins over a numeric one of the same length (duration-200 has none here).
+function sourceDurations(t) {
+  const byMs = new Map()
+  for (const [path, leaf] of Object.entries(t.source ?? {})) {
+    if (leaf?.$type !== 'duration' || !path.startsWith('duration-')) continue
+    const m = String(leaf.$value).match(/^(\d*\.?\d+)(ms|s)$/)
+    if (!m) continue
+    const ms = Math.round(Number(m[1]) * (m[2] === 's' ? 1000 : 1))
+    const named = !/^duration-\d+$/.test(path)
+    if (!byMs.has(ms) || (named && /^duration-\d+$/.test(byMs.get(ms)))) byMs.set(ms, path)
+  }
+  return [...byMs].sort((a, b) => a[0] - b[0])
 }
 
 export function renderGlobals(t) {
   const css = buildCss(t)
   // Keyframes ship with the theme so a consumer's animate-* utilities work.
   const keyframes = Object.entries(t.keyframes ?? {}).map(([name, body]) => `@keyframes ${name} {\n${body}\n}`).join("\n\n")
-  return `@theme inline {\n${css.theme}\n}\n\n${css.blocks}\n${keyframes ? `\n${keyframes}\n` : ""}`
+  const literal = css.literal ? `@theme {\n${css.literal}\n}\n\n` : ""
+  return `@theme inline {\n${css.theme}\n}\n\n${literal}${css.blocks}\n${keyframes ? `\n${keyframes}\n` : ""}`
 }
 
 // The file a consumer imports now carries the same @theme mapping, so their

@@ -23,7 +23,7 @@ const INSET = {
 
 // Shown on hover or keyboard focus, and always on touch screens, which cannot hover.
 const REVEAL =
-  "opacity-0 transition-opacity duration-(--duration-normal) group-focus-within/media-tile:opacity-100 group-hover/media-tile:opacity-100 pointer-coarse:opacity-100"
+  "opacity-0 transition-opacity duration-normal group-focus-within/media-tile:opacity-100 group-hover/media-tile:opacity-100 pointer-coarse:opacity-100"
 
 type MediaTileProps = Omit<React.ComponentProps<"div">, "title" | "onClick"> & {
   /** The picture. Leave it out and pass `children` for a video, a placeholder or a loading state. */
@@ -111,7 +111,7 @@ function MediaTile({
         // A card that opens on click (a stretched link) marks itself group/media-card; the picture dims with it.
         // A tile that is itself the control dims as a whole instead, so its media needs no filter of its own.
         !(interactive && !covered) &&
-          "transition-[filter] duration-(--duration-normal) group-hover/media-card:brightness-80 group-active/media-card:brightness-60",
+          "transition-[filter] duration-normal group-hover/media-card:brightness-80 group-active/media-card:brightness-60",
         // Under a cover, only the media dims, not the controls. A hover footer is feedback enough on its own.
         covered && !footer && "group-hover/media-tile:brightness-80 group-active/media-tile:brightness-60"
       )}
@@ -168,7 +168,7 @@ function MediaTile({
   )
 
   const frame = cn(
-    "group/media-tile relative isolate block w-full overflow-hidden bg-field text-left ring-2 ring-transparent transition-[filter,box-shadow] duration-(--duration-normal) outline-none",
+    "group/media-tile relative isolate block w-full overflow-hidden bg-field text-left ring-2 ring-transparent transition-[filter,box-shadow] duration-normal outline-none",
     typeof aspect === "string" && ASPECT[aspect],
     RADIUS[radius],
     selected && "ring-brand focus-visible:ring-brand"
@@ -179,7 +179,7 @@ function MediaTile({
     // The whole tile is one control: it dims as a unit, ring and marks included.
     const look = cn(
       frame,
-      "cursor-pointer hover:brightness-80 active:brightness-60 focus-visible:ring-ring/50 aria-disabled:opacity-50",
+      "cursor-pointer hover:brightness-80 active:brightness-60 focus-visible:ring-ring/50 aria-disabled:opacity-disabled",
       selected && "focus-visible:ring-brand",
       className
     )

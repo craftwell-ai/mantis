@@ -146,7 +146,7 @@ function NewProjectTile({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="group/new flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-glass-border text-sm font-medium text-foreground outline-none transition-[filter,background-color] duration-(--duration-normal) hover:bg-glass active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="group/new flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-glass-border text-sm font-medium text-foreground outline-none transition-[filter,background-color] duration-normal hover:bg-glass active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <span className="flex size-10 items-center justify-center rounded-full bg-glass text-xl">
         <Icon name="add" />

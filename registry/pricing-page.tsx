@@ -177,7 +177,7 @@ function PricingPage({
           }
         />
       ) : null}
-      {navigation ? <TopNavigation brandName={brandName} {...navigation} className="sticky top-0 z-20" /> : null}
+      {navigation ? <TopNavigation brandName={brandName} {...navigation} className="sticky top-0 z-sticky" /> : null}
 
       <main className="flex flex-1 flex-col items-center gap-16 px-4 pt-12 pb-20 md:pt-16">
         <header className="flex max-w-3xl flex-col items-center gap-4 text-center">

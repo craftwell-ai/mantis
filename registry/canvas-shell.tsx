@@ -332,7 +332,7 @@ function CanvasShell({
         style={boardStyle}
       >
         <div
-          className="absolute top-1/2 left-1/2 origin-center transition-transform duration-(--duration-normal) motion-reduce:transition-none"
+          className="absolute top-1/2 left-1/2 origin-center transition-transform duration-normal motion-reduce:transition-none"
           style={{ transform: `translate(-50%, -50%) scale(${zoom / 100})` }}
         >
           {/* Left out entirely, the board shows sample frames; pass null for a blank board. */}

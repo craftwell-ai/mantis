@@ -6,7 +6,7 @@ import { cn } from "@/lib/mantis-cn"
 // Interaction is the reference's own: hover dims to 80% brightness, press to
 // 60%, over a 0.2s standard ease, on every variant.
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-none select-none transition-[filter,background-color,color,box-shadow] duration-(--duration-normal) ease-in-out hover:brightness-80 active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-icon-md",
+  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-medium whitespace-nowrap outline-none select-none transition-[filter,background-color,color,box-shadow] duration-normal ease-in-out hover:brightness-80 active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-disabled aria-disabled:pointer-events-none aria-disabled:opacity-disabled aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-icon-md",
   {
     variants: {
       /** Visual weight: default (white) for everyday actions, brand (lime) for the one main call to action, destructive for irreversible ones; the rest are quieter secondary styles. */

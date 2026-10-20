@@ -125,7 +125,7 @@ function UploadDropzone({
       <div
         {...getRootProps()}
         className={cn(
-          "flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-glass-border px-6 py-10 text-center transition-colors duration-(--duration-normal)",
+          "flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-glass-border px-6 py-10 text-center transition-colors duration-normal",
           !isFull && "cursor-pointer hover:bg-glass",
           isDragActive && "border-brand bg-brand/10",
           isDragReject && "border-destructive bg-destructive/10"

@@ -80,7 +80,7 @@ export function renderAgents({ t = tokens, api = readComponentApi(), usage = ALL
   p()
   p(pick('`npm run lint` enforces the ones marked ⛔; the rest are checked in review.', 'The Mantis repo fails its build on the ones marked ⛔; hold your code to the same bar.'))
   p()
-  p("1. ⛔ **Colors come from tokens only.** No hex/rgb, no `bg-[#…]`, no Tailwind palette (`text-white`, `bg-zinc-900`). Use the utilities under *Tokens*. Motion and blur too: `duration-(--duration-normal)`, `backdrop-blur-glass`, never `duration-200` or `backdrop-blur-md`.")
+  p("1. ⛔ **Colors come from tokens only.** No hex/rgb, no `bg-[#…]`, no Tailwind palette (`text-white`, `bg-zinc-900`). Use the utilities under *Tokens*. Motion and blur too: `duration-normal`, `backdrop-blur-glass`, never `duration-200` or `backdrop-blur-md`.")
   p('2. ⛔ **No arbitrary pixels** (`w-[13px]`) outside `components/ui`. Use a Mantis step (`w-6`, listed under *Tokens*) or a component size prop.')
   p("3. ⛔ **Base UI, not Radix.** Compose with `render`: `<DialogTrigger render={<Button variant=\"outline\" />}>Open</DialogTrigger>`. Never `asChild`. A link that looks like a button is a real `<a>` styled with `buttonVariants`: `<a href=\"/pricing\" className={buttonVariants({ variant: \"outline\" })}>` (Button with `render={<a>}` is announced as a button).")
   p("4. ⛔ **Icons:** `<Icon name=\"close\" />` from `@/components/ui/icon` only — never lucide-react. Names are listed under *Icons*.")
@@ -159,13 +159,14 @@ export function renderAgents({ t = tokens, api = readComponentApi(), usage = ALL
   p(`- **Gradients** (use as \`bg-[image:var(--<name>)]\`): ${gradients.map(code).join(', ')}`)
   p('- **Meaning:** `background` page · `card`/`soft` raised panels · `glass` translucent controls (`glass-hover` on hover) · `field` inputs · `chip` composer chips · `dialog` modals · `overlay` scrims · `muted-foreground` secondary text · `brand` lime · `primary` white · `separator`/`divider` hairlines · `tile-*` icon-tile colors.')
   p(`- **Text styles:** ${Object.keys(t.textStyles ?? {}).map((k) => code(`text-${k}`)).join(', ')} (size, line height, weight and tracking in one class), plus \`text-2xs\`…\`text-6xl\`. Fonts: ${Object.keys(t.font).map((k) => code(`font-${k}`)).join(', ')}.`)
-  p(`- **Radius:** ${Object.keys(t.radius).map((k) => code(`rounded-${k}`)).join(', ')}, \`rounded-full\`. Controls use \`rounded-control\`.`)
+  p(`- **Radius** (\`rounded-\`): ${Object.keys(t.radius).map(code).join(' ')} \`full\`. Controls use \`rounded-control\`.`)
   p(`- **Shadows:** ${Object.keys(t.shadow).map((k) => code(`shadow-${k}`)).join(', ')}.`)
   // Steps only, no pixel values: this index has a size cap (build-agents.test.mjs).
   const steps = (group) => sorted(group).map(([k]) => code(step(k))).join(' ')
   if (t.spacing) p(`- **Spacing steps** (\`p-\` \`m-\` \`gap-\` \`inset-\` \`w-\` \`h-\` \`size-\`…, × 4px): \`0\` ${steps(t.spacing)}; no others. **Border widths** (\`border-\` \`ring-\` \`outline-\`, px): ${steps(t.borderWidth)}. **Weights:** ${Object.keys(t.fontWeight ?? {}).map(code).join(' ')}. **Leading** (× 4px): ${steps(t.leading)}.`)
   if (t.size) p(`- **Sizes** (\`size-\` \`h-\` \`w-\` \`min-w-\` \`min-h-\`): icons ${Object.keys(t.size).filter((k) => k.startsWith('icon-')).map((k) => code(k.slice(5))).join(' ')} (\`size-icon-sm\` 14px); controls \`control-2xs\`…\`control-3xl\`, Button's own sizes (\`h-control\` 36px); \`tap\` 44px. Merge classes with \`cn\` from \`@/lib/mantis-cn\`: stock \`cn\` does not know these names.`)
-  if (t.animate) p(`- **Motion:** ${Object.keys(t.animate).map((k) => code(`animate-${k}`)).join(', ')}. Interactions dim on hover (\`hover:brightness-80\`) and press (\`active:brightness-60\`) over 200ms.`)
+  if (t.opacity) p(`- **Opacity, layers, widths:** ${Object.keys(t.opacity).map((k) => code(`opacity-${k}`)).join(' ')} · ${Object.keys(t.layer ?? {}).map((k) => code(`z-${k}`)).join(' ')} (popups) · \`max-w-xs\`…\`max-w-7xl\` (\`max-w-md\` 448px); never \`opacity-50\` or \`z-50\`.`)
+  if (t.animate) p(`- **Motion:** ${Object.keys(t.motion?.duration ?? {}).map((k) => code(`duration-${k}`)).join(' ')}; ${Object.keys(t.motion?.ease ?? {}).filter((k) => !['in', 'out', 'in-out'].includes(k)).map((k) => code(`ease-${k}`)).join(' ')}; ${Object.keys(t.animate).map((k) => code(`animate-${k}`)).join(', ')}. Hover dims (\`hover:brightness-80\`), press dims more (\`active:brightness-60\`), over 200ms.`)
   p()
 
   const iconNames = api.icon?.props.Icon?.find((prop) => prop.name === 'name')?.values ?? []

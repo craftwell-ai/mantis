@@ -52,9 +52,9 @@ function computed(value) {
   v = v.replace(/(-?\d*\.?\d+)rem\b/g, (_, n) => `${Number(n) * 16}px`)
   for (let i = 0; i < 20; i++) {
     const next = v.replace(/calc\(([^()]*)\)/g, (all, expr) => {
-      const plain = expr.replace(/px/g, '')
+      const plain = expr.replace(/px|%/g, '')
       if (!/^[\d\s.+\-*/]+$/.test(plain)) return all
-      return `${Math.round(Function(`return (${plain})`)() * 1000) / 1000}px`
+      return `${Math.round(Function(`return (${plain})`)() * 1000) / 1000}${expr.includes('%') ? '%' : 'px'}`
     })
     if (next === v) break
     v = next
@@ -64,7 +64,7 @@ function computed(value) {
 
 // The declarations of one class's rule, as written and as computed.
 function rule(css, cls) {
-  const selector = '.' + cls.replace(/[.]/g, '\\.')
+  const selector = '.' + cls.replace(/[./]/g, '\\$&')
   const start = css.indexOf(`${selector} {`)
   assert.notEqual(start, -1, `${cls} generated no rule`)
   const body = css.slice(css.indexOf('{', start) + 1, css.indexOf('}', start))
@@ -151,4 +151,104 @@ test('every named width, height or size class in the source has CSS, so a misspe
   const css = await build(true, [...used.keys()])
   const missing = [...used].filter(([cls]) => !css.includes(`.${cls} {`)).map(([cls, file]) => `${cls} (${file})`)
   assert.deepEqual(missing, [])
+})
+
+test('opacity tokens: the inspector shows the token, the value matches the stock step, and colour transparency is untouched', async () => {
+  const pairs = { 'opacity-disabled': 'opacity-50', 'opacity-muted': 'opacity-40', 'opacity-scrim': 'opacity-30' }
+  const colours = { 'bg-brand/50': 'var(--brand) 50%', 'text-foreground/50': 'var(--foreground) 50%', 'ring-ring/50': 'var(--ring) 50%', 'bg-brand/40': 'var(--brand) 40%' }
+  const classes = [...Object.keys(pairs), ...Object.values(pairs), ...Object.keys(colours)]
+  const [stock, mantis] = await Promise.all([build(false, classes), build(true, classes)])
+  for (const [token, step] of Object.entries(pairs)) {
+    const named = rule(mantis, token)
+    assert.match(named.written, /^opacity: var\(--opacity-/, `${token}: ${named.written}`)
+    assert.equal(named.computed, rule(stock, step).computed, `${token} is not the same as ${step}`)
+  }
+  // Tailwind reads --opacity-* for colour transparency too; a bare .5 there would be invalid CSS.
+  for (const [cls, mix] of Object.entries(colours)) assert.ok(rule(mantis, cls).written.includes(`color-mix(in oklab, ${mix}, transparent)`), `${cls}: ${rule(mantis, cls).written}`)
+})
+
+test('every named opacity, layer, duration and ease class in the source has CSS, so a misspelt token cannot ship', async () => {
+  const dirs = ['components/ui', 'components/home', 'registry', 'stories', 'app']
+  const used = new Map()
+  for (const dir of dirs) {
+    for (const name of readdirSync(new URL(`../${dir}`, import.meta.url))) {
+      if (!name.endsWith('.tsx')) continue
+      const text = readFileSync(new URL(`../${dir}/${name}`, import.meta.url), 'utf8')
+      for (const m of text.matchAll(/(?<=^|[\s"'`:])-?(opacity|z|duration|ease)-([a-z][a-z0-9-]*)(?=[\s"'`!]|$)/gm)) {
+        if (/\bid=["']$/.test(text.slice(0, m.index))) continue
+        if (!used.has(m[0])) used.set(m[0], `${dir}/${name}`)
+      }
+    }
+  }
+  assert.ok(used.has('ease-in-out'), 'the scan found nothing; check its pattern')
+  const css = await build(true, [...used.keys()])
+  const missing = [...used].filter(([cls]) => !css.includes(`.${cls} {`)).map(([cls, file]) => `${cls} (${file})`)
+  assert.deepEqual(missing, [])
+})
+
+test('layer tokens: the inspector shows the token and the layer matches the stock step, negatives included', async () => {
+  const pairs = { 'z-raised': 'z-10', 'z-sticky': 'z-20', 'z-floating': 'z-50', '-z-raised': '-z-10' }
+  const classes = [...Object.keys(pairs), ...Object.values(pairs)]
+  const [stock, mantis] = await Promise.all([build(false, classes), build(true, classes)])
+  for (const [token, step] of Object.entries(pairs)) {
+    const named = rule(mantis, token)
+    assert.match(named.written, /var\(--z-/, `${token}: ${named.written}`)
+    assert.equal(named.computed, rule(stock, step).computed, `${token} is not the same layer as ${step}`)
+  }
+})
+
+test('container widths: Mantis defines each one at Tailwind\'s pixels, and container queries still compile', async () => {
+  const keys = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl']
+  const theme = readFileSync(THEME_PATH, 'utf8')
+  const stockTheme = readFileSync(STOCK_THEME, 'utf8')
+  const px = (v) => (v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v))
+  for (const key of keys) {
+    // A literal, in a plain @theme block: a container query cannot read a CSS variable.
+    const mantis = theme.match(new RegExp(`^@theme \\{[^}]*--container-${key}: ([^;]+);`, 'm'))?.[1]
+    const stock = stockTheme.match(new RegExp(`--container-${key}: ([^;]+);`))[1]
+    assert.ok(mantis, `the theme does not define --container-${key}`)
+    assert.equal(px(mantis), px(stock), `--container-${key}`)
+  }
+  const classes = ['@md:flex', '@2xl:grid-cols-2', '@sm:max-w-md', ...keys.map((k) => `max-w-${k}`)]
+  const [stock, mantis] = await Promise.all([build(false, classes), build(true, classes)])
+  assert.deepEqual(mantis.match(/@container[^{]*/g), stock.match(/@container[^{]*/g))
+  for (const key of keys) assert.equal(rule(mantis, `max-w-${key}`).written, `max-width: var(--container-${key})`)
+})
+
+test('motion: duration and ease utilities, and the bare transition, read Mantis motion at the same timing', async () => {
+  const ms = (v) => (/ms$/.test(v) ? parseFloat(v) : parseFloat(v) * 1000)
+  const theme = readFileSync(THEME_PATH, 'utf8')
+  const value = (name) => theme.match(new RegExp(`${name}:\\s*([^;]+);`))[1].trim()
+  const classes = ['duration-normal', 'duration-fast', 'duration-quick', 'duration-slow', 'duration-200', 'duration-150', 'duration-0', 'duration-75', 'ease-in', 'ease-out', 'ease-in-out', 'transition', 'transition-colors']
+  const css = await build(true, classes)
+  for (const name of ['normal', 'fast', 'quick', 'slow']) assert.match(rule(css, `duration-${name}`).written, new RegExp(`transition-duration: var\\(--duration-${name}\\)`))
+  // a numeric step with a source token reads it, at the same timing
+  for (const [cls, token, expected] of [['duration-200', 'normal', 200], ['duration-150', '150', 150], ['duration-0', 'instant', 0]]) {
+    assert.match(rule(css, cls).written, new RegExp(`var\\(--mantis-duration-${token}\\)`), cls)
+    assert.equal(ms(value(`--mantis-duration-${token}`)), expected, cls)
+  }
+  assert.match(rule(css, 'duration-75').written, /transition-duration: 75ms/)
+  // the source curves equal Tailwind's stock ones, so ease-in/out/in-out can read them
+  const stock = readFileSync(STOCK_THEME, 'utf8')
+  for (const curve of ['in', 'out', 'in-out']) {
+    assert.match(rule(css, `ease-${curve}`).written, new RegExp(`var\\(--mantis-ease-${curve}\\)`))
+    assert.equal(value(`--mantis-ease-${curve}`), stock.match(new RegExp(`--ease-${curve}: ([^;]+);`))[1])
+  }
+  for (const cls of ['transition', 'transition-colors']) {
+    assert.match(rule(css, cls).written, /transition-duration: var\(--tw-duration, var\(--mantis-duration-150\)\)/, cls)
+    assert.match(rule(css, cls).written, /transition-timing-function: var\(--tw-ease, var\(--mantis-ease-in-out\)\)/, cls)
+  }
+})
+
+test('text sizes take their line height from a Mantis token, at the stock pixels on their own element', async () => {
+  // text-2xs had none of its own and took its parent's (owner decision 2026-10-19: give it 14px).
+  const expected = { '2xs': 14, xs: 16, sm: 20, base: 24, lg: 28, xl: 28, '2xl': 32, '3xl': 36, '4xl': 40, '5xl': 48, '6xl': 56 }
+  const theme = readFileSync(THEME_PATH, 'utf8')
+  const value = (name) => theme.match(new RegExp(`${name}:\\s*([^;]+);`))?.[1].trim()
+  const px = (v) => (v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v))
+  for (const [key, linePx] of Object.entries(expected)) {
+    const line = value(`--text-${key}--line-height`)
+    assert.match(line ?? '', /^var\(--mantis-type-line-height-\d+\)$/, `text-${key}: ${line}`)
+    assert.equal(px(value(line.slice(4, -1))), linePx, `text-${key}`)
+  }
 })

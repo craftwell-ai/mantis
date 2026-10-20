@@ -6,7 +6,7 @@ A dark, cinematic design system for AI-native creative tools: prompt composers, 
 
 Live at **https://mantisdesignsystem.com**: the registry, [Storybook](https://mantisdesignsystem.com/storybook/), [llms.txt](https://mantisdesignsystem.com/llms.txt) and every usage guide.
 
-In a Next.js app set up with `npx shadcn@latest init` (style `base-nova`), register the namespace in `components.json`:
+In a Next.js app set up with `npx shadcn@latest init --base base --preset nova` (style `base-nova`), register the namespace in `components.json`:
 
 ```json
 "registries": { "@mantis": "https://mantisdesignsystem.com/r/{name}.json" }
@@ -37,7 +37,7 @@ Pick your agent (Claude Code, Cursor, VS Code or Codex) when asked and restart i
 4. **Load the fonts with the Google Fonts stylesheet, not `next/font`.** The theme names Inter, Inter Display, Space Grotesk and IBM Plex Mono literally, and `next/font` renames families.
 5. **Point your agents at `MANTIS.md`** from your `AGENTS.md` (and `@MANTIS.md` in `CLAUDE.md`).
 
-The `base` item's `meta.usage` in `registry.json` spells out every manual step, including the clean-up of `shadcn init`'s competing CSS block. Verified 2026-10-02 against a fresh Next.js 16 app.
+The `base` item's `meta.usage` in `registry.json` spells out every manual step, including the clean-up of `shadcn init`'s competing CSS block. Verified 2026-10-19 against a fresh Next.js 16.4 app with shadcn 4.22: following it, every `rounded-*` renders Mantis's radius.
 
 ## What's inside
 

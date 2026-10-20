@@ -256,7 +256,7 @@ function AssetLibraryPage({
           // Floats over the grid at the bottom of the window, like the reference's selection bar.
           <section
             aria-label="Selection"
-            className="sticky bottom-4 z-10 mx-auto flex max-w-full flex-wrap items-center justify-center gap-1 rounded-2xl border border-glass-border bg-popover p-1.5 text-popover-foreground shadow-popover"
+            className="sticky bottom-4 z-raised mx-auto flex max-w-full flex-wrap items-center justify-center gap-1 rounded-2xl border border-glass-border bg-popover p-1.5 text-popover-foreground shadow-popover"
           >
             <p aria-live="polite" className="px-2 text-sm font-medium tabular-nums">
               {selectedCount} selected

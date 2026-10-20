@@ -53,7 +53,7 @@ export interface AppShellSidebarProps extends Omit<React.ComponentProps<"div">, 
 }
 
 const rowClass =
-  "flex h-control w-full items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium outline-none transition-[background-color,color] duration-(--duration-normal) hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass aria-[current=page]:text-foreground"
+  "flex h-control w-full items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium outline-none transition-[background-color,color] duration-normal hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass aria-[current=page]:text-foreground"
 
 function SidebarRow({
   item,
@@ -186,7 +186,7 @@ function AppShellSidebar({
         <aside
           data-collapsed={collapsed || undefined}
           className={cn(
-            "hidden shrink-0 flex-col gap-3 border-r border-divider py-3 transition-[width] duration-(--duration-normal) motion-reduce:transition-none @5xl/shell:flex",
+            "hidden shrink-0 flex-col gap-3 border-r border-divider py-3 transition-[width] duration-normal motion-reduce:transition-none @5xl/shell:flex",
             collapsed ? "w-16 items-center px-3" : "w-60 px-3"
           )}
         >

@@ -127,6 +127,17 @@
   --text-4xl: var(--mantis-type-size-1100);
   --text-5xl: var(--mantis-type-size-1300);
   --text-6xl: var(--mantis-type-size-1400);
+  --text-2xs--line-height: var(--mantis-type-line-height-200);
+  --text-xs--line-height: var(--mantis-type-line-height-300);
+  --text-sm--line-height: var(--mantis-type-line-height-600);
+  --text-base--line-height: var(--mantis-type-line-height-700);
+  --text-lg--line-height: var(--mantis-type-line-height-800);
+  --text-xl--line-height: var(--mantis-type-line-height-800);
+  --text-2xl--line-height: var(--mantis-type-line-height-1000);
+  --text-3xl--line-height: var(--mantis-type-line-height-1100);
+  --text-4xl--line-height: var(--mantis-type-line-height-1200);
+  --text-5xl--line-height: var(--mantis-type-line-height-1300);
+  --text-6xl--line-height: var(--mantis-type-line-height-1400);
   --spacing: var(--mantis-space-100);
   --spacing-1: var(--mantis-space-100);
   --spacing-2: var(--mantis-space-200);
@@ -276,6 +287,12 @@
   --size-tap: var(--size-tap);
   --min-width-tap: var(--size-tap);
   --min-height-tap: var(--size-tap);
+  --opacity-disabled: var(--opacity-disabled);
+  --opacity-muted: var(--opacity-muted);
+  --opacity-scrim: var(--opacity-scrim);
+  --z-index-raised: var(--z-raised);
+  --z-index-sticky: var(--z-sticky);
+  --z-index-floating: var(--z-floating);
   --shadow-popover: var(--shadow-popover);
   --shadow-card-inset: var(--shadow-card-inset);
   --shadow-thumb-on: var(--shadow-thumb-on);
@@ -324,10 +341,54 @@
   --blur-chip: 8px;
   --blur-glass: 12px;
   --blur-dialog: 32px;
+  --ease-in: var(--mantis-ease-in);
+  --ease-out: var(--mantis-ease-out);
+  --ease-in-out: var(--mantis-ease-in-out);
   --ease-swift: var(--mantis-ease-swift);
   --ease-emphasized: var(--mantis-ease-emphasized);
   --ease-spring: var(--mantis-ease-spring);
   --ease-out-expo: var(--mantis-ease-out-expo);
+  --transition-duration-fast: var(--duration-fast);
+  --transition-duration-quick: var(--duration-quick);
+  --transition-duration-normal: var(--duration-normal);
+  --transition-duration-slow: var(--duration-slow);
+  --transition-duration-0: var(--mantis-duration-instant);
+  --transition-duration-80: var(--mantis-duration-80);
+  --transition-duration-100: var(--mantis-duration-fast);
+  --transition-duration-120: var(--mantis-duration-120);
+  --transition-duration-130: var(--mantis-duration-130);
+  --transition-duration-150: var(--mantis-duration-150);
+  --transition-duration-160: var(--mantis-duration-160);
+  --transition-duration-180: var(--mantis-duration-180);
+  --transition-duration-200: var(--mantis-duration-normal);
+  --transition-duration-220: var(--mantis-duration-220);
+  --transition-duration-260: var(--mantis-duration-260);
+  --transition-duration-300: var(--mantis-duration-slow);
+  --transition-duration-350: var(--mantis-duration-350);
+  --transition-duration-400: var(--mantis-duration-400);
+  --transition-duration-500: var(--mantis-duration-slower);
+  --transition-duration-700: var(--mantis-duration-700);
+  --transition-duration-800: var(--mantis-duration-800);
+  --transition-duration-1000: var(--mantis-duration-1000);
+  --transition-duration-1200: var(--mantis-duration-1200);
+  --transition-duration-1300: var(--mantis-duration-1300);
+  --transition-duration-1400: var(--mantis-duration-1400);
+  --default-transition-duration: var(--mantis-duration-150);
+  --default-transition-timing-function: var(--mantis-ease-in-out);
+}
+
+@theme {
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+  --container-2xl: 42rem;
+  --container-3xl: 48rem;
+  --container-4xl: 56rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
+  --container-7xl: 80rem;
 }
 
 html:root {
@@ -915,6 +976,12 @@ html:root {
   --size-control-2xl: 3.5rem;
   --size-control-3xl: 4rem;
   --size-tap: 2.75rem;
+  --opacity-disabled: calc(var(--mantis-opacity-disabled) * 100%);
+  --opacity-muted: calc(var(--mantis-opacity-muted) * 100%);
+  --opacity-scrim: calc(0.3 * 100%);
+  --z-raised: var(--mantis-z-index-dropdown);
+  --z-sticky: var(--mantis-z-index-sticky);
+  --z-floating: var(--mantis-z-index-popover);
   --background: var(--ground-base);
   --foreground: var(--text-primary);
   --card: var(--surface-card);

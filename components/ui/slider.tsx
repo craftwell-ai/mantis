@@ -29,7 +29,7 @@ function Slider({
       thumbAlignment="edge"
       {...props}
     >
-      <SliderPrimitive.Control className="relative flex w-full touch-none items-center select-none data-disabled:opacity-50 data-vertical:h-full data-vertical:min-h-40 data-vertical:w-auto data-vertical:flex-col">
+      <SliderPrimitive.Control className="relative flex w-full touch-none items-center select-none data-disabled:opacity-disabled data-vertical:h-full data-vertical:min-h-40 data-vertical:w-auto data-vertical:flex-col">
         <SliderPrimitive.Track
           data-slot="slider-track"
           className="relative grow overflow-hidden rounded-full bg-separator select-none data-horizontal:h-1 data-horizontal:w-full data-vertical:h-full data-vertical:w-1"
@@ -45,7 +45,7 @@ function Slider({
             key={index}
             // The thumb holds the focusable input, so it carries the accessible name.
             aria-label={ariaLabel}
-            className="relative block size-3 shrink-0 cursor-grab rounded-full bg-primary transition-transform duration-(--duration-normal) select-none after:absolute after:-inset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:cursor-grabbing data-disabled:pointer-events-none data-disabled:opacity-50"
+            className="relative block size-3 shrink-0 cursor-grab rounded-full bg-primary transition-transform duration-normal select-none after:absolute after:-inset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:cursor-grabbing data-disabled:pointer-events-none data-disabled:opacity-disabled"
           />
         ))}
       </SliderPrimitive.Control>
