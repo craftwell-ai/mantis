@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { join, relative, resolve, extname, dirname } from 'node:path'
 
 export const DATA = {
- "version": "1.9.0",
+ "version": "1.9.1",
  "colors": [
   "background",
   "foreground",

@@ -591,3 +591,13 @@ test('review 1.9.0: line-height shorthand and fully on/off are not transparency 
 test('review 1.9.0: panel widths read --size-* at runtime, so no theme key refers to itself', () => {
   assert.match(cssFindings('.x { width: 16rem }')[0].fix, /^→ var\(--size-panel\) \(256px\)$/)
 })
+
+// An app scans what Mantis installs into it (components/ui is skipped by default). A finding there
+// is one the app's builder cannot fix, so each needs a reasoned allow note in Mantis's own file.
+test('every file Mantis installs outside components/ui comes through the app\'s check clean', () => {
+  const registry = JSON.parse(readFileSync(new URL('../registry.json', import.meta.url), 'utf8'))
+  const installed = registry.items.filter((item) => ['registry:block', 'registry:component', 'registry:lib'].includes(item.type)).flatMap((item) => item.files.map((file) => file.path))
+  assert.ok(installed.includes('registry/sample-content.tsx'))
+  const open = installed.flatMap((path) => scanFile(path, readFileSync(new URL(`../${path}`, import.meta.url), 'utf8')).findings.filter((f) => !f.allowed).map((f) => `${path}:${f.line} ${f.rule} ${f.value}`))
+  assert.deepEqual(open, [])
+})

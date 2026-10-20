@@ -23,6 +23,7 @@ function toRgb(value: string, fallback: Rgb): Rgb {
   return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)]
 }
 
+// mantis-check: allow raw-color — a canvas has no classes; these channels are read from the theme's variables and painted with an alpha
 const paint = ([r, g, b]: Rgb, alpha: number) => `rgba(${r}, ${g}, ${b}, ${Math.max(0, Math.min(1, alpha)).toFixed(3)})`
 
 /** The full-bleed hero background: a lime outline draws the mantis, its eyes light up, particles rise. */

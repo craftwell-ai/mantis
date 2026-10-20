@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.1] - 2026-10-20
+- mantis-check: sample-content's hand-written dark colour carries an allow note, so apps that install it no longer get two findings they cannot fix
+
 ## [1.9.0] - 2026-10-19
 - Colour transparency steps (bg-brand/50 reads the source's alpha series), breakpoints, panel and menu widths (w-panel, min-w-menu…), ring-focus and blur-stage are Mantis tokens; mantis-check flags off-scale transparency and arbitrary breakpoints, reads radius lines in any @theme block, and no longer flags line-height shorthand; repo lint stops numeric opacity, z-index, ring-3 and stock blurs; flaky stories fixed. Same pixels, except the home page's header and install box move to the 80% and 90% steps
 

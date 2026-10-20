@@ -57,7 +57,7 @@ export function photo(spot: string, width: number, height: number) {
  * is fetched. Swap in real media before shipping.
  */
 export function placeholder(width: number, height: number) {
-  // An <img> cannot read the page's CSS variables, so the dark base color is written out.
+  // mantis-check: allow raw-color — an <img> cannot read the page's CSS variables, so the dark base color is written out
   const svg = [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
     `<filter id="n" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="3.4" intercept="-1.2"/><feFuncG type="linear" slope="3.4" intercept="-1.2"/><feFuncB type="linear" slope="3.4" intercept="-1.2"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer></filter>`,

@@ -29,6 +29,7 @@ function convertStory(options) {
     } else if (input !== 'transparent') {
       // Other color spaces: paint one pixel and read it back.
       context2d.clearRect(0, 0, 1, 1)
+      // mantis-check: allow raw-color — resets the probe pixel, so a colour the canvas cannot parse does not keep the last one
       context2d.fillStyle = '#000'
       context2d.fillStyle = input
       context2d.fillRect(0, 0, 1, 1)
@@ -336,6 +337,7 @@ function convertStory(options) {
     clone.removeAttribute('class')
     clone.removeAttribute('style')
     const color = parseColor(cs.color)
+    // mantis-check: allow raw-color — fallback fill for an icon whose text colour cannot be parsed; Paper needs a literal
     const fill = color ? toHex(color) : '#FFFFFF'
     // Presentation values that depend on the page (currentColor, CSS-set fill/stroke) get baked in.
     const originals = [element, ...element.querySelectorAll('*')]
