@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>
 
 function SearchPill() {
   return (
-    <button type="button" className="flex h-9 w-48 items-center gap-2 rounded-control bg-glass px-3 text-sm text-muted-foreground">
+    <button type="button" className="flex h-control w-48 items-center gap-2 rounded-control bg-glass px-3 text-sm text-muted-foreground">
       <Icon name="search" />
       Search
       <KbdGroup className="ml-auto"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>

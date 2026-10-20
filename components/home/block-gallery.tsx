@@ -101,7 +101,7 @@ function StudioPreview() {
         preset={STUDIO_PRESET}
         references={STUDIO_REFERENCES}
         defaultPrompt={STUDIO_PROMPT}
-        className="h-full w-88 shrink-0"
+        className="h-full w-panel-xl shrink-0"
       />
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         {/* The rendered clip, drawn as a paused video so it reads as footage and not as a photo. */}

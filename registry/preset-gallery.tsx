@@ -81,7 +81,7 @@ export function PresetGallery({
               </TabsTrigger>
             ))}
           </TabsList>
-          <InputGroup className="ml-auto w-full sm:w-64">
+          <InputGroup className="ml-auto w-full sm:w-panel">
             <InputGroupAddon align="inline-start">
               <Icon name="search" />
             </InputGroupAddon>

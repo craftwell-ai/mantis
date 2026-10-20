@@ -159,7 +159,7 @@ export function PromptComposer({
           size="lg"
           disabled={!canGenerate}
           aria-describedby={notEnoughCredits ? noticeId : undefined}
-          className="ml-auto min-w-32"
+          className="ml-auto min-w-menu"
         >
           {generating ? (
             <>

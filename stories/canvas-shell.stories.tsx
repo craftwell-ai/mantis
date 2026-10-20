@@ -29,7 +29,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const wide = (Story: () => React.ReactNode) => <div className="w-320">{Story()}</div>
+const wide = (Story: () => React.ReactNode) => <div className="w-7xl">{Story()}</div>
 
 export const Default: Story = { decorators: [wide] }
 

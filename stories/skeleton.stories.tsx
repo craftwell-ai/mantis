@@ -27,7 +27,7 @@ export const Grid: Story = { render: () => <ThumbnailGrid /> }
 export const CardLoading: Story = {
   name: 'Card loading',
   render: () => (
-    <div role="region" aria-busy="true" aria-label="Loading project" className="flex w-64 flex-col gap-3 rounded-2xl bg-card p-3">
+    <div role="region" aria-busy="true" aria-label="Loading project" className="flex w-panel flex-col gap-3 rounded-2xl bg-card p-3">
       <Skeleton className="aspect-video w-full" />
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-3 w-1/2" />

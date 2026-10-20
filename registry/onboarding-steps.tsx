@@ -142,7 +142,7 @@ function OnboardingSteps({
                 <label
                   key={option.value}
                   className={cn(
-                    "flex h-12 cursor-pointer items-center gap-3 rounded-xl border-2 bg-card px-4 text-sm transition-[border-color,filter] duration-normal hover:brightness-110 has-focus-visible:ring-3 has-focus-visible:ring-ring/50",
+                    "flex h-12 cursor-pointer items-center gap-3 rounded-xl border-2 bg-card px-4 text-sm transition-[border-color,filter] duration-normal hover:brightness-110 has-focus-visible:ring-focus has-focus-visible:ring-ring/50",
                     checked ? "border-brand" : "border-transparent"
                   )}
                 >
@@ -159,7 +159,7 @@ function OnboardingSteps({
           </fieldset>
         )}
 
-        <Button size="lg" className={cn("w-full sm:w-60", step.kind === "multi" && "self-end")} disabled={!canContinue} focusableWhenDisabled onClick={next}>
+        <Button size="lg" className={cn("w-full sm:w-sidebar", step.kind === "multi" && "self-end")} disabled={!canContinue} focusableWhenDisabled onClick={next}>
           {isLast ? finishLabel : "Continue"}
           {isLast ? null : <Icon name="arrow_forward" />}
         </Button>

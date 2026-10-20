@@ -109,6 +109,10 @@ function buildCss(t) {
     // Opacities as percentages: the same keys feed colour transparency, which rejects a bare number.
     if (!block.accent && block.mode === first) lines.push(...Object.entries(t.opacity ?? {}).map(([key, value]) => `  --opacity-${key}: calc(${cssValue(t, value)} * 100%);`))
     if (!block.accent && block.mode === first) lines.push(...Object.entries(t.layer ?? {}).map(([key, value]) => `  --z-${key}: ${cssValue(t, value)};`))
+    if (!block.accent && block.mode === first) lines.push(...Object.entries(t.alpha ?? {}).map(([key, value]) => `  --alpha-${key}: ${cssValue(t, value)};`))
+    if (!block.accent && block.mode === first) lines.push(...Object.entries(t.ringWidth ?? {}).map(([key, value]) => `  --ring-${key}: ${cssValue(t, value)};`))
+    // Panel widths share the --size-* runtime namespace: a variable named like its theme key (--width-*) refers to itself under :host.
+    if (!block.accent && block.mode === first) lines.push(...Object.entries(t.width ?? {}).map(([key, value]) => `  --size-${key}: ${cssValue(t, value)};`))
     lines.push(...aliasLines)
     const scheme = !block.accent && block.mode !== first ? `  color-scheme: ${block.scheme};\n\n` : ''
     return `${selectorFor(block, first)} {\n${scheme}${lines.join('\n')}\n}`
@@ -135,6 +139,10 @@ function buildCss(t) {
     ...Object.keys(t.size ?? {}).flatMap((key) => ['width', 'height', 'size', 'min-width', 'min-height'].map((family) => `  --${family}-${key}: var(--size-${key});`)),
     ...Object.keys(t.opacity ?? {}).map((key) => `  --opacity-${key}: var(--opacity-${key});`),
     ...Object.keys(t.layer ?? {}).map((key) => `  --z-index-${key}: var(--z-${key});`),
+    ...Object.keys(t.alpha ?? {}).map((key) => `  --opacity-${key}: var(--alpha-${key});`),
+    ...Object.keys(t.ringWidth ?? {}).map((key) => `  --ring-width-${key}: var(--ring-${key});`),
+    // Panel widths: widths only, so h-panel and p-panel never exist.
+    ...Object.keys(t.width ?? {}).flatMap((key) => ['width', 'min-width', 'max-width'].map((family) => `  --${family}-${key}: var(--size-${key});`)),
     ...Object.keys(t.shadow).map((key) => `  --shadow-${key}: var(--shadow-${key});`),
     // Optional composite type styles: size plus line height, tracking and weight.
     ...Object.entries(t.textStyles ?? {}).flatMap(([key, style]) => [
@@ -155,9 +163,12 @@ function buildCss(t) {
       ? [`  --default-transition-duration: ${cssValue(t, t.motion.default.duration)};`, `  --default-transition-timing-function: ${cssValue(t, t.motion.default.ease)};`]
       : []),
   ]
-  // Literal theme keys, for families a query reads (a container query cannot read var()).
+  // Literal theme keys, for families a query reads (a media or container query cannot read var()).
   const [defaultMode] = modesOf(t)
-  const literal = Object.entries(t.container ?? {}).map(([key, value]) => `  --container-${key}: ${resolveValue(t, value, defaultMode)};`)
+  const literal = [
+    ...Object.entries(t.container ?? {}).map(([key, value]) => `  --container-${key}: ${resolveValue(t, value, defaultMode)};`),
+    ...Object.entries(t.breakpoint ?? {}).map(([key, value]) => `  --breakpoint-${key}: ${resolveValue(t, value, defaultMode)};`),
+  ]
   return { theme: theme.join('\n'), literal: literal.join('\n'), blocks: blocks.join('\n\n') }
 }
 

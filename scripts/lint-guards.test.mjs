@@ -19,6 +19,7 @@ export function Bad() {
     <div className={\`p-[13px] text-white \${tone}\`} style={{ color: '#ff0000' }}>
       <span className="bg-[#d1fe17] [color:var(--mantis-color-lime-500)]" />
       <span className="transition-opacity duration-200 hover:backdrop-blur-md" />
+      <span className="opacity-50 z-50 focus-visible:ring-3 blur-3xl" />
       <Button asChild><a href="/x">Go</a></Button>
       <Button nativeButton={false} render={<a href="/y" />}>Pricing</Button>
       <Camera /><Slot className={cn('a')} />
@@ -32,7 +33,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Icon } from '@/components/ui/icon'
 export function Good() {
   return (
-    <div className="w-105 p-4 text-muted-foreground bg-glass border-glass-border transition-opacity duration-(--duration-normal) backdrop-blur-glass">
+    <div className="w-105 p-4 text-muted-foreground bg-glass border-glass-border transition-opacity duration-normal backdrop-blur-glass opacity-disabled hover:opacity-100 z-floating focus-visible:ring-focus blur-stage">
       <Button variant="brand"><Icon name="add" />Generate</Button>
       <a href="/x" className={buttonVariants({ variant: 'outline' })}>Pricing</a>
     </div>
@@ -53,12 +54,16 @@ const EXPECTED = [
   ['asChild', /render=\{<Button \/>\}/],
   ['stock cn', /@\/lib\/mantis-cn/],
   ['button as link', /buttonVariants/],
-  ['numeric duration', /duration-\(--duration-normal\)/],
+  ['numeric duration', /duration-normal 200ms/],
   ['stock blur', /backdrop-blur-glass/],
+  ['numeric opacity', /opacity-disabled \(50%\)/],
+  ['numeric z-index', /z-floating \(50, every popup\)/],
+  ['ring-3', /ring-focus \(3px\)/],
+  ['stock filter blur', /blur-stage \(64px\)/],
 ]
 
-// The motion and blur guards cover the primitives and patterns too, not only stories.
-const MOTION_GUARDS = EXPECTED.filter(([label]) => label === 'numeric duration' || label === 'stock blur')
+// The motion, blur, opacity, layer and ring guards cover the primitives and patterns too, not only stories.
+const MOTION_GUARDS = EXPECTED.filter(([label]) => ['numeric duration', 'stock blur', 'numeric opacity', 'numeric z-index', 'ring-3', 'stock filter blur'].includes(label))
 
 test('off-system code in a pattern or story fails every guard', async () => {
   const messages = await lint(OFF_SYSTEM, 'stories/probe.tsx')

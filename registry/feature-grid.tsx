@@ -70,7 +70,7 @@ function FeatureGrid({ title, accent, description, features, columns = 3, classN
                     // The link's ::after covers the card, so the image opens the feature too.
                     <a
                       href={feature.href}
-                      className="outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
+                      className="outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-focus focus-visible:after:ring-ring/50"
                     >
                       {feature.title}
                     </a>

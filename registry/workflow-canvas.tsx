@@ -112,7 +112,7 @@ function StepCard({ data, selected }: NodeProps<StepNode>) {
     <div
       data-slot="workflow-step"
       className={cn(
-        "flex w-56 flex-col gap-2 rounded-xl border bg-card p-3 text-card-foreground shadow-popover transition-colors duration-normal",
+        "flex w-panel-sm flex-col gap-2 rounded-xl border bg-card p-3 text-card-foreground shadow-popover transition-colors duration-normal",
         selected ? "border-brand" : "border-divider",
       )}
     >
@@ -308,7 +308,7 @@ function Board({
               <Icon name="add" />
               Add step
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64">
+            <DropdownMenuContent align="start" className="w-panel">
               <DropdownMenuGroup>
                 <DropdownMenuLabel>Steps</DropdownMenuLabel>
                 {stepTypes.map((stepType) => (

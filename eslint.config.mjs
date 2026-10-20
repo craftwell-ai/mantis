@@ -37,7 +37,23 @@ const systemRules = [
   ),
   ...stringRules(
     "/(^|[\\s:])duration-[0-9]+(\\s|$)/",
-    "Mantis: no numeric durations like duration-200. Use a motion token: duration-(--duration-fast) 100ms, duration-(--duration-quick) 150ms, duration-(--duration-normal) 200ms, duration-(--duration-slow) 300ms.",
+    "Mantis: no numeric durations like duration-200. Use a motion token: duration-fast 100ms, duration-quick 150ms, duration-normal 200ms, duration-slow 300ms.",
+  ),
+  ...stringRules(
+    "/(^|[\\s:])opacity-([1-9]|[1-9][0-9])(\\s|$)/",
+    "Mantis: no numeric opacity like opacity-50. Use opacity-disabled (50%), opacity-muted (40%) or opacity-scrim (30%); dim a hover or press with hover:brightness-80.",
+  ),
+  ...stringRules(
+    "/(^|[\\s:])-?z-[1-9][0-9]*(\\s|$)/",
+    "Mantis: no numeric z-index like z-50. Use z-raised (10), z-sticky (20), z-floating (50, every popup), or -z-raised for decoration behind content.",
+  ),
+  ...stringRules(
+    "/(^|[\\s:])ring-3(\\s|$)/",
+    "Mantis: the focus ring is ring-focus (3px), not ring-3.",
+  ),
+  ...stringRules(
+    "/(^|[\\s:])blur-(sm|md|lg|xl|2xl|3xl)(\\s|$)/",
+    "Mantis: no stock blur sizes like blur-3xl. Use a measured blur token: blur-chip (8px), blur-glass (12px), blur-dialog (32px), blur-stage (64px).",
   ),
   ...stringRules(
     "/(^|[\\s:])backdrop-blur-(sm|md|lg|xl|2xl|3xl)(\\s|$)/",

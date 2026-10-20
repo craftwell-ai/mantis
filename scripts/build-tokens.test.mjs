@@ -376,3 +376,24 @@ test('motion: named and numeric durations become --transition-duration-* keys, a
   assert.ok(theme.includes('  --default-transition-timing-function: ease;'))
   assert.ok(!/--transition-duration-|--default-transition/.test(renderRegistryTheme(fixture)))
 })
+
+test('transparency steps become --alpha-* runtime variables read by the --opacity-* keys', () => {
+  const css = renderRegistryTheme({ ...fixture, alpha: { 50: '50%' } })
+  assert.ok(css.split('\n}')[0].includes('  --opacity-50: var(--alpha-50);'))
+  assert.ok(css.slice(css.indexOf('html:root {')).includes('  --alpha-50: 50%;'))
+  assert.ok(!/--alpha-/.test(renderRegistryTheme(fixture)))
+})
+
+test('breakpoints go in the plain @theme block as literals', () => {
+  const css = renderRegistryTheme({ ...fixture, breakpoint: { md: '48rem' } })
+  assert.match(css, /\n@theme \{\n  --breakpoint-md: 48rem;\n\}\n/)
+})
+
+test('panel widths become --size-* runtime variables read by the width, min-width and max-width keys', () => {
+  // --size-*, not --width-*: a runtime variable named like its theme key refers to itself under :host.
+  const css = renderRegistryTheme({ ...fixture, width: { panel: '16rem' } })
+  const theme = css.split('\n}')[0]
+  for (const family of ['width', 'min-width', 'max-width']) assert.ok(theme.includes(`  --${family}-panel: var(--size-panel);`), family)
+  assert.ok(css.slice(css.indexOf('html:root {')).includes('  --size-panel: 16rem;'))
+  assert.ok(!css.includes('--width-panel: var(--width-panel)'))
+})

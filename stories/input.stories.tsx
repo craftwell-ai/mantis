@@ -14,7 +14,7 @@ const meta = {
     type: 'search',
     placeholder: 'Search by prompt, preset or project',
     'aria-label': 'Search generations',
-    className: 'w-72',
+    className: 'w-panel-md',
   },
   parameters: { docs: { description: { component: renderUsageDocs(usage) } } },
 } satisfies Meta<typeof Input>
@@ -27,7 +27,7 @@ export const Default: Story = {}
 function EmailField() {
   const id = useId()
   return (
-    <div className="grid w-72 gap-2">
+    <div className="grid w-panel-md gap-2">
       <Label htmlFor={id}>Collaborator email</Label>
       <Input id={id} type="email" autoComplete="email" placeholder="name@studio.com" />
     </div>
@@ -40,7 +40,7 @@ function DisabledField() {
   const id = useId()
   const hintId = useId()
   return (
-    <div className="grid w-72 gap-2">
+    <div className="grid w-panel-md gap-2">
       <Label htmlFor={id}>Project share link</Label>
       <Input id={id} disabled defaultValue="lanternworks.example/night-market" aria-describedby={hintId} />
       <p id={hintId} className="text-sm text-muted-foreground">
@@ -56,7 +56,7 @@ function InvalidField() {
   const id = useId()
   const errorId = useId()
   return (
-    <div className="grid w-72 gap-2">
+    <div className="grid w-panel-md gap-2">
       <Label htmlFor={id}>Collaborator email</Label>
       <Input id={id} type="email" autoComplete="email" defaultValue="maya@lanternworks" aria-invalid aria-describedby={errorId} />
       <p id={errorId} className="text-sm text-destructive">

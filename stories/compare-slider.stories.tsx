@@ -62,5 +62,5 @@ export const ColorChange: Story = {
     after: { src: sharp, alt: 'The same street in color', label: 'Colorized' },
     label: 'Black and white and colorized',
   },
-  decorators: [(Story) => <div className="w-96"><Story /></div>],
+  decorators: [(Story) => <div className="w-panel-2xl"><Story /></div>],
 }

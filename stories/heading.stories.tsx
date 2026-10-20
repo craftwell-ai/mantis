@@ -46,8 +46,8 @@ export const DoDont: Story = {
       <DoDontPair
         usage={usage}
         id="display-for-pages-titles-for-panels"
-        doExample={<div className="w-72 rounded-2xl border border-separator bg-dialog p-6"><Heading level="title-sm" render={<p />}>Delete this generation?</Heading></div>}
-        dontExample={<div className="w-72 rounded-2xl border border-separator bg-dialog p-6"><Heading level="section" render={<p />}>Delete this generation?</Heading></div>}
+        doExample={<div className="w-panel-md rounded-2xl border border-separator bg-dialog p-6"><Heading level="title-sm" render={<p />}>Delete this generation?</Heading></div>}
+        dontExample={<div className="w-panel-md rounded-2xl border border-separator bg-dialog p-6"><Heading level="section" render={<p />}>Delete this generation?</Heading></div>}
       />
     </div>
   ),

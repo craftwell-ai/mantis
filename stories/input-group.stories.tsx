@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>
 
 function ShareLink({ extra }: { extra?: boolean }) {
   return (
-    <InputGroup className="w-80">
+    <InputGroup className="w-panel-lg">
       <InputGroupInput readOnly defaultValue="https://example.com/p/night-market" aria-label="Project link" />
       <InputGroupAddon align="inline-end">
         {extra ? <InputGroupButton aria-label="Open link"><Icon name="arrow_forward" /></InputGroupButton> : null}
@@ -30,7 +30,7 @@ function ShareLink({ extra }: { extra?: boolean }) {
 
 export const Search: Story = {
   render: () => (
-    <InputGroup className="w-72">
+    <InputGroup className="w-panel-md">
       <InputGroupAddon><Icon name="search" /></InputGroupAddon>
       <InputGroupInput placeholder="Search generations" aria-label="Search generations" />
     </InputGroup>

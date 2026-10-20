@@ -47,7 +47,7 @@ const featured: CommandPaletteFeatured[] = [
 ]
 
 const searchTrigger = (
-  <Button variant="glass" className="w-56 justify-start text-muted-foreground">
+  <Button variant="glass" className="w-panel-sm justify-start text-muted-foreground">
     <Icon name="search" />
     Search
     <KbdGroup className="ml-auto">

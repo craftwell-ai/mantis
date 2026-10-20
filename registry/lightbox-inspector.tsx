@@ -127,7 +127,7 @@ function LightboxInspector({
       >
         {/* The picture again, blurred, so the stage takes on its colors. Decorative. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.src} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-raised size-full scale-110 object-cover opacity-scrim blur-3xl" />
+        <img src={item.src} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-raised size-full scale-110 object-cover opacity-scrim blur-stage" />
 
         <div className="relative flex min-h-96 flex-1 items-center justify-center px-14 py-4 lg:min-h-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -162,7 +162,7 @@ function LightboxInspector({
           </Button>
         </div>
 
-        <aside className="flex w-full shrink-0 flex-col gap-3 rounded-2xl bg-card p-3 lg:w-96 lg:overflow-y-auto">
+        <aside className="flex w-full shrink-0 flex-col gap-3 rounded-2xl bg-card p-3 lg:w-panel-2xl lg:overflow-y-auto">
           <div className="flex items-center gap-2.5">
             <Avatar>
               {item.author.avatarSrc ? <AvatarImage src={item.author.avatarSrc} alt="" /> : null}

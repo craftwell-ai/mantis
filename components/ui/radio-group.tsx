@@ -21,7 +21,7 @@ function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "group/radio-group-item peer relative flex aspect-square size-5 shrink-0 rounded-full border-2 border-input outline-none transition-[border-color,background-color] duration-normal after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-disabled aria-invalid:border-destructive data-checked:border-transparent data-checked:bg-brand",
+        "group/radio-group-item peer relative flex aspect-square size-5 shrink-0 rounded-full border-2 border-input outline-none transition-[border-color,background-color] duration-normal after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-focus focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-disabled aria-invalid:border-destructive data-checked:border-transparent data-checked:bg-brand",
         className
       )}
       {...props}
@@ -43,7 +43,7 @@ function RadioGroupCard({ className, children, ...props }: RadioPrimitive.Root.P
     <RadioPrimitive.Root
       data-slot="radio-group-card"
       className={cn(
-        "group/radio-card relative flex flex-col items-start gap-1 rounded-xl border-2 border-transparent bg-glass p-4 text-left text-sm text-foreground outline-none transition-[border-color,filter] duration-normal hover:brightness-110 focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-disabled data-checked:border-brand",
+        "group/radio-card relative flex flex-col items-start gap-1 rounded-xl border-2 border-transparent bg-glass p-4 text-left text-sm text-foreground outline-none transition-[border-color,filter] duration-normal hover:brightness-110 focus-visible:ring-focus focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-disabled data-checked:border-brand",
         className
       )}
       {...props}

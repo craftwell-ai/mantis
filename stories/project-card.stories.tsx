@@ -14,7 +14,7 @@ const meta = {
   title: 'Blocks / Project Card',
   component: ProjectCard,
   args: {
-    className: 'w-72',
+    className: 'w-panel-md',
     name: 'Night Market Teaser',
     lastEdited: '2 hours ago',
     lastEditedDateTime: '2026-10-02T09:14:00Z',
@@ -34,6 +34,9 @@ type Story = StoryObj<typeof meta>
 // and axe runs as soon as play ends, so wait for full opacity before ending.
 async function openMenu(canvasElement: HTMLElement, projectName: string) {
   const page = within(canvasElement.ownerDocument.body)
+  // The previous menu stays in the page while it animates out; finding the menu before it is gone
+  // can return that one, which is then removed mid-check.
+  await waitFor(() => expect(page.queryByRole('menu')).toBeNull())
   await userEvent.click(within(canvasElement).getByRole('button', { name: `More actions for ${projectName}` }))
   const menu = await page.findByRole('menu')
   await waitFor(() => expect(getComputedStyle(menu).opacity).toBe('1'))
@@ -78,7 +81,7 @@ function RenamableCard() {
 }
 
 export const Rename: Story = {
-  render: () => <div className="w-72"><RenamableCard /></div>,
+  render: () => <div className="w-panel-md"><RenamableCard /></div>,
   play: async ({ canvasElement }) => {
     const page = await openMenu(canvasElement, 'Night Market Teaser')
     await userEvent.click(page.getByRole('menuitem', { name: 'Rename' }))

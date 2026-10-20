@@ -57,7 +57,7 @@ export const ChangingPage: Story = {
   },
 }
 
-const row = 'flex h-9 items-center gap-2.5 rounded-lg px-2 text-sm font-medium'
+const row = 'flex h-control items-center gap-2.5 rounded-lg px-2 text-sm font-medium'
 
 export const DoDont: Story = {
   render: () => (

@@ -22,7 +22,7 @@ const sections = [
 
 function Builder({ titles = sections }: { titles?: typeof sections }) {
   return (
-    <Accordion defaultValue={['look']} className="w-80">
+    <Accordion defaultValue={['look']} className="w-panel-lg">
       {titles.map((s) => (
         <AccordionItem key={s.value} value={s.value}>
           <AccordionTrigger>{s.title}</AccordionTrigger>

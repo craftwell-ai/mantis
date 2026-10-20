@@ -66,10 +66,18 @@ test('the size line tells app code to merge classes with mantis-cn, which knows 
 test('the token section names the opacity, layer, width and motion tokens', () => {
   const line = rendered.split('\n').find((l) => l.startsWith('- **Opacity, layers, widths:**'))
   assert.ok(line, 'no opacity, layers and widths line')
-  for (const name of ['opacity-disabled', 'z-floating', 'z-raised', 'max-w-md']) assert.ok(line.includes(name), name)
+  // 1.9.0: the widths are listed by prefix (`max-w-` … `xs`…`7xl`) instead of naming max-w-md
+  for (const name of ['opacity-disabled', 'z-floating', 'z-raised', '`max-w-`', '`xs`…`7xl`']) assert.ok(line.includes(name), name)
   const motion = rendered.split('\n').find((l) => l.startsWith('- **Motion:**'))
   assert.match(motion, /`duration-normal`/)
   assert.match(motion, /`ease-swift`/)
   // the arbitrary-variable form is gone now that the names are utilities
   assert.ok(!rendered.includes('duration-(--duration-'), 'AGENTS.md still writes duration-(--duration-…)')
+})
+
+test('the opacity line lists every transparency step and panel width from the tokens', () => {
+  const line = rendered.split('\n').find((l) => l.startsWith('- **Opacity, layers, widths:**'))
+  for (const step of Object.keys(tokens.alpha)) assert.ok(line.includes(`/${step}`), `/${step}`)
+  for (const name of Object.keys(tokens.width)) assert.ok(line.includes(`\`${name}\``), name)
+  assert.match(line, /`sm:`…`2xl:`/)
 })

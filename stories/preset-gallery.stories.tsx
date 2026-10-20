@@ -109,7 +109,7 @@ function Tile({ title, selected = false, check = true, below = false }: { title:
       <span aria-hidden="true" className="absolute inset-0 -z-raised bg-linear-to-t from-overlay to-transparent" />
       {selected && check ? (
         <span className="absolute top-2 right-2 flex size-5 items-center justify-center rounded-full bg-brand text-brand-foreground">
-          <Icon name="check" className="size-3.5" />
+          <Icon name="check" className="size-icon-sm" />
         </span>
       ) : null}
       <span className="font-grotesk text-label-caps text-foreground uppercase">{title}</span>

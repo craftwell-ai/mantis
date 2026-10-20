@@ -101,7 +101,7 @@ function ProjectCard({
               // The link's ::after stretches over the whole card, so the thumbnail opens the project too.
               <a
                 href={href}
-                className="outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
+                className="outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-focus focus-visible:after:ring-ring/50"
               >
                 {name}
               </a>

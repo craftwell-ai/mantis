@@ -31,7 +31,7 @@ const meta = {
     onCredits: fn(),
   },
   // Room below the avatar so the open menu fits without scrolling.
-  decorators: [(Story) => <div className="flex min-h-130 w-80 items-start justify-end">{Story()}</div>],
+  decorators: [(Story) => <div className="flex min-h-130 w-panel-lg items-start justify-end">{Story()}</div>],
 } satisfies Meta<typeof AccountMenu>
 
 export default meta
@@ -85,7 +85,7 @@ export const SigningOut: Story = {
 // and only one can be open at a time.
 function MenuSketch({ rows }: { rows: ({ icon: IconName; label: string; pill?: string; lime?: boolean } | 'separator')[] }) {
   return (
-    <div className="flex w-56 flex-col gap-0.5 rounded-xl border border-separator bg-popover p-1.5 text-sm font-medium">
+    <div className="flex w-panel-sm flex-col gap-0.5 rounded-xl border border-separator bg-popover p-1.5 text-sm font-medium">
       {rows.map((row, index) =>
         row === 'separator' ? (
           <Separator key={index} className="my-1" />

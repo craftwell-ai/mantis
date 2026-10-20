@@ -155,7 +155,8 @@ test('every named width, height or size class in the source has CSS, so a misspe
 
 test('opacity tokens: the inspector shows the token, the value matches the stock step, and colour transparency is untouched', async () => {
   const pairs = { 'opacity-disabled': 'opacity-50', 'opacity-muted': 'opacity-40', 'opacity-scrim': 'opacity-30' }
-  const colours = { 'bg-brand/50': 'var(--brand) 50%', 'text-foreground/50': 'var(--foreground) 50%', 'ring-ring/50': 'var(--ring) 50%', 'bg-brand/40': 'var(--brand) 40%' }
+  // From 1.9.0 the amount is a transparency step (--alpha-50: 50%), still a valid percentage.
+  const colours = { 'bg-brand/50': 'var(--brand) var(--alpha-50)', 'text-foreground/50': 'var(--foreground) var(--alpha-50)', 'ring-ring/50': 'var(--ring) var(--alpha-50)', 'bg-brand/40': 'var(--brand) var(--alpha-40)' }
   const classes = [...Object.keys(pairs), ...Object.values(pairs), ...Object.keys(colours)]
   const [stock, mantis] = await Promise.all([build(false, classes), build(true, classes)])
   for (const [token, step] of Object.entries(pairs)) {
@@ -251,4 +252,55 @@ test('text sizes take their line height from a Mantis token, at the stock pixels
     assert.match(line ?? '', /^var\(--mantis-type-line-height-\d+\)$/, `text-${key}: ${line}`)
     assert.equal(px(value(line.slice(4, -1))), linePx, `text-${key}`)
   }
+})
+
+test('colour transparency steps: bg-x/<n> reads a Mantis step at the same percentage; other amounts stay literal', async () => {
+  const steps = [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90]
+  const theme = readFileSync(THEME_PATH, 'utf8')
+  const classes = [...steps.map((n) => `bg-brand/${n}`), 'ring-ring/50', 'hover:bg-glass/80', 'opacity-50', 'bg-brand/82']
+  const css = await build(true, classes)
+  for (const n of steps) {
+    const written = rule(css, `bg-brand/${n}`).written
+    assert.ok(written.includes(`color-mix(in oklab, var(--brand) var(--alpha-${n}), transparent)`), `bg-brand/${n}: ${written}`)
+    assert.equal(theme.match(new RegExp(`--alpha-${n}: ([^;]+);`))?.[1], `${n}%`)
+  }
+  assert.match(rule(css, 'ring-ring/50').written, /var\(--alpha-50\)/)
+  assert.equal(rule(css, 'opacity-50').computed, 'opacity: 50%')
+  assert.ok(rule(css, 'bg-brand/82').written.includes('var(--brand) 82%'), 'an amount off the scale stays a literal')
+})
+
+test('breakpoints: Mantis defines sm…2xl at Tailwind\'s pixels, and every media query compiles as stock', async () => {
+  const keys = ['sm', 'md', 'lg', 'xl', '2xl']
+  const theme = readFileSync(THEME_PATH, 'utf8')
+  const stockTheme = readFileSync(STOCK_THEME, 'utf8')
+  const px = (v) => (v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v))
+  for (const key of keys) {
+    // A literal, in the plain @theme block: a media query cannot read a CSS variable.
+    const mantis = theme.match(new RegExp(`^@theme \\{[^}]*--breakpoint-${key}: ([^;]+);`, 'm'))?.[1]
+    assert.ok(mantis, `the theme does not define --breakpoint-${key}`)
+    assert.equal(px(mantis), px(stockTheme.match(new RegExp(`--breakpoint-${key}: ([^;]+);`))[1]), key)
+  }
+  const classes = keys.flatMap((k) => [`${k}:flex`, `max-${k}:grid`])
+  const [stock, mantis] = await Promise.all([build(false, classes), build(true, classes)])
+  assert.deepEqual(mantis.match(/@media[^{]*/g), stock.match(/@media[^{]*/g))
+})
+
+test('ring-focus and blur-stage read Mantis tokens at the pixels of ring-3 and blur-3xl', async () => {
+  const classes = ['ring-focus', 'ring-3', 'blur-stage', 'blur-3xl', 'backdrop-blur-stage']
+  const [stock, mantis] = await Promise.all([build(false, classes), build(true, classes)])
+  assert.match(rule(mantis, 'ring-focus').written, /var\(--ring-focus\)/)
+  assert.equal(rule(mantis, 'ring-focus').computed, rule(stock, 'ring-3').computed)
+  assert.equal(rule(mantis, 'blur-stage').computed, rule(stock, 'blur-3xl').computed)
+  assert.ok(mantis.includes('.backdrop-blur-stage {'))
+})
+
+test('panel and menu widths: w-, min-w- and max-w- read the token at the old step\'s pixels; heights do not get them', async () => {
+  const pairs = { 'w-panel-sm': 'w-56', 'w-sidebar': 'w-60', 'w-panel': 'w-64', 'w-panel-md': 'w-72', 'w-panel-lg': 'w-80', 'w-panel-xl': 'w-88', 'w-panel-2xl': 'w-96', 'min-w-menu': 'min-w-32', 'min-w-menu-lg': 'min-w-36', 'max-w-panel-xl': 'max-w-88' }
+  const css = await build(true, [...Object.keys(pairs), ...Object.values(pairs), 'h-panel', 'size-panel', 'p-panel'])
+  for (const [token, step] of Object.entries(pairs)) {
+    const named = rule(css, token)
+    assert.match(named.written, /var\(--size-/, `${token}: ${named.written}`)
+    assert.equal(named.computed, rule(css, step).computed, `${token} is not the same width as ${step}`)
+  }
+  for (const leak of ['h-panel', 'size-panel', 'p-panel']) assert.equal(css.indexOf(`.${leak} {`), -1, `${leak} must not exist`)
 })

@@ -28,7 +28,7 @@ function InstallBox({ command, id }: { command: string; id?: string }) {
   return (
     <div
       id={id}
-      className="flex max-w-full scroll-mt-24 items-center gap-3 rounded-xl border border-border bg-card/85 py-1.5 pr-1.5 pl-4"
+      className="flex max-w-full scroll-mt-24 items-center gap-3 rounded-xl border border-border bg-card/90 py-1.5 pr-1.5 pl-4"
     >
       <span aria-hidden="true" className="font-mono text-sm text-muted-foreground">
         $

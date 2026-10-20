@@ -31,6 +31,8 @@ test('the registry describes everything mantis-cn knows, since agents choose ite
   assert.match(item.description, /opacit/)
   assert.match(item.description, /layers/)
   assert.match(item.description, /durations and curves/)
+  assert.match(item.description, /panel widths/)
+  assert.match(item.description, /ring-focus/)
 })
 
 test('mantis-cn knows every opacity token, so an opacity passed in replaces the component\'s own', async () => {
@@ -78,4 +80,29 @@ test('mantis-cn knows the blur names, so a blur passed in replaces the component
   assert.equal(cn('blur-3xl', 'blur-dialog'), 'blur-dialog')
   assert.equal(cn('backdrop-blur-sm', 'backdrop-blur-glass'), 'backdrop-blur-glass')
   assert.equal(cn('backdrop-blur-glass', 'backdrop-blur-chip'), 'backdrop-blur-chip')
+})
+
+test('a transparency passed in replaces the component\'s own', async () => {
+  const { cn } = await import('../lib/mantis-cn.ts')
+  assert.equal(cn('bg-brand/50', 'bg-brand/40'), 'bg-brand/40')
+  assert.equal(cn('hover:bg-glass/80', 'hover:bg-glass/90'), 'hover:bg-glass/90')
+})
+
+test('a focus ring passed in replaces the component\'s own', async () => {
+  const rings = JSON.parse(source.match(/RINGS = (\[[^\]]*\])/)?.[1] ?? '[]')
+  assert.deepEqual([...rings].sort(), Object.keys(tokens.ringWidth ?? {}).sort())
+  const { cn } = await import('../lib/mantis-cn.ts')
+  assert.equal(cn('focus-visible:ring-3', 'focus-visible:ring-focus'), 'focus-visible:ring-focus')
+  assert.equal(cn('ring-focus ring-ring/50', 'ring-2'), 'ring-ring/50 ring-2')
+  assert.equal(cn('blur-3xl', 'blur-stage'), 'blur-stage')
+})
+
+test('mantis-cn knows every panel and menu width', async () => {
+  const widths = JSON.parse(source.match(/WIDTHS = (\[[^\]]*\])/)?.[1] ?? '[]')
+  assert.deepEqual([...widths].sort(), Object.keys(tokens.width ?? {}).sort())
+  const { cn } = await import('../lib/mantis-cn.ts')
+  assert.equal(cn('w-64', 'w-panel'), 'w-panel')
+  assert.equal(cn('w-panel', 'w-full'), 'w-full')
+  assert.equal(cn('min-w-32', 'min-w-menu-lg'), 'min-w-menu-lg')
+  assert.equal(cn('max-w-panel-xl', 'max-w-md'), 'max-w-md')
 })

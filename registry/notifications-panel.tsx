@@ -189,7 +189,7 @@ export function NotificationsPanel({
           </span>
         ) : null}
       </PopoverTrigger>
-      <PopoverContent aria-labelledby={headingId} align="end" sideOffset={8} className="w-96 max-w-[calc(100vw-2rem)]">
+      <PopoverContent aria-labelledby={headingId} align="end" sideOffset={8} className="w-panel-2xl max-w-[calc(100vw-2rem)]">
         {panel}
       </PopoverContent>
     </Popover>
@@ -269,7 +269,7 @@ function NotificationRow({
         type="button"
         onClick={onOpen}
         className={cn(
-          "flex w-full items-start gap-3 rounded-xl px-2 py-2.5 text-left transition-[background-color] duration-normal outline-none hover:bg-glass-hover focus-visible:ring-3 focus-visible:ring-ring/50",
+          "flex w-full items-start gap-3 rounded-xl px-2 py-2.5 text-left transition-[background-color] duration-normal outline-none hover:bg-glass-hover focus-visible:ring-focus focus-visible:ring-ring/50",
           entry.unread && "bg-glass"
         )}
       >

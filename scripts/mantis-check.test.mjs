@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 
 import { CHECK_PATH, checkData, renderCheck } from './build-check.mjs'
-import { baseOf, bracketRule, containerRule, formatText, layerRule, motionRule, offScaleRule, opacityRule, paletteRule, scanFile, stockRule, styleFindings, cssFindings } from '../registry/check/mantis-check.mjs'
+import { alphaRule, baseOf, bracketRule, breakpointRule, containerRule, formatText, layerRule, motionRule, offScaleRule, opacityRule, paletteRule, scanFile, stockRule, styleFindings, cssFindings } from '../registry/check/mantis-check.mjs'
 
 test('the committed check is in sync with the token source (byte equality)', () => {
   assert.ok(existsSync(CHECK_PATH), 'registry/check/mantis-check.mjs does not exist — run node scripts/build-check.mjs')
@@ -24,7 +24,7 @@ test('its data comes from the token source', () => {
   assert.equal(data.swatches.background, '#0f1113')
   assert.equal(data.swatches.brand, '#d1fe17')
   assert.deepEqual(data.durations, { fast: 100, quick: 150, normal: 200, slow: 300 })
-  assert.deepEqual(data.blurs, { chip: 8, glass: 12, dialog: 32 })
+  assert.deepEqual(data.blurs, { chip: 8, glass: 12, dialog: 32, stage: 64 })
   assert.equal(data.text.sm, 14)
   assert.equal(data.radius.control, 10)
   assert.deepEqual(Object.keys(data.spacing).sort((a, b) => a - b), ['0.5', '1', '1.5', '2', '2.5', '3', '4', '5', '6', '7', '8', '10', '12', '14', '16', '20', '24'])
@@ -180,7 +180,7 @@ test('Tailwind steps that are not Mantis steps are findings, with the nearest st
   assert.match(offScaleRule('h-15').fix, /^→ h-14 \(56px\) or h-16 \(64px\), or the component's size prop/)
   assert.match(offScaleRule('w-105').fix, /size prop, or let the layout size it/)
   assert.match(offScaleRule('border-4').fix, /^→ border-2 \(2px\)/)
-  assert.match(offScaleRule('ring-3').fix, /^→ ring-2 \(2px\)/)
+  assert.match(offScaleRule('ring-3').fix, /^→ ring-focus \(3px\)$/)
   assert.match(offScaleRule('leading-11').fix, /^→ leading-10 \(40px\) or leading-12 \(48px\)/)
   for (const fine of ['p-4', 'gap-0.5', '-mt-2.5', 'inset-0', 'w-24', 'border', 'border-0.5', 'ring-2', 'leading-7.5', 'translate-x-1/2', 'w-full', 'text-2', 'rounded-2', 'z-10', 'grid-cols-12', 'col-span-7', 'line-clamp-3', 'opacity-50']) assert.equal(offScaleRule(fine), null, fine)
   assert.deepEqual(rulesIn('<div className="md:-mt-13 p-4" />'), ['scale'])
@@ -372,12 +372,13 @@ test('layers: a numeric z-index is a finding with the Mantis layer as the fix', 
 test('widths: Tailwind\'s widths Mantis does not name are findings, and a long length suggests a Mantis width', () => {
   assert.deepEqual(checkData().containers, { xs: 320, sm: 384, md: 448, lg: 512, xl: 576, '2xl': 672, '3xl': 768, '4xl': 896, '5xl': 1024, '6xl': 1152, '7xl': 1280 })
   assert.equal(containerRule('max-w-3xs').rule, 'scale')
-  assert.match(containerRule('max-w-3xs').fix, /^→ the component's size prop, or let the layout size it \(w-full, flex-1, grid columns\); no Mantis width is near 256px; the widths: xs 320px/)
-  assert.match(containerRule('w-2xs').fix, /^→ w-xs \(320px\)/)
+  // 1.9.0: 256px and 288px are panel widths now
+  assert.match(containerRule('max-w-3xs').fix, /^→ max-w-panel \(256px\)$/)
+  assert.match(containerRule('w-2xs').fix, /^→ w-panel-md \(288px\)$/)
   assert.match(containerRule('max-w-prose').fix, /^→ a Mantis width for a text column, such as max-w-xl \(576px\) or max-w-2xl \(672px\)/)
   for (const fine of ['max-w-md', 'max-w-7xl', 'w-full', 'max-w-none', 'min-w-0', 'basis-1/2']) assert.equal(containerRule(fine), null, fine)
   assert.match(bracketRule('max-w-[640px]').fix, /^→ max-w-2xl \(672px\), or the component's size prop/)
-  assert.match(bracketRule('w-[317px]').fix, /^→ w-xs \(320px\)/)
+  assert.match(bracketRule('w-[317px]').fix, /^→ w-panel-lg \(320px\) or w-xs \(320px\)/)
   assert.match(bracketRule('max-w-[448px]').fix, /^→ max-w-md \(448px\)$/)
   assert.match(bracketRule('h-[400px]').fix, /Mantis has no size step above 96px/)
   assert.match(offScaleRule('w-105').fix, /^→ w-md \(448px\), or the component's size prop, or let the layout size it/)
@@ -457,7 +458,7 @@ test('radius-override: shadcn\'s radius lines after the Mantis import are findin
 
 test('blur: Tailwind\'s own filter blur steps are findings like the backdrop ones, with the Mantis blurs as the fix', () => {
   assert.equal(motionRule('blur-3xl').rule, 'motion')
-  assert.match(motionRule('blur-3xl').fix, /^→ blur-dialog \(32px\); the steps: chip 8px · glass 12px · dialog 32px/)
+  assert.match(motionRule('blur-3xl').fix, /^→ blur-stage \(64px\); the steps: chip 8px · glass 12px · dialog 32px · stage 64px/)
   assert.match(motionRule('blur-md').fix, /^→ blur-glass \(12px\)/)
   for (const fine of ['blur-dialog', 'blur-none', 'blur-glass', 'backdrop-blur-chip']) assert.equal(motionRule(fine), null, fine)
 })
@@ -478,11 +479,13 @@ test('review fixes: Tailwind\'s filter blur steps are flagged in app code, not i
 
 test('review fixes: a fix leads with a token only when one is close to what was written', () => {
   // widths far from every container width lead with the layout advice
-  assert.match(bracketRule('w-[120px]').fix, /^→ the component's size prop, or let the layout size it \(w-full, flex-1, grid columns\); no Mantis width is near 120px; the widths: xs 320px/)
-  assert.match(offScaleRule('w-64').fix, /^→ the component's size prop, or let the layout size it/)
-  assert.match(styleFindings('<div style={{ maxWidth: 200 }} />')[0].fix, /^→ the component's size prop, or let the layout size it/)
+  assert.match(bracketRule('w-[100px]').fix, /^→ the component's size prop, or let the layout size it \(w-full, flex-1, grid columns\); no Mantis width is near 100px; the widths: w-menu 128px/)
+  // 1.9.0: panel and menu widths are close candidates too
+  assert.match(bracketRule('w-[120px]').fix, /^→ w-menu \(128px\), or the component's size prop/)
+  assert.match(offScaleRule('w-64').fix, /^→ w-panel \(256px\)$/)
+  assert.match(styleFindings('<div style={{ maxWidth: 200 }} />')[0].fix, /^→ className="max-w-panel-sm" \(224px\), or the component's size prop/)
   // a close one still leads with the width
-  assert.match(bracketRule('w-[317px]').fix, /^→ w-xs \(320px\)/)
+  assert.match(bracketRule('w-[317px]').fix, /^→ w-panel-lg \(320px\) or w-xs \(320px\)/)
   assert.match(bracketRule('max-w-[640px]').fix, /^→ max-w-2xl \(672px\)/)
   // an opacity above Mantis's highest is a hover or press dim, not a disabled state
   for (const cls of ['opacity-90', 'opacity-75', 'opacity-60']) {
@@ -496,4 +499,95 @@ test('review fixes: a radius line equal to Mantis\'s today says so instead of co
   const root = app({ 'app/globals.css': globals, 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8') })
   const [found] = JSON.parse(run(root, ['--json']).stdout).findings.filter((f) => f.rule === 'radius-override')
   assert.match(found.fix, /rounded-sm renders 4px, the same as Mantis's only because --radius is 8px/)
+})
+
+test('colour transparency: an amount off the Mantis steps is a finding with the nearest step', () => {
+  assert.deepEqual(checkData().alphas, [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90])
+  assert.equal(alphaRule('bg-background/82').rule, 'scale')
+  assert.match(alphaRule('bg-background/82').fix, /^→ bg-background\/80 \(80%\); the transparency steps: 5% · 10% · 15% · 20% · 30% · 40% · 50% · 60% · 70% · 80% · 90%$/)
+  assert.match(alphaRule('bg-card/85').fix, /^→ bg-card\/80 \(80%\) or bg-card\/90 \(90%\)/)
+  assert.equal(alphaRule('ring-ring/[0.33]').rule, 'bracket')
+  assert.match(alphaRule('ring-ring/[0.33]').fix, /^→ ring-ring\/30 \(30%\)/)
+  assert.match(alphaRule('text-foreground/[45%]').fix, /^→ text-foreground\/40 \(40%\) or text-foreground\/50 \(50%\)/)
+  for (const fine of ['bg-brand/50', 'ring-ring/10', 'bg-brand/disabled', 'bg-brand', 'w-1/2', 'translate-x-1/2', 'bg-brand/(--x)']) assert.equal(alphaRule(fine), null, fine)
+  assert.deepEqual(rulesIn('<div className="bg-background/82 hover:bg-glass/80 border-border/[0.33]" />'), ['scale', 'bracket'])
+  assert.deepEqual(scanFile('components/pricing-card.tsx', '<div className="bg-brand/82" />').findings, [])
+})
+
+test('breakpoints: an arbitrary breakpoint is a finding with the nearest Mantis breakpoint', () => {
+  assert.deepEqual(checkData().breakpoints, { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 })
+  assert.equal(breakpointRule('min-[900px]:flex').rule, 'scale')
+  assert.match(breakpointRule('min-[900px]:flex').fix, /^→ lg: \(1024px\); the breakpoints: sm 640px · md 768px · lg 1024px · xl 1280px · 2xl 1536px$/)
+  assert.match(breakpointRule('max-[30rem]:hidden').fix, /^→ max-sm: \(640px\)/)
+  assert.match(breakpointRule('hover:min-[768px]:grid').fix, /^→ md: \(768px\)$/)
+  for (const fine of ['md:flex', 'max-lg:grid', 'flex', 'min-w-0', '@md:flex', 'data-[open]:flex']) assert.equal(breakpointRule(fine), null, fine)
+  assert.deepEqual(rulesIn('<div className="min-[900px]:flex md:grid" />'), ['scale'])
+})
+
+test('focus ring: a 3px ring is ring-focus; other ring widths keep the nearest border width', () => {
+  assert.deepEqual(checkData().rings, { focus: 3 })
+  assert.match(bracketRule('ring-[3px]').fix, /^→ ring-focus \(3px\)$/)
+  assert.match(offScaleRule('ring-4').fix, /^→ ring-2 \(2px\)/)
+  assert.equal(offScaleRule('ring-focus'), null)
+  assert.deepEqual(rulesIn('<button className="focus-visible:ring-3 focus-visible:ring-focus" />'), ['scale'])
+})
+
+test('panel widths: a width that equals one is that name; a near one leads the fix', () => {
+  assert.deepEqual(checkData().widths, { menu: 128, 'menu-lg': 144, 'panel-sm': 224, sidebar: 240, panel: 256, 'panel-md': 288, 'panel-lg': 320, 'panel-xl': 352, 'panel-2xl': 384 })
+  assert.match(offScaleRule('w-64').fix, /^→ w-panel \(256px\)$/)
+  assert.match(offScaleRule('min-w-32').fix, /^→ min-w-menu \(128px\)$/)
+  assert.match(offScaleRule('w-80').fix, /^→ w-panel-lg \(320px\) or w-xs \(320px\)$/)
+  assert.match(bracketRule('w-[250px]').fix, /^→ w-panel \(256px\), or the component's size prop/)
+  assert.match(bracketRule('max-w-[300px]').fix, /^→ max-w-panel-md \(288px\)/)
+  // heights never get a width name
+  assert.match(offScaleRule('h-64').fix, /Mantis has no size step above 96px/)
+  assert.match(styleFindings('<div style={{ width: 256 }} />')[0].fix, /^→ className="w-panel" \(256px\)$/)
+  assert.match(cssFindings('.x { width: 16rem }')[0].fix, /^→ var\(--size-panel\) \(256px\)$/)
+  for (const fine of ['w-panel', 'min-w-menu', 'max-w-sidebar']) assert.equal(offScaleRule(fine), null, fine)
+})
+
+test('install: a theme older than 1.9.0\'s names is one finding naming each', () => {
+  const page = 'export default () => <div className="focus-visible:ring-focus blur-stage w-panel min-w-menu max-w-sidebar" />\n'
+  const css = '.x { width: var(--size-panel-md) }\n'
+  const old = app({ 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': '@theme inline {\n  --blur-glass: 12px;\n}\n', 'app/page.tsx': page, 'app/x.css': css })
+  const stale = JSON.parse(run(old, ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved')
+  assert.equal(stale.length, 1, JSON.stringify(stale))
+  for (const name of ['ring-focus', 'blur-stage', 'w-panel', 'min-w-menu', 'max-w-sidebar', 'var(--size-panel-md)']) assert.ok(stale[0].fix.includes(name), `${name} missing from: ${stale[0].fix}`)
+  const current = app({ 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8'), 'app/page.tsx': page, 'app/x.css': css, 'lib/mantis-cn.ts': readFileSync(new URL('../lib/mantis-cn.ts', import.meta.url), 'utf8') })
+  assert.deepEqual(JSON.parse(run(current, ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved'), [])
+})
+
+test('check minors: single-line @theme blocks and comments in the radius rule', () => {
+  const theme = readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8')
+  const globals = '@import "tailwindcss";\n@import "./mantis-theme.css";\n/*\n  --radius-md: 9px;\n*/\n@theme inline { --radius-xs: 3px; --radius-sm: var(--radius-sm); }\n'
+  const found = JSON.parse(run(app({ 'app/globals.css': globals, 'app/mantis-theme.css': theme }), ['--json']).stdout).findings.filter((f) => f.rule === 'radius-override')
+  assert.deepEqual(found.map((f) => `${f.line} ${f.value}`), ['6 --radius-xs: 3px'])
+})
+
+test('check minors: a curve read through a variable is not a hand-made curve', () => {
+  assert.equal(motionRule('ease-[var(--ease-swift)]'), null)
+  assert.equal(motionRule('ease-[var(--my-curve)]').rule, 'motion')
+})
+
+test('check minors: mantis-cn staleness counts class names only, not stylesheet var() reads', () => {
+  const files = { 'app/globals.css': '@import "tailwindcss";\n@import "./mantis-theme.css";\n', 'app/mantis-theme.css': readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8'), 'app/x.css': '.x { z-index: var(--z-floating); width: var(--width-panel) }\n' }
+  const helper = 'import { createCn } from "cn/config"\nexport const SIZES = ["control"]\nexport const cn = createCn({})\n'
+  assert.deepEqual(JSON.parse(run(app({ ...files, 'lib/mantis-cn.ts': helper }), ['--json']).stdout).findings.filter((f) => f.rule === 'unresolved'), [])
+})
+
+test('check minors: a stylesheet that inlines the tokens between the @tokens markers is wired', () => {
+  const globals = '@import "tailwindcss";\n/* @tokens:start */\n' + readFileSync(new URL('../registry/mantis-theme.css', import.meta.url), 'utf8') + '\n/* @tokens:end */\n'
+  const report = JSON.parse(run(app({ 'app/globals.css': globals, 'app/page.tsx': 'export default () => <div className="z-floating w-panel" />\n' }), ['--json']).stdout)
+  assert.deepEqual(report.findings.filter((f) => f.rule === 'unresolved'), [])
+})
+
+test('review 1.9.0: line-height shorthand and fully on/off are not transparency findings', () => {
+  for (const fine of ['text-sm/6', 'text-base/7', 'text-lg/[1.4]', 'text-display-lg/8', 'text-2xl/7', 'bg-brand/0', 'from-background/0', 'bg-brand/100', 'ring-ring/100', 'to-card/[0]']) assert.equal(alphaRule(fine), null, fine)
+  // a text colour is still a colour
+  assert.match(alphaRule('text-foreground/82').fix, /^→ text-foreground\/80 \(80%\)/)
+  assert.deepEqual(rulesIn('<p className="text-sm/6 bg-brand/0 hover:bg-brand/100" />'), [])
+})
+
+test('review 1.9.0: panel widths read --size-* at runtime, so no theme key refers to itself', () => {
+  assert.match(cssFindings('.x { width: 16rem }')[0].fix, /^→ var\(--size-panel\) \(256px\)$/)
 })

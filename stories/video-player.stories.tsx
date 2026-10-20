@@ -57,5 +57,5 @@ export const Looping: Story = {
 
 export const Portrait: Story = {
   args: { aspect: 'portrait' },
-  decorators: [(Story) => <div className="w-72"><Story /></div>],
+  decorators: [(Story) => <div className="w-panel-md"><Story /></div>],
 }

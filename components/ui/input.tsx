@@ -19,7 +19,7 @@ function Input({
       data-slot="input"
       data-size={inputSize}
       className={cn(
-        "w-full min-w-0 bg-field px-3 py-2 text-sm text-glass-foreground transition-[box-shadow,background-color] duration-normal outline-none file:inline-flex file:h-control-xs file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-disabled aria-invalid:ring-3 aria-invalid:ring-destructive/40 data-[size=default]:h-control-lg data-[size=default]:rounded-control data-[size=lg]:h-tap data-[size=lg]:rounded-xl",
+        "w-full min-w-0 bg-field px-3 py-2 text-sm text-glass-foreground transition-[box-shadow,background-color] duration-normal outline-none file:inline-flex file:h-control-xs file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-focus focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-disabled aria-invalid:ring-focus aria-invalid:ring-destructive/40 data-[size=default]:h-control-lg data-[size=default]:rounded-control data-[size=lg]:h-tap data-[size=lg]:rounded-xl",
         className
       )}
       {...props}

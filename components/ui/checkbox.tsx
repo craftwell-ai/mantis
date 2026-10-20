@@ -10,7 +10,7 @@ import { Icon } from "@/components/ui/icon"
 // #131517 mark. The unchecked border uses the approved control-border role
 // (3:1); the reference's white 8% border fails WCAG 1.4.11.
 const checkboxVariants = cva(
-  "peer relative flex shrink-0 items-center justify-center rounded-md border-2 border-input transition-[border-color,background-color,color] duration-normal outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:border-transparent data-disabled:bg-separator aria-invalid:border-destructive data-checked:border-transparent data-checked:text-primary-foreground data-indeterminate:border-transparent",
+  "peer relative flex shrink-0 items-center justify-center rounded-md border-2 border-input transition-[border-color,background-color,color] duration-normal outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-focus focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:border-transparent data-disabled:bg-separator aria-invalid:border-destructive data-checked:border-transparent data-checked:text-primary-foreground data-indeterminate:border-transparent",
   {
     variants: {
       /** Checked color: brand (lime) when picking items, primary (white) where lime already marks the main action. */

@@ -68,7 +68,11 @@ export function checkData(t = tokens, registry = JSON.parse(readFileSync(REGISTR
     // Named sizes (h-control, size-icon-sm), in pixels.
     sizes: resolved(t, t.size ?? {}),
     layers: resolved(t, t.layer ?? {}),
+    alphas: Object.keys(t.alpha ?? {}).map(Number).sort((a, b) => a - b),
     containers: resolved(t, t.container ?? {}),
+    breakpoints: resolved(t, t.breakpoint ?? {}),
+    rings: resolved(t, t.ringWidth ?? {}),
+    widths: resolved(t, t.width ?? {}),
     opacities: Object.fromEntries(Object.entries(resolved(t, t.opacity ?? {})).map(([key, value]) => [key, Math.round(value * 100)])),
     weights: resolved(t, t.fontWeight),
     shadows: Object.keys(t.shadow),

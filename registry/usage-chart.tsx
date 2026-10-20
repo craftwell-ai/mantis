@@ -54,7 +54,7 @@ function Hover({ active, label, payload, series, unit }: HoverProps) {
   if (!active || !payload?.length) return null
   const total = payload.reduce((sum, entry) => sum + Number(entry.value ?? 0), 0)
   return (
-    <div className="flex min-w-36 flex-col gap-1.5 rounded-lg border border-tooltip-border bg-tooltip px-3 py-2 text-xs text-tooltip-foreground shadow-popover">
+    <div className="flex min-w-menu-lg flex-col gap-1.5 rounded-lg border border-tooltip-border bg-tooltip px-3 py-2 text-xs text-tooltip-foreground shadow-popover">
       <p className="font-medium">{label}</p>
       <ul className="flex flex-col gap-1">
         {series.map((entry, index) => {

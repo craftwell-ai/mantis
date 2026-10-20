@@ -115,7 +115,7 @@ export function AddMediaPanel({
       <button
         type="button"
         onClick={openFilePicker}
-        className="flex size-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-glass-border bg-glass text-sm font-medium text-foreground transition-[filter] duration-normal outline-none hover:brightness-80 active:brightness-60 focus-visible:ring-3 focus-visible:ring-ring/50"
+        className="flex size-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-glass-border bg-glass text-sm font-medium text-foreground transition-[filter] duration-normal outline-none hover:brightness-80 active:brightness-60 focus-visible:ring-focus focus-visible:ring-ring/50"
       >
         <span className="flex size-8 items-center justify-center rounded-full bg-secondary">
           <Icon name="add" />

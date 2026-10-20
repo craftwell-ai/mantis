@@ -218,7 +218,7 @@ function MediaTile({
   }
 
   const coverClass =
-    "absolute inset-0 rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset"
+    "absolute inset-0 rounded-[inherit] outline-none focus-visible:ring-focus focus-visible:ring-ring/50 focus-visible:ring-inset"
   const coverName = label ?? alt
 
   return (

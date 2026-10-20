@@ -28,7 +28,7 @@ function GenerationActionsMenu() {
         Generation actions
         <Icon name="keyboard_arrow_down" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-56">
+      <DropdownMenuContent align="start" className="w-panel-sm">
         {/* Base UI requires a label to sit inside the group it names. */}
         <DropdownMenuGroup>
           <DropdownMenuLabel>Glass Harbor</DropdownMenuLabel>

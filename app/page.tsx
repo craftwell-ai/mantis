@@ -42,7 +42,7 @@ const TYPE_ROWS = [
 ]
 
 const RADII = [
-  { label: "8", className: "size-9 rounded-lg" },
+  { label: "8", className: "size-control rounded-lg" },
   { label: "10", className: "size-12 rounded-control" },
   { label: "16", className: "size-16 rounded-2xl" },
   { label: "24", className: "size-20 rounded-4xl" },
@@ -112,9 +112,9 @@ export default function Home() {
         dismissible={false}
       />
 
-      <header className="sticky top-0 z-sticky border-b border-border bg-background/82 backdrop-blur-glass">
+      <header className="sticky top-0 z-sticky border-b border-border bg-background/80 backdrop-blur-glass">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-8 px-6">
-          <a href="#top" className="shrink-0 rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+          <a href="#top" className="shrink-0 rounded-md outline-none focus-visible:ring-focus focus-visible:ring-ring/50">
             <Logo className="h-7.5 w-auto" />
           </a>
           <nav aria-label="Sections" className="flex items-center gap-1 overflow-x-auto">
@@ -122,7 +122,7 @@ export default function Home() {
               <a
                 key={item.href}
                 href={item.href}
-                className={`rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-normal outline-none hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50 ${index === 0 ? "text-brand-text" : "text-foreground"}`}
+                className={`rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-normal outline-none hover:bg-glass focus-visible:ring-focus focus-visible:ring-ring/50 ${index === 0 ? "text-brand-text" : "text-foreground"}`}
               >
                 {item.label}
               </a>
@@ -140,7 +140,7 @@ export default function Home() {
           <div className="mx-auto flex w-full max-w-215 flex-col items-center gap-6 px-6 pt-30 pb-22 text-center">
             <a
               href="#agents"
-              className="flex h-7.5 items-center gap-2 rounded-full bg-glass pr-3 pl-1.5 text-sm text-(color:--home-pill) transition-[filter] duration-normal outline-none hover:brightness-80 focus-visible:ring-3 focus-visible:ring-ring/50 active:brightness-60"
+              className="flex h-7.5 items-center gap-2 rounded-full bg-glass pr-3 pl-1.5 text-sm text-(color:--home-pill) transition-[filter] duration-normal outline-none hover:brightness-80 focus-visible:ring-focus focus-visible:ring-ring/50 active:brightness-60"
             >
               <Badge variant="new">New</Badge>
               Agents read Mantis from llms.txt
@@ -298,7 +298,7 @@ export default function Home() {
                   <li key={file.name}>
                     <a
                       href={file.href}
-                      className="flex items-center justify-between gap-4 py-4 transition-[filter] duration-normal outline-none hover:brightness-80 focus-visible:ring-3 focus-visible:ring-ring/50 active:brightness-60"
+                      className="flex items-center justify-between gap-4 py-4 transition-[filter] duration-normal outline-none hover:brightness-80 focus-visible:ring-focus focus-visible:ring-ring/50 active:brightness-60"
                     >
                       <span className="flex flex-col gap-0.5">
                         <span className="font-mono text-sm">{file.name}</span>

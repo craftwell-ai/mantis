@@ -28,22 +28,31 @@ export const DURATIONS = ["fast", "quick", "normal", "slow"]
 export const EASES = ["in", "out", "in-out", "swift", "emphasized", "spring", "out-expo"]
 
 // Mantis's blurs (blur-glass, backdrop-blur-dialog…) are names Tailwind does not have. The list must match tokens.blur.
-export const BLURS = ["chip", "glass", "dialog"]
+export const BLURS = ["chip", "glass", "dialog", "stage"]
+
+// The focus ring's width (ring-focus) is a name, which stock cn would read as a ring colour. The list must match tokens.ringWidth.
+export const RINGS = ["focus"]
+
+// Mantis's panel and menu widths (w-panel, min-w-menu…) are names stock cn does not know as widths.
+// The list must match tokens.width.
+export const WIDTHS = ["menu", "menu-lg", "panel-sm", "sidebar", "panel", "panel-md", "panel-lg", "panel-xl", "panel-2xl"]
 
 export const cn = createCn({
   extend: {
     classGroups: {
       "font-size": [{ text: TEXT_STYLES }],
-      w: [{ w: SIZES }],
+      w: [{ w: [...SIZES, ...WIDTHS] }],
       h: [{ h: SIZES }],
       size: [{ size: SIZES }],
-      "min-w": [{ "min-w": SIZES }],
+      "min-w": [{ "min-w": [...SIZES, ...WIDTHS] }],
+      "max-w": [{ "max-w": WIDTHS }],
       "min-h": [{ "min-h": SIZES }],
       "max-h": [{ "max-h": SIZES }],
       opacity: [{ opacity: OPACITIES }],
       z: [{ z: LAYERS }],
       duration: [{ duration: DURATIONS }],
       ease: [{ ease: EASES }],
+      "ring-w": [{ ring: RINGS }],
       blur: [{ blur: BLURS }],
       "backdrop-blur": [{ "backdrop-blur": BLURS }],
     },

@@ -181,7 +181,7 @@ function AssetLibraryPage({
                   </TabsTrigger>
                 ))}
               </TabsList>
-              <InputGroup className="w-full sm:ml-auto sm:w-64">
+              <InputGroup className="w-full sm:ml-auto sm:w-panel">
                 <InputGroupAddon>
                   <Icon name="search" />
                 </InputGroupAddon>

@@ -19,7 +19,7 @@ const presets = ['Neon Drift', 'Soft Dusk', 'Hand-held 35', 'Paper Lantern', 'Gl
 function PresetPicker({ open, defaultInputValue }: { open?: boolean; defaultInputValue?: string }) {
   return (
     <Combobox items={presets} open={open} defaultInputValue={defaultInputValue}>
-      <ComboboxInput placeholder="Search presets" aria-label="Preset" className="w-64" />
+      <ComboboxInput placeholder="Search presets" aria-label="Preset" className="w-panel" />
       <ComboboxContent>
         <ComboboxEmpty>No presets match that name. Try a mood such as dusk or neon.</ComboboxEmpty>
         <ComboboxList>{(item: string) => <ComboboxItem key={item} value={item}>{item}</ComboboxItem>}</ComboboxList>
@@ -39,8 +39,8 @@ export const DoDont: Story = {
       <DoDontPair
         usage={usage}
         id="helpful-empty-result"
-        doExample={<div className="w-64 rounded-xl border border-separator bg-popover p-3 text-sm text-muted-foreground">No presets match &quot;zz&quot;. Try a mood such as dusk or neon.</div>}
-        dontExample={<div className="h-12 w-64 rounded-xl border border-separator bg-popover" />}
+        doExample={<div className="w-panel rounded-xl border border-separator bg-popover p-3 text-sm text-muted-foreground">No presets match &quot;zz&quot;. Try a mood such as dusk or neon.</div>}
+        dontExample={<div className="h-12 w-panel rounded-xl border border-separator bg-popover" />}
       />
     </div>
   ),

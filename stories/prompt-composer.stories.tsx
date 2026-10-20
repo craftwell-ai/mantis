@@ -118,7 +118,7 @@ export const LongPrompt: Story = {
 function CostChip({ value }: { value: number }) {
   return (
     <span className="inline-flex items-center gap-0.5 font-medium tabular-nums">
-      <Icon name="star_shine-fill" className="size-3.5" />
+      <Icon name="star_shine-fill" className="size-icon-sm" />
       {value}
       <span className="sr-only">credits</span>
     </span>

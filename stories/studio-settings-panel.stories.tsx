@@ -34,7 +34,7 @@ const meta = {
   title: 'Blocks / Studio Settings Panel',
   component: StudioSettingsPanel,
   args: { models: MODELS, preset: PRESET, onChangePreset: fn(), onAddReference: fn(), onGenerate: fn() },
-  decorators: [(Story) => <div className="flex min-h-200 w-88"><Story /></div>],
+  decorators: [(Story) => <div className="flex min-h-200 w-panel-xl"><Story /></div>],
   parameters: { layout: 'padded', docs: { description: { component: renderUsageDocs(usage) } } },
 } satisfies Meta<typeof StudioSettingsPanel>
 
@@ -142,7 +142,7 @@ export const NoPreset: Story = {
 function CostChip({ value }: { value: number }) {
   return (
     <span className="inline-flex items-center gap-0.5 tabular-nums">
-      <Icon name="star_shine-fill" className="size-3.5" />
+      <Icon name="star_shine-fill" className="size-icon-sm" />
       {value}
       <span className="sr-only">credits</span>
     </span>

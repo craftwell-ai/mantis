@@ -32,7 +32,7 @@ export const Link: Story = { args: { variant: 'link', children: 'View credit his
 function CreditCost({ value }: { value: number }) {
   return (
     <span className="inline-flex items-center gap-0.5 font-medium">
-      <Icon name="star_shine-fill" className="size-3.5" />
+      <Icon name="star_shine-fill" className="size-icon-sm" />
       {value}
     </span>
   )
@@ -64,13 +64,13 @@ export const Glass: Story = { args: { variant: 'glass', children: 'Assets' } }
 export const Soft: Story = { args: { variant: 'soft', children: 'All presets' } }
 
 export const CommerceBlue: Story = {
-  args: { variant: 'commerce-blue', depth: 'raised', size: 'cta', children: 'Explore team plans', className: 'w-64' },
+  args: { variant: 'commerce-blue', depth: 'raised', size: 'cta', children: 'Explore team plans', className: 'w-panel' },
 }
 
 export const RaisedCallsToAction: Story = {
   name: 'Raised calls to action',
   render: () => (
-    <div className="flex w-64 flex-col gap-3">
+    <div className="flex w-panel flex-col gap-3">
       <Button depth="raised" size="cta">Save and continue</Button>
       <Button variant="brand" depth="raised" size="cta">Choose this plan</Button>
       <Button variant="commerce-pink" depth="raised" size="cta">See the sale</Button>

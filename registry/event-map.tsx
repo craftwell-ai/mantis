@@ -384,7 +384,7 @@ function EventMap({
             aria-pressed={event.id === selectedId}
             onClick={() => open(event)}
             className={cn(
-              "flex rounded-lg outline-none ring-background transition-shadow duration-normal focus-visible:ring-3 focus-visible:ring-ring/50",
+              "flex rounded-lg outline-none ring-background transition-shadow duration-normal focus-visible:ring-focus focus-visible:ring-ring/50",
               event.id === selectedId ? "ring-2 ring-brand" : "ring-2",
             )}
           >
@@ -430,7 +430,7 @@ function EventMap({
       <aside
         aria-label="Events"
         className={cn(
-          "absolute inset-x-3 bottom-16 flex max-h-[50%] flex-col gap-4 overflow-y-auto rounded-2xl p-4 @2xl:inset-x-auto @2xl:top-3 @2xl:right-3 @2xl:bottom-auto @2xl:max-h-[calc(100%-4rem)] @2xl:w-80",
+          "absolute inset-x-3 bottom-16 flex max-h-[50%] flex-col gap-4 overflow-y-auto rounded-2xl p-4 @2xl:inset-x-auto @2xl:top-3 @2xl:right-3 @2xl:bottom-auto @2xl:max-h-[calc(100%-4rem)] @2xl:w-panel-lg",
           floating,
         )}
       >
@@ -511,7 +511,7 @@ function EventMap({
                     <button
                       type="button"
                       onClick={() => open(event)}
-                      className="flex w-full items-center gap-3 rounded-xl p-2 text-left outline-none transition-colors duration-normal hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="flex w-full items-center gap-3 rounded-xl p-2 text-left outline-none transition-colors duration-normal hover:bg-glass focus-visible:ring-focus focus-visible:ring-ring/50"
                     >
                       <IconTile name={categoryOf(event.category)?.icon ?? "location_on"} color={categoryOf(event.category)?.color ?? "neutral"} />
                       <span className="flex min-w-0 flex-col">

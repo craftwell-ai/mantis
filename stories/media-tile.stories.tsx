@@ -25,7 +25,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 // One tile at the width it has in a three-column grid.
-const single: Story['decorators'] = [(Story) => <div className="w-64"><Story /></div>]
+const single: Story['decorators'] = [(Story) => <div className="w-panel"><Story /></div>]
 
 export const Default: Story = { decorators: single }
 

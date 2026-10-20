@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>
 
 function CreditMeter() {
   return (
-    <Progress value={38} className="w-64 justify-between text-sm">
+    <Progress value={38} className="w-panel justify-between text-sm">
       <ProgressLabel>Credits left</ProgressLabel>
       <ProgressValue>{() => '230 of 600'}</ProgressValue>
     </Progress>
@@ -30,7 +30,7 @@ export const DoDont: Story = {
   parameters: { layout: 'padded' },
   render: () => (
     <div className="flex max-w-3xl flex-col gap-8">
-      <DoDontPair usage={usage} id="state-the-numbers" doExample={<CreditMeter />} dontExample={<Progress value={38} aria-label="Credits left" className="w-64" />} />
+      <DoDontPair usage={usage} id="state-the-numbers" doExample={<CreditMeter />} dontExample={<Progress value={38} aria-label="Credits left" className="w-panel" />} />
     </div>
   ),
 }

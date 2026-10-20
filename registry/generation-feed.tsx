@@ -177,7 +177,7 @@ function GenerationFeed({
           {loading
             ? Array.from({ length: 3 }, (_, index) => (
                 <li key={index} className="flex flex-col gap-4 py-4 first:pt-0 md:flex-row">
-                  <Skeleton className="aspect-video w-full rounded-xl md:w-72" />
+                  <Skeleton className="aspect-video w-full rounded-xl md:w-panel-md" />
                   <div className="flex flex-1 flex-col gap-2">
                     <Skeleton className="h-4 w-3/4" />
                     <Skeleton className="h-4 w-1/2" />
@@ -215,7 +215,7 @@ function Generating() {
 }
 
 // The same inset focus ring whether the tile is one button or a frame with actions.
-const TILE_FOCUS = "focus-visible:ring-3 focus-visible:ring-inset"
+const TILE_FOCUS = "focus-visible:ring-focus focus-visible:ring-inset"
 
 function GridTile({ item, onOpen, onDownload, onReuse }: EntryProps) {
   const ready = item.status !== "generating" && Boolean(item.src)
@@ -264,7 +264,7 @@ function ListEntry({ item, onOpen, onDownload, onReuse }: EntryProps) {
           alt={item.alt}
           onClick={ready && onOpen ? () => onOpen(item) : undefined}
           label={`Open: ${item.alt}`}
-          className={cn("shrink-0 md:w-72", TILE_FOCUS)}
+          className={cn("shrink-0 md:w-panel-md", TILE_FOCUS)}
         >
           {ready ? null : <Generating />}
         </MediaTile>

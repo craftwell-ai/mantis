@@ -19,7 +19,7 @@ const rows = ['Profile', 'Credits', 'Language']
 export const InCard: Story = {
   name: 'In a card',
   render: () => (
-    <div className="flex w-56 flex-col gap-1 rounded-xl bg-card p-2 text-sm">
+    <div className="flex w-panel-sm flex-col gap-1 rounded-xl bg-card p-2 text-sm">
       {rows.map((r) => <span key={r} className="px-2 py-1.5">{r}</span>)}
       <Separator className="my-1" />
       <span className="px-2 py-1.5">Sign out</span>

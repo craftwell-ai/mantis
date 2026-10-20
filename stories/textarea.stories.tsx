@@ -15,7 +15,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Field: Story = { render: (args) => <div className="w-80"><Textarea {...args} /></div> }
+export const Field: Story = { render: (args) => <div className="w-panel-lg"><Textarea {...args} /></div> }
 
 export const Prompt: Story = {
   render: () => (
@@ -41,8 +41,8 @@ export const DoDont: Story = {
       <DoDontPair
         usage={usage}
         id="prompt-inside-composer"
-        doExample={<div className="w-80 rounded-2xl border border-separator bg-soft p-4"><Textarea variant="prompt" aria-label="Prompt" placeholder="Describe the scene you imagine" /></div>}
-        dontExample={<div className="w-80"><Textarea variant="prompt" aria-label="Prompt" placeholder="Describe the scene you imagine" /></div>}
+        doExample={<div className="w-panel-lg rounded-2xl border border-separator bg-soft p-4"><Textarea variant="prompt" aria-label="Prompt" placeholder="Describe the scene you imagine" /></div>}
+        dontExample={<div className="w-panel-lg"><Textarea variant="prompt" aria-label="Prompt" placeholder="Describe the scene you imagine" /></div>}
       />
     </div>
   ),

@@ -53,7 +53,7 @@ export interface AppShellSidebarProps extends Omit<React.ComponentProps<"div">, 
 }
 
 const rowClass =
-  "flex h-control w-full items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium outline-none transition-[background-color,color] duration-normal hover:bg-glass hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-glass aria-[current=page]:text-foreground"
+  "flex h-control w-full items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium outline-none transition-[background-color,color] duration-normal hover:bg-glass hover:text-foreground focus-visible:ring-focus focus-visible:ring-ring/50 aria-[current=page]:bg-glass aria-[current=page]:text-foreground"
 
 function SidebarRow({
   item,
@@ -187,7 +187,7 @@ function AppShellSidebar({
           data-collapsed={collapsed || undefined}
           className={cn(
             "hidden shrink-0 flex-col gap-3 border-r border-divider py-3 transition-[width] duration-normal motion-reduce:transition-none @5xl/shell:flex",
-            collapsed ? "w-16 items-center px-3" : "w-60 px-3"
+            collapsed ? "w-16 items-center px-3" : "w-sidebar px-3"
           )}
         >
           <div className={cn("flex", collapsed ? "justify-center" : "justify-end")}>
@@ -217,7 +217,7 @@ function AppShellSidebar({
                 {activeItem?.label ?? sidebarLabel}
                 <Icon name="keyboard_arrow_down" />
               </SheetTrigger>
-              <SheetContent side="left" className="w-72 gap-2">
+              <SheetContent side="left" className="w-panel-md gap-2">
                 <SheetHeader className="pb-0">
                   <SheetTitle>{sidebarLabel}</SheetTitle>
                 </SheetHeader>
@@ -240,7 +240,7 @@ function AppShellSidebar({
             id={contentId}
             tabIndex={0}
             className={cn(
-              "min-h-0 flex-1 overflow-y-auto outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset",
+              "min-h-0 flex-1 overflow-y-auto outline-none focus-visible:ring-focus focus-visible:ring-ring/50 focus-visible:ring-inset",
               contentClassName
             )}
           >

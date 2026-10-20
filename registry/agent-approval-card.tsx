@@ -152,7 +152,7 @@ export function AgentApprovalCard({
         aria-label="Steps the agent will run"
         ref={listRef}
         tabIndex={scrollable ? 0 : undefined}
-        className="flex max-h-80 flex-col gap-4 overflow-y-auto px-4 py-2 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+        className="flex max-h-80 flex-col gap-4 overflow-y-auto px-4 py-2 outline-none focus-visible:ring-focus focus-visible:ring-ring/50"
       >
         {steps.map((step, index) => (
           <li key={step.id} className="flex gap-3">
@@ -209,7 +209,7 @@ export function AgentApprovalCard({
               value={reply}
               disabled={busy}
               onChange={(event) => setReply(event.target.value)}
-              className="h-control w-full rounded-control bg-transparent px-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="h-control w-full rounded-control bg-transparent px-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus-visible:ring-focus focus-visible:ring-ring/50"
             />
           </form>
         ) : (

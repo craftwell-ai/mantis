@@ -286,7 +286,7 @@ function SettingsPage({
           label={workspaceLabel}
           value={section}
           onValueChange={select}
-          className="max-w-none shrink-0 @3xl/settings:sticky @3xl/settings:top-0 @3xl/settings:w-56 @3xl/settings:self-start"
+          className="max-w-none shrink-0 @3xl/settings:sticky @3xl/settings:top-0 @3xl/settings:w-panel-sm @3xl/settings:self-start"
           footer={
             onSignOut ? (
               <Button variant="ghost" size="sm" className="w-full justify-start px-2" onClick={onSignOut}>

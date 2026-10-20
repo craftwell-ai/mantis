@@ -55,13 +55,13 @@ export const DoDont: Story = {
         usage={usage}
         id="name-the-consequence"
         doExample={
-          <div className="flex w-80 flex-col gap-2 rounded-2xl border border-separator bg-dialog p-6">
+          <div className="flex w-panel-lg flex-col gap-2 rounded-2xl border border-separator bg-dialog p-6">
             <p className="text-title-sm">Delete Glass Harbor?</p>
             <p className="text-base text-muted-foreground">The clip and its 12 variations are removed.</p>
           </div>
         }
         dontExample={
-          <div className="flex w-80 flex-col gap-2 rounded-2xl border border-separator bg-dialog p-6">
+          <div className="flex w-panel-lg flex-col gap-2 rounded-2xl border border-separator bg-dialog p-6">
             <p className="text-title-sm">Are you sure?</p>
             <p className="text-base text-muted-foreground">Please confirm.</p>
           </div>

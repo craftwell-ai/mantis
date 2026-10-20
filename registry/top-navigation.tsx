@@ -73,7 +73,7 @@ function LogoSlot({ brandName, href }: { brandName: string; href: string }) {
   return (
     <a
       href={href}
-      className="shrink-0 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="shrink-0 rounded-lg outline-none focus-visible:ring-focus focus-visible:ring-ring/50"
     >
       {/* An empty, labelled slot: the product's own mark goes here. */}
       <span role="img" aria-label={`${brandName} logo`} className="block size-8 rounded-lg bg-glass shadow-inset-glass" />
@@ -124,7 +124,7 @@ function NavLinks({
               href={link.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "flex items-center gap-1.5 rounded-lg font-medium whitespace-nowrap outline-none transition-[filter,background-color] duration-normal hover:bg-glass focus-visible:ring-3 focus-visible:ring-ring/50",
+                "flex items-center gap-1.5 rounded-lg font-medium whitespace-nowrap outline-none transition-[filter,background-color] duration-normal hover:bg-glass focus-visible:ring-focus focus-visible:ring-ring/50",
                 orientation === "horizontal" ? "h-8 px-2 text-sm" : "h-10 px-3 text-base",
                 active ? "text-brand-text" : "text-muted-foreground hover:text-foreground"
               )}
@@ -179,7 +179,7 @@ function TopNavigation({
         <SheetTrigger render={<Button variant="ghost" size="icon-sm" aria-label="Open menu" className="@5xl/topnav:hidden" />}>
           <Icon name="menu" />
         </SheetTrigger>
-        <SheetContent side="left" className="w-72 gap-2">
+        <SheetContent side="left" className="w-panel-md gap-2">
           <SheetHeader className="pb-0">
             <SheetTitle>{brandName}</SheetTitle>
           </SheetHeader>
@@ -211,7 +211,7 @@ function TopNavigation({
             <button
               type="button"
               onClick={onSearch}
-              className="hidden h-8 w-48 items-center gap-2 rounded-lg bg-glass px-2.5 text-sm text-muted-foreground outline-none transition-[filter] duration-normal hover:brightness-80 focus-visible:ring-3 focus-visible:ring-ring/50 @3xl/topnav:flex"
+              className="hidden h-8 w-48 items-center gap-2 rounded-lg bg-glass px-2.5 text-sm text-muted-foreground outline-none transition-[filter] duration-normal hover:brightness-80 focus-visible:ring-focus focus-visible:ring-ring/50 @3xl/topnav:flex"
             >
               <Icon name="search" />
               Search

@@ -65,7 +65,7 @@ function CompareSlider({ before, after, defaultPosition = 50, aspect = "video", 
           </Item>
           <HandleRoot aria-label={label} className="group/handle">
             <div className="flex h-full w-0.5 items-center justify-center bg-primary">
-              <span className="flex size-control shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-popover group-focus-visible/handle:ring-3 group-focus-visible/handle:ring-ring/50">
+              <span className="flex size-control shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-popover group-focus-visible/handle:ring-focus group-focus-visible/handle:ring-ring/50">
                 <Icon name="chevron_left" className="-mr-1.5 size-icon-xl" />
                 <Icon name="chevron_right" className="-ml-1.5 size-icon-xl" />
               </span>

@@ -112,7 +112,7 @@ function AccountMenu({
       <DropdownMenuTrigger
         aria-label={`Account menu for ${user.name}`}
         className={cn(
-          "rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50 enabled:hover:brightness-80",
+          "rounded-full outline-none focus-visible:ring-focus focus-visible:ring-ring/50 enabled:hover:brightness-80",
           className
         )}
       >
@@ -121,7 +121,7 @@ function AccountMenu({
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" sideOffset={8} className="w-64 p-1.5">
+      <DropdownMenuContent align="end" sideOffset={8} className="w-panel p-1.5">
         <DropdownMenuItem className={cn(tallItem, "gap-3")} onClick={onProfile}>
           <Avatar size="lg">
             {user.avatarSrc ? <AvatarImage src={user.avatarSrc} alt="" /> : null}

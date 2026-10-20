@@ -53,7 +53,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 // Wide enough for the sidebar to sit beside the page, whatever the test window.
-const wide = (Story: () => React.ReactNode) => <div className="w-320">{Story()}</div>
+const wide = (Story: () => React.ReactNode) => <div className="w-7xl">{Story()}</div>
 
 export const Default: Story = { decorators: [wide] }
 

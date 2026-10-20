@@ -174,7 +174,7 @@ export function ShareDialog({
           <div className="flex flex-col gap-2">
             <Label htmlFor={inviteId}>Invite people</Label>
             <div
-              className="flex min-h-10 flex-wrap items-center gap-1.5 rounded-control bg-field px-2 py-1.5 has-[input:focus-visible]:ring-3 has-[input:focus-visible]:ring-ring/50"
+              className="flex min-h-10 flex-wrap items-center gap-1.5 rounded-control bg-field px-2 py-1.5 has-[input:focus-visible]:ring-focus has-[input:focus-visible]:ring-ring/50"
               onClick={(event) => (event.currentTarget.querySelector("input") as HTMLInputElement | null)?.focus()}
             >
               {invitees.map((entry) => (
@@ -216,7 +216,7 @@ export function ShareDialog({
                   }
                 }}
                 onBlur={() => draft.trim() && commitDraft()}
-                className="h-7 min-w-32 flex-1 bg-transparent px-1 text-sm text-foreground outline-none placeholder:text-muted-foreground"
+                className="h-7 min-w-menu flex-1 bg-transparent px-1 text-sm text-foreground outline-none placeholder:text-muted-foreground"
               />
             </div>
             {inviteError ? (

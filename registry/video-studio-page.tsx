@@ -95,7 +95,7 @@ function VideoStudioPage({
         <StudioSettingsPanel
           {...settings}
           className={cn(
-            "max-w-none lg:sticky lg:top-3 lg:max-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-5rem)] lg:w-88 lg:shrink-0 lg:overflow-y-auto",
+            "max-w-none lg:sticky lg:top-3 lg:max-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-5rem)] lg:w-panel-xl lg:shrink-0 lg:overflow-y-auto",
             settings.className
           )}
         />
@@ -227,7 +227,7 @@ function ClipThumb({ clip, selected, onSelect }: { clip: VideoStudioClip; select
       // the picture: an outer ring would be clipped by the strip's scroll edge,
       // and a plain inset ring is painted under the image, where nobody sees it.
       className={cn(
-        "w-36 focus-visible:ring-3",
+        "w-36 focus-visible:ring-focus",
         selected && "ring-transparent after:pointer-events-none after:absolute after:inset-0 after:z-raised after:rounded-[inherit] after:ring-2 after:ring-brand after:ring-inset",
       )}
     >

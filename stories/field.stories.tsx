@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>
 export const ProfileForm: Story = {
   name: 'Profile form',
   render: () => (
-    <FieldGroup className="w-80">
+    <FieldGroup className="w-panel-lg">
       <Field>
         <FieldLabel htmlFor="username">Username</FieldLabel>
         <Input id="username" defaultValue="lanternworks" />
@@ -45,8 +45,8 @@ export const DoDont: Story = {
       <DoDontPair
         usage={usage}
         id="label-above"
-        doExample={<Field className="w-64"><FieldLabel htmlFor="dd-user">Username</FieldLabel><Input id="dd-user" /></Field>}
-        dontExample={<div className="w-64"><Input aria-label="Username" placeholder="Username" /></div>}
+        doExample={<Field className="w-panel"><FieldLabel htmlFor="dd-user">Username</FieldLabel><Input id="dd-user" /></Field>}
+        dontExample={<div className="w-panel"><Input aria-label="Username" placeholder="Username" /></div>}
       />
     </div>
   ),

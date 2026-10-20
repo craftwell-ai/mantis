@@ -72,7 +72,7 @@ function SiteFooter({
   ...props
 }: SiteFooterProps) {
   const toneClasses = tones[tone]
-  const linkClass = cn("rounded-sm text-sm font-medium outline-none hover:underline underline-offset-4 focus-visible:ring-3", toneClasses.link, toneClasses.focus)
+  const linkClass = cn("rounded-sm text-sm font-medium outline-none hover:underline underline-offset-4 focus-visible:ring-focus", toneClasses.link, toneClasses.focus)
 
   return (
     <footer data-slot="site-footer" data-tone={tone} className={cn("@container/footer w-full", toneClasses.root, className)} {...props}>
@@ -82,7 +82,7 @@ function SiteFooter({
       <div className="px-6 py-12 @3xl/footer:px-10">
       <div className="flex flex-col gap-10 @5xl/footer:flex-row @5xl/footer:gap-16">
         <div className="flex flex-col gap-6 @5xl/footer:w-2/5">
-          <a href={homeHref} className={cn("w-fit rounded-xl outline-none focus-visible:ring-3", toneClasses.focus)}>
+          <a href={homeHref} className={cn("w-fit rounded-xl outline-none focus-visible:ring-focus", toneClasses.focus)}>
             {/* An empty, labelled slot: the product's own mark goes here. */}
             <span role="img" aria-label={`${brandName} logo`} className={cn("block size-10 rounded-xl", toneClasses.slot)} />
           </a>

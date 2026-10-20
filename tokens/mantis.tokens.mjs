@@ -7,7 +7,7 @@
  * CSS, and the DTCG export from this file alone.
  */
 export const tokens = {
-  meta: { name: 'mantis', version: '1.8.0', defaultTheme: 'dark' },
+  meta: { name: 'mantis', version: '1.9.0', defaultTheme: 'dark' },
   // Every mode this system ships, default first. Each color and shadow leaf
   // holds one value per mode; a mode after the first is selected with
   // data-theme="<mode>". Dark is derived only when the source defines none.
@@ -78,6 +78,9 @@ export const tokens = {
   // border-2 stays 2px; border-3, border-4 and border-8 are not Mantis widths
   // (Tailwind still generates them; mantis-check flags them).
   borderWidth: { DEFAULT: '{border-width-thin}', 0: '{border-width-none}', '0_5': '{border-width-hairline}', 1: '{border-width-thin}', '1_5': '{border-width-medium}', 2: '{border-width-thick}' },
+  // The focus ring's width (owner-approved 2026-10-20): 3px, measured from the primitives' focus and
+  // invalid rings (ring-3). Authored: the source names its focus colour, not a width. ring-focus.
+  ringWidth: { focus: '3px' },
   // font-* weights that equal a source weight. thin, extralight, light and
   // extrabold have no source weight and stay Tailwind's (mantis-check flags them).
   fontWeight: { normal: '{type-weight-regular}', medium: '{type-weight-medium}', semibold: '{type-weight-semi-bold}', bold: '{type-weight-bold}', black: '{type-weight-black}' },
@@ -100,6 +103,11 @@ export const tokens = {
     // The large field and the command palette: 44px, the accessible touch size.
     tap: '2.75rem',
   },
+  // Panel and menu widths (owner-approved 2026-10-20), named by job and measured from the widths
+  // Mantis's blocks and primitives use: menus' minimum widths, sidebars, popovers and inspectors.
+  // Authored (the source names no widths). Each becomes --size-<name> and w-, min-w- and max-w-
+  // classes only, so a height never takes one. panel-lg and panel-2xl equal max-w-xs and max-w-sm.
+  width: { menu: '8rem', 'menu-lg': '9rem', 'panel-sm': '14rem', sidebar: '15rem', panel: '16rem', 'panel-md': '18rem', 'panel-lg': '20rem', 'panel-xl': '22rem', 'panel-2xl': '24rem' },
   // Opacity (2026-10-19). disabled and muted are the source's; scrim (30%) is authored, measured
   // from the lightbox's blurred backdrop picture (owner decision 2026-10-19). The source stores
   // them as numbers, but they are emitted as percentages: Tailwind also reads --opacity-* for
@@ -110,6 +118,11 @@ export const tokens = {
   // neighbours (the source's "dropdown", 10), sticky holds top bars (20), floating holds every
   // popup, dialog, menu, tooltip and toast alike (the source's "popover", 50), so the one opened
   // last sits on top. -z-raised (-10) puts decoration behind content.
+  // Colour transparency steps (owner-approved 2026-10-20): bg-brand/50, ring-ring/10… The source's
+  // own alpha series (color-lime-alpha-*, color-pink-alpha-*, color-transparent-*) at 5, 10, 15, 20,
+  // 30…90%. Each becomes --alpha-<n> and the --opacity-<n> key Tailwind reads for a colour modifier
+  // (and for opacity-<n>, which keeps its percentage).
+  alpha: { 5: '5%', 10: '10%', 15: '15%', 20: '20%', 30: '30%', 40: '40%', 50: '50%', 60: '60%', 70: '70%', 80: '80%', 90: '90%' },
   layer: { raised: '{z-index-dropdown}', sticky: '{z-index-sticky}', floating: '{z-index-popover}' },
   // Container widths (2026-10-19, owner-approved): max-w-*, w-*, min-w-*, basis-* and the @md:
   // container queries. Tailwind's names at Tailwind's pixels, now owned by Mantis. xs, 3xl and 7xl
@@ -120,6 +133,10 @@ export const tokens = {
     xs: '{breakpoint-mobile}', sm: '24rem', md: '28rem', lg: '32rem', xl: '36rem', '2xl': '42rem',
     '3xl': '{breakpoint-tablet}', '4xl': '56rem', '5xl': '64rem', '6xl': '72rem', '7xl': '{breakpoint-desktop}',
   },
+  // Breakpoints (owner-approved 2026-10-20): sm: md: lg: xl: 2xl:, Tailwind's names at Tailwind's
+  // pixels, owned by Mantis. md and xl are the source's tablet and desktop breakpoints; sm, lg and
+  // 2xl are authored. Literals in the plain @theme block: a media query cannot read a variable.
+  breakpoint: { sm: '40rem', md: '{breakpoint-tablet}', lg: '64rem', xl: '{breakpoint-desktop}', '2xl': '96rem' },
   shadow: {
     // Overlays, measured live: small popovers and menus; switch thumbs.
     popover: { dark: '0 4px 20px 0 rgba(0, 0, 0, 0.2)' },
@@ -166,7 +183,8 @@ export const tokens = {
   animate: { shimmer: 'shimmer-vertical 2s infinite' },
   // Backdrop blur, measured live: glass tab bars and toolbars 12px, glass
   // dialogs 32px, chips and tags over photos 8px. Emitted as backdrop-blur-*.
-  blur: { chip: '8px', glass: '12px', dialog: '32px' },
+  // stage (64px, owner-approved 2026-10-20) is the lightbox's blurred backdrop picture.
+  blur: { chip: '8px', glass: '12px', dialog: '32px', stage: '64px' },
   // Named motion the components read, aliasing the source's own scale.
   // Durations become --duration-* variables and duration-* utilities (Tailwind
   // reads --transition-duration-*; verified 2026-10-19); every numeric step the

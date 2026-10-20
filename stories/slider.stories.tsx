@@ -18,9 +18,9 @@ type Story = StoryObj<typeof meta>
 function GridZoom() {
   return (
     <div className="flex w-44 items-center gap-2 text-muted-foreground">
-      <Icon name="remove" className="size-3.5" />
+      <Icon name="remove" className="size-icon-sm" />
       <Slider defaultValue={[60]} aria-label="Grid zoom" />
-      <Icon name="add" className="size-3.5" />
+      <Icon name="add" className="size-icon-sm" />
     </div>
   )
 }
@@ -31,7 +31,7 @@ export const DoDont: Story = {
   parameters: { layout: 'padded' },
   render: () => (
     <div className="flex max-w-3xl flex-col gap-8">
-      <DoDontPair usage={usage} id="show-the-ends" doExample={<GridZoom />} dontExample={<div className="w-36"><Slider defaultValue={[60]} aria-label="Grid zoom" /></div>} />
+      <DoDontPair usage={usage} id="show-the-ends" doExample={<GridZoom />} dontExample={<div className="w-menu-lg"><Slider defaultValue={[60]} aria-label="Grid zoom" /></div>} />
     </div>
   ),
 }

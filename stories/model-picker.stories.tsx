@@ -81,7 +81,7 @@ export const NoResults: Story = {
 export const Row: Story = {
   name: 'Row trigger (settings rail)',
   args: { trigger: 'row', defaultValue: 'lumen-3' },
-  decorators: [(Story) => <div className="w-80 rounded-2xl bg-card p-3"><Story /></div>],
+  decorators: [(Story) => <div className="w-panel-lg rounded-2xl bg-card p-3"><Story /></div>],
 }
 
 export const WithoutFeatured: Story = {

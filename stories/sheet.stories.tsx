@@ -50,8 +50,8 @@ export const DoDont: Story = {
       <DoDontPair
         usage={usage}
         id="title-what-it-shows"
-        doExample={<div className="w-64 rounded-2xl border border-separator bg-dialog p-4"><p className="text-title-sm">Glass Harbor</p><p className="text-sm text-muted-foreground">Rendered today at 14:02</p></div>}
-        dontExample={<div className="w-64 rounded-2xl border border-separator bg-dialog p-4"><p className="text-sm text-muted-foreground">Model · Studio v3</p><p className="text-sm text-muted-foreground">Duration · 6s</p></div>}
+        doExample={<div className="w-panel rounded-2xl border border-separator bg-dialog p-4"><p className="text-title-sm">Glass Harbor</p><p className="text-sm text-muted-foreground">Rendered today at 14:02</p></div>}
+        dontExample={<div className="w-panel rounded-2xl border border-separator bg-dialog p-4"><p className="text-sm text-muted-foreground">Model · Studio v3</p><p className="text-sm text-muted-foreground">Duration · 6s</p></div>}
       />
     </div>
   ),

@@ -194,7 +194,7 @@ function ProfilePage({
       <main className="flex flex-1 flex-col gap-6 px-4 pt-4 pb-12 lg:flex-row lg:items-start">
         <aside
           aria-labelledby={nameId}
-          className="flex flex-col gap-5 rounded-2xl bg-card p-5 lg:sticky lg:top-18 lg:w-80 lg:shrink-0"
+          className="flex flex-col gap-5 rounded-2xl bg-card p-5 lg:sticky lg:top-18 lg:w-panel-lg lg:shrink-0"
         >
           <div className="flex items-center gap-4 lg:flex-col lg:items-start">
             <Avatar className="size-20 lg:size-24">

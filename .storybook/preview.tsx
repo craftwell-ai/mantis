@@ -1,8 +1,15 @@
 import { useEffect } from 'react'
+import { configure } from 'storybook/test'
 import type { Decorator, Preview } from '@storybook/nextjs-vite'
 import '../app/globals.css'
 import { theme } from './theme'
 import { themeModes, accents } from './manager-theme.generated.mjs'
+
+// findBy*, waitFor and friends give up after 1s by default. Under the full parallel run a popup's
+// open animation, a map's first load or a menu's exit can take longer, and the story then fails
+// although nothing is wrong (project-card, model-picker, event-map, 2026-10-16 and 2026-10-19).
+// Waiting longer only gives a slow step time; an assertion that can never hold still fails.
+configure({ asyncUtilTimeout: 5000 })
 
 // Every mode this registry ships, and every accent if it has any. data-theme
 // goes on <html> — the attribute consumers are required to set — so portaled
